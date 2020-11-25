@@ -1,22 +1,118 @@
-﻿<metro:MetroWindow
+﻿<mde:MaterialWindow
     x:Class="WeSplitApp.View.HomeScreen"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:WeSplitApp.View.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:WeSplitApp.View"
-    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mde="clr-namespace:MaterialDesignExtensions.Controls;assembly=MaterialDesignExtensions"
     xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
-    Title="HomeScreen"
-    Width="800"
-    Height="450"
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    xmlns:viewModel="clr-namespace:WeSplitApp.ViewModel"
+    Title="WE SPLIT APP"
+    Width="1300"
+    Height="800"
     Background="{DynamicResource MaterialDesignPaper}"
     BorderThickness="1"
-    FontFamily="{materialDesign:MaterialDesignFont}"
-    GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
+    FontFamily="{md:MaterialDesignFont}"
+    Foreground="{DynamicResource MaterialDesignBody}"
     TextElement.FontSize="14"
     TextElement.FontWeight="Medium"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
-    <Grid />
-</metro:MetroWindow>
+
+    <mde:MaterialWindow.Resources>
+        <DataTemplate DataType="{x:Type viewModel:HaveTakenTripsListViewViewModel}">
+            <controls:HaveTakenTripsListViewControl />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:BeingTakenTripsListViewViewModel}">
+            <controls:BeingTakenTripsListControl />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:SettingsViewModel}">
+            <controls:SettingsControl />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:AboutUsViewModel}">
+            <controls:AboutUsControl />
+        </DataTemplate>
+    </mde:MaterialWindow.Resources>
+
+    <mde:MaterialWindow.TitleTemplate>
+        <DataTemplate>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                    Margin="8,0,0,0"
+                    Style="{StaticResource WindowTitleTextBlockStyle}"
+                    Text="{Binding Path=Title, RelativeSource={RelativeSource AncestorType={x:Type mde:MaterialWindow}}}" />
+                <StackPanel
+                    Grid.Column="1"
+                    VerticalAlignment="Stretch"
+                    Orientation="Horizontal">
+                    <Button Click="GoToGitHubButtonClickHandler" Style="{StaticResource WindowButtonStyle}">
+                        <md:PackIcon Kind="Github" Style="{StaticResource WindowButtonIconStyle}" />
+                    </Button>
+                    <Border
+                        Width="1"
+                        Margin="8,4,8,4"
+                        VerticalAlignment="Stretch"
+                        Background="{Binding Path=BorderForegroundBrush, RelativeSource={RelativeSource AncestorType={x:Type mde:MaterialWindow}}}"
+                        SnapsToDevicePixels="True" />
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+    </mde:MaterialWindow.TitleTemplate>
+
+    <Grid>
+        <md:DialogHost
+            x:Name="m_dialogHost"
+            DialogTheme="Light"
+            Identifier="dialogHost">
+            <md:DrawerHost IsLeftDrawerOpen="{Binding Path=IsNavigationDrawerOpen, ElementName=appBar}" LeftDrawerBackground="{DynamicResource MaterialDesignBackground}">
+                <md:DrawerHost.LeftDrawerContent>
+                    <mde:SideNavigation
+                        x:Name="navigationDrawerNav"
+                        Width="280"
+                        Items="{Binding Path=NavigationItems, Mode=OneTime}"
+                        NavigationItemSelected="NavigationItemSelectedHandler" />
+                </md:DrawerHost.LeftDrawerContent>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="280" />
+                        <ColumnDefinition Width="100*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <mde:AppBar
+                        x:Name="appBar"
+                        Title="Material Design Extensions"
+                        Grid.ColumnSpan="2"
+                        ShowNavigationDrawerButton="True" />
+                    <Border
+                        Grid.Row="1"
+                        BorderBrush="{DynamicResource MaterialDesignDivider}"
+                        BorderThickness="0,0,1,0">
+                        <mde:SideNavigation
+                            x:Name="sideNav"
+                            Items="{Binding Path=NavigationItems, Mode=OneTime}"
+                            NavigationItemSelected="NavigationItemSelectedHandler" />
+                    </Border>
+                    <!--<ContentControl x:Name="contentControl" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></ContentControl>-->
+                    <mde:TransitionContentControl
+                        x:Name="contentControl"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch" />
+                </Grid>
+            </md:DrawerHost>
+        </md:DialogHost>
+    </Grid>
+</mde:MaterialWindow>
