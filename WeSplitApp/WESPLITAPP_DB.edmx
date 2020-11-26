@@ -1,0 +1,537 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="WESPLITAPPModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="COSTINCURRED">
+          <Key>
+            <PropertyRef Name="COST_ID" />
+          </Key>
+          <Property Name="COST_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NAME" Type="nvarchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LOCATION">
+          <Key>
+            <PropertyRef Name="LOCATION_ID" />
+          </Key>
+          <Property Name="LOCATION_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NAME" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="ADDRESS" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="DESCRIPTION" Type="nvarchar" MaxLength="255" />
+          <Property Name="TYPE" Type="bit" />
+        </EntityType>
+        <EntityType Name="MEMBER">
+          <Key>
+            <PropertyRef Name="MEMBER_ID" />
+          </Key>
+          <Property Name="MEMBER_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NAME" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="PHONENUMBER" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="GENDER" Type="bit" />
+          <Property Name="AVATAR" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TRIP">
+          <Key>
+            <PropertyRef Name="TRIP_ID" />
+          </Key>
+          <Property Name="TRIP_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TITTLE" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="DESCRIPTION" Type="nvarchar" MaxLength="255" />
+          <Property Name="THUMNAILIMAGE" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="CURRENTPROCEEDS" Type="float" Nullable="false" />
+          <Property Name="TOTALCOSTS" Type="float" Nullable="false" />
+          <Property Name="TOGODATE" Type="datetime" />
+          <Property Name="RETURNDATE" Type="datetime" />
+          <Property Name="ISDONE" Type="bit" />
+        </EntityType>
+        <EntityType Name="TRIP_COSTINCURRED">
+          <Key>
+            <PropertyRef Name="COST_ID" />
+            <PropertyRef Name="TRIP_ID" />
+          </Key>
+          <Property Name="COST_ID" Type="int" Nullable="false" />
+          <Property Name="TRIP_ID" Type="int" Nullable="false" />
+          <Property Name="COST" Type="float" />
+        </EntityType>
+        <EntityType Name="TRIP_IMAGES">
+          <Key>
+            <PropertyRef Name="TRIP_ID" />
+            <PropertyRef Name="IMAGE" />
+          </Key>
+          <Property Name="TRIP_ID" Type="int" Nullable="false" />
+          <Property Name="IMAGE" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TRIP_LOCATION">
+          <Key>
+            <PropertyRef Name="TRIP_ID" />
+            <PropertyRef Name="LOCATION_ID" />
+          </Key>
+          <Property Name="TRIP_ID" Type="int" Nullable="false" />
+          <Property Name="LOCATION_ID" Type="int" Nullable="false" />
+          <Property Name="COSTS" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TRIP_MEMBER">
+          <Key>
+            <PropertyRef Name="TRIP_ID" />
+            <PropertyRef Name="MEMBER_ID" />
+          </Key>
+          <Property Name="TRIP_ID" Type="int" Nullable="false" />
+          <Property Name="MEMBER_ID" Type="int" Nullable="false" />
+          <Property Name="AMOUNTPAID" Type="float" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__TRIP_COST__COST___4E88ABD4">
+          <End Role="COSTINCURRED" Type="Self.COSTINCURRED" Multiplicity="1" />
+          <End Role="TRIP_COSTINCURRED" Type="Self.TRIP_COSTINCURRED" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COSTINCURRED">
+              <PropertyRef Name="COST_ID" />
+            </Principal>
+            <Dependent Role="TRIP_COSTINCURRED">
+              <PropertyRef Name="COST_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TRIP_COST__TRIP___4F7CD00D">
+          <End Role="TRIP" Type="Self.TRIP" Multiplicity="1" />
+          <End Role="TRIP_COSTINCURRED" Type="Self.TRIP_COSTINCURRED" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRIP">
+              <PropertyRef Name="TRIP_ID" />
+            </Principal>
+            <Dependent Role="TRIP_COSTINCURRED">
+              <PropertyRef Name="TRIP_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TRIP_IMAG__TRIP___5070F446">
+          <End Role="TRIP" Type="Self.TRIP" Multiplicity="1" />
+          <End Role="TRIP_IMAGES" Type="Self.TRIP_IMAGES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRIP">
+              <PropertyRef Name="TRIP_ID" />
+            </Principal>
+            <Dependent Role="TRIP_IMAGES">
+              <PropertyRef Name="TRIP_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TRIP_LOCA__LOCAT__5165187F">
+          <End Role="LOCATION" Type="Self.LOCATION" Multiplicity="1" />
+          <End Role="TRIP_LOCATION" Type="Self.TRIP_LOCATION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LOCATION">
+              <PropertyRef Name="LOCATION_ID" />
+            </Principal>
+            <Dependent Role="TRIP_LOCATION">
+              <PropertyRef Name="LOCATION_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TRIP_LOCA__TRIP___52593CB8">
+          <End Role="TRIP" Type="Self.TRIP" Multiplicity="1" />
+          <End Role="TRIP_LOCATION" Type="Self.TRIP_LOCATION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRIP">
+              <PropertyRef Name="TRIP_ID" />
+            </Principal>
+            <Dependent Role="TRIP_LOCATION">
+              <PropertyRef Name="TRIP_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TRIP_MEMB__MEMBE__534D60F1">
+          <End Role="MEMBER" Type="Self.MEMBER" Multiplicity="1" />
+          <End Role="TRIP_MEMBER" Type="Self.TRIP_MEMBER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEMBER">
+              <PropertyRef Name="MEMBER_ID" />
+            </Principal>
+            <Dependent Role="TRIP_MEMBER">
+              <PropertyRef Name="MEMBER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TRIP_MEMB__TRIP___5441852A">
+          <End Role="TRIP" Type="Self.TRIP" Multiplicity="1" />
+          <End Role="TRIP_MEMBER" Type="Self.TRIP_MEMBER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRIP">
+              <PropertyRef Name="TRIP_ID" />
+            </Principal>
+            <Dependent Role="TRIP_MEMBER">
+              <PropertyRef Name="TRIP_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="GETCURRENTPROCEEDS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="float">
+          <Parameter Name="TRIP_ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GETTOTALCOST" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="float">
+          <Parameter Name="TRIP_ID" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="WESPLITAPPModelStoreContainer">
+          <EntitySet Name="COSTINCURRED" EntityType="Self.COSTINCURRED" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LOCATION" EntityType="Self.LOCATION" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MEMBER" EntityType="Self.MEMBER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TRIP" EntityType="Self.TRIP" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TRIP_COSTINCURRED" EntityType="Self.TRIP_COSTINCURRED" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TRIP_IMAGES" EntityType="Self.TRIP_IMAGES" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TRIP_LOCATION" EntityType="Self.TRIP_LOCATION" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TRIP_MEMBER" EntityType="Self.TRIP_MEMBER" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__TRIP_COST__COST___4E88ABD4" Association="Self.FK__TRIP_COST__COST___4E88ABD4">
+            <End Role="COSTINCURRED" EntitySet="COSTINCURRED" />
+            <End Role="TRIP_COSTINCURRED" EntitySet="TRIP_COSTINCURRED" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TRIP_COST__TRIP___4F7CD00D" Association="Self.FK__TRIP_COST__TRIP___4F7CD00D">
+            <End Role="TRIP" EntitySet="TRIP" />
+            <End Role="TRIP_COSTINCURRED" EntitySet="TRIP_COSTINCURRED" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TRIP_IMAG__TRIP___5070F446" Association="Self.FK__TRIP_IMAG__TRIP___5070F446">
+            <End Role="TRIP" EntitySet="TRIP" />
+            <End Role="TRIP_IMAGES" EntitySet="TRIP_IMAGES" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TRIP_LOCA__LOCAT__5165187F" Association="Self.FK__TRIP_LOCA__LOCAT__5165187F">
+            <End Role="LOCATION" EntitySet="LOCATION" />
+            <End Role="TRIP_LOCATION" EntitySet="TRIP_LOCATION" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TRIP_LOCA__TRIP___52593CB8" Association="Self.FK__TRIP_LOCA__TRIP___52593CB8">
+            <End Role="TRIP" EntitySet="TRIP" />
+            <End Role="TRIP_LOCATION" EntitySet="TRIP_LOCATION" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TRIP_MEMB__MEMBE__534D60F1" Association="Self.FK__TRIP_MEMB__MEMBE__534D60F1">
+            <End Role="MEMBER" EntitySet="MEMBER" />
+            <End Role="TRIP_MEMBER" EntitySet="TRIP_MEMBER" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TRIP_MEMB__TRIP___5441852A" Association="Self.FK__TRIP_MEMB__TRIP___5441852A">
+            <End Role="TRIP" EntitySet="TRIP" />
+            <End Role="TRIP_MEMBER" EntitySet="TRIP_MEMBER" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="WESPLITAPPModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="COSTINCURRED">
+          <Key>
+            <PropertyRef Name="COST_ID" />
+          </Key>
+          <Property Name="COST_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NAME" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="TRIP_COSTINCURRED" Relationship="Self.FK__TRIP_COST__COST___4E88ABD4" FromRole="COSTINCURRED" ToRole="TRIP_COSTINCURRED" />
+        </EntityType>
+        <EntityType Name="LOCATION">
+          <Key>
+            <PropertyRef Name="LOCATION_ID" />
+          </Key>
+          <Property Name="LOCATION_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NAME" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ADDRESS" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DESCRIPTION" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="TYPE" Type="Boolean" />
+          <NavigationProperty Name="TRIP_LOCATION" Relationship="Self.FK__TRIP_LOCA__LOCAT__5165187F" FromRole="LOCATION" ToRole="TRIP_LOCATION" />
+        </EntityType>
+        <EntityType Name="MEMBER">
+          <Key>
+            <PropertyRef Name="MEMBER_ID" />
+          </Key>
+          <Property Name="MEMBER_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NAME" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PHONENUMBER" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="GENDER" Type="Boolean" />
+          <Property Name="AVATAR" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="TRIP_MEMBER" Relationship="Self.FK__TRIP_MEMB__MEMBE__534D60F1" FromRole="MEMBER" ToRole="TRIP_MEMBER" />
+        </EntityType>
+        <EntityType Name="TRIP">
+          <Key>
+            <PropertyRef Name="TRIP_ID" />
+          </Key>
+          <Property Name="TRIP_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TITTLE" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DESCRIPTION" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="THUMNAILIMAGE" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CURRENTPROCEEDS" Type="Double" Nullable="false" />
+          <Property Name="TOTALCOSTS" Type="Double" Nullable="false" />
+          <Property Name="TOGODATE" Type="DateTime" Precision="3" />
+          <Property Name="RETURNDATE" Type="DateTime" Precision="3" />
+          <Property Name="ISDONE" Type="Boolean" />
+          <NavigationProperty Name="TRIP_COSTINCURRED" Relationship="Self.FK__TRIP_COST__TRIP___4F7CD00D" FromRole="TRIP" ToRole="TRIP_COSTINCURRED" />
+          <NavigationProperty Name="TRIP_LOCATION" Relationship="Self.FK__TRIP_LOCA__TRIP___52593CB8" FromRole="TRIP" ToRole="TRIP_LOCATION" />
+          <NavigationProperty Name="TRIP_MEMBER" Relationship="Self.FK__TRIP_MEMB__TRIP___5441852A" FromRole="TRIP" ToRole="TRIP_MEMBER" />
+          <NavigationProperty Name="TRIP_IMAGES" Relationship="WESPLITAPPModel.FK__TRIP_IMAG__TRIP___5070F446" FromRole="TRIP" ToRole="TRIP_IMAGES" />
+        </EntityType>
+        <EntityType Name="TRIP_COSTINCURRED">
+          <Key>
+            <PropertyRef Name="COST_ID" />
+            <PropertyRef Name="TRIP_ID" />
+          </Key>
+          <Property Name="COST_ID" Type="Int32" Nullable="false" />
+          <Property Name="TRIP_ID" Type="Int32" Nullable="false" />
+          <Property Name="COST" Type="Double" />
+          <NavigationProperty Name="COSTINCURRED" Relationship="Self.FK__TRIP_COST__COST___4E88ABD4" FromRole="TRIP_COSTINCURRED" ToRole="COSTINCURRED" />
+          <NavigationProperty Name="TRIP" Relationship="Self.FK__TRIP_COST__TRIP___4F7CD00D" FromRole="TRIP_COSTINCURRED" ToRole="TRIP" />
+        </EntityType>
+        <EntityType Name="TRIP_LOCATION">
+          <Key>
+            <PropertyRef Name="TRIP_ID" />
+            <PropertyRef Name="LOCATION_ID" />
+          </Key>
+          <Property Name="TRIP_ID" Type="Int32" Nullable="false" />
+          <Property Name="LOCATION_ID" Type="Int32" Nullable="false" />
+          <Property Name="COSTS" Type="Double" Nullable="false" />
+          <NavigationProperty Name="LOCATION" Relationship="Self.FK__TRIP_LOCA__LOCAT__5165187F" FromRole="TRIP_LOCATION" ToRole="LOCATION" />
+          <NavigationProperty Name="TRIP" Relationship="Self.FK__TRIP_LOCA__TRIP___52593CB8" FromRole="TRIP_LOCATION" ToRole="TRIP" />
+        </EntityType>
+        <EntityType Name="TRIP_MEMBER">
+          <Key>
+            <PropertyRef Name="TRIP_ID" />
+            <PropertyRef Name="MEMBER_ID" />
+          </Key>
+          <Property Name="TRIP_ID" Type="Int32" Nullable="false" />
+          <Property Name="MEMBER_ID" Type="Int32" Nullable="false" />
+          <Property Name="AMOUNTPAID" Type="Double" Nullable="false" />
+          <NavigationProperty Name="MEMBER" Relationship="Self.FK__TRIP_MEMB__MEMBE__534D60F1" FromRole="TRIP_MEMBER" ToRole="MEMBER" />
+          <NavigationProperty Name="TRIP" Relationship="Self.FK__TRIP_MEMB__TRIP___5441852A" FromRole="TRIP_MEMBER" ToRole="TRIP" />
+        </EntityType>
+        <Association Name="FK__TRIP_COST__COST___4E88ABD4">
+          <End Role="COSTINCURRED" Type="Self.COSTINCURRED" Multiplicity="1" />
+          <End Role="TRIP_COSTINCURRED" Type="Self.TRIP_COSTINCURRED" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COSTINCURRED">
+              <PropertyRef Name="COST_ID" />
+            </Principal>
+            <Dependent Role="TRIP_COSTINCURRED">
+              <PropertyRef Name="COST_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TRIP_LOCA__LOCAT__5165187F">
+          <End Role="LOCATION" Type="Self.LOCATION" Multiplicity="1" />
+          <End Role="TRIP_LOCATION" Type="Self.TRIP_LOCATION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LOCATION">
+              <PropertyRef Name="LOCATION_ID" />
+            </Principal>
+            <Dependent Role="TRIP_LOCATION">
+              <PropertyRef Name="LOCATION_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TRIP_MEMB__MEMBE__534D60F1">
+          <End Role="MEMBER" Type="Self.MEMBER" Multiplicity="1" />
+          <End Role="TRIP_MEMBER" Type="Self.TRIP_MEMBER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEMBER">
+              <PropertyRef Name="MEMBER_ID" />
+            </Principal>
+            <Dependent Role="TRIP_MEMBER">
+              <PropertyRef Name="MEMBER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TRIP_COST__TRIP___4F7CD00D">
+          <End Role="TRIP" Type="Self.TRIP" Multiplicity="1" />
+          <End Role="TRIP_COSTINCURRED" Type="Self.TRIP_COSTINCURRED" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRIP">
+              <PropertyRef Name="TRIP_ID" />
+            </Principal>
+            <Dependent Role="TRIP_COSTINCURRED">
+              <PropertyRef Name="TRIP_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TRIP_LOCA__TRIP___52593CB8">
+          <End Role="TRIP" Type="Self.TRIP" Multiplicity="1" />
+          <End Role="TRIP_LOCATION" Type="Self.TRIP_LOCATION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRIP">
+              <PropertyRef Name="TRIP_ID" />
+            </Principal>
+            <Dependent Role="TRIP_LOCATION">
+              <PropertyRef Name="TRIP_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TRIP_MEMB__TRIP___5441852A">
+          <End Role="TRIP" Type="Self.TRIP" Multiplicity="1" />
+          <End Role="TRIP_MEMBER" Type="Self.TRIP_MEMBER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRIP">
+              <PropertyRef Name="TRIP_ID" />
+            </Principal>
+            <Dependent Role="TRIP_MEMBER">
+              <PropertyRef Name="TRIP_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="WESPLITAPPEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="COSTINCURREDs" EntityType="Self.COSTINCURRED" />
+          <EntitySet Name="LOCATIONs" EntityType="Self.LOCATION" />
+          <EntitySet Name="MEMBERs" EntityType="Self.MEMBER" />
+          <EntitySet Name="TRIPs" EntityType="Self.TRIP" />
+          <EntitySet Name="TRIP_COSTINCURRED" EntityType="Self.TRIP_COSTINCURRED" />
+          <EntitySet Name="TRIP_LOCATION" EntityType="Self.TRIP_LOCATION" />
+          <EntitySet Name="TRIP_MEMBER" EntityType="Self.TRIP_MEMBER" />
+          <AssociationSet Name="FK__TRIP_COST__COST___4E88ABD4" Association="Self.FK__TRIP_COST__COST___4E88ABD4">
+            <End Role="COSTINCURRED" EntitySet="COSTINCURREDs" />
+            <End Role="TRIP_COSTINCURRED" EntitySet="TRIP_COSTINCURRED" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TRIP_LOCA__LOCAT__5165187F" Association="Self.FK__TRIP_LOCA__LOCAT__5165187F">
+            <End Role="LOCATION" EntitySet="LOCATIONs" />
+            <End Role="TRIP_LOCATION" EntitySet="TRIP_LOCATION" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TRIP_MEMB__MEMBE__534D60F1" Association="Self.FK__TRIP_MEMB__MEMBE__534D60F1">
+            <End Role="MEMBER" EntitySet="MEMBERs" />
+            <End Role="TRIP_MEMBER" EntitySet="TRIP_MEMBER" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TRIP_COST__TRIP___4F7CD00D" Association="Self.FK__TRIP_COST__TRIP___4F7CD00D">
+            <End Role="TRIP" EntitySet="TRIPs" />
+            <End Role="TRIP_COSTINCURRED" EntitySet="TRIP_COSTINCURRED" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TRIP_LOCA__TRIP___52593CB8" Association="Self.FK__TRIP_LOCA__TRIP___52593CB8">
+            <End Role="TRIP" EntitySet="TRIPs" />
+            <End Role="TRIP_LOCATION" EntitySet="TRIP_LOCATION" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TRIP_MEMB__TRIP___5441852A" Association="Self.FK__TRIP_MEMB__TRIP___5441852A">
+            <End Role="TRIP" EntitySet="TRIPs" />
+            <End Role="TRIP_MEMBER" EntitySet="TRIP_MEMBER" />
+          </AssociationSet>
+          <EntitySet Name="TRIP_IMAGES" EntityType="WESPLITAPPModel.TRIP_IMAGES" />
+          <AssociationSet Name="FK__TRIP_IMAG__TRIP___5070F446" Association="WESPLITAPPModel.FK__TRIP_IMAG__TRIP___5070F446">
+            <End Role="TRIP" EntitySet="TRIPs" />
+            <End Role="TRIP_IMAGES" EntitySet="TRIP_IMAGES" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="TRIP_IMAGES">
+          <Key>
+            <PropertyRef Name="TRIP_ID" />
+            <PropertyRef Name="IMAGE" />
+          </Key>
+          <Property Name="TRIP_ID" Type="Int32" Nullable="false" />
+          <Property Name="IMAGE" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TRIP" Relationship="WESPLITAPPModel.FK__TRIP_IMAG__TRIP___5070F446" FromRole="TRIP_IMAGES" ToRole="TRIP" />
+        </EntityType>
+        <Association Name="FK__TRIP_IMAG__TRIP___5070F446">
+          <End Type="WESPLITAPPModel.TRIP" Role="TRIP" Multiplicity="1" />
+          <End Type="WESPLITAPPModel.TRIP_IMAGES" Role="TRIP_IMAGES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRIP">
+              <PropertyRef Name="TRIP_ID" />
+            </Principal>
+            <Dependent Role="TRIP_IMAGES">
+              <PropertyRef Name="TRIP_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="WESPLITAPPModelStoreContainer" CdmEntityContainer="WESPLITAPPEntities">
+          <EntitySetMapping Name="COSTINCURREDs">
+            <EntityTypeMapping TypeName="WESPLITAPPModel.COSTINCURRED">
+              <MappingFragment StoreEntitySet="COSTINCURRED">
+                <ScalarProperty Name="COST_ID" ColumnName="COST_ID" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LOCATIONs">
+            <EntityTypeMapping TypeName="WESPLITAPPModel.LOCATION">
+              <MappingFragment StoreEntitySet="LOCATION">
+                <ScalarProperty Name="LOCATION_ID" ColumnName="LOCATION_ID" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="TYPE" ColumnName="TYPE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MEMBERs">
+            <EntityTypeMapping TypeName="WESPLITAPPModel.MEMBER">
+              <MappingFragment StoreEntitySet="MEMBER">
+                <ScalarProperty Name="MEMBER_ID" ColumnName="MEMBER_ID" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="PHONENUMBER" ColumnName="PHONENUMBER" />
+                <ScalarProperty Name="GENDER" ColumnName="GENDER" />
+                <ScalarProperty Name="AVATAR" ColumnName="AVATAR" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TRIPs">
+            <EntityTypeMapping TypeName="WESPLITAPPModel.TRIP">
+              <MappingFragment StoreEntitySet="TRIP">
+                <ScalarProperty Name="TRIP_ID" ColumnName="TRIP_ID" />
+                <ScalarProperty Name="TITTLE" ColumnName="TITTLE" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="THUMNAILIMAGE" ColumnName="THUMNAILIMAGE" />
+                <ScalarProperty Name="CURRENTPROCEEDS" ColumnName="CURRENTPROCEEDS" />
+                <ScalarProperty Name="TOTALCOSTS" ColumnName="TOTALCOSTS" />
+                <ScalarProperty Name="TOGODATE" ColumnName="TOGODATE" />
+                <ScalarProperty Name="RETURNDATE" ColumnName="RETURNDATE" />
+                <ScalarProperty Name="ISDONE" ColumnName="ISDONE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TRIP_COSTINCURRED">
+            <EntityTypeMapping TypeName="WESPLITAPPModel.TRIP_COSTINCURRED">
+              <MappingFragment StoreEntitySet="TRIP_COSTINCURRED">
+                <ScalarProperty Name="COST_ID" ColumnName="COST_ID" />
+                <ScalarProperty Name="TRIP_ID" ColumnName="TRIP_ID" />
+                <ScalarProperty Name="COST" ColumnName="COST" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TRIP_LOCATION">
+            <EntityTypeMapping TypeName="WESPLITAPPModel.TRIP_LOCATION">
+              <MappingFragment StoreEntitySet="TRIP_LOCATION">
+                <ScalarProperty Name="TRIP_ID" ColumnName="TRIP_ID" />
+                <ScalarProperty Name="LOCATION_ID" ColumnName="LOCATION_ID" />
+                <ScalarProperty Name="COSTS" ColumnName="COSTS" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TRIP_MEMBER">
+            <EntityTypeMapping TypeName="WESPLITAPPModel.TRIP_MEMBER">
+              <MappingFragment StoreEntitySet="TRIP_MEMBER">
+                <ScalarProperty Name="TRIP_ID" ColumnName="TRIP_ID" />
+                <ScalarProperty Name="MEMBER_ID" ColumnName="MEMBER_ID" />
+                <ScalarProperty Name="AMOUNTPAID" ColumnName="AMOUNTPAID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TRIP_IMAGES">
+            <EntityTypeMapping TypeName="WESPLITAPPModel.TRIP_IMAGES">
+              <MappingFragment StoreEntitySet="TRIP_IMAGES">
+                <ScalarProperty Name="IMAGE" ColumnName="IMAGE" />
+                <ScalarProperty Name="TRIP_ID" ColumnName="TRIP_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
