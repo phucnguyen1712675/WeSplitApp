@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="624f6409d6e0481eac3fcb3e970ae138" Name="Diagram1">
+        <EntityTypeShape EntityType="WESPLITAPPModel.COSTINCURRED" Width="1.5" PointX="6.5" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="WESPLITAPPModel.LOCATION" Width="1.5" PointX="1.5" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="WESPLITAPPModel.MEMBER" Width="1.5" PointX="6.125" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="WESPLITAPPModel.TRIP" Width="1.5" PointX="0.75" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="WESPLITAPPModel.TRIP_COSTINCURRED" Width="1.5" PointX="3" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="WESPLITAPPModel.TRIP_LOCATION" Width="1.5" PointX="4.125" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WESPLITAPPModel.TRIP_MEMBER" Width="1.5" PointX="3.25" PointY="7.125" IsExpanded="true" />
+        <AssociationConnector Association="WESPLITAPPModel.FK__TRIP_COST__COST___4E88ABD4" ManuallyRouted="false" />
+        <AssociationConnector Association="WESPLITAPPModel.FK__TRIP_LOCA__LOCAT__5165187F" ManuallyRouted="false" />
+        <AssociationConnector Association="WESPLITAPPModel.FK__TRIP_MEMB__MEMBE__534D60F1" ManuallyRouted="false" />
+        <AssociationConnector Association="WESPLITAPPModel.FK__TRIP_COST__TRIP___4F7CD00D" ManuallyRouted="false" />
+        <AssociationConnector Association="WESPLITAPPModel.FK__TRIP_LOCA__TRIP___52593CB8" ManuallyRouted="false" />
+        <AssociationConnector Association="WESPLITAPPModel.FK__TRIP_MEMB__TRIP___5441852A" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="WESPLITAPPModel.TRIP_IMAGES" Width="1.5" PointX="4.125" PointY="9.25" />
+        <AssociationConnector Association="WESPLITAPPModel.FK__TRIP_IMAG__TRIP___5070F446" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
