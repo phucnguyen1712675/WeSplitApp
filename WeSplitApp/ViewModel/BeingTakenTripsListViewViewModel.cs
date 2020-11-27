@@ -7,11 +7,8 @@ using System.Threading.Tasks;
 
 namespace WeSplitApp.ViewModel
 {
-    public class BeingTakenTripsListViewViewModel : INotifyPropertyChanged
+    public class BeingTakenTripsListViewViewModel : ViewModel
     {
-#pragma warning disable 67
-        public event PropertyChangedEventHandler PropertyChanged;
-#pragma warning restore 67
 
     }
 }

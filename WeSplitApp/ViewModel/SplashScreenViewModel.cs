@@ -8,12 +8,8 @@ using System.Threading.Tasks;
 
 namespace WeSplitApp.ViewModel
 {
-    public class SplashScreenViewModel : INotifyPropertyChanged
+    public class SplashScreenViewModel : ViewModel
     {
-#pragma warning disable 67
-        public event PropertyChangedEventHandler PropertyChanged;
-#pragma warning restore 67
-
         public ObservableCollection<string> FactsList { get; set; }
         public string RandomFact { get; set; }
 
