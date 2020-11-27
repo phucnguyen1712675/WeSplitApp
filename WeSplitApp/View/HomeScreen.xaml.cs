@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -32,6 +33,8 @@ namespace WeSplitApp.View
         private List<INavigationItem> m_navigationItems;
         public List<INavigationItem> NavigationItems => m_navigationItems;
 
+        public static Snackbar Snackbar = new Snackbar();
+
         public HomeScreen()
         {
             m_navigationItems = new List<INavigationItem>()
@@ -50,7 +53,14 @@ namespace WeSplitApp.View
 
             InitializeComponent();
 
-            /*sideNav.DataContext = this;*/
+            Task.Factory.StartNew(() => Thread.Sleep(2500)).ContinueWith(t =>
+            {
+                //note you can use the message queue from any thread, but just for the demo here we 
+                //need to get the message queue from the snackbar, so need to be on the dispatcher
+                MainSnackbar.MessageQueue?.Enqueue("Welcome to We Split App");
+            }, TaskScheduler.FromCurrentSynchronizationContext());
+
+            Snackbar = MainSnackbar;
             navigationDrawerNav.DataContext = this;
 
             Loaded += LoadedHandler;
@@ -58,9 +68,9 @@ namespace WeSplitApp.View
 
         private void LoadedHandler(object sender, RoutedEventArgs args)
         {
-            navigationDrawerNav.SelectedItem = m_navigationItems[1];
-           /* sideNav.SelectedItem = m_navigationItems[1];*/
-            m_navigationItems[1].IsSelected = true;
+            navigationDrawerNav.SelectedItem = m_navigationItems[0];
+            //sideNav.SelectedItem = m_navigationItems[0];
+            m_navigationItems[0].IsSelected = true;
         }
 
         private void NavigationItemSelectedHandler(object sender, NavigationItemSelectedEventArgs args)

@@ -15,6 +15,7 @@
     Title="WE SPLIT APP"
     Width="1300"
     Height="800"
+    AutomationProperties.Name="{Binding Title, RelativeSource={RelativeSource Self}}"
     Background="{DynamicResource MaterialDesignPaper}"
     BorderThickness="1"
     FontFamily="{md:MaterialDesignFont}"
@@ -76,7 +77,8 @@
         <md:DialogHost
             x:Name="m_dialogHost"
             DialogTheme="Light"
-            Identifier="dialogHost">
+            Identifier="dialogHost"
+            SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}">
             <md:DrawerHost IsLeftDrawerOpen="{Binding Path=IsNavigationDrawerOpen, ElementName=appBar}" LeftDrawerBackground="{DynamicResource MaterialDesignBackground}">
                 <md:DrawerHost.LeftDrawerContent>
                     <mde:SideNavigation
@@ -196,6 +198,10 @@
                                         Click="AddTripButton_Click"/>
                             </StackPanel>
                         </md:PopupBox>
+                        <md:Snackbar
+                          x:Name="MainSnackbar"
+                          Grid.Row="1"
+                          MessageQueue="{md:MessageQueue}" />
                     </Grid>
                 </Grid>
             </md:DrawerHost>
