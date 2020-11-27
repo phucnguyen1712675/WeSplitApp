@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -32,20 +33,34 @@ namespace WeSplitApp.View
         private List<INavigationItem> m_navigationItems;
         public List<INavigationItem> NavigationItems => m_navigationItems;
 
+        public static Snackbar Snackbar = new Snackbar();
+
         public HomeScreen()
         {
             m_navigationItems = new List<INavigationItem>()
             {
                 new FirstLevelNavigationItem() { Label = "Đã kết thúc", Icon = PackIconKind.Passport, NavigationItemSelectedCallback = item => new HaveTakenTripsListViewViewModel()},
                 new FirstLevelNavigationItem() { Label = "Đang đi/Sắp tới", Icon = PackIconKind.Plane, NavigationItemSelectedCallback = item => new BeingTakenTripsListViewViewModel()},
-                new FirstLevelNavigationItem() { Label = "Thêm mới", Icon = PackIconKind.Add, NavigationItemSelectedCallback = item => new AddNewTripViewModel()},
+                //new FirstLevelNavigationItem() { Label = "Thêm mới", Icon = PackIconKind.Add, NavigationItemSelectedCallback = item => new AddNewTripViewModel()},
+                new SubheaderNavigationItem() { Subheader = "Thành viên"},
+                new FirstLevelNavigationItem() { Label = "Danh sách thành viên", Icon = PackIconKind.AccountMultipleOutline, NavigationItemSelectedCallback = item => new HaveTakenTripsListViewViewModel()},
+                new SubheaderNavigationItem() { Subheader = "Điểm dừng"},
+                new FirstLevelNavigationItem() { Label = "Danh sách điểm dừng", Icon = PackIconKind.MapMarkerStar, NavigationItemSelectedCallback = item => new HaveTakenTripsListViewViewModel()},
+                new SubheaderNavigationItem() { Subheader = "Khác"},
                 new FirstLevelNavigationItem() { Label = "Cài đặt", Icon = PackIconKind.Settings, NavigationItemSelectedCallback = item => new SettingsViewModel()},
                 new FirstLevelNavigationItem() { Label = "Về chúng tôi", Icon = PackIconKind.About, NavigationItemSelectedCallback = item => new AboutUsViewModel()},
             };
 
             InitializeComponent();
 
-            sideNav.DataContext = this;
+            Task.Factory.StartNew(() => Thread.Sleep(2500)).ContinueWith(t =>
+            {
+                //note you can use the message queue from any thread, but just for the demo here we 
+                //need to get the message queue from the snackbar, so need to be on the dispatcher
+                MainSnackbar.MessageQueue?.Enqueue("Welcome to We Split App");
+            }, TaskScheduler.FromCurrentSynchronizationContext());
+
+            Snackbar = MainSnackbar;
             navigationDrawerNav.DataContext = this;
 
             Loaded += LoadedHandler;
@@ -53,9 +68,9 @@ namespace WeSplitApp.View
 
         private void LoadedHandler(object sender, RoutedEventArgs args)
         {
-            navigationDrawerNav.SelectedItem = m_navigationItems[1];
-            sideNav.SelectedItem = m_navigationItems[1];
-            m_navigationItems[1].IsSelected = true;
+            navigationDrawerNav.SelectedItem = m_navigationItems[0];
+            //sideNav.SelectedItem = m_navigationItems[0];
+            m_navigationItems[0].IsSelected = true;
         }
 
         private void NavigationItemSelectedHandler(object sender, NavigationItemSelectedEventArgs args)
