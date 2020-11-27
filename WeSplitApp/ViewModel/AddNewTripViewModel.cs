@@ -16,10 +16,9 @@ namespace WeSplitApp.ViewModel
             {
                 return new List<IStep>()
                 {
-                    new Step() { Header = new StepTitleHeader() { FirstLevelTitle = "What is a Stepper?" }, Content = new StepOneViewModel() },
-                    new Step() { Header = new StepTitleHeader() { FirstLevelTitle = "Layout and navigation" }, Content = new StepTwoViewModel() },
-                    new Step() { Header = new StepTitleHeader() { FirstLevelTitle = "Steps", SecondLevelTitle = "Header and content" }, Content = new StepThreeViewModel() },
-                    new Step() { Header = new StepTitleHeader() { FirstLevelTitle = "Validation" }, Content = new StepFourViewModel() }
+                    new Step() { Header = new StepTitleHeader() { FirstLevelTitle = "Thông tin chuyến đi" }, Content = new StepOneViewModel() },
+                    new Step() { Header = new StepTitleHeader() { FirstLevelTitle = "Thành viên" }, Content = new StepTwoViewModel() },
+                    new Step() { Header = new StepTitleHeader() { FirstLevelTitle = "Điểm dừng", SecondLevelTitle = "Header and content" }, Content = new StepThreeViewModel() }
                 };
             }
         }

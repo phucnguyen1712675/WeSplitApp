@@ -229,7 +229,6 @@
     <Compile Include="ViewModel\BeingTakenTripsListViewViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\SplashScreenViewModel.cs" />
-    <Compile Include="ViewModel\StepFourViewModel.cs" />
     <Compile Include="ViewModel\StepOneViewModel.cs" />
     <Compile Include="ViewModel\StepperBaseViewModel.cs" />
     <Compile Include="ViewModel\StepThreeViewModel.cs" />
@@ -242,6 +241,15 @@
     </Compile>
     <Compile Include="View\Controls\AddNewTripControl.xaml.cs">
       <DependentUpon>AddNewTripControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\AddTripSteps\StepOneControl.xaml.cs">
+      <DependentUpon>StepOneControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\AddTripSteps\StepThreeControl.xaml.cs">
+      <DependentUpon>StepThreeControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\AddTripSteps\StepTwoControl.xaml.cs">
+      <DependentUpon>StepTwoControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Controls\BeingTakenTripsListControl.xaml.cs">
       <DependentUpon>BeingTakenTripsListControl.xaml</DependentUpon>
@@ -315,11 +323,27 @@
     <Folder Include="Converters\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Resources\AppResource.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Controls\AboutUsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Controls\AddNewTripControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\AddTripSteps\StepOneControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\AddTripSteps\StepThreeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\AddTripSteps\StepTwoControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -355,6 +379,8 @@
     <Resource Include="Resources\Images\people-making-money.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\Images\AddTripBackGround.jpg" />
+    <Resource Include="Resources\Images\AddImageBackGround.jpg" />
     <Content Include="WESPLITAPP_DB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>WESPLITAPP_DB.edmx</DependentUpon>
