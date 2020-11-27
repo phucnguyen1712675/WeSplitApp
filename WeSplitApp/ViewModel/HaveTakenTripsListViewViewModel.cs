@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WeSplitApp.Model;
 
 namespace WeSplitApp.ViewModel
 {
-    public class HaveTakenTripsListViewViewModel : INotifyPropertyChanged
+    public class HaveTakenTripsListViewViewModel : ViewModel
     {
-#pragma warning disable 67
-        public event PropertyChangedEventHandler PropertyChanged;
-#pragma warning restore 67
-
+        public ObservableCollection<TripsModel> HaveTakenTripsList { get; set; } 
     }
 }

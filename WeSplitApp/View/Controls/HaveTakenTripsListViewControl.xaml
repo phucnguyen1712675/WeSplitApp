@@ -117,10 +117,7 @@
             VerticalAlignment="Bottom"
             Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}">
             <StackPanel>
-                <Button
-                    Content="{md:PackIcon Kind=Github,
-                                          Size=20}"
-                    ToolTip="GitHub" />
+                <Button Content="{md:PackIcon Kind=Github, Size=20}" ToolTip="GitHub" />
 
                 <Button
                     Background="{DynamicResource PrimaryHueMidBrush}"
@@ -129,10 +126,7 @@
                     Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
                     ToolTip="Twitter" />
 
-                <Button
-                    Content="{md:PackIcon Kind=Message,
-                                          Size=20}"
-                    ToolTip="Chat">
+                <Button Content="{md:PackIcon Kind=Message, Size=20}" ToolTip="Chat">
                     <!--  mix up the colours by bringing in a named palette (see merged dictionaries at top)  -->
                     <Button.Background>
                         <SolidColorBrush Color="{DynamicResource GreenPrimary500}" />
@@ -150,10 +144,7 @@
                     Foreground="{DynamicResource SecondaryHueMidForegroundBrush}"
                     ToolTip="Email" />
 
-                <Button
-                    Content="{md:PackIcon Kind=Gift,
-                                          Size=20}"
-                    ToolTip="Feel like you want to make a donation?  It would be gratefully received.  Click the button to donate via Pledgie.">
+                <Button Content="{md:PackIcon Kind=Gift, Size=20}" ToolTip="Feel like you want to make a donation?  It would be gratefully received.  Click the button to donate via Pledgie.">
                     <Button.Background>
                         <SolidColorBrush Color="{DynamicResource GreenPrimary200}" />
                     </Button.Background>

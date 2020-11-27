@@ -36,11 +36,9 @@ namespace WeSplitApp.View
         {
             m_navigationItems = new List<INavigationItem>()
             {
-                new SubheaderNavigationItem() { Subheader = "Chuyến đi"},
                 new FirstLevelNavigationItem() { Label = "Đã kết thúc", Icon = PackIconKind.Passport, NavigationItemSelectedCallback = item => new HaveTakenTripsListViewViewModel()},
                 new FirstLevelNavigationItem() { Label = "Đang đi/Sắp tới", Icon = PackIconKind.Plane, NavigationItemSelectedCallback = item => new BeingTakenTripsListViewViewModel()},
                 new FirstLevelNavigationItem() { Label = "Thêm mới", Icon = PackIconKind.Add, NavigationItemSelectedCallback = item => new AddNewTripViewModel()},
-                new SubheaderNavigationItem() { Subheader = "Khác"},
                 new FirstLevelNavigationItem() { Label = "Cài đặt", Icon = PackIconKind.Settings, NavigationItemSelectedCallback = item => new SettingsViewModel()},
                 new FirstLevelNavigationItem() { Label = "Về chúng tôi", Icon = PackIconKind.About, NavigationItemSelectedCallback = item => new AboutUsViewModel()},
             };

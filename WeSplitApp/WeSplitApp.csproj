@@ -196,8 +196,14 @@
     <Compile Include="ViewModel\BeingTakenTripsListViewViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\SplashScreenViewModel.cs" />
+    <Compile Include="ViewModel\StepFourViewModel.cs" />
+    <Compile Include="ViewModel\StepOneViewModel.cs" />
+    <Compile Include="ViewModel\StepperBaseViewModel.cs" />
+    <Compile Include="ViewModel\StepThreeViewModel.cs" />
+    <Compile Include="ViewModel\StepTwoViewModel.cs" />
     <Compile Include="ViewModel\TripDetailsViewModel.cs" />
     <Compile Include="ViewModel\HaveTakenTripsListViewViewModel.cs" />
+    <Compile Include="ViewModel\ViewModel.cs" />
     <Compile Include="View\Controls\AboutUsControl.xaml.cs">
       <DependentUpon>AboutUsControl.xaml</DependentUpon>
     </Compile>
