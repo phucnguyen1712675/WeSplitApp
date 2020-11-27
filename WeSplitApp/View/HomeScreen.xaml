@@ -31,6 +31,9 @@
         <DataTemplate DataType="{x:Type viewModel:BeingTakenTripsListViewViewModel}">
             <controls:BeingTakenTripsListControl />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:AddNewTripViewModel}">
+            <controls:AddNewTripControl />
+        </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:SettingsViewModel}">
             <controls:SettingsControl />
         </DataTemplate>
@@ -88,9 +91,51 @@
                     </Grid.RowDefinitions>
                     <mde:AppBar
                         x:Name="appBar"
-                        Title="Material Design Extensions"
+                        Title="WE SPLIT APP"
                         Grid.ColumnSpan="2"
-                        ShowNavigationDrawerButton="True" />
+                        ShowNavigationDrawerButton="True">
+                        <DockPanel HorizontalAlignment="Right">
+                            <md:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges">
+                                <ListBox>
+                                    <ListBoxItem Content="Hello World" />
+                                    <ListBoxItem Content="Nice Popup" />
+                                    <ListBoxItem Content="Goodbye" />
+                                </ListBox>
+                            </md:PopupBox>
+                            <md:ColorZone
+                                Margin="16,0,0,0"
+                                Padding="8,4,8,4"
+                                Panel.ZIndex="1"
+                                md:ShadowAssist.ShadowDepth="Depth1"
+                                CornerRadius="2"
+                                Mode="Standard">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Button Style="{DynamicResource MaterialDesignToolButton}">
+                                        <md:PackIcon Kind="Search" Opacity=".56" />
+                                    </Button>
+                                    <TextBox
+                                        Grid.Column="1"
+                                        MinWidth="200"
+                                        Margin="8,0,0,0"
+                                        VerticalAlignment="Center"
+                                        md:HintAssist.Hint="Build a search bar"
+                                        md:TextFieldAssist.DecorationVisibility="Hidden"
+                                        BorderThickness="0" />
+                                    <Button Grid.Column="2" Style="{DynamicResource MaterialDesignToolButton}">
+                                        <md:PackIcon
+                                            Margin="8,0,0,0"
+                                            Kind="Microphone"
+                                            Opacity=".56" />
+                                    </Button>
+                                </Grid>
+                            </md:ColorZone>
+                        </DockPanel>
+                    </mde:AppBar>
                     <!--<Border
                         Grid.Row="1"
                         BorderBrush="{DynamicResource MaterialDesignDivider}"
