@@ -199,6 +199,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Converters\ImageConverter.cs" />
     <Compile Include="COSTINCURRED.cs">
       <DependentUpon>WESPLITAPP_DB.tt</DependentUpon>
     </Compile>
@@ -224,6 +225,9 @@
     <Compile Include="TRIP_MEMBER.cs">
       <DependentUpon>WESPLITAPP_DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Utils\MyRandom.cs" />
+    <Compile Include="Utils\PageInfo.cs" />
+    <Compile Include="Utils\Paging.cs" />
     <Compile Include="ViewModel\AboutUsViewModel.cs" />
     <Compile Include="ViewModel\AddNewTripViewModel.cs" />
     <Compile Include="ViewModel\BeingTakenTripsListViewViewModel.cs" />
@@ -260,6 +264,11 @@
     </Compile>
     <Compile Include="View\SplashScreen.xaml.cs">
       <DependentUpon>SplashScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WESPLITAPPDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WESPLITAPPDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="WESPLITAPP_DB.Context.cs">
       <AutoGen>True</AutoGen>
@@ -304,6 +313,17 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>WESPLITAPP_DB.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="WESPLITAPPDataSet.xsc">
+      <DependentUpon>WESPLITAPPDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="WESPLITAPPDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>WESPLITAPPDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="WESPLITAPPDataSet.xss">
+      <DependentUpon>WESPLITAPPDataSet.xsd</DependentUpon>
+    </None>
     <None Include="WESPLITAPP_DB.edmx.diagram">
       <DependentUpon>WESPLITAPP_DB.edmx</DependentUpon>
     </None>
@@ -311,9 +331,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Converters\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Page Include="View\Controls\AboutUsControl.xaml">
       <SubType>Designer</SubType>

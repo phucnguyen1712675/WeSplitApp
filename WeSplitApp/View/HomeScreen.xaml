@@ -14,6 +14,7 @@
     Title="WE SPLIT APP"
     Width="1300"
     Height="800"
+    AutomationProperties.Name="{Binding Title, RelativeSource={RelativeSource Self}}"
     Background="{DynamicResource MaterialDesignPaper}"
     BorderThickness="1"
     FontFamily="{md:MaterialDesignFont}"
@@ -75,7 +76,8 @@
         <md:DialogHost
             x:Name="m_dialogHost"
             DialogTheme="Light"
-            Identifier="dialogHost">
+            Identifier="dialogHost"
+            SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}">
             <md:DrawerHost IsLeftDrawerOpen="{Binding Path=IsNavigationDrawerOpen, ElementName=appBar}" LeftDrawerBackground="{DynamicResource MaterialDesignBackground}">
                 <md:DrawerHost.LeftDrawerContent>
                     <mde:SideNavigation
@@ -85,10 +87,10 @@
                         NavigationItemSelected="NavigationItemSelectedHandler" />
                 </md:DrawerHost.LeftDrawerContent>
                 <Grid>
-                    <Grid.ColumnDefinitions>
+                    <!--<Grid.ColumnDefinitions>
                         <ColumnDefinition Width="280" />
                         <ColumnDefinition Width="100*" />
-                    </Grid.ColumnDefinitions>
+                    </Grid.ColumnDefinitions>-->
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
@@ -140,7 +142,7 @@
                             </md:ColorZone>
                         </DockPanel>
                     </mde:AppBar>
-                    <Border
+                    <!--<Border
                         Grid.Row="1"
                         BorderBrush="{DynamicResource MaterialDesignDivider}"
                         BorderThickness="0,0,1,0">
@@ -148,14 +150,17 @@
                             x:Name="sideNav"
                             Items="{Binding Path=NavigationItems, Mode=OneTime}"
                             NavigationItemSelected="NavigationItemSelectedHandler" />
-                    </Border>
-                    <!--<ContentControl x:Name="contentControl" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></ContentControl>-->
+                    </Border>-->
                     <mde:TransitionContentControl
                         x:Name="contentControl"
                         Grid.Row="1"
-                        Grid.Column="1"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch" />
+                    <md:Snackbar
+                        x:Name="MainSnackbar"
+                        Grid.Row="1"
+                        Grid.ColumnSpan="2"
+                        MessageQueue="{md:MessageQueue}" />
                 </Grid>
             </md:DrawerHost>
         </md:DialogHost>

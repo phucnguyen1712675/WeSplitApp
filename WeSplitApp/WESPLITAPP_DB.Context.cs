@@ -25,10 +25,10 @@ namespace WeSplitApp
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<COSTINCURRED> COSTINCURREDs { get; set; }
-        public virtual DbSet<LOCATION> LOCATIONs { get; set; }
-        public virtual DbSet<MEMBER> MEMBERs { get; set; }
-        public virtual DbSet<TRIP> TRIPs { get; set; }
+        public virtual DbSet<COSTINCURRED> COSTINCURREDS { get; set; }
+        public virtual DbSet<LOCATION> LOCATIONS { get; set; }
+        public virtual DbSet<MEMBER> MEMBERS { get; set; }
+        public virtual DbSet<TRIP> TRIPS { get; set; }
         public virtual DbSet<TRIP_COSTINCURRED> TRIP_COSTINCURRED { get; set; }
         public virtual DbSet<TRIP_LOCATION> TRIP_LOCATION { get; set; }
         public virtual DbSet<TRIP_MEMBER> TRIP_MEMBER { get; set; }
