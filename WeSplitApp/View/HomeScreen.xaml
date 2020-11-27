@@ -14,6 +14,7 @@
     Title="WE SPLIT APP"
     Width="1300"
     Height="800"
+    AutomationProperties.Name="{Binding Title, RelativeSource={RelativeSource Self}}"
     Background="{DynamicResource MaterialDesignPaper}"
     BorderThickness="1"
     FontFamily="{md:MaterialDesignFont}"
@@ -75,7 +76,8 @@
         <md:DialogHost
             x:Name="m_dialogHost"
             DialogTheme="Light"
-            Identifier="dialogHost">
+            Identifier="dialogHost"
+            SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}">
             <md:DrawerHost IsLeftDrawerOpen="{Binding Path=IsNavigationDrawerOpen, ElementName=appBar}" LeftDrawerBackground="{DynamicResource MaterialDesignBackground}">
                 <md:DrawerHost.LeftDrawerContent>
                     <mde:SideNavigation
@@ -145,6 +147,7 @@
                             Items="{Binding Path=NavigationItems, Mode=OneTime}"
                             NavigationItemSelected="NavigationItemSelectedHandler" />
                     </Border>-->
+                    
                     <!--<ContentControl x:Name="contentControl" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></ContentControl>-->
                     <Grid   Grid.Row="1">
                         <Grid.RowDefinitions>
@@ -185,6 +188,10 @@
                                 ToolTip="Thêm chuyến đi" />
                             </StackPanel>
                         </md:PopupBox>
+                        <md:Snackbar
+                          x:Name="MainSnackbar"
+                          Grid.Row="1"
+                          MessageQueue="{md:MessageQueue}" />
                     </Grid>
                 </Grid>
             </md:DrawerHost>
