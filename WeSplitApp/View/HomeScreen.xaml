@@ -85,10 +85,6 @@
                         NavigationItemSelected="NavigationItemSelectedHandler" />
                 </md:DrawerHost.LeftDrawerContent>
                 <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="280" />
-                        <ColumnDefinition Width="100*" />
-                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
@@ -140,7 +136,7 @@
                             </md:ColorZone>
                         </DockPanel>
                     </mde:AppBar>
-                    <Border
+                    <!--<Border
                         Grid.Row="1"
                         BorderBrush="{DynamicResource MaterialDesignDivider}"
                         BorderThickness="0,0,1,0">
@@ -148,14 +144,48 @@
                             x:Name="sideNav"
                             Items="{Binding Path=NavigationItems, Mode=OneTime}"
                             NavigationItemSelected="NavigationItemSelectedHandler" />
-                    </Border>
+                    </Border>-->
                     <!--<ContentControl x:Name="contentControl" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></ContentControl>-->
-                    <mde:TransitionContentControl
-                        x:Name="contentControl"
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch" />
+                    <Grid   Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <mde:TransitionContentControl
+                            x:Name="contentControl"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch" />
+
+                        <md:PopupBox
+                            Panel.ZIndex="1000"
+                            Grid.Row="1"
+                            Margin="32"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}">
+                            <StackPanel>
+
+                                <Button
+                                Background="{DynamicResource PrimaryHueMidBrush}"
+                                Content="{md:PackIcon Kind=AccountMultiplePlus, Size=20}"
+                                Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
+                                ToolTip="Thêm Thành viên" />
+
+                                <Button
+                                Background="#304ffe"
+                                Content="{md:PackIcon Kind=MapMarkerPlus, Size=20}"
+                                Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
+                                ToolTip="Thêm Địa danh" />
+
+                                <Button
+                                Background="#8e0000"
+                                Content="{md:PackIcon Kind=Car, Size=20}"
+                                Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
+                                ToolTip="Thêm chuyến đi" />
+                            </StackPanel>
+                        </md:PopupBox>
+                    </Grid>
                 </Grid>
             </md:DrawerHost>
         </md:DialogHost>

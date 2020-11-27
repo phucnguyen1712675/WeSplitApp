@@ -25,10 +25,6 @@
     </UserControl.Resources>
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
         <ListView
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
@@ -110,50 +106,5 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <md:PopupBox
-            Grid.Row="1"
-            Margin="32"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Bottom"
-            Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}">
-            <StackPanel>
-                <Button Content="{md:PackIcon Kind=Github, Size=20}" ToolTip="GitHub" />
-
-                <Button
-                    Background="{DynamicResource PrimaryHueMidBrush}"
-                    Content="{md:PackIcon Kind=Twitter,
-                                          Size=20}"
-                    Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
-                    ToolTip="Twitter" />
-
-                <Button Content="{md:PackIcon Kind=Message, Size=20}" ToolTip="Chat">
-                    <!--  mix up the colours by bringing in a named palette (see merged dictionaries at top)  -->
-                    <Button.Background>
-                        <SolidColorBrush Color="{DynamicResource GreenPrimary500}" />
-                    </Button.Background>
-
-                    <Button.Foreground>
-                        <SolidColorBrush Color="{DynamicResource GreenPrimary500Foreground}" />
-                    </Button.Foreground>
-                </Button>
-
-                <Button
-                    Background="{DynamicResource SecondaryHueMidBrush}"
-                    Content="{md:PackIcon Kind=Email,
-                                          Size=20}"
-                    Foreground="{DynamicResource SecondaryHueMidForegroundBrush}"
-                    ToolTip="Email" />
-
-                <Button Content="{md:PackIcon Kind=Gift, Size=20}" ToolTip="Feel like you want to make a donation?  It would be gratefully received.  Click the button to donate via Pledgie.">
-                    <Button.Background>
-                        <SolidColorBrush Color="{DynamicResource GreenPrimary200}" />
-                    </Button.Background>
-
-                    <Button.Foreground>
-                        <SolidColorBrush Color="{DynamicResource GreenPrimary200Foreground}" />
-                    </Button.Foreground>
-                </Button>
-            </StackPanel>
-        </md:PopupBox>
     </Grid>
 </UserControl>
