@@ -12,8 +12,6 @@
     xmlns:system="clr-namespace:System;assembly=mscorlib"
     xmlns:viewModel="clr-namespace:WeSplitApp.ViewModel"
     Title="WE SPLIT APP"
-    Width="1300"
-    Height="800"
     AutomationProperties.Name="{Binding Title, RelativeSource={RelativeSource Self}}"
     Background="{DynamicResource MaterialDesignPaper}"
     BorderThickness="1"
@@ -23,14 +21,15 @@
     TextElement.FontWeight="Medium"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     WindowStartupLocation="CenterScreen"
+    WindowState="Maximized"
     mc:Ignorable="d">
 
     <mde:MaterialWindow.Resources>
         <DataTemplate DataType="{x:Type viewModel:HaveTakenTripsListViewViewModel}">
-            <controls:HaveTakenTripsListViewControl />
+            <controls:TripsListControl />
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:BeingTakenTripsListViewViewModel}">
-            <controls:BeingTakenTripsListControl />
+            <controls:TripsListControl />
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:AddNewTripViewModel}">
             <controls:AddNewTripControl />
@@ -40,6 +39,9 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:AboutUsViewModel}">
             <controls:AboutUsControl />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:TripDetailsViewModel}">
+            <controls:TripDetailsControl />
         </DataTemplate>
     </mde:MaterialWindow.Resources>
 
@@ -80,11 +82,26 @@
             SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}">
             <md:DrawerHost IsLeftDrawerOpen="{Binding Path=IsNavigationDrawerOpen, ElementName=appBar}" LeftDrawerBackground="{DynamicResource MaterialDesignBackground}">
                 <md:DrawerHost.LeftDrawerContent>
-                    <mde:SideNavigation
-                        x:Name="navigationDrawerNav"
-                        Width="280"
-                        Items="{Binding Path=NavigationItems, Mode=OneTime}"
-                        NavigationItemSelected="NavigationItemSelectedHandler" />
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Image
+                            Grid.Row="0"
+                            Width="300"
+                            Height="200"
+                            Margin="0,0,0,10"
+                            Source="/Resources/Images/5917.jpg"
+                            Stretch="UniformToFill" />
+                        <mde:SideNavigation
+                            x:Name="navigationDrawerNav"
+                            Grid.Row="1"
+                            Width="280"
+                            Items="{Binding Path=NavigationItems, Mode=OneTime}"
+                            NavigationItemSelected="NavigationItemSelectedHandler" />
+                    </Grid>
                 </md:DrawerHost.LeftDrawerContent>
                 <Grid>
                     <Grid.RowDefinitions>
@@ -138,18 +155,7 @@
                             </md:ColorZone>
                         </DockPanel>
                     </mde:AppBar>
-                    <!--<Border
-                        Grid.Row="1"
-                        BorderBrush="{DynamicResource MaterialDesignDivider}"
-                        BorderThickness="0,0,1,0">
-                        <mde:SideNavigation
-                            x:Name="sideNav"
-                            Items="{Binding Path=NavigationItems, Mode=OneTime}"
-                            NavigationItemSelected="NavigationItemSelectedHandler" />
-                    </Border>-->
-                    
-                    <!--<ContentControl x:Name="contentControl" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></ContentControl>-->
-                    <Grid   Grid.Row="1">
+                    <Grid Grid.Row="1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
@@ -161,37 +167,40 @@
                             VerticalAlignment="Stretch" />
 
                         <md:PopupBox
-                            Panel.ZIndex="1000"
                             Grid.Row="1"
                             Margin="32"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Bottom"
+                            Panel.ZIndex="1000"
                             Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}">
                             <StackPanel>
 
                                 <Button
-                                Background="{DynamicResource PrimaryHueMidBrush}"
-                                Content="{md:PackIcon Kind=AccountMultiplePlus, Size=20}"
-                                Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
-                                ToolTip="Thêm Thành viên" />
+                                    Background="{DynamicResource PrimaryHueMidBrush}"
+                                    Content="{md:PackIcon Kind=AccountMultiplePlus,
+                                                          Size=20}"
+                                    Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
+                                    ToolTip="Thêm Thành viên" />
 
                                 <Button
-                                Background="#304ffe"
-                                Content="{md:PackIcon Kind=MapMarkerPlus, Size=20}"
-                                Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
-                                ToolTip="Thêm Địa danh" />
+                                    Background="#304ffe"
+                                    Content="{md:PackIcon Kind=MapMarkerPlus,
+                                                          Size=20}"
+                                    Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
+                                    ToolTip="Thêm Địa danh" />
 
                                 <Button
-                                Background="#8e0000"
-                                Content="{md:PackIcon Kind=Car, Size=20}"
-                                Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
-                                ToolTip="Thêm chuyến đi" />
+                                    Background="#8e0000"
+                                    Content="{md:PackIcon Kind=Car,
+                                                          Size=20}"
+                                    Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
+                                    ToolTip="Thêm chuyến đi" />
                             </StackPanel>
                         </md:PopupBox>
                         <md:Snackbar
-                          x:Name="MainSnackbar"
-                          Grid.Row="1"
-                          MessageQueue="{md:MessageQueue}" />
+                            x:Name="MainSnackbar"
+                            Grid.Row="1"
+                            MessageQueue="{md:MessageQueue}" />
                     </Grid>
                 </Grid>
             </md:DrawerHost>
