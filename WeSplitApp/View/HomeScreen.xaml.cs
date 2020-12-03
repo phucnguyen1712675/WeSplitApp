@@ -108,5 +108,34 @@ namespace WeSplitApp.View
 
             Process.Start(psi);
         }
+
+        private void AddMemberButton_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO add member
+        }
+
+        private void AddLocationButton_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO add location
+        }
+
+        private void AddTripButton_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO add Trip
+            contentControl.Content = new AddNewTripViewModel();
+        }
+
+
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // TODO closing handle if choose goodbye
+
+        }
+
+        private void MaterialWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+        }
+
     }
 }
