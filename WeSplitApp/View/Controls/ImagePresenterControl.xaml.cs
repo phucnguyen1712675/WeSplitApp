@@ -17,18 +17,15 @@ using WeSplitApp.ViewModel;
 namespace WeSplitApp.View.Controls
 {
     /// <summary>
-    /// Interaction logic for AboutUsControl.xaml
+    /// Interaction logic for ImagePresenterControl.xaml
     /// </summary>
-    public partial class AboutUsControl : UserControl
+    public partial class ImagePresenterControl : UserControl
     {
-        public AboutUsControl()
+        public ImagePresenterControl()
         {
             InitializeComponent();
-        }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show(this.temp.Text);
+            this.DataContext = new ImagePresenterViewModel(TripDetailsViewModel.SelectedTrip);
         }
     }
 }

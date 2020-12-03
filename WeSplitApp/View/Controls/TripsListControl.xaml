@@ -1,9 +1,10 @@
 ﻿<UserControl
-    x:Class="WeSplitApp.View.Controls.BeingTakenTripsListControl"
+    x:Class="WeSplitApp.View.Controls.TripsListControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:conv="clr-namespace:WeSplitApp.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:local="clr-namespace:WeSplitApp.View.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -13,7 +14,6 @@
     Background="{DynamicResource MaterialDesignPaper}"
     FontFamily="{md:MaterialDesignFont}"
     Foreground="{DynamicResource MaterialDesignBody}"
-    Loaded="UserControl_Loaded"
     TextElement.FontSize="14"
     TextElement.FontWeight="Medium"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -34,7 +34,10 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <Grid
+        Margin="16"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="5*" />
@@ -46,7 +49,13 @@
             Grid.Column="1"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
+            ItemsSource="{Binding ToShowItems}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseLeftButtonUp">
+                    <i:InvokeCommandAction Command="{Binding SelectedCommand}" CommandParameter="{Binding ElementName=tripListView, Path=SelectedItem}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel />
@@ -130,10 +139,10 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <!--<md:PopupBox
+        <md:PopupBox
             Grid.Column="1"
             Grid.ColumnSpan="2"
-            Margin="32"
+            Margin="36"
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
             Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}">
@@ -148,9 +157,7 @@
                     ToolTip="Twitter" />
 
                 <Button Content="{md:PackIcon Kind=Message, Size=20}" ToolTip="Chat">
-        -->
-        <!--  mix up the colours by bringing in a named palette (see merged dictionaries at top)  -->
-        <!--
+                    <!--  mix up the colours by bringing in a named palette (see merged dictionaries at top)  -->
                     <Button.Background>
                         <SolidColorBrush Color="{DynamicResource GreenPrimary500}" />
                     </Button.Background>
@@ -177,50 +184,23 @@
                     </Button.Foreground>
                 </Button>
             </StackPanel>
-        </md:PopupBox>-->
+        </md:PopupBox>
         <Button
             Grid.Column="0"
-            HorizontalAlignment="Right"
-            Click="previousButton_Click"
+            HorizontalAlignment="Center"
+            Command="{Binding PreviousCommand}"
             Content="{md:PackIcon Kind=ArrowLeftBoldCircleOutline,
-                                  Size=30}"
+                                  Size=40}"
             Style="{StaticResource MaterialDesignIconButton}"
             ToolTip="Previous" />
         <Button
             Grid.Column="2"
-            HorizontalAlignment="Left"
-            Click="nextButton_Click"
+            HorizontalAlignment="Center"
+            Command="{Binding NextCommand}"
             Content="{md:PackIcon Kind=ArrowRightBoldCircleOutline,
-                                  Size=30}"
+                                  Size=40}"
             Style="{StaticResource MaterialDesignIconButton}"
             ToolTip="Next" />
-        <StackPanel
-            Grid.Column="1"
-            Margin="0,0,0,5"
-            HorizontalAlignment="Center"
-            Orientation="Horizontal"
-            Visibility="Collapsed">
-
-            <ComboBox
-                Name="pagingInfoComboBox"
-                Width="100"
-                Height="40"
-                VerticalAlignment="Bottom"
-                SelectionChanged="pagingInfoComboBox_SelectionChanged"
-                Style="{StaticResource MaterialDesignFilledComboBox}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Orientation="Horizontal">
-                            <TextBlock Text="{Binding Page}" />
-                            <TextBlock Text=" of " />
-                            <TextBlock Text="{Binding TotalPages}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-        </StackPanel>
     </Grid>
 </UserControl>
+

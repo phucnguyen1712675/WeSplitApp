@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WeSplitApp.Utils;
+using WeSplitApp.ViewModel;
 
 namespace WeSplitApp.View.Controls
 {
@@ -22,30 +23,29 @@ namespace WeSplitApp.View.Controls
     /// </summary>
     public partial class HaveTakenTripsListViewControl : UserControl
     {
-        public WESPLITAPPEntities database = new WESPLITAPPEntities();
+        public HaveTakenTripsListViewControl() => InitializeComponent();
 
-        public HaveTakenTripsListViewControl()
-        {
-            InitializeComponent();
-        }
+        private Paging _paging;
+        private List<TRIP> _tripList;
+        private List<TRIP> _tripToShowList;
+        private bool _isDone = true;
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            this._tripList = GetTripList();
             calculatePagingInfo();
         }
 
-        private Paging _paging;
-        private List<TRIP> _tripsList;
-        private bool _isDone = true;
+        private List<TRIP> GetTripList() => HomeScreen.GetDatabaseEntities().TRIPS
+                                                        .Where(t=> t.ISDONE == this._isDone)
+                                                        .Select(t => t)
+                                                        .ToList();
 
         private void pagingInfoComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e) => DisplayTrips();
 
-        void calculatePagingInfo()
+        private void calculatePagingInfo()
         {
-            var query = from t in database.TRIPS.ToList()
-                        where t.ISDONE == this._isDone
-                        select t;
-            var count = query.Count();
+            var count = this._tripList.Count();
             var rowsPerPage = 8;
 
             // Tinh toan phan trang
@@ -66,14 +66,11 @@ namespace WeSplitApp.View.Controls
             var skip = (page - 1) * this._paging.RowsPerPage;
             var take = this._paging.RowsPerPage;
 
-            var query = from t in database.TRIPS.ToList()
-                        where t.ISDONE == this._isDone
-                        select t;
+            this._tripToShowList = this._tripList.Skip(skip)
+                                                .Take(take)
+                                                .ToList();
 
-            this._tripsList = query
-                .Skip(skip).Take(take)
-                .ToList();
-            this.tripListView.ItemsSource = this._tripsList;
+            this.tripListView.ItemsSource = this._tripToShowList;
         }
 
         private void previousButton_Click(object sender, RoutedEventArgs e)
@@ -98,6 +95,13 @@ namespace WeSplitApp.View.Controls
             {
                 MessageBox.Show("Maximum page!", "Reach Maximum page", MessageBoxButton.OKCancel);
             }
+        }
+
+        private void tripListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selectedItem = this.tripListView.SelectedItem as TRIP;
+            HomeScreen.GetHomeScreenInstance().SetContentControl((new TripDetailsViewModel(selectedItem)));
+            //HomeScreen.GetHomeScreenInstance().NotButtonClickAction(new TripDetailsViewModel(selectedItem));
         }
     }
 }

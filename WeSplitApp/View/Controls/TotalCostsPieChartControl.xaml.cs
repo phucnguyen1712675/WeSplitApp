@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LiveCharts;
+using LiveCharts.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,18 +19,15 @@ using WeSplitApp.ViewModel;
 namespace WeSplitApp.View.Controls
 {
     /// <summary>
-    /// Interaction logic for AboutUsControl.xaml
+    /// Interaction logic for TotalCostsPieChartControl.xaml
     /// </summary>
-    public partial class AboutUsControl : UserControl
+    public partial class TotalCostsPieChartControl : UserControl
     {
-        public AboutUsControl()
+        public TotalCostsPieChartControl()
         {
             InitializeComponent();
-        }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show(this.temp.Text);
+            this.DataContext = new TotalCostsPieChartViewModel(TripDetailsViewModel.SelectedTrip);
         }
     }
 }
