@@ -18,9 +18,12 @@ namespace WeSplitApp
     {
         private void showHomeScreen()
         {
-            var homeScreen = new HomeScreen();
-            this.MainWindow = homeScreen;
-            homeScreen.Show();
+            //var homeScreen = new HomeScreen();
+            //this.MainWindow = homeScreen;
+            //homeScreen.Show();
+            var SearchScreen = new Search_Temp();
+            //this.MainWindow = SearchScreen;
+            SearchScreen.Show();
         }
 
         protected override void OnStartup(StartupEventArgs e)

@@ -5,8 +5,20 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:WeSplitApp.View.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="aboutus"
     d:DesignHeight="450"
     d:DesignWidth="800"
+    Background="White"
     mc:Ignorable="d">
-    <Grid />
+    <StackPanel>
+        <TextBlock
+            x:Name="temp"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <Button
+            Width="100"
+            Click="Button_Click"
+            Command="{Binding test}" />
+    </StackPanel>
 </UserControl>

@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WeSplitApp.ViewModel
+﻿namespace WeSplitApp.ViewModel
 {
-    public class BeingTakenTripsListViewViewModel : ViewModel
+    public class BeingTakenTripsListViewViewModel : TripsListViewModel
     {
-        public BeingTakenTripsListViewViewModel() {  }
+        public override bool IsDone { get; set; } = false;
     }
 }

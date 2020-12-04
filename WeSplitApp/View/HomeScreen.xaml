@@ -25,22 +25,17 @@
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d"
-    Width="{Binding Source={x:Static SystemParameters.PrimaryScreenWidth}, Converter={converters:RatioConverter }, ConverterParameter='1'}"
-    Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={converters:RatioConverter }, ConverterParameter='1'}"
     >
-   
-
-
     <mde:MaterialWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Resources/AppResource.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <DataTemplate DataType="{x:Type viewModel:HaveTakenTripsListViewViewModel}">
-                <controls:HaveTakenTripsListViewControl />
+            <controls:TripsListControl />
             </DataTemplate>
             <DataTemplate DataType="{x:Type viewModel:BeingTakenTripsListViewViewModel}">
-                <controls:BeingTakenTripsListControl />
+                <controls:TripsListControl />
             </DataTemplate>
             <DataTemplate DataType="{x:Type viewModel:MemberListViewModel}">
                 <controls:MemberListControl/>
@@ -56,6 +51,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type viewModel:AboutUsViewModel}">
                 <controls:AboutUsControl />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:TripDetailsViewModel}">
+                <controls:TripDetailsControl />
             </DataTemplate>
         </ResourceDictionary>
     </mde:MaterialWindow.Resources>
@@ -97,11 +95,26 @@
             SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}">
             <md:DrawerHost IsLeftDrawerOpen="{Binding Path=IsNavigationDrawerOpen, ElementName=appBar}" LeftDrawerBackground="{DynamicResource MaterialDesignBackground}">
                 <md:DrawerHost.LeftDrawerContent>
-                    <mde:SideNavigation
-                        x:Name="navigationDrawerNav"
-                        Width="280"
-                        Items="{Binding Path=NavigationItems, Mode=OneTime}"
-                        NavigationItemSelected="NavigationItemSelectedHandler" />
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Image
+                            Grid.Row="0"
+                            Width="300"
+                            Height="200"
+                            Margin="0,0,0,10"
+                            Source="/Resources/Images/5917.jpg"
+                            Stretch="UniformToFill" />
+                        <mde:SideNavigation
+                            x:Name="navigationDrawerNav"
+                            Grid.Row="1"
+                            Width="280"
+                            Items="{Binding Path=NavigationItems, Mode=OneTime}"
+                            NavigationItemSelected="NavigationItemSelectedHandler" />
+                    </Grid>
                 </md:DrawerHost.LeftDrawerContent>
                 <Grid>
                     <Grid.RowDefinitions>
@@ -173,7 +186,8 @@
                             </Grid>
                         </DockPanel>
                     </mde:AppBar>
-                    <!--<Grid   Grid.Row="1">
+
+                    <Grid Grid.Row="1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
@@ -184,15 +198,14 @@
                             x:Name="contentControl"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch" />
-
                         <md:Snackbar
-                          x:Name="MainSnackbar"
-                          Grid.Row="1"
-                          MessageQueue="{md:MessageQueue}" />
+                            x:Name="MainSnackbar"
+                            Grid.Row="1"
+                            MessageQueue="{md:MessageQueue}" />
                     </Grid>
-                <!--</Grid>-->
             </md:DrawerHost>
         </md:DialogHost>
+          
         <md:PopupBox Name="AddButton"
              Panel.ZIndex="1000"
              Margin="0,0,32,32"

@@ -8,15 +8,14 @@ using System.Threading.Tasks;
 
 namespace WeSplitApp.ViewModel
 {
-    public class ViewModel : INotifyPropertyChanged
+    public abstract class ViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-
-       /* public ViewModel() { }*/
-
+        
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
+
     }
 }

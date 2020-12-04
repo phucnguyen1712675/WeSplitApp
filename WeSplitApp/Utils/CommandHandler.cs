@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace WeSplitApp.Utils
 {
-    class CommandHandler : ICommand
+    public class CommandHandler : ICommand
     {
         private Action _action;
         private Func<bool> _canExecute;

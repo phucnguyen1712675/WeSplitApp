@@ -53,6 +53,12 @@
     <Reference Include="ICSharpCode.AvalonEdit, Version=6.1.0.314, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
       <HintPath>..\packages\AvalonEdit.6.1.0-preview1\lib\net45\ICSharpCode.AvalonEdit.dll</HintPath>
     </Reference>
+    <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
+    </Reference>
+    <Reference Include="LiveCharts.Wpf, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.Wpf.0.9.7\lib\net45\LiveCharts.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=2.0.0.0, Culture=neutral, PublicKeyToken=51482d6f650b2b3f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.2.3.4\lib\net47\MahApps.Metro.dll</HintPath>
     </Reference>
@@ -172,6 +178,10 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web" />
@@ -202,9 +212,14 @@
     <Compile Include="Converters\BoolToIntConverter.cs" />
     <Compile Include="Converters\ImageConverter.cs" />
     <Compile Include="Converters\RatioConverter.cs" />
+    <Compile Include="Converters\DoubleToVNDConverter.cs" />
+    <Compile Include="Converters\StatusColorConverter.cs" />
+    <Compile Include="Converters\StatusToStringConverter.cs" />
     <Compile Include="COSTINCURRED.cs">
       <DependentUpon>WESPLITAPP_DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Domain\BindingProxy.cs" />
+    <Compile Include="Domain\NotEmptyValidationRule.cs" />
     <Compile Include="LOCATION.cs">
       <DependentUpon>WESPLITAPP_DB.tt</DependentUpon>
     </Compile>
@@ -212,6 +227,11 @@
       <DependentUpon>WESPLITAPP_DB.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\TripsModel.cs" />
+    <Compile Include="Resources\DataLocation.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataLocation.dbml</DependentUpon>
+    </Compile>
     <Compile Include="TRIP.cs">
       <DependentUpon>WESPLITAPP_DB.tt</DependentUpon>
     </Compile>
@@ -228,9 +248,13 @@
       <DependentUpon>WESPLITAPP_DB.tt</DependentUpon>
     </Compile>
     <Compile Include="Utils\CommandHandler.cs" />
+    <Compile Include="Utils\EventArgs.cs" />
+    <Compile Include="Utils\EventRaiser.cs" />
     <Compile Include="Utils\MyRandom.cs" />
     <Compile Include="Utils\PageInfo.cs" />
     <Compile Include="Utils\Paging.cs" />
+    <Compile Include="Utils\RelayCommand.cs" />
+    <Compile Include="Utils\TripItemHandler.cs" />
     <Compile Include="ViewModel\AboutUsViewModel.cs" />
     <Compile Include="ViewModel\AddNewTripViewModel.cs" />
     <Compile Include="ViewModel\BeingTakenTripsListViewViewModel.cs" />
@@ -239,14 +263,20 @@
     <Compile Include="ViewModel\DialogHelperClass\MemberAddDialogViewModel.cs" />
     <Compile Include="ViewModel\LocationListViewModel.cs" />
     <Compile Include="ViewModel\MemberListViewModel.cs" />
+    <Compile Include="ViewModel\CurrentProceedsPieChartViewModel.cs" />
+    <Compile Include="ViewModel\ImagePresenterViewModel.cs" />
+    <Compile Include="ViewModel\SelectableViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\SplashScreenViewModel.cs" />
     <Compile Include="ViewModel\StepOneViewModel.cs" />
     <Compile Include="ViewModel\StepperBaseViewModel.cs" />
     <Compile Include="ViewModel\StepThreeViewModel.cs" />
     <Compile Include="ViewModel\StepTwoViewModel.cs" />
+    <Compile Include="ViewModel\TotalCostsPieChartViewModel.cs" />
     <Compile Include="ViewModel\TripDetailsViewModel.cs" />
     <Compile Include="ViewModel\HaveTakenTripsListViewViewModel.cs" />
+    <Compile Include="ViewModel\TripMemberPaidAmountDataGridViewModel.cs" />
+    <Compile Include="ViewModel\TripsListViewModel.cs" />
     <Compile Include="ViewModel\ViewModel.cs" />
     <Compile Include="View\Controls\AboutUsControl.xaml.cs">
       <DependentUpon>AboutUsControl.xaml</DependentUpon>
@@ -269,8 +299,17 @@
     <Compile Include="View\Controls\LocationListControl.xaml.cs">
       <DependentUpon>LocationListControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Controls\CurrentProceedsPieChartControl.xaml.cs">
+      <DependentUpon>CurrentProceedsPieChartControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\ImagePresenterControl.xaml.cs">
+      <DependentUpon>ImagePresenterControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Controls\SettingsControl.xaml.cs">
       <DependentUpon>SettingsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\TotalCostsPieChartControl.xaml.cs">
+      <DependentUpon>TotalCostsPieChartControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Controls\TripDetailsControl.xaml.cs">
       <DependentUpon>TripDetailsControl.xaml</DependentUpon>
@@ -284,11 +323,23 @@
     <Compile Include="View\DialogHelper\AddMemberDialog.xaml.cs">
       <DependentUpon>AddMemberDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Controls\TripMemberPaidAmountDataGridControl.xaml.cs">
+      <DependentUpon>TripMemberPaidAmountDataGridControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\TripMembersContactControl.xaml.cs">
+      <DependentUpon>TripMembersContactControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\TripsListControl.xaml.cs">
+      <DependentUpon>TripsListControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\HomeScreen.xaml.cs">
       <DependentUpon>HomeScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Controls\MemberListControl.xaml.cs">
       <DependentUpon>MemberListControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Search_Temp.xaml.cs">
+      <DependentUpon>Search_Temp.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SplashScreen.xaml.cs">
       <DependentUpon>SplashScreen.xaml</DependentUpon>
@@ -332,6 +383,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="..\.editorconfig">
+      <Link>.editorconfig</Link>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -341,6 +395,14 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>WESPLITAPP_DB.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="Resources\DataLocation.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>DataLocation.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\DataLocation.dbml.layout">
+      <DependentUpon>DataLocation.dbml</DependentUpon>
+    </None>
     <None Include="WESPLITAPPDataSet.xsc">
       <DependentUpon>WESPLITAPPDataSet.xsd</DependentUpon>
     </None>
@@ -393,7 +455,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Controls\CurrentProceedsPieChartControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\ImagePresenterControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Controls\SettingsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\TotalCostsPieChartControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -410,6 +484,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\DialogHelper\AddMemberDialog.xaml">
+       <SubType>Designer</SubType>
+       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\TripMemberPaidAmountDataGridControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\TripMembersContactControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\TripsListControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -418,6 +504,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Controls\MemberListControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Search_Temp.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -433,6 +523,9 @@
     <Resource Include="Resources\Images\people-making-money.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\Images\TabItemBackground1.jpg" />
+    <Resource Include="Resources\Images\5917.jpg" />
+    <Resource Include="Resources\Images\3369736.jpg" />
     <Resource Include="Resources\Images\AddTripBackGround.jpg" />
     <Resource Include="Resources\Images\AddImageBackGround.jpg" />
     <Resource Include="Resources\Images\MemberBackGround.png" />
@@ -450,6 +543,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -30,7 +30,6 @@ namespace WeSplitApp.View
     public partial class HomeScreen : MaterialWindow
     {
         public const string DialogHostName = "dialogHost";
-
         public DialogHost DialogHost => m_dialogHost;
 
         private List<INavigationItem> m_navigationItems;
@@ -38,9 +37,9 @@ namespace WeSplitApp.View
 
         public static Snackbar Snackbar = new Snackbar();
 
-        public WESPLITAPPEntities database = new WESPLITAPPEntities();
+        private WESPLITAPPEntities database = new WESPLITAPPEntities();
 
-        public static HomeScreen homeScreen = null;
+        private static HomeScreen homeScreen = null;
 
         public Dictionary<string, Delegate> Dialogs = new Dictionary<string, Delegate>
         {
@@ -98,11 +97,8 @@ namespace WeSplitApp.View
             {
                 new FirstLevelNavigationItem() { Label = "Đã kết thúc", Icon = PackIconKind.Passport, NavigationItemSelectedCallback = item => new HaveTakenTripsListViewViewModel()},
                 new FirstLevelNavigationItem() { Label = "Đang đi/Sắp tới", Icon = PackIconKind.Plane, NavigationItemSelectedCallback = item => new BeingTakenTripsListViewViewModel()},
-                new SubheaderNavigationItem() { Subheader = "Thành viên"},
                 new FirstLevelNavigationItem() { Label = "Danh sách thành viên", Icon = PackIconKind.AccountMultipleOutline, NavigationItemSelectedCallback = item => new MemberListViewModel(new ObservableCollection<MEMBER>(homeScreen.database.MEMBERS.ToList()))},
-                new SubheaderNavigationItem() { Subheader = "Điểm dừng"},
                 new FirstLevelNavigationItem() { Label = "Danh sách điểm dừng", Icon = PackIconKind.MapMarkerStar, NavigationItemSelectedCallback = item => new LocationListViewModel(new ObservableCollection<LOCATION>(homeScreen.database.LOCATIONS.ToList()))},
-                new SubheaderNavigationItem() { Subheader = "Khác"},
                 new FirstLevelNavigationItem() { Label = "Cài đặt", Icon = PackIconKind.Settings, NavigationItemSelectedCallback = item => new SettingsViewModel()},
                 new FirstLevelNavigationItem() { Label = "Về chúng tôi", Icon = PackIconKind.About, NavigationItemSelectedCallback = item => new AboutUsViewModel()},
             };
@@ -124,23 +120,17 @@ namespace WeSplitApp.View
         }
 
         public static HomeScreen GetHomeScreenInstance() => homeScreen;
-
+        public static WESPLITAPPEntities GetDatabaseEntities() => homeScreen.database; //TODO
+        
         private void LoadedHandler(object sender, RoutedEventArgs args)
         {
             navigationDrawerNav.SelectedItem = m_navigationItems[0];
-            //sideNav.SelectedItem = m_navigationItems[0];
             m_navigationItems[0].IsSelected = true;
         }
 
-        private void NavigationItemSelectedHandler(object sender, NavigationItemSelectedEventArgs args)
-        {
-            SelectNavigationItem(args.NavigationItem);
-        }
-
-        public void SetContentControl(object newContent) => contentControl.Content = newContent;
-        
-
         public void setVisibilityAddButton(Visibility visibility) => AddButton.Visibility = visibility;
+        private void NavigationItemSelectedHandler(object sender, NavigationItemSelectedEventArgs args) => SelectNavigationItem(args.NavigationItem);
+        public void SetContentControl(object newContent) => contentControl.Content = newContent;
 
         private void SelectNavigationItem(INavigationItem navigationItem)
         {
@@ -150,13 +140,13 @@ namespace WeSplitApp.View
 
                 if (contentControl.Content == null || contentControl.Content.GetType() != newContent.GetType())
                 {
-                    contentControl.Content = newContent;
+                    SetContentControl(newContent);
                     AddButton.Visibility = Visibility.Visible;
                 }
             }
             else
             {
-                contentControl.Content = null;
+                SetContentControl(null);
             }
 
             if (appBar != null)
@@ -164,9 +154,7 @@ namespace WeSplitApp.View
                 appBar.IsNavigationDrawerOpen = false;
             }
         }
-
         private void GoToGitHubButtonClickHandler(object sender, RoutedEventArgs args) => OpenLink("https://github.com/phucnguyen1712675/WeSplitApp");
-
         private void OpenLink(string url)
         {
             ProcessStartInfo psi = new ProcessStartInfo
