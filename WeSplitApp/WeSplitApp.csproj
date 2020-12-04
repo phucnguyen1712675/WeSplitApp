@@ -178,8 +178,10 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
+
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web" />
@@ -221,6 +223,12 @@
     </Compile>
     <Compile Include="MEMBER.cs">
       <DependentUpon>WESPLITAPP_DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TripsModel.cs" />
+    <Compile Include="Resources\DataLocation.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataLocation.dbml</DependentUpon>
     </Compile>
     <Compile Include="TRIP.cs">
       <DependentUpon>WESPLITAPP_DB.tt</DependentUpon>
@@ -311,6 +319,9 @@
     <Compile Include="View\HomeScreen.xaml.cs">
       <DependentUpon>HomeScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Search_Temp.xaml.cs">
+      <DependentUpon>Search_Temp.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\SplashScreen.xaml.cs">
       <DependentUpon>SplashScreen.xaml</DependentUpon>
     </Compile>
@@ -365,6 +376,14 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>WESPLITAPP_DB.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="Resources\DataLocation.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>DataLocation.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\DataLocation.dbml.layout">
+      <DependentUpon>DataLocation.dbml</DependentUpon>
+    </None>
     <None Include="WESPLITAPPDataSet.xsc">
       <DependentUpon>WESPLITAPPDataSet.xsd</DependentUpon>
     </None>
@@ -453,6 +472,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Search_Temp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\SplashScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -482,6 +505,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

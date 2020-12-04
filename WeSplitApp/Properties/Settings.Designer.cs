@@ -32,5 +32,16 @@ namespace WeSplitApp.Properties {
                 return ((string)(this["WESPLITAPPConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=DESKTOP-049JUV9\\SQLEXPRESS;Initial Catalog=WESPLITAPP;Integrated Secu" +
+            "rity=True")]
+        public string WESPLITAPPConnectionString1 {
+            get {
+                return ((string)(this["WESPLITAPPConnectionString1"]));
+            }
+        }
     }
 }
