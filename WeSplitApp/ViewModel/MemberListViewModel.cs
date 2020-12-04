@@ -30,7 +30,7 @@ namespace WeSplitApp.ViewModel
         }
 
         public MemberListViewModel(ObservableCollection<MEMBER> MEMBERS) {
-            //MEMBERS = new ObservableCollection<MEMBER>(HomeScreen.homeScreen.database.MEMBERS.ToList());
+            //MEMBERS = new ObservableCollection<MEMBER>(HomeScreen.GetDatabaseEntities().MEMBERS.ToList());
             this.MEMBERS = MEMBERS;
             instance = this;
         }

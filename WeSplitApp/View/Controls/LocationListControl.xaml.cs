@@ -32,7 +32,7 @@ namespace WeSplitApp.View.Controls
             Button editLocationButton = sender as Button;
             LOCATION editLocation = editLocationButton.Tag as LOCATION;
 
-            HomeScreen.homeScreen.GetDialogs("LocationAddDialog", editLocation, "Xem/Chỉnh sửa điểm dừng");
+            HomeScreen.GetHomeScreenInstance().GetDialogs("LocationAddDialog", editLocation, "Xem/Chỉnh sửa điểm dừng");
         }
 
         internal static void updateUI()

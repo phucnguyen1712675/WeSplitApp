@@ -24,8 +24,8 @@ namespace WeSplitApp.View.Controls.AddTripSteps
         public StepTwoControl()
         {
             InitializeComponent();
-            //LocationListComboBox.ItemsSource = HomeScreen.homeScreen.database.LOCATIONS.ToList();
-            CostIncurredListComboBox.ItemsSource = HomeScreen.homeScreen.database.COSTINCURREDS.ToList();
+            //LocationListComboBox.ItemsSource = HomeScreen.GetDatabaseEntities().LOCATIONS.ToList();
+            CostIncurredListComboBox.ItemsSource = HomeScreen.GetDatabaseEntities().COSTINCURREDS.ToList();
             this.DataContext = AddNewTripViewModel.Instance;
         }
 
@@ -78,7 +78,7 @@ namespace WeSplitApp.View.Controls.AddTripSteps
 
         private void LocationAddButton_Click(object sender, RoutedEventArgs e)
         {
-            HomeScreen.homeScreen.GetDialogs("LocationAddDialog", new LOCATION(),"THÊM ĐIỂM DỪNG");
+            HomeScreen.GetHomeScreenInstance().GetDialogs("LocationAddDialog", new LOCATION(),"THÊM ĐIỂM DỪNG");
         }
     }
 }

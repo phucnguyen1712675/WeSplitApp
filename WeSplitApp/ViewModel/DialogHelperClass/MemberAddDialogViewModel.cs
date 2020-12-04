@@ -30,7 +30,7 @@ namespace WeSplitApp.ViewModel.DialogHelperClass
 
                 if(type == "add")
                 {
-                    HomeScreen.homeScreen.database.MEMBERS.Add(NewMember);
+                    HomeScreen.GetDatabaseEntities().MEMBERS.Add(NewMember);
 
                     // trường hợp đang làm trong màn hình AddTrip <=> refresh list Members
                     if(AddNewTripViewModel.Instance != null) AddNewTripViewModel.Instance.MEMBERs.Add(NewMember);
@@ -39,10 +39,10 @@ namespace WeSplitApp.ViewModel.DialogHelperClass
                 }
                 else
                 {
-                    MEMBER member = HomeScreen.homeScreen.database.MEMBERS.First(item => item.MEMBER_ID == NewMember.MEMBER_ID);
+                    MEMBER member = HomeScreen.GetDatabaseEntities().MEMBERS.First(item => item.MEMBER_ID == NewMember.MEMBER_ID);
                     member = NewMember;
                 }
-                HomeScreen.homeScreen.database.SaveChanges();
+                HomeScreen.GetDatabaseEntities().SaveChanges();
                 MessageBox.Show("Thành công");
             }
             else

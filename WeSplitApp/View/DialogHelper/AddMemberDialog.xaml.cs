@@ -56,8 +56,8 @@ namespace WeSplitApp.View.DialogHelper
             int memberId = Convert.ToInt32((sender as Button).Tag);
             if(memberId != 0)
             {
-                MEMBER reloadMember = HomeScreen.homeScreen.database.MEMBERS.FirstOrDefault(item => item.MEMBER_ID == memberId);
-                HomeScreen.homeScreen.database.Entry(reloadMember).Reload();
+                MEMBER reloadMember = HomeScreen.GetDatabaseEntities().MEMBERS.FirstOrDefault(item => item.MEMBER_ID == memberId);
+                HomeScreen.GetDatabaseEntities().Entry(reloadMember).Reload();
                 MemberListControl.updateUI();
             }
         }

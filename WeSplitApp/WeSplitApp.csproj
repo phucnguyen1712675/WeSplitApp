@@ -181,7 +181,6 @@
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
-
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web" />
@@ -225,12 +224,6 @@
     </Compile>
     <Compile Include="MEMBER.cs">
       <DependentUpon>WESPLITAPP_DB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\TripsModel.cs" />
-    <Compile Include="Resources\DataLocation.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DataLocation.dbml</DependentUpon>
     </Compile>
     <Compile Include="TRIP.cs">
       <DependentUpon>WESPLITAPP_DB.tt</DependentUpon>
@@ -395,14 +388,6 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>WESPLITAPP_DB.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="Resources\DataLocation.dbml">
-      <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>DataLocation.designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Resources\DataLocation.dbml.layout">
-      <DependentUpon>DataLocation.dbml</DependentUpon>
-    </None>
     <None Include="WESPLITAPPDataSet.xsc">
       <DependentUpon>WESPLITAPPDataSet.xsd</DependentUpon>
     </None>
@@ -484,8 +469,8 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\DialogHelper\AddMemberDialog.xaml">
-       <SubType>Designer</SubType>
-       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Controls\TripMemberPaidAmountDataGridControl.xaml">
       <SubType>Designer</SubType>

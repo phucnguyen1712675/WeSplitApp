@@ -33,7 +33,7 @@ namespace WeSplitApp.ViewModel.DialogHelperClass
 
                 if (type == "add")
                 {
-                    HomeScreen.homeScreen.database.LOCATIONS.Add(NewLocation);
+                    HomeScreen.GetDatabaseEntities().LOCATIONS.Add(NewLocation);
 
                     // trường hợp đang làm trong màn hình AddTrip <=> refresh list Locations
                     if (AddNewTripViewModel.Instance != null) { AddNewTripViewModel.Instance.LOCATIONs.Add(NewLocation);}
@@ -42,10 +42,10 @@ namespace WeSplitApp.ViewModel.DialogHelperClass
                 }
                 else
                 {
-                    LOCATION location = HomeScreen.homeScreen.database.LOCATIONS.First(item => item.LOCATION_ID == NewLocation.LOCATION_ID);
+                    LOCATION location = HomeScreen.GetDatabaseEntities().LOCATIONS.First(item => item.LOCATION_ID == NewLocation.LOCATION_ID);
                     location = NewLocation;
                 }
-                HomeScreen.homeScreen.database.SaveChanges();
+                HomeScreen.GetDatabaseEntities().SaveChanges();
                 MessageBox.Show("Thành công");
             }
             else

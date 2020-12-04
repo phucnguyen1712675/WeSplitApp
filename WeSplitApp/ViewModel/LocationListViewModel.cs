@@ -23,7 +23,7 @@ namespace WeSplitApp.ViewModel
         /*public ObservableCollection<LOCATION> LOCATIONS { get; set; }*/
         public LocationListViewModel(ObservableCollection<LOCATION> LOCATIONS)
         {
-           // this.LOCATIONS = new ObservableCollection<LOCATION>(HomeScreen.homeScreen.database.LOCATIONS.ToList());
+           // this.LOCATIONS = new ObservableCollection<LOCATION>(HomeScreen.GetDatabaseEntities().LOCATIONS.ToList());
            this.LOCATIONS = LOCATIONS;
             instance = this;
         }

@@ -37,7 +37,7 @@
                 Height="10"
                 md:TransitionAssist.DisableTransitions="True"
                 DockPanel.Dock="Bottom"
-                Value="{Binding ProgressBarValue}" />
+                />
 
             <Grid>
                 <Grid.ColumnDefinitions>
