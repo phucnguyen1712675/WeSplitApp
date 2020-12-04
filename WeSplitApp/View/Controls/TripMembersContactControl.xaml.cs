@@ -12,23 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WeSplitApp.ViewModel;
 
 namespace WeSplitApp.View.Controls
 {
     /// <summary>
-    /// Interaction logic for AboutUsControl.xaml
+    /// Interaction logic for TripMembersContactControl.xaml
     /// </summary>
-    public partial class AboutUsControl : UserControl
+    public partial class TripMembersContactControl : UserControl
     {
-        public AboutUsControl()
+        public TripMembersContactControl()
         {
             InitializeComponent();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show(this.temp.Text);
         }
     }
 }
