@@ -206,7 +206,7 @@
                 </Grid>
             </md:DrawerHost>
         </md:DialogHost>
-
+        <Button Content="test searchSreen" Click="Button_Click" />
         <md:PopupBox Name="AddButton"
              Panel.ZIndex="1000"
              Margin="0,0,32,32"
