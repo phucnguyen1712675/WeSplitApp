@@ -11,7 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using WeSplitApp.Resources;
+using WeSplitApp.View;
 namespace WeSplitApp.View
 {
     /// <summary>
@@ -19,11 +19,10 @@ namespace WeSplitApp.View
     /// </summary>
     public partial class Search_Temp : Window
     {
-        DataLocationDataContext db;
+
         public Search_Temp()
         {
             InitializeComponent();
-            db = new DataLocationDataContext();
         }
 
         private void SearchLocation(object sender, RoutedEventArgs e)
@@ -32,8 +31,7 @@ namespace WeSplitApp.View
         }
         public void _loadProducts()
         {
-            var a = (from p in db.TRIPs
-                     select p).ToList();
+            
 
             if (searchBox.Text.Length <= 0)
             {
@@ -44,9 +42,10 @@ namespace WeSplitApp.View
                 var requestText = convertToUnSign2(searchBox.Text.Trim().ToLower());
                 var requestText2 = convertToUnSign2(DecriptBox.Text.Trim().ToLower());
                 //search by TITLE
-                //var b = (db.TRIPs.AsEnumerable().Where(t => convertToUnSign2(t.TITTLE).Contains(requestText))).ToList();
+                var b = (HomeScreen.GetDatabaseEntities().TRIPS.AsEnumerable().Where(t => convertToUnSign2(t.TITTLE).Contains(requestText))).ToList();
+
                 //SEARCH BY DECRIPTION
-                var c = (db.TRIPs.AsEnumerable().Where(t => convertToUnSign2(t.DESCRIPTION).Contains(requestText2))).ToList();
+                var c = (HomeScreen.GetDatabaseEntities().TRIPS.AsEnumerable().Where(t => convertToUnSign2(t.DESCRIPTION).Contains(requestText2))).ToList();
                 foreach (var index in c)
                 {
                     MessageBox.Show(index.TITTLE);

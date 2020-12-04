@@ -37,8 +37,8 @@ namespace WeSplitApp.ViewModel
                 TRIP temp = AddNewTripViewModel.Instance.AddTrip;
                 if (temp.RETURNDATE < DateTime.Now) temp.ISDONE = true;
                 else temp.ISDONE = false;
-                HomeScreen.homeScreen.database.TRIPS.Add(temp);
-                HomeScreen.homeScreen.database.SaveChanges();
+                HomeScreen.GetDatabaseEntities().TRIPS.Add(temp);
+                HomeScreen.GetDatabaseEntities().SaveChanges();
 
                 MessageBox.Show("Thêm thành công");
             }

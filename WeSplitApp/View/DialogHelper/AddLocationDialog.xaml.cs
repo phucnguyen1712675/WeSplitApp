@@ -31,8 +31,8 @@ namespace WeSplitApp.View.DialogHelper
             int locationId = Convert.ToInt32((sender as Button).Tag);
             if (locationId != 0)
             {
-                LOCATION reloadLocation = HomeScreen.homeScreen.database.LOCATIONS.FirstOrDefault(item => item.LOCATION_ID == locationId);
-                HomeScreen.homeScreen.database.Entry(reloadLocation).Reload();
+                LOCATION reloadLocation = HomeScreen.GetDatabaseEntities().LOCATIONS.FirstOrDefault(item => item.LOCATION_ID == locationId);
+                HomeScreen.GetDatabaseEntities().Entry(reloadLocation).Reload();
                 LocationListControl.updateUI();
             }
         }

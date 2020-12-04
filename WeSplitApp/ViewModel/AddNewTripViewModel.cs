@@ -42,8 +42,8 @@ namespace WeSplitApp.ViewModel
             AddTrip = new TRIP();
             AddTrip.TOTALCOSTS = 0;
             AddTrip.CURRENTPROCEEDS = 0;
-            MEMBERs = new ObservableCollection<MEMBER>(HomeScreen.homeScreen.database.MEMBERS.ToList());
-            LOCATIONs = new ObservableCollection<LOCATION>(HomeScreen.homeScreen.database.LOCATIONS.ToList());
+            MEMBERs = new ObservableCollection<MEMBER>(HomeScreen.GetDatabaseEntities().MEMBERS.ToList());
+            LOCATIONs = new ObservableCollection<LOCATION>(HomeScreen.GetDatabaseEntities().LOCATIONS.ToList());
             Instance = this;
         }
     }

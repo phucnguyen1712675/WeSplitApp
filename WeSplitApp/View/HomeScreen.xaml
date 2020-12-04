@@ -191,7 +191,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>-->
+                        </Grid.RowDefinitions>
 
                         <mde:TransitionContentControl
                             Grid.Row="1"
@@ -203,9 +203,10 @@
                             Grid.Row="1"
                             MessageQueue="{md:MessageQueue}" />
                     </Grid>
+                </Grid>
             </md:DrawerHost>
         </md:DialogHost>
-          
+
         <md:PopupBox Name="AddButton"
              Panel.ZIndex="1000"
              Margin="0,0,32,32"

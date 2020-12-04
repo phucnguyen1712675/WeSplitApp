@@ -171,7 +171,8 @@ namespace WeSplitApp.View
             // TODO add member
             AddButton.Visibility = Visibility.Collapsed;
             string v = "MemberAddDialog";
-            GetDialogs(v, new MEMBER(),"THÊM THÀNH VIÊN");
+            GetDialogs(v, new MEMBER(), "THÊM THÀNH VIÊN");
+
 
         }
 

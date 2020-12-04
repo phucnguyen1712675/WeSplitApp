@@ -25,7 +25,7 @@ namespace WeSplitApp.View.Controls.AddTripSteps
         public StepThreeControl()
         {
             InitializeComponent();
-            //MemberListComboBox.ItemsSource = HomeScreen.homeScreen.database.MEMBERS.ToList();
+            //MemberListComboBox.ItemsSource = HomeScreen.GetDatabaseEntities().MEMBERS.ToList();
             this.DataContext = AddNewTripViewModel.Instance;
         }
 
@@ -69,7 +69,7 @@ namespace WeSplitApp.View.Controls.AddTripSteps
 
         private void MemberAddButton_Click(object sender, RoutedEventArgs e)
         {
-            HomeScreen.homeScreen.GetDialogs("MemberAddDialog", new MEMBER(),"THÊM THÀNH VIÊN");
+            HomeScreen.GetHomeScreenInstance().GetDialogs("MemberAddDialog", new MEMBER(),"THÊM THÀNH VIÊN");
         }
     }
 }

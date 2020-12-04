@@ -21,7 +21,7 @@ namespace WeSplitApp.View.Controls
         {
             Button editMemberButton = sender as Button;
             MEMBER editMember = editMemberButton.Tag as MEMBER;
-            HomeScreen.homeScreen.GetDialogs("MemberAddDialog", editMember, "Xem/Chỉnh sửa Thành viên");
+            HomeScreen.GetHomeScreenInstance().GetDialogs("MemberAddDialog", editMember, "Xem/Chỉnh sửa Thành viên");
         }
 
         public static void updateUI()
