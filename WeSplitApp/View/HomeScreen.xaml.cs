@@ -204,5 +204,11 @@ namespace WeSplitApp.View
 
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Search_Temp abc = new Search_Temp();
+            this.Close();
+            abc.Show();
+        }
     }
 }
