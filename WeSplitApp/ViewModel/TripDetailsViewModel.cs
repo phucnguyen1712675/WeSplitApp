@@ -9,6 +9,6 @@ namespace WeSplitApp.ViewModel
 {
     public class TripDetailsViewModel : ViewModel
     {
-
+        public TripDetailsViewModel() { }
     }
 }

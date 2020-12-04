@@ -199,7 +199,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Converters\BoolToIntConverter.cs" />
     <Compile Include="Converters\ImageConverter.cs" />
+    <Compile Include="Converters\RatioConverter.cs" />
     <Compile Include="COSTINCURRED.cs">
       <DependentUpon>WESPLITAPP_DB.tt</DependentUpon>
     </Compile>
@@ -225,12 +227,18 @@
     <Compile Include="TRIP_MEMBER.cs">
       <DependentUpon>WESPLITAPP_DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Utils\CommandHandler.cs" />
     <Compile Include="Utils\MyRandom.cs" />
     <Compile Include="Utils\PageInfo.cs" />
     <Compile Include="Utils\Paging.cs" />
     <Compile Include="ViewModel\AboutUsViewModel.cs" />
     <Compile Include="ViewModel\AddNewTripViewModel.cs" />
     <Compile Include="ViewModel\BeingTakenTripsListViewViewModel.cs" />
+    <Compile Include="ViewModel\DialogHelperClass\AddDialogBaseViewModel.cs" />
+    <Compile Include="ViewModel\DialogHelperClass\LocationAddDialogViewModel.cs" />
+    <Compile Include="ViewModel\DialogHelperClass\MemberAddDialogViewModel.cs" />
+    <Compile Include="ViewModel\LocationListViewModel.cs" />
+    <Compile Include="ViewModel\MemberListViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\SplashScreenViewModel.cs" />
     <Compile Include="ViewModel\StepOneViewModel.cs" />
@@ -258,6 +266,9 @@
     <Compile Include="View\Controls\BeingTakenTripsListControl.xaml.cs">
       <DependentUpon>BeingTakenTripsListControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Controls\LocationListControl.xaml.cs">
+      <DependentUpon>LocationListControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Controls\SettingsControl.xaml.cs">
       <DependentUpon>SettingsControl.xaml</DependentUpon>
     </Compile>
@@ -267,8 +278,17 @@
     <Compile Include="View\Controls\HaveTakenTripsListViewControl.xaml.cs">
       <DependentUpon>HaveTakenTripsListViewControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\DialogHelper\AddLocationDialog.xaml.cs">
+      <DependentUpon>AddLocationDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DialogHelper\AddMemberDialog.xaml.cs">
+      <DependentUpon>AddMemberDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\HomeScreen.xaml.cs">
       <DependentUpon>HomeScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\MemberListControl.xaml.cs">
+      <DependentUpon>MemberListControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SplashScreen.xaml.cs">
       <DependentUpon>SplashScreen.xaml</DependentUpon>
@@ -369,6 +389,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Controls\LocationListControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Controls\SettingsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -381,7 +405,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\DialogHelper\AddLocationDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DialogHelper\AddMemberDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\HomeScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\MemberListControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -399,6 +435,9 @@
   <ItemGroup>
     <Resource Include="Resources\Images\AddTripBackGround.jpg" />
     <Resource Include="Resources\Images\AddImageBackGround.jpg" />
+    <Resource Include="Resources\Images\MemberBackGround.png" />
+    <Resource Include="Resources\Images\map.jpg" />
+    <Resource Include="Resources\Images\LocationBackGround.png" />
     <Content Include="WESPLITAPP_DB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>WESPLITAPP_DB.edmx</DependentUpon>

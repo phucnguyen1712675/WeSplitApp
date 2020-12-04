@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,14 +12,11 @@ namespace WeSplitApp.ViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ViewModel() { }
+       /* public ViewModel() { }*/
 
-        protected void OnPropertyChanged(string propertyName)
+        protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
-            if (PropertyChanged != null && !string.IsNullOrWhiteSpace(propertyName))
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
 }

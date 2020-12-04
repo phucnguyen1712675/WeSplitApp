@@ -10,5 +10,7 @@ namespace WeSplitApp.ViewModel
     public class AboutUsViewModel : ViewModel
     {
 
+        public AboutUsViewModel() { }
+
     }
 }

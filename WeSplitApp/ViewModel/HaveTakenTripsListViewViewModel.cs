@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WeSplitApp.Model;
+using WeSplitApp.View;
 
 namespace WeSplitApp.ViewModel
 {
@@ -15,7 +16,6 @@ namespace WeSplitApp.ViewModel
 
         public HaveTakenTripsListViewViewModel()
         {
-
         }
     }
 }

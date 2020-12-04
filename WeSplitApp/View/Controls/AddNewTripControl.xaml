@@ -11,11 +11,14 @@
     xmlns:viewModel="clr-namespace:WeSplitApp.ViewModel"
     xmlns:controls="clr-namespace:WeSplitApp.View.Controls"
     xmlns:stepControls="clr-namespace:WeSplitApp.View.Controls.AddTripSteps"
-    d:DesignHeight="450"
-    d:DesignWidth="700"
+    xmlns:converters="clr-namespace:WeSplitApp.Converters"
+    Width="{Binding Source={x:Static SystemParameters.PrimaryScreenWidth}, Converter={converters:RatioConverter}, ConverterParameter='1'}"
+    VerticalAlignment="Stretch"
     Background="{DynamicResource MaterialDesignBackground}"
     mc:Ignorable="d">
-
+    
+    <!--d:DesignHeight="450"
+    d:DesignWidth="700"-->
     <UserControl.Resources>
         <!--  define the data templates  -->
         <DataTemplate DataType="{x:Type viewModel:StepOneViewModel}">
@@ -25,21 +28,17 @@
             <stepControls:StepTwoControl/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:StepThreeViewModel}">
-           
+            <stepControls:StepThreeControl/>
         </DataTemplate>
     </UserControl.Resources>
 
     <Grid>
-        <ScrollViewer
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            HorizontalScrollBarVisibility="Disabled"
-            VerticalScrollBarVisibility="Auto">
-            <mde:Stepper
+        <Image Source="/Resources/Images/AddTripBackGround.jpg"  VerticalAlignment="Stretch" Margin="482,39,-42,-55"/>
+
+        <mde:Stepper
                 BlockNavigationOnValidationErrors="True"
                 IsLinear="False"
                 Layout="Horizontal"
                 Steps="{Binding Path=Steps, Mode=OneTime}" />
-        </ScrollViewer>
     </Grid>
 </UserControl>
