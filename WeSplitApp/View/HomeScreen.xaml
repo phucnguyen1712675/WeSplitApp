@@ -11,8 +11,10 @@
     xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:system="clr-namespace:System;assembly=mscorlib"
     xmlns:viewModel="clr-namespace:WeSplitApp.ViewModel"
+    xmlns:converters="clr-namespace:WeSplitApp.Converters"
     Closing="MaterialWindow_Closing"
     Title="WE SPLIT APP"
+    WindowState="Maximized"
     AutomationProperties.Name="{Binding Title, RelativeSource={RelativeSource Self}}"
     Background="{DynamicResource MaterialDesignPaper}"
     BorderThickness="1"
@@ -22,28 +24,38 @@
     TextElement.FontWeight="Medium"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     WindowStartupLocation="CenterScreen"
-    WindowState="Maximized"
-    mc:Ignorable="d">
-
+    mc:Ignorable="d"
+    >
     <mde:MaterialWindow.Resources>
-        <DataTemplate DataType="{x:Type viewModel:HaveTakenTripsListViewViewModel}">
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/AppResource.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <DataTemplate DataType="{x:Type viewModel:HaveTakenTripsListViewViewModel}">
             <controls:TripsListControl />
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:BeingTakenTripsListViewViewModel}">
-            <controls:TripsListControl />
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:AddNewTripViewModel}">
-            <controls:AddNewTripControl />
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:SettingsViewModel}">
-            <controls:SettingsControl />
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:AboutUsViewModel}">
-            <controls:AboutUsControl />
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:TripDetailsViewModel}">
-            <controls:TripDetailsControl />
-        </DataTemplate>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:BeingTakenTripsListViewViewModel}">
+                <controls:TripsListControl />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:MemberListViewModel}">
+                <controls:MemberListControl/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:LocationListViewModel}">
+                <controls:LocationListControl/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:AddNewTripViewModel}">
+                <controls:AddNewTripControl />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:SettingsViewModel}">
+                <controls:SettingsControl />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:AboutUsViewModel}">
+                <controls:AboutUsControl />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:TripDetailsViewModel}">
+                <controls:TripDetailsControl />
+            </DataTemplate>
+        </ResourceDictionary>
     </mde:MaterialWindow.Resources>
 
     <mde:MaterialWindow.TitleTemplate>
@@ -149,7 +161,7 @@
                                                         MinWidth="200"
                                                         Margin="8,0,0,0"
                                                         VerticalAlignment="Center"
-                                                        md:HintAssist.Hint="Tìm theo tên chuyến đi - thành viên"
+                                                        md:HintAssist.Hint="Tìm kiếm"
                                                         md:TextFieldAssist.DecorationVisibility="Hidden"
                                                         BorderThickness="0" />
                                             <Button Grid.Column="2" Style="{DynamicResource MaterialDesignToolButton}">
@@ -162,65 +174,68 @@
                                     </md:ColorZone>
                                 </Grid>
 
-                                <Menu Grid.Column="1" VerticalAlignment="Center" Height="38" Margin="10,0,0,0">
-                                    <MenuItem Header="Tiêu chí">
-                                        <CheckBox Content="Tên chuyến đi"/>
-                                        <CheckBox Content="Tên điểm dừng"/>
-                                        <CheckBox Content="Tên thành viên"/>
-                                    </MenuItem>
-                                </Menu>
+                                <Border CornerRadius="10" Grid.Column="1" >
+                                    <Menu VerticalAlignment="Center" Height="38" Margin="10,0,0,0" >
+                                        <MenuItem Header="Tiêu chí" VerticalAlignment="Center">
+                                            <CheckBox Content="Tên chuyến đi"/>
+                                            <CheckBox Content="Tên điểm dừng"/>
+                                            <CheckBox Content="Tên thành viên"/>
+                                        </MenuItem>
+                                    </Menu>
+                                </Border>
                             </Grid>
                         </DockPanel>
                     </mde:AppBar>
+
                     <Grid Grid.Row="1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
+                        </Grid.RowDefinitions>-->
 
                         <mde:TransitionContentControl
+                            Grid.Row="1"
                             x:Name="contentControl"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch" />
-
-                        <md:PopupBox
-                            Grid.Row="1"
-                            Margin="32"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Bottom"
-                            Panel.ZIndex="1000"
-                            Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}">
-                            <StackPanel>
-                                <Button x:Name="AddMemberButton"
-                                Background="{DynamicResource PrimaryHueMidBrush}"
-                                Content="{md:PackIcon Kind=AccountMultiplePlus, Size=20}"
-                                Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
-                                ToolTip="Thêm Thành viên"
-                                        Click="AddMemberButton_Click"
-                                    />
-
-                                <Button Name="AddLocationButton"
-                                Background="#304ffe"
-                                Content="{md:PackIcon Kind=MapMarkerPlus, Size=20}"
-                                Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
-                                ToolTip="Thêm Địa danh" 
-                                        Click="AddLocationButton_Click"/>
-
-                                <Button x:Name="AddTripButton"
-                                Background="#8e0000"
-                                Content="{md:PackIcon Kind=Car, Size=20}"
-                                Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
-                                ToolTip="Thêm chuyến đi" 
-                                        Click="AddTripButton_Click"/>
-                            </StackPanel>
-                        </md:PopupBox>
                         <md:Snackbar
                             x:Name="MainSnackbar"
                             Grid.Row="1"
                             MessageQueue="{md:MessageQueue}" />
                     </Grid>
-                </Grid>
             </md:DrawerHost>
         </md:DialogHost>
+          
+        <md:PopupBox Name="AddButton"
+             Panel.ZIndex="1000"
+             Margin="0,0,32,32"
+             HorizontalAlignment="Right"
+             VerticalAlignment="Bottom"
+             Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}">
+            <StackPanel>
+
+                <Button x:Name="AddMemberButton"
+                      Background="{DynamicResource PrimaryHueMidBrush}"
+                      Content="{md:PackIcon Kind=AccountMultiplePlus, Size=20}"
+                      Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
+                      ToolTip="Thêm Thành viên"
+                      Click="AddMemberButton_Click"
+                                        />
+
+                <Button Name="AddLocationButton"
+                        Background="#304ffe"
+                        Content="{md:PackIcon Kind=MapMarkerPlus, Size=20}"
+                        Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
+                        ToolTip="Thêm Địa danh" 
+                        Click="AddLocationButton_Click"/>
+
+                <Button x:Name="AddTripButton"
+                        Background="#8e0000"
+                        Content="{md:PackIcon Kind=Car, Size=20}"
+                        Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
+                        ToolTip="Thêm chuyến đi" 
+                        Click="AddTripButton_Click"/>
+            </StackPanel>
+        </md:PopupBox>
     </Grid>
 </mde:MaterialWindow>

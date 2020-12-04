@@ -22,7 +22,7 @@ namespace WeSplitApp
     
         public int MEMBER_ID { get; set; }
         public string NAME { get; set; }
-        public decimal PHONENUMBER { get; set; }
+        public string PHONENUMBER { get; set; }
         public Nullable<bool> GENDER { get; set; }
         public string AVATAR { get; set; }
     

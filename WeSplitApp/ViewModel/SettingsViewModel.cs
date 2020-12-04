@@ -9,6 +9,6 @@ namespace WeSplitApp.ViewModel
 {
     public class SettingsViewModel : ViewModel
     {
-
+        public SettingsViewModel() {  }
     }
 }

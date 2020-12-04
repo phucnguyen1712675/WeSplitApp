@@ -71,7 +71,7 @@ namespace WeSplitApp.ViewModel
         }
 
         public StepperBaseViewModel()
-            : base()
+            /*: base()*/
         {
             m_layout = StepperLayout.Vertical;
             m_isLinear = true;

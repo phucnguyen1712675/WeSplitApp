@@ -27,7 +27,7 @@ namespace WeSplitApp
         public string TITTLE { get; set; }
         public string DESCRIPTION { get; set; }
         public string THUMNAILIMAGE { get; set; }
-        public double CURRENTPROCEEDS { get; set;}
+        public double CURRENTPROCEEDS { get; set; }
         public double TOTALCOSTS { get; set; }
         public Nullable<System.DateTime> TOGODATE { get; set; }
         public Nullable<System.DateTime> RETURNDATE { get; set; }

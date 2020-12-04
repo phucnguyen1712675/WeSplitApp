@@ -27,29 +27,7 @@ namespace WeSplitApp.ViewModel
         private ICommand _testCommand { get; set; }
         public ICommand test => this._testCommand ?? (this._testCommand = new CommandHandler(() => MyTestAction(), () => CanExecute));
 
-        public AboutUsViewModel()
-        {
-            this.Text = "a";
-        }
+        public AboutUsViewModel() { }
 
-        public bool CanExecute
-        {
-            get
-            {
-                // check if executing is allowed, i.e., validate, check if a process is running, etc. 
-                return true;
-            }
-        }
-
-        //public event PropertyChangedEventHandler PropertyChanged;
-        //protected void OnPropertyChanged([CallerMemberName] string name = null)
-        //{
-        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        //}
-
-        private void MyTestAction()
-        {
-            this.Text = "b";
-        }
     }
 }
