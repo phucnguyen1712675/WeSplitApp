@@ -41,29 +41,20 @@ namespace WeSplitApp.View
             }
             else
             {
-                //var a = (from p in db.Products
-                // select p).ToList();
-                var requestText = convertToUnSign(searchBox.Text.Trim().ToLower());
-                a = a.Where(p => p.TITTLE.ToLower().Contains(requestText)).ToList();
-                //var query = db.TRIPs.Where(each_row => each_row.TITTLE.Contains(requestText) || each_row.NameUnsigned.Contains(requestText));
-
-
-                var query2 = db.TRIPs.Where( delegate (TRIP c)
-                {
-                    if (ConvertToUnSign(c.TITTLE).IndexOf(requestText, StringComparison.CurrentCultureIgnoreCase) >= 0)
-                        return true;
-                    else
-                        return false;
-                }).AsQueryable();
-
-                foreach (var index in a)
+                var requestText = convertToUnSign2(searchBox.Text.Trim().ToLower());
+                var requestText2 = convertToUnSign2(DecriptBox.Text.Trim().ToLower());
+                //search by TITLE
+                //var b = (db.TRIPs.AsEnumerable().Where(t => convertToUnSign2(t.TITTLE).Contains(requestText))).ToList();
+                //SEARCH BY DECRIPTION
+                var c = (db.TRIPs.AsEnumerable().Where(t => convertToUnSign2(t.DESCRIPTION).Contains(requestText2))).ToList();
+                foreach (var index in c)
                 {
                     MessageBox.Show(index.TITTLE);
                 }
             }
 
         }
-        public string convertToUnSign(string s)
+        public string convertToUnSign2(string s)
         {
             string stFormD = s.Normalize(NormalizationForm.FormD);
             StringBuilder sb = new StringBuilder();

@@ -8,6 +8,8 @@
         Title="Search_Temp" Height="450" Width="800">
     <Grid>
         <TextBox Name="searchBox"  HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="601" Margin="79,76,0,0"/>
+        <TextBox Name="DecriptBox"  HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="601" Margin="79,129,0,0"/>
+
         <Button Name="searchButton" Background="Violet" Click="SearchLocation" Content="search"/>
     </Grid>
 </Window>
