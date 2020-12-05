@@ -204,11 +204,15 @@ namespace WeSplitApp.View
 
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void showSearchTestScreen(object sender, RoutedEventArgs e)
         {
             Search_Temp abc = new Search_Temp();
             this.Close();
             abc.Show();
+        }
+        private void SearchEvent(object sender, TextChangedEventArgs e)
+        {
+            TripsListViewModel.instanse.search_byTripName();
         }
     }
 }

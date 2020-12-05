@@ -86,6 +86,7 @@ namespace WeSplitApp.ViewModel
             this._itemHandler = GetData();
             
             CalculatePagingInfo();
+            instanse = this;
         }
         public List<TRIP> Items => _itemHandler.Items;
 
@@ -125,5 +126,40 @@ namespace WeSplitApp.ViewModel
                                                                         .Take(take)
                                                                         .ToList());
         }
+        public static TripsListViewModel instanse { get; set; }
+        public void search_byTripName()
+        {
+            string request = HomeScreen.GetHomeScreenInstance().SearchTextBox.Text;
+            if (request.Length <= 0)
+            {
+
+            }
+            else
+            {
+                //search by TITLE
+                var requestText = convertToUnSign(request.Trim().ToLower());
+                var b = (HomeScreen.GetDatabaseEntities().TRIPS.AsEnumerable().Where(t => convertToUnSign(t.TITTLE.Trim().ToLower()).Contains(requestText))).ToList();
+                
+                
+                this.ToShowItems = new ObservableCollection<TRIP>(b);
+            }
+        }
+        public string convertToUnSign(string s)
+        {
+            string stFormD = s.Normalize(NormalizationForm.FormD);
+            StringBuilder sb = new StringBuilder();
+            for (int ich = 0; ich < stFormD.Length; ich++)
+            {
+                System.Globalization.UnicodeCategory uc = System.Globalization.CharUnicodeInfo.GetUnicodeCategory(stFormD[ich]);
+                if (uc != System.Globalization.UnicodeCategory.NonSpacingMark)
+                {
+                    sb.Append(stFormD[ich]);
+                }
+            }
+            sb = sb.Replace('Đ', 'D');
+            sb = sb.Replace('đ', 'd');
+            return (sb.ToString().Normalize(NormalizationForm.FormD));
+        }
+
     }
 }
