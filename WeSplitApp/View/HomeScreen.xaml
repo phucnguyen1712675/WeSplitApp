@@ -30,31 +30,32 @@
     </mde:MaterialWindow.DataContext>
 
     <mde:MaterialWindow.Resources>
-        <!--<Style x:Key="MyGridStyle" TargetType="{x:Type Grid}">
-            <Style.Resources>
-                <Style TargetType="{x:Type TextBlock}">
-                    <Setter Property="Foreground" Value="#0a0521" />
-                </Style>
-                <Style TargetType="{x:Type TextBox}">
-                    <Setter Property="Foreground" Value="#0a0521" />
-                </Style>
-            </Style.Resources>
-        </Style>-->
-        <DataTemplate DataType="{x:Type viewModel:TripsCollectionViewModel}">
-            <controls:TripsCollectionControl />
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:AddNewTripViewModel}">
-            <controls:AddNewTripControl />
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:SettingsViewModel}">
-            <controls:SettingsControl />
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:AboutUsViewModel}">
-            <controls:AboutUsControl />
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:TripDetailsViewModel}">
-            <controls:TripDetailsControl />
-        </DataTemplate>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/AppResource.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <DataTemplate DataType="{x:Type viewModel:TripsCollectionViewModel}">
+                <controls:TripsCollectionControl />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:MemberListViewModel}">
+                <controls:MemberListControl />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:LocationListViewModel}">
+                <controls:LocationListControl />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:AddNewTripViewModel}">
+                <controls:AddNewTripControl />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:SettingsViewModel}">
+                <controls:SettingsControl />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:AboutUsViewModel}">
+                <controls:AboutUsControl />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:TripDetailsViewModel}">
+                <controls:TripDetailsControl />
+            </DataTemplate>
+        </ResourceDictionary>
     </mde:MaterialWindow.Resources>
 
     <mde:MaterialWindow.TitleTemplate>
@@ -158,13 +159,15 @@
                                                 <md:PackIcon Kind="Search" Opacity=".56" />
                                             </Button>
                                             <TextBox
+                                                x:Name="SearchTextBox"
                                                 Grid.Column="1"
                                                 MinWidth="200"
                                                 Margin="8,0,0,0"
                                                 VerticalAlignment="Center"
                                                 md:HintAssist.Hint="Search"
                                                 md:TextFieldAssist.DecorationVisibility="Hidden"
-                                                BorderThickness="0" />
+                                                BorderThickness="0"
+                                                TextChanged="SearchEvent" />
                                             <Button Grid.Column="2" Style="{DynamicResource MaterialDesignToolButton}">
                                                 <md:PackIcon
                                                     Margin="8,0,0,0"
@@ -208,5 +211,46 @@
                 </Grid>
             </md:DrawerHost>
         </md:DialogHost>
+        <!--<Button
+            Margin="0,462,613,10"
+            Click="showSearchTestScreen"
+            Content="test searchSreen" />-->
+        <md:PopupBox
+            Name="AddButton"
+            Margin="0,0,10,10"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Panel.ZIndex="1000"
+            Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}">
+            <StackPanel>
+
+                <Button
+                    x:Name="AddMemberButton"
+                    Background="{DynamicResource PrimaryHueMidBrush}"
+                    Click="AddMemberButton_Click"
+                    Content="{md:PackIcon Kind=AccountMultiplePlus,
+                                          Size=20}"
+                    Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
+                    ToolTip="Thêm Thành viên" />
+
+                <Button
+                    Name="AddLocationButton"
+                    Background="#304ffe"
+                    Click="AddLocationButton_Click"
+                    Content="{md:PackIcon Kind=MapMarkerPlus,
+                                          Size=20}"
+                    Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
+                    ToolTip="Thêm Địa danh" />
+
+                <Button
+                    x:Name="AddTripButton"
+                    Background="#8e0000"
+                    Click="AddTripButton_Click"
+                    Content="{md:PackIcon Kind=Car,
+                                          Size=20}"
+                    Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
+                    ToolTip="Thêm chuyến đi" />
+            </StackPanel>
+        </md:PopupBox>
     </Grid>
 </mde:MaterialWindow>
