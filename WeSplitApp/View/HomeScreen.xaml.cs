@@ -43,17 +43,16 @@ namespace WeSplitApp.View
         {
             homeScreen = this;
 
-            m_navigationItems = new List<INavigationItem>()
+            InitializeComponent();
+
+            this.m_navigationItems = new List<INavigationItem>()
             {
-                new FirstLevelNavigationItem() { Label = "Đã kết thúc", Icon = PackIconKind.Passport, NavigationItemSelectedCallback = item => new HaveTakenTripsListViewViewModel()},
-                new FirstLevelNavigationItem() { Label = "Đang đi/Sắp tới", Icon = PackIconKind.Plane, NavigationItemSelectedCallback = item => new BeingTakenTripsListViewViewModel()},
-                new FirstLevelNavigationItem() { Label = "Danh sách thành viên", Icon = PackIconKind.AccountMultipleOutline, NavigationItemSelectedCallback = item => new HaveTakenTripsListViewViewModel()},
-                new FirstLevelNavigationItem() { Label = "Danh sách điểm dừng", Icon = PackIconKind.MapMarkerStar, NavigationItemSelectedCallback = item => new HaveTakenTripsListViewViewModel()},
+                new FirstLevelNavigationItem() { Label = "Các chuyến đi", Icon = PackIconKind.MapMarker, NavigationItemSelectedCallback = item => new TripsCollectionViewModel()},
+                new FirstLevelNavigationItem() { Label = "Danh sách thành viên", Icon = PackIconKind.AccountMultipleOutline, NavigationItemSelectedCallback = item => new HaveTakenTripsListViewModel()},
+                new FirstLevelNavigationItem() { Label = "Danh sách điểm dừng", Icon = PackIconKind.MapMarkerStar, NavigationItemSelectedCallback = item => new HaveTakenTripsListViewModel()},
                 new FirstLevelNavigationItem() { Label = "Cài đặt", Icon = PackIconKind.Settings, NavigationItemSelectedCallback = item => new SettingsViewModel()},
                 new FirstLevelNavigationItem() { Label = "Về chúng tôi", Icon = PackIconKind.About, NavigationItemSelectedCallback = item => new AboutUsViewModel()},
             };
-
-            InitializeComponent();
 
             Task.Factory.StartNew(() => Thread.Sleep(2500)).ContinueWith(t =>
             {
@@ -124,18 +123,5 @@ namespace WeSplitApp.View
             //TODO add Trip
             contentControl.Content = new AddNewTripViewModel();
         }
-
-
-        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            // TODO closing handle if choose goodbye
-
-        }
-
-        private void MaterialWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-
-        }
-
     }
 }

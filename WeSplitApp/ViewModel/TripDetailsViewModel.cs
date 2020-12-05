@@ -16,29 +16,7 @@ namespace WeSplitApp.ViewModel
     {
         public double MISSINGAMOUNT { get; set; }
         public static TRIP SelectedTrip { get; set; }
-        private ICommand _backCommand { get; set; }
-        public ICommand BackCommand => this._backCommand ?? (this._backCommand = new CommandHandler(() => MyBackAction(), () => CanExecute));
-        public bool CanExecute
-        {
-            get
-            {
-                // check if executing is allowed, i.e., validate, check if a process is running, etc. 
-                return true;
-            }
-        }
-
-        public void MyBackAction()
-        {
-            var isDone = bool.Parse(SelectedTrip.ISDONE.ToString());
-            if (isDone)
-            {
-                HomeScreen.GetHomeScreenInstance().SetContentControl(new HaveTakenTripsListViewViewModel());
-            }
-            else
-            {
-                HomeScreen.GetHomeScreenInstance().SetContentControl(new BeingTakenTripsListViewViewModel());
-            }
-        }
+       
 
         public TripDetailsViewModel(TRIP trip)
         {
