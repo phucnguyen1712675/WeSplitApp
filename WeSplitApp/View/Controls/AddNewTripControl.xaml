@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:WeSplitApp.View.Controls"
+    xmlns:converters="clr-namespace:WeSplitApp.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:WeSplitApp.View.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -10,35 +11,39 @@
     xmlns:mde="clr-namespace:MaterialDesignExtensions.Controls;assembly=MaterialDesignExtensions"
     xmlns:model="clr-namespace:MaterialDesignExtensions.Model;assembly=MaterialDesignExtensions"
     xmlns:stepControls="clr-namespace:WeSplitApp.View.Controls.AddTripSteps"
-    xmlns:converters="clr-namespace:WeSplitApp.Converters"
+    xmlns:viewModel="clr-namespace:WeSplitApp.ViewModel"
     Width="{Binding Source={x:Static SystemParameters.PrimaryScreenWidth}, Converter={converters:RatioConverter}, ConverterParameter='1'}"
     VerticalAlignment="Stretch"
     Background="{DynamicResource MaterialDesignBackground}"
     mc:Ignorable="d">
-    
-    <!--d:DesignHeight="450"
-    d:DesignWidth="700"-->
+    <!--  Width="{Binding Source={x:Static SystemParameters.PrimaryScreenWidth}, Converter={converters:RatioConverter}, ConverterParameter='1'}"  -->
+    <!--
+        d:DesignHeight="450"
+        d:DesignWidth="700"
+    -->
     <UserControl.Resources>
-        <!--  define the data templates  -->
         <DataTemplate DataType="{x:Type viewModel:StepOneViewModel}">
             <stepControls:StepOneControl />
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:StepTwoViewModel}">
-            <stepControls:StepTwoControl/>
+            <stepControls:StepTwoControl />
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:StepThreeViewModel}">
-            <stepControls:StepThreeControl/>
+            <stepControls:StepThreeControl />
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:StepThreeViewModel}" />
     </UserControl.Resources>
 
     <Grid>
-        <Image Source="/Resources/Images/AddTripBackGround.jpg"  VerticalAlignment="Stretch" Margin="482,39,-42,-55"/>
+        <Image
+            Margin="482,39,-42,-55"
+            VerticalAlignment="Stretch"
+            Source="/Resources/Images/AddTripBackGround.jpg" />
 
         <mde:Stepper
-                BlockNavigationOnValidationErrors="True"
-                IsLinear="False"
-                Layout="Horizontal"
-                Steps="{Binding Path=Steps, Mode=OneTime}" />
+            BlockNavigationOnValidationErrors="True"
+            IsLinear="False"
+            Layout="Horizontal"
+            Steps="{Binding Path=Steps, Mode=OneTime}" />
     </Grid>
 </UserControl>

@@ -57,7 +57,7 @@ namespace WeSplitApp.View.Controls.AddTripSteps
             bool AddOk = StepThreeViewModel.isAddOk();
             if (AddOk)
             {
-                HomeScreen.GetHomeScreenInstance().SetContentControl(new HaveTakenTripsListViewViewModel());
+                HomeScreen.GetHomeScreenInstance().SetContentControl(new TripsCollectionViewModel());
                 HomeScreen.GetHomeScreenInstance().setVisibilityAddButton(Visibility.Visible);
             }
         }
