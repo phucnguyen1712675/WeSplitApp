@@ -11,11 +11,10 @@
              TextElement.FontFamily="Segeo ui light"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
              Width="{Binding Source={x:Static SystemParameters.PrimaryScreenWidth}, Converter={converters:RatioConverter}, ConverterParameter='1'}"
-             VerticalAlignment="Stretch"
-             >
+             VerticalAlignment="Stretch">
 
     <UserControl.Resources>
-        <ResourceDictionary Source="/Resources/AppResource.xaml"/>
+        <ResourceDictionary Source="/Resources/AppResource.xaml" />
     </UserControl.Resources>
     <Grid>
             <Grid.ColumnDefinitions>
@@ -88,7 +87,6 @@
                             md:HintAssist.Hint="Mô tả về chuyến đi"/>
                 </Border>
             </StackPanel>
-
 
             <StackPanel Grid.Column="1">
                 <!-- Trip Images List-->
@@ -169,8 +167,6 @@
                               Style="{StaticResource MaterialDesignOutlinedDatePicker}" />
                     </Grid>
                 </Border>
-
-
             </StackPanel>
         </Grid>
 </UserControl>

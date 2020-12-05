@@ -77,14 +77,11 @@ namespace WeSplitApp.ViewModel
         private void ShowSelectedTrip(TRIP item) => HomeScreen.GetHomeScreenInstance().SetContentControl((new TripDetailsViewModel(item)));
 
         public TripItemHandler GetData() => new TripItemHandler(HomeScreen.GetDatabaseEntities().TRIPS.Where(t => t.ISDONE == this.IsDone)
-                                                                                          .Select(t => t)
-                                                                                          .ToList());
-        // observable collection <trip> TRIPS{get; set;}
-        public TripsListViewModel() //a có truyền dô cái bool is done r ... (bool isDone) -> dùng nó để lấy những thành done bỏ dô observablecollection
+                                                                                                      .Select(t => t)
+                                                                                                      .ToList());
+        public TripsListViewModel()
         {
-
             this._itemHandler = GetData();
-            
             CalculatePagingInfo();
         }
         public List<TRIP> Items => _itemHandler.Items;

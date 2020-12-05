@@ -93,17 +93,15 @@ namespace WeSplitApp.View
         public HomeScreen()
         {
             homeScreen = this;
-            m_navigationItems = new List<INavigationItem>()
+            InitializeComponent();
+            this.m_navigationItems = new List<INavigationItem>()
             {
-                new FirstLevelNavigationItem() { Label = "Đã kết thúc", Icon = PackIconKind.Passport, NavigationItemSelectedCallback = item => new HaveTakenTripsListViewViewModel()},
-                new FirstLevelNavigationItem() { Label = "Đang đi/Sắp tới", Icon = PackIconKind.Plane, NavigationItemSelectedCallback = item => new BeingTakenTripsListViewViewModel()},
+                new FirstLevelNavigationItem() { Label = "Các chuyến đi", Icon = PackIconKind.MapMarker, NavigationItemSelectedCallback = item => new TripsCollectionViewModel()},
                 new FirstLevelNavigationItem() { Label = "Danh sách thành viên", Icon = PackIconKind.AccountMultipleOutline, NavigationItemSelectedCallback = item => new MemberListViewModel(new ObservableCollection<MEMBER>(homeScreen.database.MEMBERS.ToList()))},
                 new FirstLevelNavigationItem() { Label = "Danh sách điểm dừng", Icon = PackIconKind.MapMarkerStar, NavigationItemSelectedCallback = item => new LocationListViewModel(new ObservableCollection<LOCATION>(homeScreen.database.LOCATIONS.ToList()))},
                 new FirstLevelNavigationItem() { Label = "Cài đặt", Icon = PackIconKind.Settings, NavigationItemSelectedCallback = item => new SettingsViewModel()},
                 new FirstLevelNavigationItem() { Label = "Về chúng tôi", Icon = PackIconKind.About, NavigationItemSelectedCallback = item => new AboutUsViewModel()},
             };
-
-            InitializeComponent();
 
             Task.Factory.StartNew(() => Thread.Sleep(2500)).ContinueWith(t =>
             {
@@ -190,18 +188,6 @@ namespace WeSplitApp.View
             //TODO add Trip
             AddButton.Visibility = Visibility.Collapsed;
             contentControl.Content = new AddNewTripViewModel();
-        }
-
-
-        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            // TODO closing handle if choose goodbye
-            AddButton.Visibility = Visibility.Collapsed;
-        }
-
-        private void MaterialWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

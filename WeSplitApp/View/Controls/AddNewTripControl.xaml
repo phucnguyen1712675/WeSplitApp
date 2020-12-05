@@ -2,14 +2,13 @@
     x:Class="WeSplitApp.View.Controls.AddNewTripControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:WeSplitApp.View.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:WeSplitApp.View.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mde="clr-namespace:MaterialDesignExtensions.Controls;assembly=MaterialDesignExtensions"
     xmlns:model="clr-namespace:MaterialDesignExtensions.Model;assembly=MaterialDesignExtensions"
-    xmlns:viewModel="clr-namespace:WeSplitApp.ViewModel"
-    xmlns:controls="clr-namespace:WeSplitApp.View.Controls"
     xmlns:stepControls="clr-namespace:WeSplitApp.View.Controls.AddTripSteps"
     xmlns:converters="clr-namespace:WeSplitApp.Converters"
     Width="{Binding Source={x:Static SystemParameters.PrimaryScreenWidth}, Converter={converters:RatioConverter}, ConverterParameter='1'}"
@@ -22,7 +21,7 @@
     <UserControl.Resources>
         <!--  define the data templates  -->
         <DataTemplate DataType="{x:Type viewModel:StepOneViewModel}">
-            <stepControls:StepOneControl/>
+            <stepControls:StepOneControl />
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:StepTwoViewModel}">
             <stepControls:StepTwoControl/>
@@ -30,6 +29,7 @@
         <DataTemplate DataType="{x:Type viewModel:StepThreeViewModel}">
             <stepControls:StepThreeControl/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:StepThreeViewModel}" />
     </UserControl.Resources>
 
     <Grid>

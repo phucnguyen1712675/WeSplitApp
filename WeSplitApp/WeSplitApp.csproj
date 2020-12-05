@@ -213,6 +213,7 @@
     <Compile Include="Converters\RatioConverter.cs" />
     <Compile Include="Converters\DoubleToVNDConverter.cs" />
     <Compile Include="Converters\StatusColorConverter.cs" />
+    <Compile Include="Converters\StatusToDetailTitleConverter.cs" />
     <Compile Include="Converters\StatusToStringConverter.cs" />
     <Compile Include="COSTINCURRED.cs">
       <DependentUpon>WESPLITAPP_DB.tt</DependentUpon>
@@ -250,13 +251,14 @@
     <Compile Include="Utils\TripItemHandler.cs" />
     <Compile Include="ViewModel\AboutUsViewModel.cs" />
     <Compile Include="ViewModel\AddNewTripViewModel.cs" />
-    <Compile Include="ViewModel\BeingTakenTripsListViewViewModel.cs" />
     <Compile Include="ViewModel\DialogHelperClass\AddDialogBaseViewModel.cs" />
     <Compile Include="ViewModel\DialogHelperClass\LocationAddDialogViewModel.cs" />
     <Compile Include="ViewModel\DialogHelperClass\MemberAddDialogViewModel.cs" />
     <Compile Include="ViewModel\LocationListViewModel.cs" />
     <Compile Include="ViewModel\MemberListViewModel.cs" />
+    <Compile Include="ViewModel\BeingTakenTripsListViewModel.cs" />
     <Compile Include="ViewModel\CurrentProceedsPieChartViewModel.cs" />
+    <Compile Include="ViewModel\HomeScreenViewModel.cs" />
     <Compile Include="ViewModel\ImagePresenterViewModel.cs" />
     <Compile Include="ViewModel\SelectableViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
@@ -266,9 +268,13 @@
     <Compile Include="ViewModel\StepThreeViewModel.cs" />
     <Compile Include="ViewModel\StepTwoViewModel.cs" />
     <Compile Include="ViewModel\TotalCostsPieChartViewModel.cs" />
+    <Compile Include="ViewModel\TripDetailSlideVM\Slide1_IntroViewModel.cs" />
+    <Compile Include="ViewModel\TripDetailSlideVM\Slide2_ProceedsViewModel.cs" />
+    <Compile Include="ViewModel\TripDetailSlideVM\Slide3_TotalCostsViewModel.cs" />
     <Compile Include="ViewModel\TripDetailsViewModel.cs" />
-    <Compile Include="ViewModel\HaveTakenTripsListViewViewModel.cs" />
+    <Compile Include="ViewModel\HaveTakenTripsListViewModel.cs" />
     <Compile Include="ViewModel\TripMemberPaidAmountDataGridViewModel.cs" />
+    <Compile Include="ViewModel\TripsCollectionViewModel.cs" />
     <Compile Include="ViewModel\TripsListViewModel.cs" />
     <Compile Include="ViewModel\ViewModel.cs" />
     <Compile Include="View\Controls\AboutUsControl.xaml.cs">
@@ -295,6 +301,9 @@
     <Compile Include="View\Controls\CurrentProceedsPieChartControl.xaml.cs">
       <DependentUpon>CurrentProceedsPieChartControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Controls\HaveTakenTripsListControl.xaml.cs">
+      <DependentUpon>HaveTakenTripsListControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Controls\ImagePresenterControl.xaml.cs">
       <DependentUpon>ImagePresenterControl.xaml</DependentUpon>
     </Compile>
@@ -307,8 +316,14 @@
     <Compile Include="View\Controls\TripDetailsControl.xaml.cs">
       <DependentUpon>TripDetailsControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Controls\HaveTakenTripsListViewControl.xaml.cs">
-      <DependentUpon>HaveTakenTripsListViewControl.xaml</DependentUpon>
+    <Compile Include="View\Controls\TripDetailSlide\Slide1_IntroControl.xaml.cs">
+      <DependentUpon>Slide1_IntroControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\TripDetailSlide\Slide2_ProceedsControl.xaml.cs">
+      <DependentUpon>Slide2_ProceedsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\TripDetailSlide\Slide3_TotalCostsControl.xaml.cs">
+      <DependentUpon>Slide3_TotalCostsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DialogHelper\AddLocationDialog.xaml.cs">
       <DependentUpon>AddLocationDialog.xaml</DependentUpon>
@@ -321,6 +336,9 @@
     </Compile>
     <Compile Include="View\Controls\TripMembersContactControl.xaml.cs">
       <DependentUpon>TripMembersContactControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\TripsCollectionControl.xaml.cs">
+      <DependentUpon>TripsCollectionControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Controls\TripsListControl.xaml.cs">
       <DependentUpon>TripsListControl.xaml</DependentUpon>
@@ -444,6 +462,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Controls\HaveTakenTripsListControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Controls\ImagePresenterControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -460,7 +482,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Controls\HaveTakenTripsListViewControl.xaml">
+    <Page Include="View\Controls\TripDetailSlide\Slide1_IntroControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\TripDetailSlide\Slide2_ProceedsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\TripDetailSlide\Slide3_TotalCostsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -477,6 +507,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Controls\TripMembersContactControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\TripsCollectionControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -516,6 +550,7 @@
     <Resource Include="Resources\Images\MemberBackGround.png" />
     <Resource Include="Resources\Images\map.jpg" />
     <Resource Include="Resources\Images\LocationBackGround.png" />
+    <Resource Include="Resources\Images\4012176.jpg" />
     <Content Include="WESPLITAPP_DB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>WESPLITAPP_DB.edmx</DependentUpon>
