@@ -36,8 +36,7 @@
                 x:Name="progressBar"
                 Height="10"
                 md:TransitionAssist.DisableTransitions="True"
-                DockPanel.Dock="Bottom"
-                />
+                DockPanel.Dock="Bottom" />
 
             <Grid>
                 <Grid.ColumnDefinitions>
