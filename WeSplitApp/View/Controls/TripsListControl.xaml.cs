@@ -24,5 +24,6 @@ namespace WeSplitApp.View.Controls
         {
             InitializeComponent();
         }
+
     }
 }

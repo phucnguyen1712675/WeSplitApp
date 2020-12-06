@@ -242,6 +242,7 @@
       <DependentUpon>WESPLITAPP_DB.tt</DependentUpon>
     </Compile>
     <Compile Include="Utils\CommandHandler.cs" />
+    <Compile Include="Utils\convertUnicode.cs" />
     <Compile Include="Utils\EventArgs.cs" />
     <Compile Include="Utils\EventRaiser.cs" />
     <Compile Include="Utils\MyRandom.cs" />
@@ -255,6 +256,7 @@
     <Compile Include="ViewModel\DialogHelperClass\AddDialogBaseViewModel.cs" />
     <Compile Include="ViewModel\DialogHelperClass\LocationAddDialogViewModel.cs" />
     <Compile Include="ViewModel\DialogHelperClass\MemberAddDialogViewModel.cs" />
+    <Compile Include="ViewModel\ExpectedTripListViewModel.cs" />
     <Compile Include="ViewModel\LocationListViewModel.cs" />
     <Compile Include="ViewModel\MemberListViewModel.cs" />
     <Compile Include="ViewModel\BeingTakenTripsListViewModel.cs" />
@@ -295,6 +297,9 @@
     </Compile>
     <Compile Include="View\Controls\BeingTakenTripsListControl.xaml.cs">
       <DependentUpon>BeingTakenTripsListControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\ExpectedTripListControl.xaml.cs">
+      <DependentUpon>ExpectedTripListControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Controls\LocationListControl.xaml.cs">
       <DependentUpon>LocationListControl.xaml</DependentUpon>
@@ -452,6 +457,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Controls\BeingTakenTripsListControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\ExpectedTripListControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
