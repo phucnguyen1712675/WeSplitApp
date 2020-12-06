@@ -129,34 +129,23 @@ namespace WeSplitApp.ViewModel
             string request = HomeScreen.GetHomeScreenInstance().SearchTextBox.Text;
             if (request.Length <= 0)
             {
-
+                var page = this.SelectedIndex + 1;
+                var skip = (page - 1) * this._paging.RowsPerPage;
+                var take = this._paging.RowsPerPage;
+                var all = (HomeScreen.GetDatabaseEntities().TRIPS.AsEnumerable().Where(t => t.ISDONE == true)).ToList();
+                this.ToShowItems = new ObservableCollection<TRIP>(all);
             }
             else
             {
                 //search by TITLE
-                var requestText = convertToUnSign(request.Trim().ToLower());
-                var b = (HomeScreen.GetDatabaseEntities().TRIPS.AsEnumerable().Where(t => convertToUnSign(t.TITTLE.Trim().ToLower()).Contains(requestText))).ToList();
-                
-                
-                this.ToShowItems = new ObservableCollection<TRIP>(b);
+                var requestText = convertUnicode.convertToUnSign(request.Trim().ToLower());
+                var tripList = (HomeScreen.GetDatabaseEntities().TRIPS.AsEnumerable().Where(t => convertUnicode.convertToUnSign(t.TITTLE.Trim().ToLower()).Contains(requestText) && t.ISDONE == true));
+
+                //MessageBox.Show(b[0].TITTLE);
+                this.ToShowItems = new ObservableCollection<TRIP>(tripList);
             }
         }
-        public string convertToUnSign(string s)
-        {
-            string stFormD = s.Normalize(NormalizationForm.FormD);
-            StringBuilder sb = new StringBuilder();
-            for (int ich = 0; ich < stFormD.Length; ich++)
-            {
-                System.Globalization.UnicodeCategory uc = System.Globalization.CharUnicodeInfo.GetUnicodeCategory(stFormD[ich]);
-                if (uc != System.Globalization.UnicodeCategory.NonSpacingMark)
-                {
-                    sb.Append(stFormD[ich]);
-                }
-            }
-            sb = sb.Replace('Đ', 'D');
-            sb = sb.Replace('đ', 'd');
-            return (sb.ToString().Normalize(NormalizationForm.FormD));
-        }
+    
 
     }
 }

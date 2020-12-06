@@ -73,11 +73,13 @@ namespace WeSplitApp.View
 
         }
 
-        private static void ClosingMemberDialogEventHandler(object sender, DialogClosingEventArgs eventArgs) {
+        private static void ClosingMemberDialogEventHandler(object sender, DialogClosingEventArgs eventArgs)
+        {
             HomeScreen.homeScreen.AddButton.Visibility = Visibility.Visible;
         }
 
-        private static void ClosingLocationDialogEventHandler(object sender, DialogClosingEventArgs eventArgs) {
+        private static void ClosingLocationDialogEventHandler(object sender, DialogClosingEventArgs eventArgs)
+        {
             HomeScreen.homeScreen.AddButton.Visibility = Visibility.Visible;
         }
 
@@ -119,7 +121,7 @@ namespace WeSplitApp.View
 
         public static HomeScreen GetHomeScreenInstance() => homeScreen;
         public static WESPLITAPPEntities GetDatabaseEntities() => homeScreen.database; //TODO
-        
+
         private void LoadedHandler(object sender, RoutedEventArgs args)
         {
             navigationDrawerNav.SelectedItem = m_navigationItems[0];
@@ -198,7 +200,32 @@ namespace WeSplitApp.View
         }
         private void SearchEvent(object sender, TextChangedEventArgs e)
         {
-            TripsListViewModel.instanse.search_byTripName();
+            if (NavigationItems[0].IsSelected) // Chuyen Di - TRIP
+            {
+                if (TripsCollectionViewModel.index == 0)
+                {
+                    TripsListViewModel.instanse.search_byTripName();
+                }
+                else
+                {
+                    ExpectedTripListViewModel.instanse.search_byTripName();
+
+                }
+            }
+            else
+                if (NavigationItems[1].IsSelected) // Thanh vien - Member
+            {
+                MessageBox.Show("Giao dien 2");
+            }
+            else
+                if (NavigationItems[2].IsSelected)
+            {
+                //Do things Location
+            }
+
+            //MessageBox.Show( NavigationItems[0].IsSelected.ToString());
+            //TripsListViewModel.instanse.search_byTripName();
+            //ExpectedTripListViewModel.instanse.search_byTripName();
         }
     }
 }

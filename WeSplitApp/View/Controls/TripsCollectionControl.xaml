@@ -18,8 +18,8 @@
     mc:Ignorable="d">
 
     <Grid>
-        <md:Transitioner AutoApplyTransitionOrigins="True" SelectedIndex="0">
-
+        <md:Transitioner AutoApplyTransitionOrigins="True" SelectedIndex="{Binding SelectedIndex}" >
+            
             <md:Transitioner.InputBindings>
                 <KeyBinding Key="Left" Command="{x:Static md:Transitioner.MovePreviousCommand}" />
                 <KeyBinding Key="Right" Command="{x:Static md:Transitioner.MoveNextCommand}" />
