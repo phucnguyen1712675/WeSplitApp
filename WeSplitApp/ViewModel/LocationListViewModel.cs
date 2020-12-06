@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using WeSplitApp.Utils;
 using WeSplitApp.View;
@@ -86,6 +87,30 @@ namespace WeSplitApp.ViewModel
                 instance.LOCATIONS.Add(newLocation);
                 instance.DisplayMembers();
             }
+        }
+        public void searchLocation_ByName()
+        {
+
+            string request = HomeScreen.GetHomeScreenInstance().SearchTextBox.Text;
+            //MessageBox.Show("Chay duoc roi");
+            List<LOCATION> locationList;
+            if (request.Length <= 0)
+            {
+                locationList = (HomeScreen.GetDatabaseEntities().LOCATIONS).ToList();
+                //this.ToShowItems = new ObservableCollection<TRIP>(all);
+            }
+            else
+            {
+                //search by TITLE
+                var requestText = convertUnicode.convertToUnSign(request.Trim().ToLower());
+                locationList = (HomeScreen.GetDatabaseEntities().LOCATIONS.AsEnumerable().Where(loca => convertUnicode.convertToUnSign(loca.NAME.Trim().ToLower()).Contains(requestText))).ToList();
+
+                //MessageBox.Show(b[0].TITTLE);
+                //this.ToShowItems = new ObservableCollection<TRIP>(tripList);
+            }
+            instance.LOCATIONS = new ObservableCollection<LOCATION>(locationList);
+            instance.CalculatePagingInfo(instance.Paging.RowsPerPage, instance.LOCATIONS.Count);
+            instance.DisplayMembers();
         }
     }
 }

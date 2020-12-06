@@ -24,7 +24,7 @@ namespace WeSplitApp.ViewModel
                 
                 if (index == 0)
                 {
-                    TripsListViewModel.instanse.search_byTripName();
+                    TripsListViewModel.instanse.search_byTripName("");
                 }
                 else
                 {

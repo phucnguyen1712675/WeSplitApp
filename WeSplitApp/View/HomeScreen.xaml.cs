@@ -11,7 +11,7 @@ using System.Windows.Controls;
 using WeSplitApp.View.DialogHelper;
 using WeSplitApp.ViewModel;
 using WeSplitApp.ViewModel.DialogHelperClass;
-
+using WeSplitApp.View.Controls;
 namespace WeSplitApp.View
 {
     /// <summary>
@@ -194,28 +194,37 @@ namespace WeSplitApp.View
         }
         private void SearchEvent(object sender, TextChangedEventArgs e)
         {
-            if (NavigationItems[0].IsSelected) // Chuyen Di - TRIP
+            string typeSearch = HaveTakenTripsListControl.GetInstance().SearchByComboBox.Text;
+            int option = 0;
+            for (int i = 0; i <= NavigationItems.Count; i++)
             {
-                if (TripsCollectionViewModel.index == 0)
+                if (NavigationItems[i].IsSelected)
                 {
-                    TripsListViewModel.instanse.search_byTripName();
+                    option = i;
+                    break;
                 }
-                else
-                {
-                    ExpectedTripListViewModel.instanse.search_byTripName();
+            }
+            switch (option)
+            {
+                case 0:
+                    if (TripsCollectionViewModel.index == 0)
+                    {
+                        TripsListViewModel.instanse.search_byTripName(typeSearch);
+                    }
+                    else
+                    {
+                        ExpectedTripListViewModel.instanse.search_byTripName();
+                    }
+                    break;
+                case 1:
+                    MemberListViewModel.Instance.searchMember_ByName();
+                    break;
+                case 2:
+                    LocationListViewModel.Instance.searchLocation_ByName();
+                    //giao dien member
+                    break;
+            }
 
-                }
-            }
-            else
-                if (NavigationItems[1].IsSelected) // Thanh vien - Member
-            {
-                MessageBox.Show("Giao dien 2");
-            }
-            else
-                if (NavigationItems[2].IsSelected)
-            {
-                //Do things Location
-            }
 
             //MessageBox.Show( NavigationItems[0].IsSelected.ToString());
             //TripsListViewModel.instanse.search_byTripName();
