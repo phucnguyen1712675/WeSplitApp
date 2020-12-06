@@ -246,6 +246,7 @@
     <Compile Include="Utils\MyRandom.cs" />
     <Compile Include="Utils\PageInfo.cs" />
     <Compile Include="Utils\Paging.cs" />
+    <Compile Include="Utils\PagingListObjects.cs" />
     <Compile Include="Utils\RelayCommand.cs" />
     <Compile Include="Utils\TripItemHandler.cs" />
     <Compile Include="ViewModel\AboutUsViewModel.cs" />
@@ -515,7 +516,9 @@
     <Resource Include="Resources\Images\AddImageBackGround.jpg" />
     <Resource Include="Resources\Images\MemberBackGround.png" />
     <Resource Include="Resources\Images\map.jpg" />
-    <Resource Include="Resources\Images\LocationBackGround.png" />
+    <Resource Include="Resources\Images\LocationBackGround2.png" />
+    <Resource Include="Resources\Images\MemberListBackGround3.jpg" />
+    <Resource Include="Resources\Images\LocationListBackGround1.jpg" />
     <Content Include="WESPLITAPP_DB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>WESPLITAPP_DB.edmx</DependentUpon>

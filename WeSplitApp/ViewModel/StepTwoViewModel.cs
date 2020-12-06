@@ -11,13 +11,11 @@ namespace WeSplitApp.ViewModel
     {
         public StepTwoViewModel():base(){ }
 
-        //public static Dictionary<int, string> Trip_Costincurred = new Dictionary<int, string>();
-
         public override void Validate()
         {
             bool ageOk = true;
             if (AddNewTripViewModel.Instance.AddTrip.TRIP_LOCATION.Count ==0) ageOk = false;
-            if (AddNewTripViewModel.Instance.AddTrip.TRIP_COSTINCURRED.Count == 0) ageOk = false;
+           // if (AddNewTripViewModel.Instance.AddTrip.TRIP_COSTINCURRED.Count == 0) ageOk = false;
 
             if (ageOk)
             {

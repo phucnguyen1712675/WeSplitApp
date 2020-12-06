@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using WeSplitApp.Utils;
 using WeSplitApp.View;
 
 namespace WeSplitApp.ViewModel
 {
-    class LocationListViewModel : ViewModel
+    class LocationListViewModel : PagingListObjects
     {
         public ObservableCollection<LOCATION> _lOCATIONS;
         public ObservableCollection<LOCATION> LOCATIONS { 
@@ -19,19 +16,76 @@ namespace WeSplitApp.ViewModel
                 OnPropertyChanged();
             }
         }
-        private static LocationListViewModel instance { get; set; }
-        /*public ObservableCollection<LOCATION> LOCATIONS { get; set; }*/
-        public LocationListViewModel(ObservableCollection<LOCATION> LOCATIONS)
+        public PagingListObjects PagingListObjects { get; set; }
+
+        private static LocationListViewModel instance = null;
+        public static LocationListViewModel Instance
         {
-           // this.LOCATIONS = new ObservableCollection<LOCATION>(HomeScreen.GetDatabaseEntities().LOCATIONS.ToList());
-           this.LOCATIONS = LOCATIONS;
-            instance = this;
+            get
+            {
+                if(instance == null)
+                {
+                    instance = new LocationListViewModel();
+                }
+                return instance;
+            }
         }
+        private LocationListViewModel()
+        {
+           this.LOCATIONS = new ObservableCollection<LOCATION>(HomeScreen.GetDatabaseEntities().LOCATIONS.ToList());
+            //TODO read from data.config
+            int RowsPerPage = 5;
+
+            CalculatePagingInfo(RowsPerPage, LOCATIONS.Count);
+            SelectedIndex = 0;
+            DisplayMembers();
+        }
+
+        #region Paging
+        private ObservableCollection<LOCATION> _toShowItems;
+        public ObservableCollection<LOCATION> ToShowItems
+        {
+            get => this._toShowItems;
+            set
+            {
+                this._toShowItems = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public override void DisplayMembers()
+        {
+            var page = this.SelectedIndex + 1;
+            var skip = (page - 1) * this._paging.RowsPerPage;
+            var take = this._paging.RowsPerPage;
+
+            this.ToShowItems = new ObservableCollection<LOCATION>(this.LOCATIONS.Skip(skip).Take(take));
+        }
+
+        public static bool getNewRowPerPage(int RowsPerPage) //được gọi trong setting
+        {
+            if (RowsPerPage > instance.LOCATIONS.Count)
+            {
+                return false;
+            }
+            instance.CalculatePagingInfo(RowsPerPage, instance.LOCATIONS.Count);
+
+            return true;
+        }
+
+        public static int getRowsPerPage() //gọi lúc tắt app để lưu setting paging
+        {
+            return instance.Paging.RowsPerPage;
+        }
+        #endregion
 
         internal static void updateList(LOCATION newLocation)
         {
             if (instance != null)
+            {
                 instance.LOCATIONS.Add(newLocation);
+                instance.DisplayMembers();
+            }
         }
     }
 }

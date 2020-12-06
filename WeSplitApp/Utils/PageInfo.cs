@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WeSplitApp.Utils
 {
-    public class PageInfo
+    public class PageInfo : ViewModel.ViewModel
     {
         public int Page { get; set; }
         public int TotalPages { get; set; }

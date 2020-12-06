@@ -7,6 +7,7 @@
              xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:converters="clr-namespace:WeSplitApp.Converters"
              mc:Ignorable="d" 
+             Background="White"
              TextElement.FontSize="14"
              TextElement.FontFamily="Segeo ui light"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -16,48 +17,56 @@
     <UserControl.Resources>
         <ResourceDictionary Source="/Resources/AppResource.xaml"/>
     </UserControl.Resources>
-    <Grid>
-        <ListView x:Name="LocationList"
-                  Padding="10"
-                  ItemsSource="{Binding LOCATIONS}"
+        <Grid>
+            <Image Source="/Resources/Images/LocationListBackGround1.jpg" Height="600" HorizontalAlignment="Left" VerticalAlignment="Center" />
+
+        <StackPanel HorizontalAlignment="Right">
+            <TextBlock Text="Danh sách Điểm dừng" 
+                   Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+                   VerticalAlignment="Top"
+                       Margin="30,20,0,0"/>
+            <ListView x:Name="LocationList"
+                  ItemsSource="{Binding ToShowItems}"
                   HorizontalAlignment="Center"
-                  Width="{Binding Source={x:Static SystemParameters.PrimaryScreenWidth}, Converter={converters:RatioConverter}, ConverterParameter='1'}"
+                  VerticalAlignment="Center"
+                  Height="530"
+                  Width="900"
+                  HorizontalContentAlignment="Center"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel />
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <md:Card 
-                        Margin="0,0,10,5"
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <md:Card 
+                        Margin="0,0,10,20"
                         Width="400"
                         Height="100"
                         md:ShadowAssist.ShadowDepth="Depth1"
                         UniformCornerRadius="10" >
-                        
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="2*"/>
-                                <ColumnDefinition Width="3*"/>
-                            </Grid.ColumnDefinitions>
-                            <Image Source="/Resources/Images/LocationBackGround.png" Grid.ColumnSpan="2" HorizontalAlignment="Right"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Source="/Resources/Images/LocationBackGround2.png" Grid.ColumnSpan="2" HorizontalAlignment="Right" Width="250" Height="100" Stretch="UniformToFill"/>
 
-                            <Border Grid.Column="0" CornerRadius="0 20 20 0" Width="140" HorizontalAlignment="Left">
-                                <Border.Effect>
-                                    <DropShadowEffect
+                                <Border Grid.Column="0" CornerRadius="0 20 20 0" Width="140" HorizontalAlignment="Left">
+                                    <Border.Effect>
+                                        <DropShadowEffect
                                     BlurRadius="3"
                                     Opacity="0.3"
                                     ShadowDepth="5" />
-                                </Border.Effect>
-                                <Border.Background>
-                                    <ImageBrush ImageSource="/Resources/Images/map.jpg" Stretch="UniformToFill"/>
-                                </Border.Background>
-                            </Border>
-                            
-                                <StackPanel  Grid.Column="1" Margin="10" VerticalAlignment="Center"> 
-                                <TextBlock  Text="{Binding NAME}" HorizontalAlignment="Left" FontSize="18" TextTrimming="CharacterEllipsis"/>
+                                    </Border.Effect>
+                                    <Border.Background>
+                                        <ImageBrush ImageSource="/Resources/Images/map.jpg" Stretch="UniformToFill"/>
+                                    </Border.Background>
+                                </Border>
+
+                                <StackPanel  Grid.Column="1" Margin="10" VerticalAlignment="Center">
+                                    <TextBlock  Text="{Binding NAME}" HorizontalAlignment="Left" FontSize="18" TextTrimming="CharacterEllipsis"/>
                                     <Button x:Name="EditLocationButton"
                                       Style="{StaticResource MaterialDesignFlatButton}"
                                       HorizontalContentAlignment="Left"
@@ -68,10 +77,55 @@
                                       Click="EditLocationButton_Click"
                                       Tag="{Binding}"/>
                                 </StackPanel>
-                        </Grid>
-                    </md:Card>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                            </Grid>
+                        </md:Card>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <StackPanel VerticalAlignment="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button
+            Grid.Column="0"
+            HorizontalAlignment="Center"
+            Command="{Binding PreviousCommand}"
+            Content="{md:PackIcon Kind=ArrowLeftBoldCircleOutline, Size=40}"
+            Style="{StaticResource MaterialDesignIconButton}"
+            ToolTip="Previous"
+            Margin="0,10,20,0"/>
+
+                <ComboBox
+                ItemsSource="{Binding Paging.Pages, Mode=OneWay}"
+                Name="MemberListPagingComboBox"
+                Width="100"   
+                Height="40"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                SelectedIndex="{Binding SelectedIndex}"
+                Style="{StaticResource MaterialDesignFilledComboBox}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Page}"></TextBlock>
+                                <TextBlock Text=" / "></TextBlock>
+                                <TextBlock Text="{Binding TotalPages}"></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <Button
+            Grid.Column="2"
+            HorizontalAlignment="Center"
+            Command="{Binding NextCommand}"
+            Content="{md:PackIcon Kind=ArrowRightBoldCircleOutline, Size=40}"
+            Style="{StaticResource MaterialDesignIconButton}"
+            ToolTip="Next" 
+            Margin="20,10,00,0"/>
+
+                <!--TODO test change Rows per page-->
+                <TextBox Text="{Binding Paging.RowsPerPage}" Name="tempBox"/>
+                <Button Click="Button_Click"/>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </UserControl>
