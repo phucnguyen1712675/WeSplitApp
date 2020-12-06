@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Input;
 using WeSplitApp.Utils;
 using WeSplitApp.View;
-
+using WeSplitApp.View.Controls;
 namespace WeSplitApp.ViewModel
 {
     public abstract class TripsListViewModel : PagingListObjects
@@ -146,26 +146,44 @@ namespace WeSplitApp.ViewModel
 
         #region searching
         public static TripsListViewModel instanse { get; set; }
-        public void search_byTripName()
+        public void search_byTripName(string typeSearch)
         {
             string request = HomeScreen.GetHomeScreenInstance().SearchTextBox.Text;
-            if (request.Length <= 0)
-            {
-                var page = this.SelectedIndex + 1;
-                var skip = (page - 1) * this._paging.RowsPerPage;
-                var take = this._paging.RowsPerPage;
-                var all = (HomeScreen.GetDatabaseEntities().TRIPS.AsEnumerable().Where(t => t.ISDONE == true)).ToList();
-                this.ToShowItems = new ObservableCollection<TRIP>(all);
-            }
-            else
-            {
-                //search by TITLE
-                var requestText = convertUnicode.convertToUnSign(request.Trim().ToLower());
-                var tripList = (HomeScreen.GetDatabaseEntities().TRIPS.AsEnumerable().Where(t => convertUnicode.convertToUnSign(t.TITTLE.Trim().ToLower()).Contains(requestText) && t.ISDONE == true));
+            MessageBox.Show(typeSearch);
+            //switch (typeSearch)
+            //{
+            //    case "":
+            //    case "Trip Title":
+            //        var requestText = convertUnicode.convertToUnSign(request.Trim().ToLower());
+            //        var tripList = (HomeScreen.GetDatabaseEntities().TRIPS.AsEnumerable().Where(t => convertUnicode.convertToUnSign(t.TITTLE.Trim().ToLower()).Contains(requestText) && t.ISDONE == true));
 
-                //MessageBox.Show(b[0].TITTLE);
-                this.ToShowItems = new ObservableCollection<TRIP>(tripList);
-            }
+            //        //MessageBox.Show(b[0].TITTLE);
+            //        this.ToShowItems = new ObservableCollection<TRIP>(tripList);
+            //        break;
+            //    case "Member Name":
+            //        MessageBox.Show("By ten thanh vien");
+            //        break;
+            //    case "Location Name":
+            //        MessageBox.Show("By dia diem");
+            //        break;
+            //    default:
+            //        MessageBox.Show("liu liu do ngok");
+            //        break;
+            //}
+            //if (request.Length <= 0)
+            //{
+            //    var all = (HomeScreen.GetDatabaseEntities().TRIPS.AsEnumerable().Where(t => t.ISDONE == true)).ToList();
+            //    this.ToShowItems = new ObservableCollection<TRIP>(all);
+            //}
+            //else
+            //{
+            //    //search by TITLE
+            //    var requestText = convertUnicode.convertToUnSign(request.Trim().ToLower());
+            //    var tripList = (HomeScreen.GetDatabaseEntities().TRIPS.AsEnumerable().Where(t => convertUnicode.convertToUnSign(t.TITTLE.Trim().ToLower()).Contains(requestText) && t.ISDONE == true));
+
+            //    //MessageBox.Show(b[0].TITTLE);
+            //    this.ToShowItems = new ObservableCollection<TRIP>(tripList);
+            //}
         }
     
 
