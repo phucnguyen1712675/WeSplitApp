@@ -1,20 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Forms;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using WeSplitApp.View.Controls;
-using WeSplitApp.ViewModel.DialogHelperClass;
 using Button = System.Windows.Controls.Button;
 using UserControl = System.Windows.Controls.UserControl;
 
@@ -58,7 +47,7 @@ namespace WeSplitApp.View.DialogHelper
             {
                 MEMBER reloadMember = HomeScreen.GetDatabaseEntities().MEMBERS.FirstOrDefault(item => item.MEMBER_ID == memberId);
                 HomeScreen.GetDatabaseEntities().Entry(reloadMember).Reload();
-                MemberListControl.updateUI();
+                MemberListControl.updateMemberList();
             }
         }
     }

@@ -17,6 +17,7 @@ namespace WeSplitApp.ViewModel
 
         public abstract bool IsDone { get; set; }
 
+        #region paging
         private int _selectedIndex;
         public int SelectedIndex
         {
@@ -57,6 +58,8 @@ namespace WeSplitApp.ViewModel
                 MessageBox.Show("Minimum page!", "Reach Minimum page", MessageBoxButton.OKCancel);
             }
         }
+
+        #endregion
         public bool CanExecute
         {
             get
@@ -66,6 +69,7 @@ namespace WeSplitApp.ViewModel
             }
         }
 
+        private static TripsListViewModel instance { get; set; }
 
         private readonly TripItemHandler _itemHandler;
 
@@ -83,8 +87,14 @@ namespace WeSplitApp.ViewModel
         {
             this._itemHandler = GetData();
             CalculatePagingInfo();
-            instanse = this;
+            instance = this;
         }
+
+        public static void AddTrip(TRIP tRIP)
+        {
+            instance._itemHandler.Add(tRIP);
+        }
+
         public List<TRIP> Items => _itemHandler.Items;
 
         private ObservableCollection<TRIP> _toShowItems;
@@ -119,9 +129,7 @@ namespace WeSplitApp.ViewModel
             var skip = (page - 1) * this._paging.RowsPerPage;
             var take = this._paging.RowsPerPage;
 
-            this.ToShowItems = new ObservableCollection<TRIP>(this.Items.Skip(skip)
-                                                                        .Take(take)
-                                                                        .ToList());
+            this.ToShowItems = new ObservableCollection<TRIP>(this.Items.Skip(skip));
         }
         public static TripsListViewModel instanse { get; set; }
         public void search_byTripName()

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace WeSplitApp.Utils
 {
-    public class Paging
+    public class Paging : ViewModel.ViewModel
     {
         public int CurrentPage { get; set; }
         public int RowsPerPage { get; set; } = 4;
@@ -17,7 +18,7 @@ namespace WeSplitApp.Utils
             get => _totalPages; set
             {
                 _totalPages = value;
-                Pages = new List<PageInfo>();
+                Pages = new ObservableCollection<PageInfo>();
                 for (int i = 1; i <= _totalPages; i++)
                 {
                     Pages.Add(new PageInfo()
@@ -26,8 +27,9 @@ namespace WeSplitApp.Utils
                         TotalPages = _totalPages
                     });
                 }
+                OnPropertyChanged();
             }
         }
-        public List<PageInfo> Pages { get; set; }
+        public ObservableCollection<PageInfo> Pages { get; set; }
     }
 }
