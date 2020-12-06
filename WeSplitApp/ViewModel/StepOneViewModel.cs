@@ -13,9 +13,6 @@ namespace WeSplitApp.ViewModel
 
         public override void Validate()
         {
-            // place your validation logic here
-            //     assuming we have a input field for the birthday of the person and want to check the input
-            //bool ageOk = CheckAgeOfPerson();
             bool ageOk = true;
 
             string Name = AddNewTripViewModel.Instance.AddTrip.TITTLE;
@@ -28,18 +25,27 @@ namespace WeSplitApp.ViewModel
             if (string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(Description) || string.IsNullOrEmpty(Image)
                  || string.IsNullOrEmpty(ToGoDate) || string.IsNullOrEmpty(ReturnDate) || Trip_Images == null)
                 ageOk = false;
-            // if the age is not OK, we set a validation error
-            // TODO 
+
+            
             if (ageOk)
             {
-                foreach (var item in AddNewTripViewModel.Instance.AddTrip.TRIP_IMAGES)
+                if (Convert.ToDateTime(ReturnDate) < Convert.ToDateTime(ToGoDate))
                 {
-                    if (item.IMAGE.Contains(AppDomain.CurrentDomain.BaseDirectory))
-                    {
-                        item.IMAGE = "\\" + item.IMAGE.Remove(0, AppDomain.CurrentDomain.BaseDirectory.Length);
-                    }
+
+                    HasValidationErrors = true;
+                    MessageBox.Show("Ngày về không thể sau ngày đi");
                 }
-                HasValidationErrors = false;
+                else
+                {
+                    foreach (var item in AddNewTripViewModel.Instance.AddTrip.TRIP_IMAGES)
+                    {
+                        if (item.IMAGE.Contains(AppDomain.CurrentDomain.BaseDirectory))
+                        {
+                            item.IMAGE = "\\" + item.IMAGE.Remove(0, AppDomain.CurrentDomain.BaseDirectory.Length);
+                        }
+                    }
+                    HasValidationErrors = false;
+                }
             }
             else
             {

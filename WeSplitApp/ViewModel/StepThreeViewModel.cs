@@ -35,11 +35,13 @@ namespace WeSplitApp.ViewModel
             {
 
                 TRIP temp = AddNewTripViewModel.Instance.AddTrip;
-                if (temp.RETURNDATE < DateTime.Now) temp.ISDONE = true;
+                if (temp.RETURNDATE < DateTime.Now) { 
+                    temp.ISDONE = true;
+                }
                 else temp.ISDONE = false;
                 HomeScreen.GetDatabaseEntities().TRIPS.Add(temp);
                 HomeScreen.GetDatabaseEntities().SaveChanges();
-
+                TripsListViewModel.AddTrip(temp);
                 MessageBox.Show("Thêm thành công");
             }
             else

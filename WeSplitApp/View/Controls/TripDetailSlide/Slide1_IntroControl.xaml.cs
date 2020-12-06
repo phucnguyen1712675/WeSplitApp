@@ -38,5 +38,10 @@ namespace WeSplitApp.View.Controls.TripDetailSlide
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
+
+        private void BackSlide1Button_Click(object sender, RoutedEventArgs e)
+        {
+            HomeScreen.GetHomeScreenInstance().setVisibilityAddButton(Visibility.Visible);
+        }
     }
 }

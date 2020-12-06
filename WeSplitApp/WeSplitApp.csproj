@@ -242,11 +242,13 @@
       <DependentUpon>WESPLITAPP_DB.tt</DependentUpon>
     </Compile>
     <Compile Include="Utils\CommandHandler.cs" />
+    <Compile Include="Utils\convertUnicode.cs" />
     <Compile Include="Utils\EventArgs.cs" />
     <Compile Include="Utils\EventRaiser.cs" />
     <Compile Include="Utils\MyRandom.cs" />
     <Compile Include="Utils\PageInfo.cs" />
     <Compile Include="Utils\Paging.cs" />
+    <Compile Include="Utils\PagingListObjects.cs" />
     <Compile Include="Utils\RelayCommand.cs" />
     <Compile Include="Utils\TripItemHandler.cs" />
     <Compile Include="ViewModel\AboutUsViewModel.cs" />
@@ -254,6 +256,7 @@
     <Compile Include="ViewModel\DialogHelperClass\AddDialogBaseViewModel.cs" />
     <Compile Include="ViewModel\DialogHelperClass\LocationAddDialogViewModel.cs" />
     <Compile Include="ViewModel\DialogHelperClass\MemberAddDialogViewModel.cs" />
+    <Compile Include="ViewModel\ExpectedTripListViewModel.cs" />
     <Compile Include="ViewModel\LocationListViewModel.cs" />
     <Compile Include="ViewModel\MemberListViewModel.cs" />
     <Compile Include="ViewModel\BeingTakenTripsListViewModel.cs" />
@@ -294,6 +297,9 @@
     </Compile>
     <Compile Include="View\Controls\BeingTakenTripsListControl.xaml.cs">
       <DependentUpon>BeingTakenTripsListControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\ExpectedTripListControl.xaml.cs">
+      <DependentUpon>ExpectedTripListControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Controls\LocationListControl.xaml.cs">
       <DependentUpon>LocationListControl.xaml</DependentUpon>
@@ -454,6 +460,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Controls\ExpectedTripListControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Controls\LocationListControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -549,7 +559,9 @@
     <Resource Include="Resources\Images\AddImageBackGround.jpg" />
     <Resource Include="Resources\Images\MemberBackGround.png" />
     <Resource Include="Resources\Images\map.jpg" />
-    <Resource Include="Resources\Images\LocationBackGround.png" />
+    <Resource Include="Resources\Images\LocationBackGround2.png" />
+    <Resource Include="Resources\Images\MemberListBackGround3.jpg" />
+    <Resource Include="Resources\Images\LocationListBackGround1.jpg" />
     <Resource Include="Resources\Images\4012176.jpg" />
     <Content Include="WESPLITAPP_DB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

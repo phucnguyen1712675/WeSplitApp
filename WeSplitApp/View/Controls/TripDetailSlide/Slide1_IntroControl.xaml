@@ -207,9 +207,11 @@
                 DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
                 Orientation="Horizontal">
                 <Button
+                    x:Name="BackSlide1Button"
                     Margin="16"
                     VerticalAlignment="Center"
                     Command="{Binding BackCommand}"
+                    Click="BackSlide1Button_Click"
                     Content="{md:PackIcon Kind=StepBackward}"
                     Style="{DynamicResource MaterialDesignFloatingActionMiniButton}"
                     ToolTip="Back to home screen" />

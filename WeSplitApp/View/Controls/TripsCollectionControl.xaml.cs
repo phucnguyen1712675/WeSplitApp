@@ -24,5 +24,11 @@ namespace WeSplitApp.View.Controls
         {
             InitializeComponent();
         }
+
+        private void ChangeWindow(object sender, SelectionChangedEventArgs e)
+        {
+            MessageBox.Show("dung roi");
+
+        }
     }
 }

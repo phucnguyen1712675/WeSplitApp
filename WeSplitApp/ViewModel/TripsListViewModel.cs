@@ -8,15 +8,14 @@ using System.Windows;
 using System.Windows.Input;
 using WeSplitApp.Utils;
 using WeSplitApp.View;
-
+using WeSplitApp.View.Controls;
 namespace WeSplitApp.ViewModel
 {
-    public abstract class TripsListViewModel : ViewModel
+    public abstract class TripsListViewModel : PagingListObjects
     {
-        private Paging _paging = new Paging();
         public abstract bool IsDone { get; set; }
 
-        private int _selectedIndex;
+       /* private int _selectedIndex;
         public int SelectedIndex
         {
             get => this._selectedIndex;
@@ -56,24 +55,33 @@ namespace WeSplitApp.ViewModel
                 MessageBox.Show("Minimum page!", "Reach Minimum page", MessageBoxButton.OKCancel);
             }
         }
+
+        #endregion
         public bool CanExecute
         {
             get
             {
-                // check if executing is allowed, i.e., validate, check if a process is running, etc. 
                 return true;
             }
-        }
+        }*/
 
+        private static TripsListViewModel instance { get; set; }
 
         private readonly TripItemHandler _itemHandler;
 
+        #region select view detail trip
         private ICommand _selectedCommand;
         public ICommand SelectedCommand => _selectedCommand ?? (_selectedCommand = new RelayCommand(x =>
         {
             ShowSelectedTrip(x as TRIP);
         }));
-        private void ShowSelectedTrip(TRIP item) => HomeScreen.GetHomeScreenInstance().SetContentControl((new TripDetailsViewModel(item)));
+
+        private void ShowSelectedTrip(TRIP item)
+        {
+            HomeScreen.SetNavigationDrawerNavNull();
+            HomeScreen.GetHomeScreenInstance().SetContentControl((new TripDetailsViewModel(item)));
+        }
+        #endregion
 
         public TripItemHandler GetData() => new TripItemHandler(HomeScreen.GetDatabaseEntities().TRIPS.Where(t => t.ISDONE == this.IsDone)
                                                                                                       .Select(t => t)
@@ -81,9 +89,20 @@ namespace WeSplitApp.ViewModel
         public TripsListViewModel()
         {
             this._itemHandler = GetData();
-            CalculatePagingInfo();
-            instanse = this;
+
+            //TODO read from data.config
+            int RowsPerPage = 3;
+
+            CalculatePagingInfo(RowsPerPage, Items.Count);
+            DisplayObjects();
+            instance = this;
         }
+
+        public static void AddTrip(TRIP tRIP)
+        {
+            instance._itemHandler.Add(tRIP);
+        }
+
         public List<TRIP> Items => _itemHandler.Items;
 
         private ObservableCollection<TRIP> _toShowItems;
@@ -97,65 +116,78 @@ namespace WeSplitApp.ViewModel
             }
         }
 
-        private void CalculatePagingInfo()
-        {
-            var count = this.Items.Count();
-            var rowsPerPage = this._paging.RowsPerPage;
+        #region paging
 
-            // Tinh toan phan trang
-            _paging = new Paging()
-            {
-                CurrentPage = 1,
-                TotalPages = count / rowsPerPage +
-                    (((count % rowsPerPage) == 0) ? 0 : 1)
-            };
-            this.SelectedIndex = 0;
-        }
-
-        private void DisplayTrips()
+        public override void DisplayObjects()
         {
             var page = this.SelectedIndex + 1;
             var skip = (page - 1) * this._paging.RowsPerPage;
             var take = this._paging.RowsPerPage;
 
-            this.ToShowItems = new ObservableCollection<TRIP>(this.Items.Skip(skip)
-                                                                        .Take(take)
-                                                                        .ToList());
+            this.ToShowItems = new ObservableCollection<TRIP>(this.Items.Skip(skip).Take(take));
         }
+
+        public static bool getNewRowPerPage(int RowsPerPage) // được gọi trong setting
+        {
+            if (RowsPerPage > instance.Items.Count)
+            {
+                return false;
+            }
+            instance.CalculatePagingInfo(RowsPerPage, instance.Items.Count);
+
+            return true;
+        }
+
+        public static int getRowsPerPage() //gọi lúc tắt app để lưu setting paging
+        {
+            return instance.Paging.RowsPerPage;
+        }
+        #endregion
+
+        #region searching
         public static TripsListViewModel instanse { get; set; }
-        public void search_byTripName()
+        public void search_byTripName(string typeSearch)
         {
             string request = HomeScreen.GetHomeScreenInstance().SearchTextBox.Text;
-            if (request.Length <= 0)
-            {
+            MessageBox.Show(typeSearch);
+            //switch (typeSearch)
+            //{
+            //    case "":
+            //    case "Trip Title":
+            //        var requestText = convertUnicode.convertToUnSign(request.Trim().ToLower());
+            //        var tripList = (HomeScreen.GetDatabaseEntities().TRIPS.AsEnumerable().Where(t => convertUnicode.convertToUnSign(t.TITTLE.Trim().ToLower()).Contains(requestText) && t.ISDONE == true));
 
-            }
-            else
-            {
-                //search by TITLE
-                var requestText = convertToUnSign(request.Trim().ToLower());
-                var b = (HomeScreen.GetDatabaseEntities().TRIPS.AsEnumerable().Where(t => convertToUnSign(t.TITTLE.Trim().ToLower()).Contains(requestText))).ToList();
-                
-                
-                this.ToShowItems = new ObservableCollection<TRIP>(b);
-            }
+            //        //MessageBox.Show(b[0].TITTLE);
+            //        this.ToShowItems = new ObservableCollection<TRIP>(tripList);
+            //        break;
+            //    case "Member Name":
+            //        MessageBox.Show("By ten thanh vien");
+            //        break;
+            //    case "Location Name":
+            //        MessageBox.Show("By dia diem");
+            //        break;
+            //    default:
+            //        MessageBox.Show("liu liu do ngok");
+            //        break;
+            //}
+            //if (request.Length <= 0)
+            //{
+            //    var all = (HomeScreen.GetDatabaseEntities().TRIPS.AsEnumerable().Where(t => t.ISDONE == true)).ToList();
+            //    this.ToShowItems = new ObservableCollection<TRIP>(all);
+            //}
+            //else
+            //{
+            //    //search by TITLE
+            //    var requestText = convertUnicode.convertToUnSign(request.Trim().ToLower());
+            //    var tripList = (HomeScreen.GetDatabaseEntities().TRIPS.AsEnumerable().Where(t => convertUnicode.convertToUnSign(t.TITTLE.Trim().ToLower()).Contains(requestText) && t.ISDONE == true));
+
+            //    //MessageBox.Show(b[0].TITTLE);
+            //    this.ToShowItems = new ObservableCollection<TRIP>(tripList);
+            //}
         }
-        public string convertToUnSign(string s)
-        {
-            string stFormD = s.Normalize(NormalizationForm.FormD);
-            StringBuilder sb = new StringBuilder();
-            for (int ich = 0; ich < stFormD.Length; ich++)
-            {
-                System.Globalization.UnicodeCategory uc = System.Globalization.CharUnicodeInfo.GetUnicodeCategory(stFormD[ich]);
-                if (uc != System.Globalization.UnicodeCategory.NonSpacingMark)
-                {
-                    sb.Append(stFormD[ich]);
-                }
-            }
-            sb = sb.Replace('Đ', 'D');
-            sb = sb.Replace('đ', 'd');
-            return (sb.ToString().Normalize(NormalizationForm.FormD));
-        }
+    
+
+        #endregion
 
     }
 }
