@@ -49,7 +49,7 @@ namespace WeSplitApp.Utils
             {
                 this._selectedIndex = value;
                 OnPropertyChanged();
-                DisplayMembers();
+                DisplayObjects();
             }
         }
 
@@ -90,6 +90,6 @@ namespace WeSplitApp.Utils
             }
         }
 
-        public virtual void DisplayMembers() { }
+        public virtual void DisplayObjects() { }
     }
 }

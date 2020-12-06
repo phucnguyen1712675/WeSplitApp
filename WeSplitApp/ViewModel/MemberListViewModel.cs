@@ -40,8 +40,7 @@ namespace WeSplitApp.ViewModel
             int RowsPerPage = 5;
 
             CalculatePagingInfo(RowsPerPage, MEMBERS.Count);
-            SelectedIndex = 0;
-            DisplayMembers();
+            DisplayObjects();
         }
 
         #region Paging
@@ -56,7 +55,7 @@ namespace WeSplitApp.ViewModel
             }
         }
 
-        public override void DisplayMembers()
+        public override void DisplayObjects()
         {
             var page = this.SelectedIndex + 1;
             var skip = (page - 1) * this._paging.RowsPerPage;
@@ -88,7 +87,7 @@ namespace WeSplitApp.ViewModel
             if(instance != null)
             {
                 instance.MEMBERS.Add(member);
-                instance.DisplayMembers();
+                instance.DisplayObjects();
             }
         }
     }

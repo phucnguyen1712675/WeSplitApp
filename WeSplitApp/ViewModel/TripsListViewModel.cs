@@ -11,14 +11,11 @@ using WeSplitApp.View;
 
 namespace WeSplitApp.ViewModel
 {
-    public abstract class TripsListViewModel : ViewModel
+    public abstract class TripsListViewModel : PagingListObjects
     {
-        private Paging _paging = new Paging();
-
         public abstract bool IsDone { get; set; }
 
-        #region paging
-        private int _selectedIndex;
+       /* private int _selectedIndex;
         public int SelectedIndex
         {
             get => this._selectedIndex;
@@ -64,21 +61,27 @@ namespace WeSplitApp.ViewModel
         {
             get
             {
-                // check if executing is allowed, i.e., validate, check if a process is running, etc. 
                 return true;
             }
-        }
+        }*/
 
         private static TripsListViewModel instance { get; set; }
 
         private readonly TripItemHandler _itemHandler;
 
+        #region select view detail trip
         private ICommand _selectedCommand;
         public ICommand SelectedCommand => _selectedCommand ?? (_selectedCommand = new RelayCommand(x =>
         {
             ShowSelectedTrip(x as TRIP);
         }));
-        private void ShowSelectedTrip(TRIP item) => HomeScreen.GetHomeScreenInstance().SetContentControl((new TripDetailsViewModel(item)));
+
+        private void ShowSelectedTrip(TRIP item)
+        {
+            HomeScreen.SetNavigationDrawerNavNull();
+            HomeScreen.GetHomeScreenInstance().SetContentControl((new TripDetailsViewModel(item)));
+        }
+        #endregion
 
         public TripItemHandler GetData() => new TripItemHandler(HomeScreen.GetDatabaseEntities().TRIPS.Where(t => t.ISDONE == this.IsDone)
                                                                                                       .Select(t => t)
@@ -86,7 +89,12 @@ namespace WeSplitApp.ViewModel
         public TripsListViewModel()
         {
             this._itemHandler = GetData();
-            CalculatePagingInfo();
+
+            //TODO read from data.config
+            int RowsPerPage = 3;
+
+            CalculatePagingInfo(RowsPerPage, Items.Count);
+            DisplayObjects();
             instance = this;
         }
 
@@ -108,29 +116,35 @@ namespace WeSplitApp.ViewModel
             }
         }
 
-        private void CalculatePagingInfo()
-        {
-            var count = this.Items.Count();
-            var rowsPerPage = this._paging.RowsPerPage;
+        #region paging
 
-            // Tinh toan phan trang
-            _paging = new Paging()
-            {
-                CurrentPage = 1,
-                TotalPages = count / rowsPerPage +
-                    (((count % rowsPerPage) == 0) ? 0 : 1)
-            };
-            this.SelectedIndex = 0;
-        }
-
-        private void DisplayTrips()
+        public override void DisplayObjects()
         {
             var page = this.SelectedIndex + 1;
             var skip = (page - 1) * this._paging.RowsPerPage;
             var take = this._paging.RowsPerPage;
 
-            this.ToShowItems = new ObservableCollection<TRIP>(this.Items.Skip(skip));
+            this.ToShowItems = new ObservableCollection<TRIP>(this.Items.Skip(skip).Take(take));
         }
+
+        public static bool getNewRowPerPage(int RowsPerPage) // được gọi trong setting
+        {
+            if (RowsPerPage > instance.Items.Count)
+            {
+                return false;
+            }
+            instance.CalculatePagingInfo(RowsPerPage, instance.Items.Count);
+
+            return true;
+        }
+
+        public static int getRowsPerPage() //gọi lúc tắt app để lưu setting paging
+        {
+            return instance.Paging.RowsPerPage;
+        }
+        #endregion
+
+        #region searching
         public static TripsListViewModel instanse { get; set; }
         public void search_byTripName()
         {
@@ -154,6 +168,8 @@ namespace WeSplitApp.ViewModel
             }
         }
     
+
+        #endregion
 
     }
 }
