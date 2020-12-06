@@ -108,8 +108,8 @@ namespace WeSplitApp.ViewModel
             if (this.SelectedIndex / this._paging.RowsPerPage == 1 || this.SelectedIndex == 0)
             {
                 var page = this.SelectedIndex / this._paging.RowsPerPage + 1;
-                var skip = (page - 1) * this._paging.RowsPerPage / 2;
-                var take = this._paging.RowsPerPage / 2;
+                var skip = (page - 1) * this._paging.RowsPerPage;
+                var take = this._paging.RowsPerPage;
 
                 this.ImageToShowCollection = new ObservableCollection<string>(this.ImageCollection.Skip(skip).Take(take).ToList());
             }

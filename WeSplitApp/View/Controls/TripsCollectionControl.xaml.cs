@@ -12,16 +12,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WeSplitApp.Utils;
 
 namespace WeSplitApp.View.Controls
 {
     /// <summary>
-    /// Interaction logic for BeingTakenTripsListControl.xaml
+    /// Interaction logic for TripsCollectionControl.xaml
     /// </summary>
-    public partial class BeingTakenTripsListControl : UserControl
+    public partial class TripsCollectionControl : UserControl
     {
-        public BeingTakenTripsListControl()
+        public TripsCollectionControl()
         {
             InitializeComponent();
         }

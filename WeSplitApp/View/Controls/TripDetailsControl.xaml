@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:conv="clr-namespace:WeSplitApp.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:details="clr-namespace:WeSplitApp.View.Controls.TripDetailSlide"
     xmlns:local="clr-namespace:WeSplitApp.View.Controls"
     xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -11,7 +12,7 @@
     xmlns:mde="clr-namespace:MaterialDesignExtensions.Controls;assembly=MaterialDesignExtensions"
     xmlns:viewModel="clr-namespace:WeSplitApp.ViewModel"
     d:DesignHeight="900"
-    d:DesignWidth="1400"
+    d:DesignWidth="1900"
     Background="{DynamicResource MaterialDesignPaper}"
     FontFamily="{md:MaterialDesignFont}"
     Foreground="{DynamicResource MaterialDesignBody}"
@@ -23,16 +24,16 @@
     <UserControl.Resources>
         <ResourceDictionary>
 
-            <Style x:Key="MyGridStyle" TargetType="{x:Type Grid}">
+            <!--<Style x:Key="MyGridStyle" TargetType="{x:Type Grid}">
                 <Style.Resources>
                     <Style TargetType="{x:Type TextBlock}">
-                        <Setter Property="Foreground" Value="#000051" />
+                        <Setter Property="Foreground" Value="#0a0521" />
                     </Style>
                     <Style TargetType="{x:Type TextBox}">
-                        <Setter Property="Foreground" Value="#000051" />
+                        <Setter Property="Foreground" Value="#0a0521" />
                     </Style>
                 </Style.Resources>
-            </Style>
+            </Style>-->
 
             <conv:ImageConverter x:Key="imageConverter" />
             <conv:DoubleToVNDConverter x:Key="doubleToVNDConverter" />
@@ -49,11 +50,66 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid
-        Margin="36,26,36,36"
-        HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch">
-        <Grid.RowDefinitions>
+    <Grid>
+        <md:Transitioner AutoApplyTransitionOrigins="True" SelectedIndex="0">
+
+            <md:Transitioner.InputBindings>
+                <KeyBinding Key="Left" Command="{x:Static md:Transitioner.MovePreviousCommand}" />
+                <KeyBinding Key="Right" Command="{x:Static md:Transitioner.MoveNextCommand}" />
+            </md:Transitioner.InputBindings>
+
+            <md:TransitionerSlide
+                Background="White"
+                ClipToBounds="True"
+                Foreground="{DynamicResource MaterialDesignDarkForeground}">
+
+                <md:TransitionerSlide.OpeningEffects>
+                    <md:TransitionEffect Kind="SlideInFromLeft" Duration="0:0:0.8" />
+                    <md:TransitionEffect
+                        Kind="SlideInFromBottom"
+                        OffsetTime="0:0:0.15"
+                        Duration="0:0:0.8" />
+                </md:TransitionerSlide.OpeningEffects>
+
+                <details:Slide1_IntroControl DataContext="{Binding Path=SelectedTrip}" />
+            </md:TransitionerSlide>
+
+            <md:TransitionerSlide
+                Background="White"
+                ClipToBounds="True"
+                Foreground="{DynamicResource MaterialDesignDarkForeground}">
+
+                <md:TransitionerSlide.OpeningEffects>
+                    <md:TransitionEffect Kind="SlideInFromLeft" Duration="0:0:0.8" />
+                    <md:TransitionEffect
+                        Kind="SlideInFromBottom"
+                        OffsetTime="0:0:0.15"
+                        Duration="0:0:0.8" />
+                </md:TransitionerSlide.OpeningEffects>
+
+                <details:Slide2_ProceedsControl />
+            </md:TransitionerSlide>
+
+            <md:TransitionerSlide
+                Background="White"
+                ClipToBounds="True"
+                Foreground="{DynamicResource MaterialDesignDarkForeground}">
+
+                <md:TransitionerSlide.OpeningEffects>
+                    <md:TransitionEffect Kind="SlideInFromLeft" Duration="0:0:0.8" />
+                    <md:TransitionEffect
+                        Kind="SlideInFromBottom"
+                        OffsetTime="0:0:0.15"
+                        Duration="0:0:0.8" />
+                </md:TransitionerSlide.OpeningEffects>
+
+                <details:Slide3_TotalCostsControl />
+            </md:TransitionerSlide>
+
+
+        </md:Transitioner>
+
+        <!--<Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -71,8 +127,7 @@
             <Grid
                 Grid.Row="0"
                 Margin="0,10,10,10"
-                VerticalAlignment="Center"
-                Background="Transparent">
+                VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -83,21 +138,32 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-
                     <Border
                         Grid.Row="0"
                         Grid.RowSpan="2"
-                        Width="100"
-                        Height="100"
+                        Width="117"
+                        Height="117"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        BorderBrush="#BBBCB6"
-                        BorderThickness="5"
+                        BorderBrush="#4665f4"
+                        BorderThickness="3"
                         CornerRadius="90">
-                        <Border.Background>
-                            <ImageBrush ImageSource="{Binding SelectedTrip.THUMNAILIMAGE, Converter={StaticResource imageConverter}}" Stretch="UniformToFill" />
-                        </Border.Background>
+                        <Border
+                            Grid.Row="0"
+                            Grid.RowSpan="2"
+                            Width="110"
+                            Height="110"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            BorderBrush="White"
+                            BorderThickness="10"
+                            CornerRadius="90">
+                            <Border.Background>
+                                <ImageBrush ImageSource="{Binding SelectedTrip.THUMNAILIMAGE, Converter={StaticResource imageConverter}}" Stretch="UniformToFill" />
+                            </Border.Background>
+                        </Border>
                     </Border>
+
                 </Grid>
                 <Grid Grid.Column="1" Margin="30,0,0,0">
                     <Grid.RowDefinitions>
@@ -231,7 +297,6 @@
                             Grid.Column="1"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center" />
-
                         <local:TripMemberPaidAmountDataGridControl
                             Grid.Column="2"
                             HorizontalAlignment="Center"
@@ -276,6 +341,6 @@
             Command="{Binding BackCommand}"
             Content="{md:PackIcon Kind=ArrowLeft}"
             Style="{StaticResource MaterialDesignFloatingActionButton}"
-            ToolTip="Back" />
+            ToolTip="Back" />-->
     </Grid>
 </UserControl>

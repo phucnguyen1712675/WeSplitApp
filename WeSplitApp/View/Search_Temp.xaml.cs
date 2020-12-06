@@ -40,15 +40,23 @@ namespace WeSplitApp.View
             else
             {
                 var requestText = convertToUnSign2(searchBox.Text.Trim().ToLower());
-                var requestText2 = convertToUnSign2(DecriptBox.Text.Trim().ToLower());
+                //var requestText2 = convertToUnSign2(DecriptBox.Text.Trim().ToLower());
                 //search by TITLE
-                var b = (HomeScreen.GetDatabaseEntities().TRIPS.AsEnumerable().Where(t => convertToUnSign2(t.TITTLE).Contains(requestText))).ToList();
+                var b = (HomeScreen.GetDatabaseEntities().TRIPS.AsEnumerable().Where(t => convertToUnSign2(t.TITTLE.Trim().ToLower()).Contains(requestText))).ToList();
 
                 //SEARCH BY DECRIPTION
-                var c = (HomeScreen.GetDatabaseEntities().TRIPS.AsEnumerable().Where(t => convertToUnSign2(t.DESCRIPTION).Contains(requestText2))).ToList();
-                foreach (var index in c)
+                //var c = (HomeScreen.GetDatabaseEntities().TRIPS.AsEnumerable().Where(t => convertToUnSign2(t.DESCRIPTION).Contains(requestText2))).ToList();
+                foreach (var index in b)
                 {
                     MessageBox.Show(index.TITTLE);
+                    var mem = from m in HomeScreen.GetDatabaseEntities().MEMBERS
+                              join k in HomeScreen.GetDatabaseEntities().TRIP_MEMBER on m.MEMBER_ID equals k.MEMBER_ID
+                              where m.MEMBER_ID == k.MEMBER_ID && k.TRIP_ID == index.TRIP_ID
+                              select m;
+                    foreach (var u in mem)
+                    {
+                        MessageBox.Show(u.NAME);
+                    }
                 }
             }
 

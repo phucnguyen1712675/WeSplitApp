@@ -24,6 +24,8 @@ namespace WeSplitApp.ViewModel
             }
         }
 
+        public Func<ChartPoint, string> PointLabel { get; set; }
+
         private LegendLocation _legendLocation;
         public LegendLocation LegendLocation
         {
@@ -67,8 +69,12 @@ namespace WeSplitApp.ViewModel
             this.ActionDescribe = "SHOW DETAIL";
             this.TotalCostsPieChart = new SeriesCollection();
 
+            this.PointLabel = chartPoint =>
+                string.Format("{0} ({1:P})", chartPoint.Y, chartPoint.Participation);
             GetTripLocationCosts(trip);
             GetTripCostIncurredCost(trip);
+
+            
         }
 
         private void GetTripLocationCosts(TRIP trip)
@@ -78,7 +84,9 @@ namespace WeSplitApp.ViewModel
                 this.TotalCostsPieChart.Add(new PieSeries
                 {
                     Title = item.LOCATION.NAME,
-                    Values = new ChartValues<double> { item.COSTS }
+                    Values = new ChartValues<double> { item.COSTS },
+                    DataLabels = false,
+                    LabelPoint = this.PointLabel
                 });
             }
         }
@@ -90,7 +98,9 @@ namespace WeSplitApp.ViewModel
                 this.TotalCostsPieChart.Add(new PieSeries
                 {
                     Title = item.COSTINCURRED.NAME,
-                    Values = new ChartValues<double> { Convert.ToDouble(item.COST) }
+                    Values = new ChartValues<double> { Convert.ToDouble(item.COST) },
+                    DataLabels = false,
+                    LabelPoint = this.PointLabel
                 });
             }
         }

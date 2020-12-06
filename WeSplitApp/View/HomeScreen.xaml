@@ -11,12 +11,11 @@
     xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:system="clr-namespace:System;assembly=mscorlib"
     xmlns:viewModel="clr-namespace:WeSplitApp.ViewModel"
-    xmlns:converters="clr-namespace:WeSplitApp.Converters"
-    Closing="MaterialWindow_Closing"
     Title="WE SPLIT APP"
-    WindowState="Maximized"
+    Width="1900"
+    Height="900"
     AutomationProperties.Name="{Binding Title, RelativeSource={RelativeSource Self}}"
-    Background="{DynamicResource MaterialDesignPaper}"
+    Background="White"
     BorderThickness="1"
     FontFamily="{md:MaterialDesignFont}"
     Foreground="{DynamicResource MaterialDesignBody}"
@@ -24,24 +23,26 @@
     TextElement.FontWeight="Medium"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     WindowStartupLocation="CenterScreen"
-    mc:Ignorable="d"
-    >
+    WindowState="Maximized"
+    mc:Ignorable="d">
+
+    <mde:MaterialWindow.DataContext>
+        <viewModel:HomeScreenViewModel />
+    </mde:MaterialWindow.DataContext>
+
     <mde:MaterialWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Resources/AppResource.xaml"/>
+                <ResourceDictionary Source="/Resources/AppResource.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <DataTemplate DataType="{x:Type viewModel:HaveTakenTripsListViewViewModel}">
-            <controls:TripsListControl />
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type viewModel:BeingTakenTripsListViewViewModel}">
-                <controls:TripsListControl />
+            <DataTemplate DataType="{x:Type viewModel:TripsCollectionViewModel}">
+                <controls:TripsCollectionControl />
             </DataTemplate>
             <DataTemplate DataType="{x:Type viewModel:MemberListViewModel}">
-                <controls:MemberListControl/>
+                <controls:MemberListControl />
             </DataTemplate>
             <DataTemplate DataType="{x:Type viewModel:LocationListViewModel}">
-                <controls:LocationListControl/>
+                <controls:LocationListControl />
             </DataTemplate>
             <DataTemplate DataType="{x:Type viewModel:AddNewTripViewModel}">
                 <controls:AddNewTripControl />
@@ -116,6 +117,7 @@
                             NavigationItemSelected="NavigationItemSelectedHandler" />
                     </Grid>
                 </md:DrawerHost.LeftDrawerContent>
+
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -123,31 +125,32 @@
                     </Grid.RowDefinitions>
                     <mde:AppBar
                         x:Name="appBar"
-                        Title="WE SPLIT APP"
-                        Grid.ColumnSpan="2"
-                        ShowNavigationDrawerButton="True">
-                        <DockPanel HorizontalAlignment="Right">
-                            <md:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges">
-                                <ListBox SelectionChanged="ListBox_SelectionChanged">
-                                    <ListBoxItem Content="Hello World" />
-                                    <ListBoxItem Content="Nice Popup" />
-                                    <ListBoxItem Content="Goodbye"/>
-                                </ListBox>
-                            </md:PopupBox>
-                            <Grid>
+                        Title="We Split App"
+                        Grid.Row="0"
+                        Foreground="{DynamicResource MaterialDesignBody}"
+                        OpaqueMode="Transparent"
+                        ShowNavigationDrawerButton="True"
+                        Type="Default">
+                        <Grid HorizontalAlignment="Right">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Column="0">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <Grid Name="SearchGrid" Grid.Column="0">
-                                    <md:ColorZone 
-                                            Margin="0,0,10,0"
-                                            Padding="8,4,8,4"
-                                            Panel.ZIndex="1"
-                                            md:ShadowAssist.ShadowDepth="Depth1"
-                                            CornerRadius="2"
-                                            Mode="Standard">
-                                        <Grid >
+                                <Grid Name="SearchGrid" VerticalAlignment="Center">
+                                    <md:ColorZone
+                                        Margin="0,0,10,0"
+                                        Padding="8,4,8,4"
+                                        Panel.ZIndex="1"
+                                        md:ShadowAssist.ShadowDepth="Depth1"
+                                        CornerRadius="2"
+                                        Mode="Standard">
+                                        <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="*" />
@@ -157,85 +160,97 @@
                                                 <md:PackIcon Kind="Search" Opacity=".56" />
                                             </Button>
                                             <TextBox
-                                                        Grid.Column="1"
-                                                        MinWidth="200"
-                                                        Margin="8,0,0,0"
-                                                        VerticalAlignment="Center"
-                                                        md:HintAssist.Hint="Tìm kiếm"
-                                                        md:TextFieldAssist.DecorationVisibility="Hidden"
-                                                        BorderThickness="0" />
+                                                x:Name="SearchTextBox"
+                                                Grid.Column="1"
+                                                MinWidth="200"
+                                                Margin="8,0,0,0"
+                                                VerticalAlignment="Center"
+                                                md:HintAssist.Hint="Search"
+                                                md:TextFieldAssist.DecorationVisibility="Hidden"
+                                                BorderThickness="0"
+                                                TextChanged="SearchEvent" />
                                             <Button Grid.Column="2" Style="{DynamicResource MaterialDesignToolButton}">
                                                 <md:PackIcon
-                                                            Margin="8,0,0,0"
-                                                            Kind="Microphone"
-                                                            Opacity=".56" />
+                                                    Margin="8,0,0,0"
+                                                    Kind="Microphone"
+                                                    Opacity=".56" />
                                             </Button>
                                         </Grid>
                                     </md:ColorZone>
                                 </Grid>
-
-                                <Border CornerRadius="10" Grid.Column="1" >
-                                    <Menu VerticalAlignment="Center" Height="38" Margin="10,0,0,0" >
-                                        <MenuItem Header="Tiêu chí" VerticalAlignment="Center">
-                                            <CheckBox Content="Tên chuyến đi"/>
-                                            <CheckBox Content="Tên điểm dừng"/>
-                                            <CheckBox Content="Tên thành viên"/>
-                                        </MenuItem>
-                                    </Menu>
-                                </Border>
+                                <md:PopupBox Grid.Column="1" PlacementMode="BottomAndAlignRightEdges">
+                                    <ListBox>
+                                        <ListBoxItem Content="Hello World" />
+                                        <ListBoxItem Content="Nice Popup" />
+                                        <ListBoxItem Content="Goodbye" />
+                                    </ListBox>
+                                </md:PopupBox>
+                                <!--<ToggleButton
+                                    Grid.Column="1"
+                                    Margin="16,0,0,0"
+                                    VerticalAlignment="Center"
+                                    IsChecked="{Binding Path=IsDarkTheme}" />-->
+                                <!--<Menu
+                                    Grid.Column="1"
+                                    Height="38"
+                                    Margin="10,0,0,0"
+                                    VerticalAlignment="Center">
+                                    <MenuItem VerticalAlignment="Center" Header="Tiêu chí">
+                                        <CheckBox Content="Tên chuyến đi" />
+                                        <CheckBox Content="Tên điểm dừng" />
+                                        <CheckBox Content="Tên thành viên" />
+                                    </MenuItem>
+                                </Menu>-->
                             </Grid>
-                        </DockPanel>
+                        </Grid>
                     </mde:AppBar>
-
-                    <Grid Grid.Row="1">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-
-                        <mde:TransitionContentControl
-                            Grid.Row="1"
-                            x:Name="contentControl"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch" />
-                        <md:Snackbar
-                            x:Name="MainSnackbar"
-                            Grid.Row="1"
-                            MessageQueue="{md:MessageQueue}" />
-                    </Grid>
+                    <mde:TransitionContentControl x:Name="contentControl" Grid.Row="1" />
+                    <md:Snackbar
+                        x:Name="MainSnackbar"
+                        Grid.Row="1"
+                        MessageQueue="{md:MessageQueue}" />
                 </Grid>
             </md:DrawerHost>
         </md:DialogHost>
-
-        <md:PopupBox Name="AddButton"
-             Panel.ZIndex="1000"
-             Margin="0,0,32,32"
-             HorizontalAlignment="Right"
-             VerticalAlignment="Bottom"
-             Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}">
+        <!--<Button
+            Margin="0,462,613,10"
+            Click="showSearchTestScreen"
+            Content="test searchSreen" />-->
+        <md:PopupBox
+            Name="AddButton"
+            Margin="0,0,10,10"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Panel.ZIndex="1000"
+            Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}">
             <StackPanel>
 
-                <Button x:Name="AddMemberButton"
-                      Background="{DynamicResource PrimaryHueMidBrush}"
-                      Content="{md:PackIcon Kind=AccountMultiplePlus, Size=20}"
-                      Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
-                      ToolTip="Thêm Thành viên"
-                      Click="AddMemberButton_Click"
-                                        />
+                <Button
+                    x:Name="AddMemberButton"
+                    Background="{DynamicResource PrimaryHueMidBrush}"
+                    Click="AddMemberButton_Click"
+                    Content="{md:PackIcon Kind=AccountMultiplePlus,
+                                          Size=20}"
+                    Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
+                    ToolTip="Thêm Thành viên" />
 
-                <Button Name="AddLocationButton"
-                        Background="#304ffe"
-                        Content="{md:PackIcon Kind=MapMarkerPlus, Size=20}"
-                        Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
-                        ToolTip="Thêm Địa danh" 
-                        Click="AddLocationButton_Click"/>
+                <Button
+                    Name="AddLocationButton"
+                    Background="#304ffe"
+                    Click="AddLocationButton_Click"
+                    Content="{md:PackIcon Kind=MapMarkerPlus,
+                                          Size=20}"
+                    Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
+                    ToolTip="Thêm Địa danh" />
 
-                <Button x:Name="AddTripButton"
-                        Background="#8e0000"
-                        Content="{md:PackIcon Kind=Car, Size=20}"
-                        Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
-                        ToolTip="Thêm chuyến đi" 
-                        Click="AddTripButton_Click"/>
+                <Button
+                    x:Name="AddTripButton"
+                    Background="#8e0000"
+                    Click="AddTripButton_Click"
+                    Content="{md:PackIcon Kind=Car,
+                                          Size=20}"
+                    Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
+                    ToolTip="Thêm chuyến đi" />
             </StackPanel>
         </md:PopupBox>
     </Grid>

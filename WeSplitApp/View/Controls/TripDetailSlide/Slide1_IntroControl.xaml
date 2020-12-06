@@ -1,0 +1,225 @@
+﻿<UserControl
+    x:Class="WeSplitApp.View.Controls.TripDetailSlide.Slide1_IntroControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:conv="clr-namespace:WeSplitApp.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:WeSplitApp.View.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+    d:DesignHeight="900"
+    d:DesignWidth="1900"
+    Background="White"
+    FontFamily="{md:MaterialDesignFont}"
+    Foreground="{DynamicResource MaterialDesignBody}"
+    TextElement.FontSize="14"
+    TextElement.FontWeight="Medium"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+
+            <conv:ImageConverter x:Key="imageConverter" />
+            <conv:StatusToStringConverter x:Key="statusToStringConverter" />
+            <conv:StatusColorConverter x:Key="statusColorConverter" />
+            <conv:StatusToDetailTitleConverter x:Key="statusToDetailTitleConverter" />
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml" />
+                <!--  throw in some extra colour for our floating action button  -->
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/MaterialDesignColor.Green.Named.Primary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height=".5*" />
+            <RowDefinition Height="5*" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height=".1*" />
+            <RowDefinition Height="2.4*" />
+        </Grid.RowDefinitions>
+
+        <DockPanel
+            Grid.Row="0"
+            Margin="130,0"
+            HorizontalAlignment="Stretch">
+
+            <TextBlock
+                DockPanel.Dock="Right"
+                Foreground="{Binding ISDONE, Converter={StaticResource statusColorConverter}}"
+                Text="{Binding ISDONE, Converter={StaticResource statusToStringConverter}}" />
+            <Grid HorizontalAlignment="Left">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    Grid.Column="0"
+                    FontWeight="Bold"
+                    Text="{Binding ISDONE, Converter={StaticResource statusToDetailTitleConverter}}" />
+                <md:PackIcon Grid.Column="1" Kind="ChevronRight" />
+                <TextBlock
+                    Grid.Column="2"
+                    Foreground="#8e9294"
+                    Text="{Binding TITTLE}" />
+            </Grid>
+        </DockPanel>
+
+        <Grid Grid.Row="1" Margin="130,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.5*" />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Border
+                Grid.Column="0"
+                BorderThickness="0"
+                CornerRadius="15,0,0,15">
+                <Border.Background>
+                    <ImageBrush ImageSource="{Binding TRIP_IMAGES[0].IMAGE, Converter={StaticResource imageConverter}}" Stretch="UniformToFill" />
+                </Border.Background>
+            </Border>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <Image
+                    Grid.Row="0"
+                    Margin="10,0,10,5"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Source="{Binding TRIP_IMAGES[1].IMAGE, Converter={StaticResource imageConverter}}"
+                    Stretch="UniformToFill" />
+                <Image
+                    Grid.Row="1"
+                    Margin="10,5,10,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Source="{Binding TRIP_IMAGES[2].IMAGE, Converter={StaticResource imageConverter}}"
+                    Stretch="UniformToFill" />
+            </Grid>
+            <Border
+                Grid.Column="2"
+                BorderThickness="0"
+                CornerRadius="0,15,15,0">
+                <Border.Background>
+                    <ImageBrush ImageSource="{Binding TRIP_IMAGES[3].IMAGE, Converter={StaticResource imageConverter}}" Stretch="UniformToFill" />
+                </Border.Background>
+            </Border>
+        </Grid>
+
+        <Grid
+            Grid.Row="2"
+            Margin="130,0"
+            VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <TextBlock
+                x:Name="titleTextBlock"
+                Grid.Row="0"
+                Grid.Column="0"
+                FontWeight="Bold"
+                Foreground="#0a0521"
+                Style="{StaticResource MaterialDesignHeadline3TextBlock}"
+                Text="{Binding TITTLE}"
+                TextAlignment="Left"
+                TextWrapping="WrapWithOverflow" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="0,5"
+                Foreground="#8e9294"
+                Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                Text="{Binding DESCRIPTION}"
+                TextAlignment="Left"
+                TextWrapping="WrapWithOverflow" />
+
+            <md:Chip
+                Grid.Row="0"
+                Grid.Column="1"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                VerticalContentAlignment="Center"
+                Content="https://www.google.com/"
+                IconBackground="{DynamicResource PrimaryHueDarkBrush}"
+                IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}">
+                <md:Chip.Icon>
+                    <md:PackIcon Kind="LinkVariant" />
+                </md:Chip.Icon>
+            </md:Chip>
+        </Grid>
+        <Border
+            Grid.Row="3"
+            Width="750"
+            Margin="130,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            BorderBrush="#FFCFD8DC"
+            BorderThickness="1" />
+        <Grid Grid.Row="4" Margin="130,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="1.5*" />
+                </Grid.RowDefinitions>
+
+                <TextBlock
+                    Grid.Row="0"
+                    VerticalAlignment="Center"
+                    FontWeight="Bold"
+                    Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+                    Text="Về chuyến đi" />
+                <StackPanel Grid.Row="1">
+                    <StackPanel Margin="0,5" Orientation="Horizontal">
+                        <TextBlock Text="Ngày đi: " />
+                        <TextBlock Text="{Binding TOGODATE, StringFormat=dd-MM-yyyy}" />
+                    </StackPanel>
+                    <StackPanel Margin="0,5" Orientation="Horizontal">
+                        <TextBlock Text="Ngày đi: " />
+                        <TextBlock Text="{Binding RETURNDATE, StringFormat=dd-MM-yyyy}" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+            <StackPanel
+                Grid.Column="1"
+                HorizontalAlignment="Right"
+                DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                Orientation="Horizontal">
+                <Button
+                    Margin="16"
+                    VerticalAlignment="Center"
+                    Command="{Binding BackCommand}"
+                    Content="{md:PackIcon Kind=StepBackward}"
+                    Style="{DynamicResource MaterialDesignFloatingActionMiniButton}"
+                    ToolTip="Back to home screen" />
+                <Button
+                    Margin="16"
+                    Command="{x:Static md:Transitioner.MoveNextCommand}"
+                    Content="{md:PackIcon Kind=StepForward}"
+                    Style="{DynamicResource MaterialDesignFloatingActionAccentButton}"
+                    ToolTip="Move to next screen" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

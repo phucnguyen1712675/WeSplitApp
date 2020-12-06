@@ -81,14 +81,11 @@ namespace WeSplitApp.ViewModel
         private void ShowSelectedTrip(TRIP item) => HomeScreen.GetHomeScreenInstance().SetContentControl((new TripDetailsViewModel(item)));
 
         public TripItemHandler GetData() => new TripItemHandler(HomeScreen.GetDatabaseEntities().TRIPS.Where(t => t.ISDONE == this.IsDone)
-                                                                                          .Select(t => t)
-                                                                                          .ToList());
-        // observable collection <trip> TRIPS{get; set;}
-        public TripsListViewModel() //a có truyền dô cái bool is done r ... (bool isDone) -> dùng nó để lấy những thành done bỏ dô observablecollection
+                                                                                                      .Select(t => t)
+                                                                                                      .ToList());
+        public TripsListViewModel()
         {
-
             this._itemHandler = GetData();
-
             CalculatePagingInfo();
             instance = this;
         }
@@ -134,5 +131,40 @@ namespace WeSplitApp.ViewModel
 
             this.ToShowItems = new ObservableCollection<TRIP>(this.Items.Skip(skip));
         }
+        public static TripsListViewModel instanse { get; set; }
+        public void search_byTripName()
+        {
+            string request = HomeScreen.GetHomeScreenInstance().SearchTextBox.Text;
+            if (request.Length <= 0)
+            {
+
+            }
+            else
+            {
+                //search by TITLE
+                var requestText = convertToUnSign(request.Trim().ToLower());
+                var b = (HomeScreen.GetDatabaseEntities().TRIPS.AsEnumerable().Where(t => convertToUnSign(t.TITTLE.Trim().ToLower()).Contains(requestText))).ToList();
+                
+                
+                this.ToShowItems = new ObservableCollection<TRIP>(b);
+            }
+        }
+        public string convertToUnSign(string s)
+        {
+            string stFormD = s.Normalize(NormalizationForm.FormD);
+            StringBuilder sb = new StringBuilder();
+            for (int ich = 0; ich < stFormD.Length; ich++)
+            {
+                System.Globalization.UnicodeCategory uc = System.Globalization.CharUnicodeInfo.GetUnicodeCategory(stFormD[ich]);
+                if (uc != System.Globalization.UnicodeCategory.NonSpacingMark)
+                {
+                    sb.Append(stFormD[ich]);
+                }
+            }
+            sb = sb.Replace('Đ', 'D');
+            sb = sb.Replace('đ', 'd');
+            return (sb.ToString().Normalize(NormalizationForm.FormD));
+        }
+
     }
 }
