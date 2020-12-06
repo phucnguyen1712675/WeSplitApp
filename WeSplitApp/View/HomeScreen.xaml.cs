@@ -184,6 +184,11 @@ namespace WeSplitApp.View
             contentControl.Content = new AddNewTripViewModel();
         }
 
+        public static void SetNavigationDrawerNavNull()
+        {
+            homeScreen.navigationDrawerNav.SelectedItem = null;
+        }
+
         private void showSearchTestScreen(object sender, RoutedEventArgs e)
         {
             Search_Temp abc = new Search_Temp();

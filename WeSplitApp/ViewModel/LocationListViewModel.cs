@@ -38,7 +38,7 @@ namespace WeSplitApp.ViewModel
 
             CalculatePagingInfo(RowsPerPage, LOCATIONS.Count);
             SelectedIndex = 0;
-            DisplayMembers();
+            DisplayObjects();
         }
 
         #region Paging
@@ -53,7 +53,7 @@ namespace WeSplitApp.ViewModel
             }
         }
 
-        public override void DisplayMembers()
+        public override void DisplayObjects()
         {
             var page = this.SelectedIndex + 1;
             var skip = (page - 1) * this._paging.RowsPerPage;
@@ -84,7 +84,7 @@ namespace WeSplitApp.ViewModel
             if (instance != null)
             {
                 instance.LOCATIONS.Add(newLocation);
-                instance.DisplayMembers();
+                instance.DisplayObjects();
             }
         }
     }
