@@ -1,23 +1,13 @@
-﻿using MahApps.Metro.Controls;
-using MaterialDesignExtensions.Controls;
+﻿using MaterialDesignExtensions.Controls;
 using MaterialDesignExtensions.Model;
 using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using WeSplitApp.View.DialogHelper;
 using WeSplitApp.ViewModel;
 using WeSplitApp.ViewModel.DialogHelperClass;
@@ -34,6 +24,8 @@ namespace WeSplitApp.View
 
         private List<INavigationItem> m_navigationItems;
         public List<INavigationItem> NavigationItems => m_navigationItems;
+
+        public static INavigationItem selectedINavigationItem { get; set; }
 
         public static Snackbar Snackbar = new Snackbar();
 
@@ -97,8 +89,8 @@ namespace WeSplitApp.View
             this.m_navigationItems = new List<INavigationItem>()
             {
                 new FirstLevelNavigationItem() { Label = "Các chuyến đi", Icon = PackIconKind.MapMarker, NavigationItemSelectedCallback = item => new TripsCollectionViewModel()},
-                new FirstLevelNavigationItem() { Label = "Danh sách thành viên", Icon = PackIconKind.AccountMultipleOutline, NavigationItemSelectedCallback = item => new MemberListViewModel(new ObservableCollection<MEMBER>(homeScreen.database.MEMBERS.ToList()))},
-                new FirstLevelNavigationItem() { Label = "Danh sách điểm dừng", Icon = PackIconKind.MapMarkerStar, NavigationItemSelectedCallback = item => new LocationListViewModel(new ObservableCollection<LOCATION>(homeScreen.database.LOCATIONS.ToList()))},
+                new FirstLevelNavigationItem() { Label = "Danh sách thành viên", Icon = PackIconKind.AccountMultipleOutline, NavigationItemSelectedCallback = item =>MemberListViewModel.Instance},
+                new FirstLevelNavigationItem() { Label = "Danh sách điểm dừng", Icon = PackIconKind.MapMarkerStar, NavigationItemSelectedCallback = item => LocationListViewModel.Instance},
                 new FirstLevelNavigationItem() { Label = "Cài đặt", Icon = PackIconKind.Settings, NavigationItemSelectedCallback = item => new SettingsViewModel()},
                 new FirstLevelNavigationItem() { Label = "Về chúng tôi", Icon = PackIconKind.About, NavigationItemSelectedCallback = item => new AboutUsViewModel()},
             };
@@ -124,11 +116,17 @@ namespace WeSplitApp.View
         {
             navigationDrawerNav.SelectedItem = m_navigationItems[0];
             m_navigationItems[0].IsSelected = true;
+            selectedINavigationItem = m_navigationItems[0]; 
         }
 
         public void setVisibilityAddButton(Visibility visibility) => AddButton.Visibility = visibility;
         private void NavigationItemSelectedHandler(object sender, NavigationItemSelectedEventArgs args) => SelectNavigationItem(args.NavigationItem);
         public void SetContentControl(object newContent) => contentControl.Content = newContent;
+
+        public static void RestoreNavigationItem()
+        {
+            homeScreen.SelectNavigationItem(selectedINavigationItem);
+        }
 
         private void SelectNavigationItem(INavigationItem navigationItem)
         {
@@ -140,6 +138,7 @@ namespace WeSplitApp.View
                 {
                     SetContentControl(newContent);
                     AddButton.Visibility = Visibility.Visible;
+                    selectedINavigationItem = navigationItem;
                 }
             }
             else
@@ -166,18 +165,13 @@ namespace WeSplitApp.View
 
         private void AddMemberButton_Click(object sender, RoutedEventArgs e)
         {
-            // TODO add member
             AddButton.Visibility = Visibility.Collapsed;
             string v = "MemberAddDialog";
             GetDialogs(v, new MEMBER(), "THÊM THÀNH VIÊN");
-
-
         }
 
         private void AddLocationButton_Click(object sender, RoutedEventArgs e)
         {
-            // TODO add location
-            //AddButton.Visibility = Visibility.Collapsed;
             AddButton.Visibility = Visibility.Collapsed;
             string v = "LocationAddDialog";
             GetDialogs(v, new LOCATION(), "THÊM ĐIỂM DỪNG");
@@ -185,8 +179,8 @@ namespace WeSplitApp.View
 
         private void AddTripButton_Click(object sender, RoutedEventArgs e)
         {
-            //TODO add Trip
             AddButton.Visibility = Visibility.Collapsed;
+            navigationDrawerNav.SelectedItem = null;
             contentControl.Content = new AddNewTripViewModel();
         }
 

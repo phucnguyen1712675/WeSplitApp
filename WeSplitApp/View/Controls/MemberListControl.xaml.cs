@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using WeSplitApp.ViewModel;
@@ -11,6 +11,7 @@ namespace WeSplitApp.View.Controls
     public partial class MemberListControl : UserControl
     {
         private static MemberListControl instance { get; set; }
+
         public MemberListControl()
         {
             InitializeComponent();
@@ -24,9 +25,15 @@ namespace WeSplitApp.View.Controls
             HomeScreen.GetHomeScreenInstance().GetDialogs("MemberAddDialog", editMember, "Xem/Chỉnh sửa Thành viên");
         }
 
-        public static void updateUI()
+        public static void updateMemberList()
         {
             instance.MemberList.Items.Refresh();
+        }
+
+        //TODO test change Rows per page
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            MemberListViewModel.getNewRowPerPage(Convert.ToInt32(tempBox.Text));
         }
     }
 }

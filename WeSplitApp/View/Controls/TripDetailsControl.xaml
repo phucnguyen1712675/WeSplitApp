@@ -332,11 +332,12 @@
             </TabControl>
         </Grid>
 
-        <Button
+        <Button x:Name="BackButton"
             Grid.Row="1"
             Margin="36,36,0,0"
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
+            Click="BackButton_Click"
             Command="{Binding BackCommand}"
             Content="{md:PackIcon Kind=ArrowLeft}"
             Style="{StaticResource MaterialDesignFloatingActionButton}"
