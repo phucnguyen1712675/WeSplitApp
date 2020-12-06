@@ -91,7 +91,7 @@ namespace WeSplitApp.ViewModel
             this._itemHandler = GetData();
 
             //TODO read from data.config
-            int RowsPerPage = 3;
+            int RowsPerPage = 4;
 
             CalculatePagingInfo(RowsPerPage, Items.Count);
             DisplayObjects();
