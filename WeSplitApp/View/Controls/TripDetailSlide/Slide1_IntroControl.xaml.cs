@@ -42,6 +42,7 @@ namespace WeSplitApp.View.Controls.TripDetailSlide
         private void BackSlide1Button_Click(object sender, RoutedEventArgs e)
         {
             HomeScreen.GetHomeScreenInstance().setVisibilityAddButton(Visibility.Visible);
+            HomeScreen.GetHomeScreenInstance().SearchTextBox.Clear();
         }
     }
 }

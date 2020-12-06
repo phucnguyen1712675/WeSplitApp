@@ -20,8 +20,15 @@ namespace WeSplitApp.ViewModel
 
         public TripDetailsViewModel(TRIP trip)
         {
-            SelectedTrip = trip;
-            this.MISSINGAMOUNT = trip.CURRENTPROCEEDS - trip.TOTALCOSTS;
+            if (trip == null)
+            {
+                //do nothing
+            }
+            else
+            {
+                SelectedTrip = trip;
+                this.MISSINGAMOUNT = trip.CURRENTPROCEEDS - trip.TOTALCOSTS;
+            }
         }
     }
 }

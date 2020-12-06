@@ -256,7 +256,6 @@
     <Compile Include="ViewModel\DialogHelperClass\AddDialogBaseViewModel.cs" />
     <Compile Include="ViewModel\DialogHelperClass\LocationAddDialogViewModel.cs" />
     <Compile Include="ViewModel\DialogHelperClass\MemberAddDialogViewModel.cs" />
-    <Compile Include="ViewModel\ExpectedTripListViewModel.cs" />
     <Compile Include="ViewModel\LocationListViewModel.cs" />
     <Compile Include="ViewModel\MemberListViewModel.cs" />
     <Compile Include="ViewModel\BeingTakenTripsListViewModel.cs" />
@@ -278,7 +277,6 @@
     <Compile Include="ViewModel\HaveTakenTripsListViewModel.cs" />
     <Compile Include="ViewModel\TripMemberPaidAmountDataGridViewModel.cs" />
     <Compile Include="ViewModel\TripsCollectionViewModel.cs" />
-    <Compile Include="ViewModel\TripsListViewModel.cs" />
     <Compile Include="ViewModel\ViewModel.cs" />
     <Compile Include="View\Controls\AboutUsControl.xaml.cs">
       <DependentUpon>AboutUsControl.xaml</DependentUpon>

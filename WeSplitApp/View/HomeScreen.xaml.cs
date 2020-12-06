@@ -199,9 +199,8 @@ namespace WeSplitApp.View
         }
         private void SearchEvent(object sender, TextChangedEventArgs e)
         {
-            string typeSearch = HaveTakenTripsListControl.GetInstance().SearchByComboBox.Text;
             int option = 0;
-            for (int i = 0; i <= NavigationItems.Count; i++)
+            for (int i = 0; i < 3; i++)
             {
                 if (NavigationItems[i].IsSelected)
                 {
@@ -214,11 +213,11 @@ namespace WeSplitApp.View
                 case 0:
                     if (TripsCollectionViewModel.index == 0)
                     {
-                        TripsListViewModel.instanse.search_byTripName(typeSearch);
+                        HaveTakenTripsListViewModel.Instance.search_byTripName();
                     }
                     else
                     {
-                        ExpectedTripListViewModel.instanse.search_byTripName();
+                        BeingTakenTripsListViewModel.Instance.search_byTripName();
                     }
                     break;
                 case 1:
