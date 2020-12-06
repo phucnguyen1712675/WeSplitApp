@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="624f6409d6e0481eac3fcb3e970ae138" Name="Diagram1" ZoomLevel="42">
+      <Diagram DiagramId="624f6409d6e0481eac3fcb3e970ae138" Name="Diagram1" ZoomLevel="94">
         <EntityTypeShape EntityType="WESPLITAPPModel.COSTINCURRED" Width="1.5" PointX="6.5" PointY="5.125" IsExpanded="true" />
         <EntityTypeShape EntityType="WESPLITAPPModel.LOCATION" Width="1.5" PointX="1.5" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="WESPLITAPPModel.MEMBER" Width="1.5" PointX="6.125" PointY="7.125" IsExpanded="true" />

@@ -325,11 +325,11 @@
     <Compile Include="View\Controls\TripDetailSlide\Slide1_IntroControl.xaml.cs">
       <DependentUpon>Slide1_IntroControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Controls\TripDetailSlide\Slide2_ProceedsControl.xaml.cs">
-      <DependentUpon>Slide2_ProceedsControl.xaml</DependentUpon>
+    <Compile Include="View\Controls\TripDetailSlide\Slide3_ProceedsControl.xaml.cs">
+      <DependentUpon>Slide3_ProceedsControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Controls\TripDetailSlide\Slide3_TotalCostsControl.xaml.cs">
-      <DependentUpon>Slide3_TotalCostsControl.xaml</DependentUpon>
+    <Compile Include="View\Controls\TripDetailSlide\Slide2_TotalCostsControl.xaml.cs">
+      <DependentUpon>Slide2_TotalCostsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DialogHelper\AddLocationDialog.xaml.cs">
       <DependentUpon>AddLocationDialog.xaml</DependentUpon>
@@ -496,11 +496,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Controls\TripDetailSlide\Slide2_ProceedsControl.xaml">
+    <Page Include="View\Controls\TripDetailSlide\Slide3_ProceedsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Controls\TripDetailSlide\Slide3_TotalCostsControl.xaml">
+    <Page Include="View\Controls\TripDetailSlide\Slide2_TotalCostsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

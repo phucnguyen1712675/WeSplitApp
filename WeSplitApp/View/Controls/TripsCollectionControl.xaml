@@ -56,8 +56,6 @@
 
                 <local:BeingTakenTripsListControl />
             </md:TransitionerSlide>
-
-
         </md:Transitioner>
     </Grid>
 </UserControl>
