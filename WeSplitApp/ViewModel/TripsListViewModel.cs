@@ -14,7 +14,6 @@ namespace WeSplitApp.ViewModel
     public abstract class TripsListViewModel : ViewModel
     {
         private Paging _paging = new Paging();
-
         public abstract bool IsDone { get; set; }
 
         private int _selectedIndex;

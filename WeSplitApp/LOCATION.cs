@@ -10,7 +10,8 @@
 namespace WeSplitApp
 {
     using System;
-    using System.Collections.ObjectModel;  
+    using System.Collections.ObjectModel;
+    
     public partial class LOCATION
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]

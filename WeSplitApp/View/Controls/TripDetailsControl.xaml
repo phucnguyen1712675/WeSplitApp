@@ -24,17 +24,6 @@
     <UserControl.Resources>
         <ResourceDictionary>
 
-            <!--<Style x:Key="MyGridStyle" TargetType="{x:Type Grid}">
-                <Style.Resources>
-                    <Style TargetType="{x:Type TextBlock}">
-                        <Setter Property="Foreground" Value="#0a0521" />
-                    </Style>
-                    <Style TargetType="{x:Type TextBox}">
-                        <Setter Property="Foreground" Value="#0a0521" />
-                    </Style>
-                </Style.Resources>
-            </Style>-->
-
             <conv:ImageConverter x:Key="imageConverter" />
             <conv:DoubleToVNDConverter x:Key="doubleToVNDConverter" />
             <conv:StatusToStringConverter x:Key="statusToStringConverter" />
@@ -87,7 +76,8 @@
                         Duration="0:0:0.8" />
                 </md:TransitionerSlide.OpeningEffects>
 
-                <details:Slide2_ProceedsControl />
+                <details:Slide2_TotalCostsControl DataContext="{Binding Path=SelectedTrip}" />
+
             </md:TransitionerSlide>
 
             <md:TransitionerSlide
@@ -102,8 +92,9 @@
                         OffsetTime="0:0:0.15"
                         Duration="0:0:0.8" />
                 </md:TransitionerSlide.OpeningEffects>
+                
+                <details:Slide3_ProceedsControl DataContext="{Binding Path=SelectedTrip}" />
 
-                <details:Slide3_TotalCostsControl />
             </md:TransitionerSlide>
 
 

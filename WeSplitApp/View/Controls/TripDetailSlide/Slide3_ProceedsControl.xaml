@@ -1,0 +1,243 @@
+﻿<UserControl
+    x:Class="WeSplitApp.View.Controls.TripDetailSlide.Slide3_ProceedsControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:conv="clr-namespace:WeSplitApp.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:WeSplitApp.View.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+    d:DesignHeight="900"
+    d:DesignWidth="1900"
+    Background="White"
+    FontFamily="{md:MaterialDesignFont}"
+    Foreground="{DynamicResource MaterialDesignBody}"
+    TextElement.FontSize="14"
+    TextElement.FontWeight="Medium"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+
+            <conv:ImageConverter x:Key="imageConverter" />
+            <conv:DoubleToVNDConverter x:Key="doubleToVNDConverter" />
+            <conv:StatusToStringConverter x:Key="statusToStringConverter" />
+            <conv:StatusColorConverter x:Key="statusColorConverter" />
+            <conv:StatusToDetailTitleConverter x:Key="statusToDetailTitleConverter" />
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml" />
+                <!--  throw in some extra colour for our floating action button  -->
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/MaterialDesignColor.Green.Named.Primary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="9*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="3.5*" />
+            </Grid.RowDefinitions>
+
+            <StackPanel
+                Grid.Row="0"
+                Margin="0,20"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+                <TextBlock
+                    Margin="0,10"
+                    FontWeight="Bold"
+                    Style="{StaticResource MaterialDesignHeadline3TextBlock}"
+                    Text="Về các khoản thu"
+                    TextAlignment="Center" />
+                <StackPanel Orientation="Horizontal">
+                    <Border
+                        Height="40"
+                        Margin="10,0"
+                        BorderBrush="#FFECEFF1"
+                        BorderThickness="1"
+                        CornerRadius="20">
+                        <StackPanel
+                            Margin="10,0"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <md:PackIcon
+                                Margin="0,0,5,0"
+                                Foreground="{DynamicResource PrimaryHueMidBrush}"
+                                Kind="Calendar" />
+                            <TextBlock Text="{Binding TOGODATE, StringFormat='{}{0:dd/MM/yyyy}'}" />
+                            <TextBlock Text=" - " />
+                            <TextBlock Text="{Binding RETURNDATE, StringFormat='{}{0:dd/MM/yyyy}'}" />
+                        </StackPanel>
+                    </Border>
+                    <Border
+                        Height="40"
+                        Margin="10,0"
+                        BorderBrush="#FFECEFF1"
+                        BorderThickness="1"
+                        CornerRadius="20">
+                        <StackPanel
+                            Margin="10,0"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <md:PackIcon
+                                Margin="0,0,5,0"
+                                Foreground="{DynamicResource PrimaryHueMidBrush}"
+                                Kind="AccountSupervisor" />
+                            <TextBlock Text="Số người: " />
+                            <TextBlock Text="{Binding TRIP_MEMBER.Count}" />
+                        </StackPanel>
+                    </Border>
+                    <Border
+                        Height="40"
+                        Margin="10,0"
+                        BorderBrush="#FFECEFF1"
+                        BorderThickness="1"
+                        CornerRadius="20">
+                        <StackPanel
+                            Margin="10,0"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <md:PackIcon
+                                Margin="0,0,5,0"
+                                Foreground="{DynamicResource PrimaryHueMidBrush}"
+                                Kind="Cash" />
+                            <TextBlock Text="Tổng chi: " />
+                            <TextBlock Text="{Binding TOTALCOSTS, Converter={StaticResource doubleToVNDConverter}}" />
+                        </StackPanel>
+                    </Border>
+                    <Border
+                        Height="40"
+                        Margin="10,0"
+                        BorderBrush="#FFECEFF1"
+                        BorderThickness="1"
+                        CornerRadius="20">
+                        <StackPanel
+                            Margin="10,0"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <md:PackIcon
+                                Margin="0,0,5,0"
+                                Foreground="{DynamicResource PrimaryHueMidBrush}"
+                                Kind="CurrencyUsd" />
+                            <TextBlock Text="Tổng thu: " />
+                            <TextBlock Text="{Binding CURRENTPROCEEDS, Converter={StaticResource doubleToVNDConverter}}" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </StackPanel>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <local:CurrentProceedsPieChartControl Grid.Row="0" />
+                    <StackPanel
+                        Grid.Row="1"
+                        HorizontalAlignment="Center"
+                        DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}">
+                        <Button
+                            Margin="16"
+                            VerticalAlignment="Center"
+                            Command="{x:Static md:Transitioner.MovePreviousCommand}"
+                            Content="{md:PackIcon Kind=StepBackward}"
+                            Style="{DynamicResource MaterialDesignFloatingActionMiniButton}"
+                            ToolTip="Back to home screen" />
+                        <Button
+                            Width="140"
+                            Height="40"
+                            md:ButtonAssist.CornerRadius="25"
+                            Background="#FF00897B"
+                            Command="{Binding HomeScreenCommand}"
+                            Content="Trở về trang chủ"
+                            Style="{StaticResource MaterialDesignRaisedDarkButton}" />
+                    </StackPanel>
+                </Grid>
+                <ListView
+                    Grid.Column="0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Stretch"
+                    ItemsSource="{Binding TRIP_MEMBER}"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                    ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <md:Card
+                                Width="200"
+                                Height="330"
+                                md:ShadowAssist.ShadowDepth="Depth0"
+                                Background="White"
+                                UniformCornerRadius="25">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="3*" />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+
+                                    <Image
+                                        Grid.Row="0"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Source="{Binding MEMBER.AVATAR, Converter={StaticResource imageConverter}}"
+                                        Stretch="UniformToFill" />
+                                    <Grid Grid.Row="1" Background="{DynamicResource PrimaryHueDarkBrush}">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="1.5*" />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <TextBlock
+                                            Grid.Row="0"
+                                            Margin="20,10,0,5"
+                                            FontSize="16"
+                                            FontWeight="Bold"
+                                            Foreground="White"
+                                            Text="{Binding MEMBER.NAME}" />
+                                        <TextBlock
+                                            Grid.Row="1"
+                                            Margin="20,0"
+                                            Foreground="White"
+                                            Text="{Binding MEMBER.PHONENUMBER}" />
+                                        <StackPanel
+                                            Grid.Row="2"
+                                            Margin="20,0"
+                                            Orientation="Horizontal">
+                                            <md:PackIcon
+                                                Margin="0,0,5,0"
+                                                Foreground="#FFEEFF41"
+                                                Kind="Cash100" />
+                                            <TextBlock Foreground="#FFEEFF41" Text="{Binding AMOUNTPAID, Converter={StaticResource doubleToVNDConverter}}" />
+                                        </StackPanel>
+                                    </Grid>
+                                </Grid>
+                            </md:Card>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>
