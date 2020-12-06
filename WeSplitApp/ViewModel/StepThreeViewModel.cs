@@ -41,7 +41,15 @@ namespace WeSplitApp.ViewModel
                 else temp.ISDONE = false;
                 HomeScreen.GetDatabaseEntities().TRIPS.Add(temp);
                 HomeScreen.GetDatabaseEntities().SaveChanges();
-                TripsListViewModel.AddTrip(temp);
+                if (temp.ISDONE == true)
+                {
+                    HaveTakenTripsListViewModel.AddTrip(temp);
+
+                }
+                else
+                {
+                    BeingTakenTripsListViewModel.AddTrip(temp);
+                }
                 MessageBox.Show("Thêm thành công");
             }
             else

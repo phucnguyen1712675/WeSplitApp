@@ -24,11 +24,11 @@ namespace WeSplitApp.ViewModel
                 
                 if (index == 0)
                 {
-                    TripsListViewModel.instanse.search_byTripName("");
+                    HaveTakenTripsListViewModel.Instance.search_byTripName();
                 }
                 else
                 {
-                    ExpectedTripListViewModel.instanse.search_byTripName();
+                    BeingTakenTripsListViewModel.Instance.search_byTripName();
 
                 }
 

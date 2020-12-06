@@ -110,7 +110,7 @@ namespace WeSplitApp.ViewModel
             }
             instance.LOCATIONS = new ObservableCollection<LOCATION>(locationList);
             instance.CalculatePagingInfo(instance.Paging.RowsPerPage, instance.LOCATIONS.Count);
-            instance.DisplayMembers();
+            instance.DisplayObjects();
         }
     }
 }

@@ -115,7 +115,7 @@ namespace WeSplitApp.ViewModel
             }
             instance.MEMBERS = new ObservableCollection<MEMBER>(memberList);
             instance.CalculatePagingInfo(instance.Paging.RowsPerPage, instance.MEMBERS.Count);
-            instance.DisplayMembers();
+            instance.DisplayObjects();
         }
     }
 }
