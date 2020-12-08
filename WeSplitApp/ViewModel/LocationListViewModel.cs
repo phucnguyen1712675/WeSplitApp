@@ -60,7 +60,7 @@ namespace WeSplitApp.ViewModel
             {
                 List<LOCATION> resultSort = (List<LOCATION>)MySort[method].DynamicInvoke();
                 LOCATIONS = new ObservableCollection<LOCATION>(resultSort);
-                DisplayMembers();
+                DisplayObjects();
             }
         }
         private List<LOCATION> SetDescendingPositionAccordingToName()

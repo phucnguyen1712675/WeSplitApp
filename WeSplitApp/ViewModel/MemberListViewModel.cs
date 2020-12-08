@@ -59,7 +59,7 @@ namespace WeSplitApp.ViewModel
             {
                 List<MEMBER> resultSort =(List<MEMBER>)MySort[method].DynamicInvoke();
                 MEMBERS = new ObservableCollection<MEMBER>(resultSort);
-                DisplayMembers();
+                DisplayObjects();
             }
         }
 
@@ -125,7 +125,7 @@ namespace WeSplitApp.ViewModel
             }
             instance.CalculatePagingInfo(RowsPerPage, instance.MEMBERS.Count);
             instance.SelectedIndex = 0;
-            instance.DisplayMembers();
+            instance.DisplayObjects();
             return true;
         }
         #endregion
