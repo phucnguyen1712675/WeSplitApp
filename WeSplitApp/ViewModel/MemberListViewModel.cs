@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using WeSplitApp.Utils;
 using WeSplitApp.View;
 using WeSplitApp.View.Controls;
@@ -106,7 +107,7 @@ namespace WeSplitApp.ViewModel
             }
         }
 
-        public override void DisplayMembers()
+        public override void DisplayObjects()
         {
             var page = this.SelectedIndex + 1;
             var skip = (page - 1) * this._paging.RowsPerPage;
@@ -134,9 +135,33 @@ namespace WeSplitApp.ViewModel
             if(instance != null)
             {
                 instance.MEMBERS.Add(member);
-                instance.DisplayMembers();
-                SettingsViewModel.Instance.UpdateMemberMaxPaging();
+                instance.DisplayObjects();
             }
+        }
+
+        public void searchMember_ByName()
+        {
+            
+            string request = HomeScreen.GetHomeScreenInstance().SearchTextBox.Text;
+            //MessageBox.Show("Chay duoc roi");
+            List <MEMBER> memberList;
+            if (request.Length <= 0)
+            {
+                memberList = (HomeScreen.GetDatabaseEntities().MEMBERS).ToList();
+                //this.ToShowItems = new ObservableCollection<TRIP>(all);
+            }
+            else
+            {
+                //search by TITLE
+                var requestText = convertUnicode.convertToUnSign(request.Trim().ToLower());
+                memberList = (HomeScreen.GetDatabaseEntities().MEMBERS.AsEnumerable().Where(mem => convertUnicode.convertToUnSign(mem.NAME.Trim().ToLower()).Contains(requestText))).ToList();
+                
+                //MessageBox.Show(b[0].TITTLE);
+                //this.ToShowItems = new ObservableCollection<TRIP>(tripList);
+            }
+            instance.MEMBERS = new ObservableCollection<MEMBER>(memberList);
+            instance.CalculatePagingInfo(instance.Paging.RowsPerPage, instance.MEMBERS.Count);
+            instance.DisplayObjects();
         }
     }
 }

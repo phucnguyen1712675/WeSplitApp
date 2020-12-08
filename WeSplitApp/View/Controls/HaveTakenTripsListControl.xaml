@@ -59,16 +59,35 @@
                     TextWrapping="WrapWithOverflow" />
             </Viewbox>
             <StackPanel Orientation="Horizontal" />
-            <ListBox
-                Grid.Row="1"
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="11*"/>
+                    <ColumnDefinition Width="5*"/>
+                </Grid.ColumnDefinitions>
+                <ListBox
+                Grid.Column="0"
                 Margin="130,0"
                 VerticalAlignment="Center"
                 Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineListBox}">
-                <ListBoxItem Content="Date" IsSelected="True" />
-                <ListBoxItem Content="Distance" />
-                <ListBoxItem Content="Cost" />
-                <ListBoxItem Content="Most seen" />
-            </ListBox>
+                    <ListBoxItem  Content="Date" IsSelected="True" />
+                    <ListBoxItem Content="Distance" />
+                    <ListBoxItem Content="Cost" />
+                    <ListBoxItem Content="Most seen" />
+                </ListBox>
+                <ComboBox x:Name="SearchByComboBox" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Stretch"
+                          Margin="0,0,130,0"
+                    md:HintAssist.Hint="Search By"
+                    md:HintAssist.HintOpacity=".26"
+                    IsEditable="True">
+                                      <ComboBoxItem
+                      Content="Trip Title" />
+                                      <ComboBoxItem
+                      Content="Member Name" />
+                                      <ComboBoxItem
+                      Content="Location Name" />                                     
+                </ComboBox>
+            </Grid>
+           
             <local:TripsListControl
                 Grid.Row="2"
                 HorizontalContentAlignment="Center"

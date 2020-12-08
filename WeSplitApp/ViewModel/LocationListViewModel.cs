@@ -53,6 +53,7 @@ namespace WeSplitApp.ViewModel
         {
             return MySort.Keys.ToList();
         }
+
         protected override void SetSort(string method)
         {
             if (MySort.ContainsKey(method))
@@ -100,7 +101,7 @@ namespace WeSplitApp.ViewModel
             }
         }
 
-        public override void DisplayMembers()
+        public override void DisplayObjects()
         {
             var page = this.SelectedIndex + 1;
             var skip = (page - 1) * this._paging.RowsPerPage;
@@ -130,9 +131,33 @@ namespace WeSplitApp.ViewModel
         {
             if (instance != null)
             {
-                LOCATIONS.Add(newLocation);
-                DisplayMembers();
+                instance.LOCATIONS.Add(newLocation);
+                instance.DisplayObjects();
             }
+        }
+        public void searchLocation_ByName()
+        {
+
+            string request = HomeScreen.GetHomeScreenInstance().SearchTextBox.Text;
+            //MessageBox.Show("Chay duoc roi");
+            List<LOCATION> locationList;
+            if (request.Length <= 0)
+            {
+                locationList = (HomeScreen.GetDatabaseEntities().LOCATIONS).ToList();
+                //this.ToShowItems = new ObservableCollection<TRIP>(all);
+            }
+            else
+            {
+                //search by TITLE
+                var requestText = convertUnicode.convertToUnSign(request.Trim().ToLower());
+                locationList = (HomeScreen.GetDatabaseEntities().LOCATIONS.AsEnumerable().Where(loca => convertUnicode.convertToUnSign(loca.NAME.Trim().ToLower()).Contains(requestText))).ToList();
+
+                //MessageBox.Show(b[0].TITTLE);
+                //this.ToShowItems = new ObservableCollection<TRIP>(tripList);
+            }
+            instance.LOCATIONS = new ObservableCollection<LOCATION>(locationList);
+            instance.CalculatePagingInfo(instance.Paging.RowsPerPage, instance.LOCATIONS.Count);
+            instance.DisplayObjects();
         }
     }
 }

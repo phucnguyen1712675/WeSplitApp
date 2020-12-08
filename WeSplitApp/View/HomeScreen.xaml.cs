@@ -11,7 +11,7 @@ using System.Windows.Controls;
 using WeSplitApp.View.DialogHelper;
 using WeSplitApp.ViewModel;
 using WeSplitApp.ViewModel.DialogHelperClass;
-
+using WeSplitApp.View.Controls;
 namespace WeSplitApp.View
 {
     /// <summary>
@@ -65,11 +65,13 @@ namespace WeSplitApp.View
 
         }
 
-        private static void ClosingMemberDialogEventHandler(object sender, DialogClosingEventArgs eventArgs) {
+        private static void ClosingMemberDialogEventHandler(object sender, DialogClosingEventArgs eventArgs)
+        {
             HomeScreen.homeScreen.AddButton.Visibility = Visibility.Visible;
         }
 
-        private static void ClosingLocationDialogEventHandler(object sender, DialogClosingEventArgs eventArgs) {
+        private static void ClosingLocationDialogEventHandler(object sender, DialogClosingEventArgs eventArgs)
+        {
             HomeScreen.homeScreen.AddButton.Visibility = Visibility.Visible;
         }
 
@@ -111,7 +113,7 @@ namespace WeSplitApp.View
 
         public static HomeScreen GetHomeScreenInstance() => homeScreen;
         public static WESPLITAPPEntities GetDatabaseEntities() => homeScreen.database; //TODO
-        
+
         private void LoadedHandler(object sender, RoutedEventArgs args)
         {
             navigationDrawerNav.SelectedItem = m_navigationItems[0];
@@ -184,6 +186,11 @@ namespace WeSplitApp.View
             contentControl.Content = new AddNewTripViewModel();
         }
 
+        public static void SetNavigationDrawerNavNull()
+        {
+            homeScreen.navigationDrawerNav.SelectedItem = null;
+        }
+
         private void showSearchTestScreen(object sender, RoutedEventArgs e)
         {
             Search_Temp abc = new Search_Temp();
@@ -192,7 +199,40 @@ namespace WeSplitApp.View
         }
         private void SearchEvent(object sender, TextChangedEventArgs e)
         {
-            TripsListViewModel.instanse.search_byTripName();
+            int option = 0;
+            for (int i = 0; i < 3; i++)
+            {
+                if (NavigationItems[i].IsSelected)
+                {
+                    option = i;
+                    break;
+                }
+            }
+            switch (option)
+            {
+                case 0:
+                    if (TripsCollectionViewModel.index == 0)
+                    {
+                        HaveTakenTripsListViewModel.Instance.search_byTripName();
+                    }
+                    else
+                    {
+                        BeingTakenTripsListViewModel.Instance.search_byTripName();
+                    }
+                    break;
+                case 1:
+                    MemberListViewModel.Instance.searchMember_ByName();
+                    break;
+                case 2:
+                    LocationListViewModel.Instance.searchLocation_ByName();
+                    //giao dien member
+                    break;
+            }
+
+
+            //MessageBox.Show( NavigationItems[0].IsSelected.ToString());
+            //TripsListViewModel.instanse.search_byTripName();
+            //ExpectedTripListViewModel.instanse.search_byTripName();
         }
 
         private void MaterialWindow_Loaded(object sender, RoutedEventArgs e)

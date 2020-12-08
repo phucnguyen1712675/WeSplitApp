@@ -20,9 +20,14 @@ namespace WeSplitApp.View.Controls
     /// </summary>
     public partial class HaveTakenTripsListControl : UserControl
     {
+        private static HaveTakenTripsListControl haveTakenTripList = null;
+
+        public static HaveTakenTripsListControl GetInstance() => haveTakenTripList;
         public HaveTakenTripsListControl()
         {
             InitializeComponent();
+            haveTakenTripList = this;
         }
+
     }
 }

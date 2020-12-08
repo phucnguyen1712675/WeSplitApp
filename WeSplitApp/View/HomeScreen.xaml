@@ -187,22 +187,6 @@
                                         <ListBoxItem Content="Goodbye" />
                                     </ListBox>
                                 </md:PopupBox>
-                                <!--<ToggleButton
-                                    Grid.Column="1"
-                                    Margin="16,0,0,0"
-                                    VerticalAlignment="Center"
-                                    IsChecked="{Binding Path=IsDarkTheme}" />-->
-                                <!--<Menu
-                                    Grid.Column="1"
-                                    Height="38"
-                                    Margin="10,0,0,0"
-                                    VerticalAlignment="Center">
-                                    <MenuItem VerticalAlignment="Center" Header="Tiêu chí">
-                                        <CheckBox Content="Tên chuyến đi" />
-                                        <CheckBox Content="Tên điểm dừng" />
-                                        <CheckBox Content="Tên thành viên" />
-                                    </MenuItem>
-                                </Menu>-->
                             </Grid>
                         </Grid>
                     </mde:AppBar>

@@ -63,7 +63,7 @@
                 Command="{x:Static md:Transitioner.MovePreviousCommand}"
                 Content="{md:PackIcon Kind=StepBackward}"
                 Style="{DynamicResource MaterialDesignFloatingActionButton}"
-                ToolTip="Back" />
+                ToolTip="Back"/>
         </Grid>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
@@ -95,7 +95,7 @@
                 <ListBoxItem Content="Cost" />
                 <ListBoxItem Content="Most seen" />
             </ListBox>
-            <local:TripsListControl
+            <local:ExpectedTripListControl
                 Grid.Row="2"
                 HorizontalContentAlignment="Center"
                 VerticalContentAlignment="Center" />
