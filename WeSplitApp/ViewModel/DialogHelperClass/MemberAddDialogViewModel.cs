@@ -35,7 +35,7 @@ namespace WeSplitApp.ViewModel.DialogHelperClass
                     // trường hợp đang làm trong màn hình AddTrip <=> refresh list Members
                     if(AddNewTripViewModel.Instance != null) AddNewTripViewModel.Instance.MEMBERs.Add(NewMember);
                     //trường hợp đang làm trong màn hình MemberList <=> refresh list Members
-                    MemberListViewModel.updateList(NewMember);
+                    MemberListViewModel.Instance.updateList(NewMember);
                 }
                 else
                 {

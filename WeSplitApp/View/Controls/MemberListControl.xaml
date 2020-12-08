@@ -123,8 +123,10 @@
                 <ComboBox
                 ItemsSource="{Binding Paging.Pages, Mode=OneWay}"
                 Name="MemberListPagingComboBox"
-                Width="100"   
-                Height="40"
+                Background="White"
+                Width="80"   
+                Height="45"
+                FontSize="14"
                 HorizontalContentAlignment="Center"
                 VerticalContentAlignment="Center"
                 SelectedIndex="{Binding SelectedIndex}"
@@ -139,7 +141,7 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                
+
                 <Button
             Grid.Column="2"
             HorizontalAlignment="Center"
@@ -148,10 +150,6 @@
             Style="{StaticResource MaterialDesignIconButton}"
             ToolTip="Next" 
             Margin="20,10,00,0"/>
-
-                <!--TODO test change Rows per page-->
-                <TextBox Text="{Binding Paging.RowsPerPage}" Name="tempBox"/>
-                <Button Click="Button_Click"/>
             </StackPanel>
             
         </StackPanel>

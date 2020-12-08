@@ -11,6 +11,8 @@
     xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:system="clr-namespace:System;assembly=mscorlib"
     xmlns:viewModel="clr-namespace:WeSplitApp.ViewModel"
+    Loaded="MaterialWindow_Loaded"
+    Closing="MaterialWindow_Closing"
     Title="WE SPLIT APP"
     Width="1900"
     Height="900"

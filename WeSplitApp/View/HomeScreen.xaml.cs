@@ -91,7 +91,7 @@ namespace WeSplitApp.View
                 new FirstLevelNavigationItem() { Label = "Các chuyến đi", Icon = PackIconKind.MapMarker, NavigationItemSelectedCallback = item => new TripsCollectionViewModel()},
                 new FirstLevelNavigationItem() { Label = "Danh sách thành viên", Icon = PackIconKind.AccountMultipleOutline, NavigationItemSelectedCallback = item =>MemberListViewModel.Instance},
                 new FirstLevelNavigationItem() { Label = "Danh sách điểm dừng", Icon = PackIconKind.MapMarkerStar, NavigationItemSelectedCallback = item => LocationListViewModel.Instance},
-                new FirstLevelNavigationItem() { Label = "Cài đặt", Icon = PackIconKind.Settings, NavigationItemSelectedCallback = item => new SettingsViewModel()},
+                new FirstLevelNavigationItem() { Label = "Cài đặt", Icon = PackIconKind.Settings, NavigationItemSelectedCallback = item => SettingsViewModel.Instance},
                 new FirstLevelNavigationItem() { Label = "Về chúng tôi", Icon = PackIconKind.About, NavigationItemSelectedCallback = item => new AboutUsViewModel()},
             };
 
@@ -193,6 +193,16 @@ namespace WeSplitApp.View
         private void SearchEvent(object sender, TextChangedEventArgs e)
         {
             TripsListViewModel.instanse.search_byTripName();
+        }
+
+        private void MaterialWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+             SettingsViewModel.Instance.LoadAll();
+        }
+
+        private void MaterialWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            SettingsViewModel.Instance.SaveAll();
         }
     }
 }

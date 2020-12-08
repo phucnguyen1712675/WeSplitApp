@@ -29,11 +29,5 @@ namespace WeSplitApp.View.Controls
         {
             instance.MemberList.Items.Refresh();
         }
-
-        //TODO test change Rows per page
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            MemberListViewModel.getNewRowPerPage(Convert.ToInt32(tempBox.Text));
-        }
     }
 }
