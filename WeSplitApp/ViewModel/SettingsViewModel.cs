@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Configuration;
 using System.Linq;
@@ -34,10 +35,7 @@ namespace WeSplitApp.ViewModel
             //load handle here
             LoadMemberViewModel();
             LoadLocationViewModel();
-
-            /*
-             * LoadTripViewModel()
-             */
+            LoadTripViewModel();
             var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             SplashScreen = bool.Parse(config.AppSettings.Settings["isSplashScreenAllowed"].Value);
         }
@@ -47,10 +45,7 @@ namespace WeSplitApp.ViewModel
             //Save all before closing app
             SaveMemberViewModel();
             SaveLocationViewModel();
-
-            /*
-             * SaveTripViewModel()
-             */
+            SaveTripViewModel();
             var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             config.AppSettings.Settings["isSplashScreenAllowed"].Value = SplashScreen.ToString();
             config.Save(ConfigurationSaveMode.Minimal);
@@ -190,16 +185,26 @@ namespace WeSplitApp.ViewModel
         }
         #endregion
 
-        #region Trip //TODO tạo delegate dictionary trong Trip
-        public void SaveTripViewModel() { }
-        public void LoadtripViewModel()
+        #region Trip 
+        public void SaveTripViewModel() {
+            var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            config.AppSettings.Settings["TripCurrentPaging"].Value = TripCurrentPaging.ToString();
+            config.AppSettings.Settings["TripLoadSortMethod"].Value = TripLoadSortMethod.ToString();
+            config.Save(ConfigurationSaveMode.Minimal);
+        }
+        public void LoadTripViewModel()
         {
-            //TODO load things here
-            /*LocationMaxPaging = LocationListViewModel.Instance.GetMaximum();
-            LocationCurrentPaging = 4;
-            LocationSortMethods = LocationListViewModel.Instance.getSortMethod();
-            LocationLoadSortMethod = 0;
-            LocationListViewModel.Instance.MakeSort(LocationLoadSortMethod);*/
+            var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            TripCurrentPaging = int.Parse(config.AppSettings.Settings["TripCurrentPaging"].Value);
+            TripSortMethods = BeingTakenTripsListViewModel.Instance.getSortMethod();
+            TripLoadSortMethod = int.Parse(config.AppSettings.Settings["TripLoadSortMethod"].Value);
+
+            HaveTakenTripsListViewModel.Instance.MakeSort(LocationLoadSortMethod);
+            BeingTakenTripsListViewModel.Instance.MakeSort(TripLoadSortMethod);
+
+            int HaveTrips = HaveTakenTripsListViewModel.Instance.GetMaxiMum();
+            int BeingTrips = BeingTakenTripsListViewModel.Instance.GetMaxiMum();
+            TripMaxPaging = (BeingTrips > HaveTrips) ? BeingTrips : HaveTrips;
         }
 
         private int _tripCurrentPaging;
@@ -210,13 +215,13 @@ namespace WeSplitApp.ViewModel
             {
                 this._tripCurrentPaging = value;
                 OnPropertyChanged();
-               //LocationListViewModel.Instance.getNewRowPerPage(_locationCurrentPaging);
-               //tạo hàm tựa trên để tính toán phân trang lại của Trip List
+               BeingTakenTripsListViewModel.Instance.getNewRowPerPage(_tripCurrentPaging);
+               HaveTakenTripsListViewModel.Instance.getNewRowPerPage(_tripCurrentPaging);
             }
         }
 
         private int _tripMaxPaging;
-        public int tripMaxPaging
+        public int TripMaxPaging
         {
             get => _tripMaxPaging;
             set
@@ -234,17 +239,18 @@ namespace WeSplitApp.ViewModel
             {
                 this._tripLoadSortMethod = value;
                 OnPropertyChanged();
-               // MemberListViewModel.Instance.MakeSort(LocationLoadSortMethod);
-               //tạo hàm tựa như trên để sort theo index truyền vào
+                BeingTakenTripsListViewModel.Instance.MakeSort(_tripLoadSortMethod);
+                HaveTakenTripsListViewModel.Instance.MakeSort(_tripLoadSortMethod);
             }
         }
 
-        public List<string> tripSortMethods { get; set; }
+        public List<string> TripSortMethods { get; set; }
 
         internal void UpdateTripMaxPaging()
         {
-            //LocationMaxPaging = LocationListViewModel.Instance.GetMaximum();
-            //tạo hàm tựa như trên để update lại max paging đc binding trong setting 
+            int BeingTrips = BeingTakenTripsListViewModel.Instance.GetMaxiMum();
+            int HaveTrips = BeingTakenTripsListViewModel.Instance.GetMaxiMum();
+            TripMaxPaging =  (BeingTrips > HaveTrips) ? BeingTrips : HaveTrips;
         }
         #endregion
     }

@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WeSplitApp.Utils;
+using WeSplitApp.ViewModel;
 
 namespace WeSplitApp.View.Controls
 {
@@ -24,16 +25,7 @@ namespace WeSplitApp.View.Controls
         public BeingTakenTripsListControl()
         {
             InitializeComponent();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-
+            DataContext = BeingTakenTripsListViewModel.Instance;
         }
     }
 }

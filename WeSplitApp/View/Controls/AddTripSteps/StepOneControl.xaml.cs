@@ -48,7 +48,7 @@ namespace WeSplitApp.View.Controls.AddTripSteps
                 var bitmap = new BitmapImage(
                     new Uri(imagePath, UriKind.Absolute)
                 );
-                //TripImage.Source = bitmap;
+                TripImage.Source = bitmap;
             }
         }
 

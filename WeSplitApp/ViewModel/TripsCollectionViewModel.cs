@@ -29,8 +29,8 @@ namespace WeSplitApp.ViewModel
                 else
                 {
                     BeingTakenTripsListViewModel.Instance.search_byTripName();
-
                 }
+
 
             }
         }

@@ -21,7 +21,8 @@ namespace WeSplitApp.ViewModel
                 OnPropertyChanged();
             }
         }
-        public PagingListObjects PagingListObjects { get; set; }
+
+        //public PagingListObjects PagingListObjects { get; set; }
 
         private static MemberListViewModel instance = null;
         public static MemberListViewModel Instance
@@ -65,12 +66,12 @@ namespace WeSplitApp.ViewModel
 
         private List<MEMBER> SetDescendingPositionAccordingToName()
         {
-            return MEMBERS.OrderBy(c => c.NAME).ToList();
+            return MEMBERS.OrderByDescending(c => c.NAME).ToList();
         }
 
         private List<MEMBER> SetAscendingPositionAccordingToName()
         {
-            return MEMBERS.OrderByDescending(c => c.NAME).ToList();
+            return MEMBERS.OrderBy(c => c.NAME).ToList();
         }
 
         private List<MEMBER> SetDefaultPosition()
@@ -119,13 +120,13 @@ namespace WeSplitApp.ViewModel
 
         public bool getNewRowPerPage(int RowsPerPage) // được gọi trong setting
         {
-            if(RowsPerPage > instance.MEMBERS.Count)
+            if(RowsPerPage > MEMBERS.Count)
             {
                 return false;
             }
-            instance.CalculatePagingInfo(RowsPerPage, instance.MEMBERS.Count);
-            instance.SelectedIndex = 0;
-            instance.DisplayObjects();
+            CalculatePagingInfo(RowsPerPage, MEMBERS.Count);
+            SelectedIndex = 0;
+            DisplayObjects();
             return true;
         }
         #endregion

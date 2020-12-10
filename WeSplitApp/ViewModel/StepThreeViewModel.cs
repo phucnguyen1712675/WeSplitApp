@@ -43,12 +43,12 @@ namespace WeSplitApp.ViewModel
                 HomeScreen.GetDatabaseEntities().SaveChanges();
                 if (temp.ISDONE == true)
                 {
-                    HaveTakenTripsListViewModel.AddTrip(temp);
+                    HaveTakenTripsListViewModel.Instance.AddTrip(temp);
 
                 }
                 else
                 {
-                    BeingTakenTripsListViewModel.AddTrip(temp);
+                    BeingTakenTripsListViewModel.Instance.AddTrip(temp);
                 }
                 MessageBox.Show("Thêm thành công");
             }
