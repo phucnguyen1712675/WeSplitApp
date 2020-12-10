@@ -34,6 +34,7 @@ namespace WeSplitApp.ViewModel
             TripSortMethods();
         }
 
+        //TODO tín
         public override void search_byTripName()
         {
             string request = HomeScreen.GetHomeScreenInstance().SearchTextBox.Text;
@@ -84,9 +85,9 @@ namespace WeSplitApp.ViewModel
             }
 
             //Duoc xai
-            instance.SearchResult = new ObservableCollection<TRIP>(tripList);
-            instance.CalculatePagingInfo(instance.Paging.RowsPerPage, instance.SearchResult.Count);
-            instance.DisplayObjects_Search();
+            SearchResult = new ObservableCollection<TRIP>(tripList);
+            CalculatePagingInfo(Paging.RowsPerPage,SearchResult.Count);
+            DisplayObjects_Search();
         }
 
     }

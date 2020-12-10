@@ -136,6 +136,7 @@ namespace WeSplitApp.ViewModel
             {
                 this._toShowItems = value;
                 OnPropertyChanged();
+
             }
         }
 
