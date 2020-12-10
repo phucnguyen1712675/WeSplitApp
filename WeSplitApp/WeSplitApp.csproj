@@ -278,6 +278,7 @@
     <Compile Include="ViewModel\HaveTakenTripsListViewModel.cs" />
     <Compile Include="ViewModel\TripMemberPaidAmountDataGridViewModel.cs" />
     <Compile Include="ViewModel\TripsCollectionViewModel.cs" />
+    <Compile Include="ViewModel\TripViewModel.cs" />
     <Compile Include="ViewModel\ViewModel.cs" />
     <Compile Include="View\Controls\AboutUsControl.xaml.cs">
       <DependentUpon>AboutUsControl.xaml</DependentUpon>

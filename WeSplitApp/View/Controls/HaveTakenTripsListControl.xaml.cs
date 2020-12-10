@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WeSplitApp.ViewModel;
 
 namespace WeSplitApp.View.Controls
 {
@@ -23,11 +24,14 @@ namespace WeSplitApp.View.Controls
         private static HaveTakenTripsListControl haveTakenTripList = null;
 
         public static HaveTakenTripsListControl GetInstance() => haveTakenTripList;
+
         public HaveTakenTripsListControl()
         {
             InitializeComponent();
+            DataContext = HaveTakenTripsListViewModel.Instance;
             haveTakenTripList = this;
         }
 
     }
 }
+ 

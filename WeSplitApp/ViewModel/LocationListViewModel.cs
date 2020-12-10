@@ -65,12 +65,12 @@ namespace WeSplitApp.ViewModel
         }
         private List<LOCATION> SetDescendingPositionAccordingToName()
         {
-            return LOCATIONS.OrderBy(c => c.NAME).ToList();
+            return LOCATIONS.OrderByDescending(c => c.NAME).ToList();
         }
 
         private List<LOCATION> SetAscendingPositionAccordingToName()
         {
-            return LOCATIONS.OrderByDescending(c => c.NAME).ToList();
+            return LOCATIONS.OrderBy(c => c.NAME).ToList();
         }
 
         private List<LOCATION> SetDefaultPosition()
