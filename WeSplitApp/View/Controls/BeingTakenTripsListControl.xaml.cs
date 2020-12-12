@@ -20,12 +20,76 @@ namespace WeSplitApp.View.Controls
     /// <summary>
     /// Interaction logic for BeingTakenTripsListControl.xaml
     /// </summary>
+   
     public partial class BeingTakenTripsListControl : UserControl
     {
+        private static BeingTakenTripsListControl beingTakenTripList = null;
+
+        public static BeingTakenTripsListControl GetInstance() => beingTakenTripList;
         public BeingTakenTripsListControl()
         {
             InitializeComponent();
             DataContext = BeingTakenTripsListViewModel.Instance;
+            beingTakenTripList = this;
         }
+
+        private void selectedChange(object sender, SelectionChangedEventArgs e)
+        {
+            HomeScreen.GetHomeScreenInstance().SearchTextBox.Clear();
+        }
+       
+
+        private void orderChange(object sender, SelectionChangedEventArgs e)
+        {
+            if (sortListBox != null)
+            {
+                sortListBox.SelectedIndex = 0;
+                SettingsViewModel.Instance.getTripLoadSortMethod(0);
+            }
+        }
+
+        private void OnSelected1(object sender, RoutedEventArgs e)
+        {
+            SettingsViewModel.Instance.getTripLoadSortMethod(0);
+        }
+
+        private void OnSelected2(object sender, RoutedEventArgs e)
+        {
+            if (SortComboBox.SelectedIndex == 0)
+            {
+                SettingsViewModel.Instance.getTripLoadSortMethod(1);
+            }
+            else
+            {
+                SettingsViewModel.Instance.getTripLoadSortMethod(2);
+            }
+        }
+
+        private void OnSelected3(object sender, RoutedEventArgs e)
+        {
+            if (SortComboBox.SelectedIndex == 0)
+            {
+                SettingsViewModel.Instance.getTripLoadSortMethod(3);
+            }
+            else
+            {
+                SettingsViewModel.Instance.getTripLoadSortMethod(4);
+            }
+        }
+
+        private void OnSelected4(object sender, RoutedEventArgs e)
+        {
+
+            if (SortComboBox.SelectedIndex == 0)
+            {
+                SettingsViewModel.Instance.getTripLoadSortMethod(5);
+            }
+            else
+            {
+                SettingsViewModel.Instance.getTripLoadSortMethod(6);
+            }
+        }
+
+
     }
 }

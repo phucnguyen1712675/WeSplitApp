@@ -45,7 +45,7 @@ namespace WeSplitApp.ViewModel
             { "Tên giảm đần", new Func<List<MEMBER>>(SetDescendingPositionAccordingToName)}
             };
 
-            this.MEMBERS = new ObservableCollection<MEMBER>(HomeScreen.GetDatabaseEntities().MEMBERS.ToList());
+            this.MEMBERS = new ObservableCollection<MEMBER>((HomeScreen.GetDatabaseEntities().MEMBERS).ToList());
         }
 
         public int GetMaximum()
