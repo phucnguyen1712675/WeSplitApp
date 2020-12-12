@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using WeSplitApp.View;
+using WeSplitApp.View.Controls;
 namespace WeSplitApp.ViewModel
 {
     public class TripsCollectionViewModel : ViewModel
@@ -20,16 +21,10 @@ namespace WeSplitApp.ViewModel
                 index = SelectedIndex;
                 //Goi ham gi do khi Change
                 //hamGiDo();
-                HomeScreen.GetHomeScreenInstance().SearchTextBox.Text = String.Empty;
-                
-                if (index == 0)
-                {
-                    HaveTakenTripsListViewModel.Instance.search_byTripName();
-                }
-                else
-                {
-                    BeingTakenTripsListViewModel.Instance.search_byTripName();
-                }
+                HomeScreen.GetHomeScreenInstance().SearchTextBox.Text = " ";
+                HomeScreen.GetHomeScreenInstance().SearchTextBox.Clear();
+                BeingTakenTripsListControl.GetInstance().SearchByComboBox.SelectedIndex = 0;
+                HaveTakenTripsListControl.GetInstance().SearchByComboBox.SelectedIndex = 0;        
 
 
             }

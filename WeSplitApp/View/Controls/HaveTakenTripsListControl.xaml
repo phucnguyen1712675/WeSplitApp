@@ -41,7 +41,7 @@
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1.3*" />
-                <RowDefinition Height=".7*" />
+                <RowDefinition Height="1*" />
                 <RowDefinition Height="8*" />
             </Grid.RowDefinitions>
             <Viewbox
@@ -50,7 +50,8 @@
                 VerticalAlignment="Center"
                 Stretch="Uniform"
                 StretchDirection="DownOnly">
-                <TextBlock
+                <TextBlock 
+                    x:Name="TilteTextBlock"
                     Width="880"
                     FontWeight="Bold"
                     Style="{StaticResource MaterialDesignHeadline2TextBlock}"
@@ -58,36 +59,62 @@
                     TextAlignment="Justify"
                     TextWrapping="WrapWithOverflow" />
             </Viewbox>
-            <StackPanel Orientation="Horizontal" />
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="11*"/>
-                    <ColumnDefinition Width="5*"/>
-                </Grid.ColumnDefinitions>
-                <ListBox
-                Grid.Column="0"
-                Margin="130,0"
-                VerticalAlignment="Center"
-                Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineListBox}">
-                    <ListBoxItem  Content="Date" IsSelected="True" />
-                    <ListBoxItem Content="Distance" />
-                    <ListBoxItem Content="Cost" />
-                    <ListBoxItem Content="Most seen" />
-                </ListBox>
-                <ComboBox x:Name="SearchByComboBox" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Stretch"
-                          Margin="0,0,130,0"
-                    md:HintAssist.Hint="Search By"
+
+            <StackPanel Margin="130,0,0,0" Grid.Row="1">
+                <DockPanel >
+                    <Label x:Name="SapXepLabel" Grid.Column="0" Content="Sắp xếp theo"
+                       VerticalAlignment="Center"
+                       />
+                    <ComboBox x:Name="SortComboBox" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Stretch"
+                          Margin="0,0,0,0"
+                    md:HintAssist.Hint="Sort By"
                     md:HintAssist.HintOpacity=".26"
-                    IsEditable="True">
-                                      <ComboBoxItem
-                      Content="Trip Title" />
-                                      <ComboBoxItem
-                      Content="Member Name" />
-                                      <ComboBoxItem
-                      Content="Location Name" />                                     
-                </ComboBox>
-            </Grid>
-           
+                    IsEditable="True"    
+                    SelectionChanged="orderChange"
+                          >
+                        <ComboBoxItem
+                      Content="Tăng dần" IsSelected="True"/>
+                        <ComboBoxItem
+                      Content="Giảm dần" />
+                    </ComboBox>
+                    <DockPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,130,0">
+                        <Label Content="Tìm kiếm theo" />
+                        <ComboBox x:Name="SearchByComboBox"
+                          md:HintAssist.Hint="Tên"
+                          md:HintAssist.HintOpacity=".26"
+                          IsEditable="True"
+                          SelectionChanged="selectedChange" >
+                            <ComboBoxItem
+                            Content="Tên chuyến đi" IsSelected="True"/>
+                            <ComboBoxItem
+                            Content="Tên thành viên" />
+                            <ComboBoxItem
+                            Content="Tên địa điểm" />
+                        </ComboBox>
+                    </DockPanel>
+                </DockPanel>
+                <ListBox
+                    x:Name="sortListBox"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                    SelectionMode="Single"
+                Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineListBox}"
+                    >
+                    <ListBoxItem  Content="Mặc định" IsSelected="True" 
+                                 Selected="OnSelected1" 
+                        />
+                    <ListBoxItem Content="Tên chuyến di"
+                                 Selected="OnSelected2" 
+                                 />
+                    <ListBoxItem Content="Ngày đi" 
+                                 Selected="OnSelected3" 
+                                 />
+                    <ListBoxItem Content="Ngày về" 
+                                 Selected="OnSelected4" 
+                                 />
+                </ListBox>
+            </StackPanel>
+
             <local:TripsListControl
                 Grid.Row="2"
                 HorizontalContentAlignment="Center"

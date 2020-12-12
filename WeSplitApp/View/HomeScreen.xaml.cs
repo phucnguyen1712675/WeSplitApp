@@ -211,6 +211,7 @@ namespace WeSplitApp.View
             switch (option)
             {
                 case 0:
+                    
                     if (TripsCollectionViewModel.index == 0)
                     {
                         HaveTakenTripsListViewModel.Instance.search_byTripName();
