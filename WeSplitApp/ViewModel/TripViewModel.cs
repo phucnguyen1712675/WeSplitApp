@@ -40,7 +40,6 @@ namespace WeSplitApp.ViewModel
                                                                                               .Select(t => t)
                                                                                               .ToList());
 
-
         public void TripSortMethods()
         {
             MySort = new Dictionary<string, Delegate> {
@@ -60,7 +59,7 @@ namespace WeSplitApp.ViewModel
             if (MySort.ContainsKey(method))
             {
                 List<TRIP> resultSort = (List<TRIP>)MySort[method].DynamicInvoke();
-                _itemHandler = new TripItemHandler(resultSort);
+                ItemHandler = new TripItemHandler(resultSort);
                 DisplayObjects();
             }
         }
@@ -121,12 +120,6 @@ namespace WeSplitApp.ViewModel
         {
             ShowSelectedTrip(x as TRIP);
         }));
-
-        /*        private void ShowSelectedTrip(TRIP item)
-                {
-                    HomeScreen.SetNavigationDrawerNavNull();
-                    HomeScreen.GetHomeScreenInstance().SetContentControl((new TripDetailsViewModel(item)));
-                }*/
 
         private void ShowSelectedTrip(TRIP trip)
         {
@@ -282,7 +275,7 @@ namespace WeSplitApp.ViewModel
 
         public void AddTrip(TRIP tRIP)
         {
-            _itemHandler.Add(tRIP);
+            ItemHandler.Add(tRIP);
             DisplayObjects();
             if (Items.Count % Paging.RowsPerPage == 1)
                 CalculatePagingInfo(Paging.RowsPerPage, Items.Count, SelectedIndex);

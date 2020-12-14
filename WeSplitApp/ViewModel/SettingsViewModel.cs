@@ -25,7 +25,8 @@ namespace WeSplitApp.ViewModel
             set => instance = value;
         }
 
-        private SettingsViewModel() {
+        private SettingsViewModel()
+        {
             LoadAll();
             instance = this;
         }
@@ -65,7 +66,8 @@ namespace WeSplitApp.ViewModel
         #endregion
 
         #region Member
-        public void SaveMemberViewModel() {
+        public void SaveMemberViewModel()
+        {
             var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             config.AppSettings.Settings["MemberCurrentPaging"].Value = MemberCurrentPaging.ToString();
             config.AppSettings.Settings["MemberLoadSortMethod"].Value = MemberLoadSortMethod.ToString();
@@ -122,7 +124,8 @@ namespace WeSplitApp.ViewModel
         #endregion
 
         #region Location
-        public void SaveLocationViewModel() {
+        public void SaveLocationViewModel()
+        {
             var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             config.AppSettings.Settings["LocationCurrentPaging"].Value = LocationCurrentPaging.ToString();
             config.AppSettings.Settings["LocationLoadSortMethod"].Value = LocationLoadSortMethod.ToString();
@@ -158,6 +161,7 @@ namespace WeSplitApp.ViewModel
                 _locationMaxPaging = value;
             }
         }
+        public int LocationMaxPaging { get; set; }
 
         private int _locationLoadSortMethod;
         public int LocationLoadSortMethod
@@ -179,7 +183,8 @@ namespace WeSplitApp.ViewModel
         #endregion
 
         #region Trip 
-        public void SaveTripViewModel() {
+        public void SaveTripViewModel()
+        {
             var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             config.AppSettings.Settings["TripCurrentPaging"].Value = TripCurrentPaging.ToString();
             config.AppSettings.Settings["TripLoadSortMethod"].Value = TripLoadSortMethod.ToString();
@@ -221,6 +226,7 @@ namespace WeSplitApp.ViewModel
                 _tripMaxPaging = value;
             }
         }
+        public int TripMaxPaging { get; set; }
 
         private int _tripLoadSortMethod;
         public int TripLoadSortMethod
@@ -244,7 +250,7 @@ namespace WeSplitApp.ViewModel
         {
             int BeingTrips = BeingTakenTripsListViewModel.Instance.GetMaxiMum();
             int HaveTrips = BeingTakenTripsListViewModel.Instance.GetMaxiMum();
-            TripMaxPaging =  (BeingTrips > HaveTrips) ? BeingTrips : HaveTrips;
+            TripMaxPaging = (BeingTrips > HaveTrips) ? BeingTrips : HaveTrips;
         }
         #endregion
     }

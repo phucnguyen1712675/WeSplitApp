@@ -29,7 +29,7 @@ namespace WeSplitApp.ViewModel
         private BeingTakenTripsListViewModel()
         {
             IsDone = false;
-            this._itemHandler = GetData();
+            this.ItemHandler = GetData();
             TripSortMethods();
         }
     }

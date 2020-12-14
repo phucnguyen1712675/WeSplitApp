@@ -18,17 +18,23 @@
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     mc:Ignorable="d">
 
-    <Grid HorizontalAlignment="Center" Width="418" >
+    <Grid Width="418" HorizontalAlignment="Center">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <md:TransitioningContent OpeningEffect="{md:TransitionEffect SlideInFromRight, Duration=0:0:1.2}">
-            <md:ColorZone Mode="PrimaryMid" md:ShadowAssist.ShadowDepth="Depth3" Margin="4">
+            <md:ColorZone
+                Margin="4"
+                md:ShadowAssist.ShadowDepth="Depth3"
+                Mode="PrimaryMid">
                 <StackPanel Margin="16" Orientation="Horizontal">
-                    <md:PackIcon Kind="Account" Height="32" Width="32" />
-                    <TextBlock Style="{StaticResource MaterialDesignHeadline5TextBlock}" Margin="16 0 0 0">Contacts</TextBlock>
+                    <md:PackIcon
+                        Width="32"
+                        Height="32"
+                        Kind="Account" />
+                    <TextBlock Margin="16,0,0,0" Style="{StaticResource MaterialDesignHeadline5TextBlock}">Contacts</TextBlock>
                 </StackPanel>
             </md:ColorZone>
         </md:TransitioningContent>
@@ -39,7 +45,7 @@
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.Resources>
-                <Style TargetType="{x:Type md:ColorZone}" BasedOn="{StaticResource {x:Type md:ColorZone}}">
+                <Style BasedOn="{StaticResource {x:Type md:ColorZone}}" TargetType="{x:Type md:ColorZone}">
                     <Setter Property="Width" Value="96" />
                     <Setter Property="Height" Value="96" />
                     <Setter Property="Margin" Value="4" />
@@ -48,7 +54,10 @@
             </ItemsControl.Resources>
             <md:TransitioningContent OpeningEffect="{md:TransitionEffect ExpandIn}">
                 <md:ColorZone>
-                    <md:PackIcon Kind="Phone" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <md:PackIcon
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Kind="Phone" />
                 </md:ColorZone>
             </md:TransitioningContent>
 
@@ -57,22 +66,31 @@
                     <md:TransitionEffect Kind="ExpandIn" />
                 </md:TransitioningContent.OpeningEffects>
                 <md:ColorZone>
-                    <md:PackIcon Kind="Phone" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <md:PackIcon
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Kind="Phone" />
                 </md:ColorZone>
             </md:TransitioningContent>
         </ItemsControl>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Right">
-            <Button Style="{DynamicResource MaterialDesignFloatingActionMiniButton}" 
-                    Command="{x:Static md:Transitioner.MovePreviousCommand}"
-                    VerticalAlignment="Center" HorizontalAlignment="Left" 
-                    Margin="16">
+        <StackPanel
+            Grid.Row="2"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <Button
+                Margin="16"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Command="{x:Static md:Transitioner.MovePreviousCommand}"
+                Style="{DynamicResource MaterialDesignFloatingActionMiniButton}">
                 <md:PackIcon Kind="StepBackward" />
             </Button>
-            <Button Style="{DynamicResource MaterialDesignFloatingActionAccentButton}"                     
-                    Command="{x:Static md:Transitioner.MoveNextCommand}"
-                    VerticalAlignment="Top"
-                    Margin="16">
+            <Button
+                Margin="16"
+                VerticalAlignment="Top"
+                Command="{x:Static md:Transitioner.MoveNextCommand}"
+                Style="{DynamicResource MaterialDesignFloatingActionAccentButton}">
                 <md:PackIcon Kind="StepForward" />
             </Button>
         </StackPanel>
