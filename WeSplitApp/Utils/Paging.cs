@@ -27,7 +27,7 @@ namespace WeSplitApp.Utils
                         TotalPages = _totalPages
                     });
                 }
-                OnPropertyChanged();
+                //OnPropertyChanged();
             }
         }
         public ObservableCollection<PageInfo> Pages { get; set; }

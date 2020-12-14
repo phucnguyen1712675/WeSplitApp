@@ -21,21 +21,11 @@ namespace WeSplitApp.View.Controls.TripDetailSlide
     /// <summary>
     /// Interaction logic for Slide2_TotalCostsControl.xaml
     /// </summary>
-    public partial class Slide2_TotalCostsControl : UserControl, INotifyPropertyChanged
+    public partial class Slide2_TotalCostsControl : UserControl
     {
-        public static RoutedCommand HomeScreenCommand { get; set; }
         public Slide2_TotalCostsControl()
         {
             InitializeComponent();
-            HomeScreenCommand = new RoutedCommand();
-            CommandBindings.Add(new CommandBinding(HomeScreenCommand, HomeScreenExecuted));
-        }
-        private void HomeScreenExecuted(object sender, ExecutedRoutedEventArgs e) => HomeScreen.GetHomeScreenInstance().SetContentControl(new TripsCollectionViewModel());
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
 }

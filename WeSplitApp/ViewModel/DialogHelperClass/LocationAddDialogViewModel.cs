@@ -9,7 +9,7 @@ using WeSplitApp.View;
 
 namespace WeSplitApp.ViewModel.DialogHelperClass
 {
-    class LocationAddDialogViewModel :AddDialogBaseViewModel
+    class LocationAddDialogViewModel : AddDialogBaseViewModel
     {
         public LOCATION NewLocation { get; set; }
 
@@ -27,7 +27,7 @@ namespace WeSplitApp.ViewModel.DialogHelperClass
         {
             if (!string.IsNullOrEmpty(NewLocation.NAME)
                 && !string.IsNullOrEmpty(NewLocation.ADDRESS)
-                && !string.IsNullOrEmpty(NewLocation.DESCRIPTION) )
+                && !string.IsNullOrEmpty(NewLocation.DESCRIPTION))
             {
                 if (NewLocation.TYPE == null) NewLocation.TYPE = false;
 
@@ -36,7 +36,7 @@ namespace WeSplitApp.ViewModel.DialogHelperClass
                     HomeScreen.GetDatabaseEntities().LOCATIONS.Add(NewLocation);
 
                     // trường hợp đang làm trong màn hình AddTrip <=> refresh list Locations
-                    if (AddNewTripViewModel.Instance != null) { AddNewTripViewModel.Instance.LOCATIONs.Add(NewLocation);}
+                    if (AddNewTripViewModel.Instance != null) { AddNewTripViewModel.Instance.LOCATIONs.Add(NewLocation); }
                     //trường hợp đang làm trong màn hình LocationList <=> refresh list Location
                     LocationListViewModel.Instance.updateList(NewLocation);
                 }

@@ -25,17 +25,7 @@ namespace WeSplitApp.ViewModel
         //public PagingListObjects PagingListObjects { get; set; }
 
         private static MemberListViewModel instance = null;
-        public static MemberListViewModel Instance
-        {
-            get
-            {
-                if(instance == null)
-                {
-                    instance = new MemberListViewModel();
-                }
-                return instance;
-            }
-        }
+        public static MemberListViewModel Instance => instance ?? (instance = new MemberListViewModel());
 
         private MemberListViewModel()
         {
@@ -97,26 +87,15 @@ namespace WeSplitApp.ViewModel
         #endregion
 
         #region Paging
-        private ObservableCollection<MEMBER> _toShowItems;
-        public ObservableCollection<MEMBER> ToShowItems
-        {
-            get => this._toShowItems;
-            set
-            {
-                this._toShowItems = value;
-                OnPropertyChanged();
-            }
-        }
 
         public override void DisplayObjects()
         {
             var page = this.SelectedIndex + 1;
-            var skip = (page - 1) * this._paging.RowsPerPage;
-            var take = this._paging.RowsPerPage;
+            var skip = (page - 1) * this.Paging.RowsPerPage;
+            var take = this.Paging.RowsPerPage;
 
             this.ToShowItems = new ObservableCollection<MEMBER>(this.MEMBERS.Skip(skip).Take(take));
         }
-
 
         public bool getNewRowPerPage(int RowsPerPage) // được gọi trong setting
         {
@@ -133,7 +112,7 @@ namespace WeSplitApp.ViewModel
 
         public void updateList(MEMBER member)
         {
-            if(instance != null)
+            if (instance != null)
             {
                 instance.MEMBERS.Add(member);
                 instance.DisplayObjects();
@@ -142,10 +121,9 @@ namespace WeSplitApp.ViewModel
 
         public void searchMember_ByName()
         {
-            
             string request = HomeScreen.GetHomeScreenInstance().SearchTextBox.Text;
             //MessageBox.Show("Chay duoc roi");
-            List <MEMBER> memberList;
+            List<MEMBER> memberList;
             if (request.Length <= 0)
             {
                 memberList = (HomeScreen.GetDatabaseEntities().MEMBERS).ToList();
@@ -156,7 +134,7 @@ namespace WeSplitApp.ViewModel
                 //search by TITLE
                 var requestText = convertUnicode.convertToUnSign(request.Trim().ToLower());
                 memberList = (HomeScreen.GetDatabaseEntities().MEMBERS.AsEnumerable().Where(mem => convertUnicode.convertToUnSign(mem.NAME.Trim().ToLower()).Contains(requestText))).ToList();
-                
+
                 //MessageBox.Show(b[0].TITTLE);
                 //this.ToShowItems = new ObservableCollection<TRIP>(tripList);
             }

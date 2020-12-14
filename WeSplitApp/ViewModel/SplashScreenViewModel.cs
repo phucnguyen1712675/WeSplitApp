@@ -13,7 +13,6 @@ namespace WeSplitApp.ViewModel
     {
         public ObservableCollection<string> FactsList { get; set; }
         public string RandomFact { get; set; }
-
         public SplashScreenViewModel()
         {
             //Init facts list

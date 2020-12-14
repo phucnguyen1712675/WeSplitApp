@@ -20,10 +20,6 @@
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     mc:Ignorable="d">
 
-    <!--<UserControl.DataContext>
-        <viewModel:BeingTakenTripsListViewModel />
-    </UserControl.DataContext>-->
-
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -63,7 +59,7 @@
                 Command="{x:Static md:Transitioner.MovePreviousCommand}"
                 Content="{md:PackIcon Kind=StepBackward}"
                 Style="{DynamicResource MaterialDesignFloatingActionButton}"
-                ToolTip="Back"/>
+                ToolTip="Back" />
         </Grid>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>

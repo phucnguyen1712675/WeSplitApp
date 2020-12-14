@@ -12,23 +12,28 @@ namespace WeSplitApp.ViewModel
 
     public class TripMemberPaidAmountDataGridViewModel : ViewModel
     {
-        public ObservableCollection<SelectableViewModel> Items { get; set; }
-        public TripMemberPaidAmountDataGridViewModel(TRIP trip) => Items = CreateData(trip);
-        private ObservableCollection<SelectableViewModel> CreateData(TRIP trip)
+        private TRIP _selectedTrip;
+        public TRIP SelectedTrip
         {
-            var tempCollection = new ObservableCollection<SelectableViewModel>();
-
-            foreach (var item in trip.TRIP_MEMBER)
+            get => this._selectedTrip;
+            set
             {
-                tempCollection.Add(new SelectableViewModel
+                this._selectedTrip = value;
+                //OnPropertyChanged();
+            }
+        }
+        public ObservableCollection<SelectableViewModel> Items { get; set; }
+        public TripMemberPaidAmountDataGridViewModel()
+        {
+            foreach (var item in this.SelectedTrip.TRIP_MEMBER)
+            {
+                Items.Add(new SelectableViewModel
                 {
                     Name = item.MEMBER.NAME,
                     PhoneNumber = item.MEMBER.PHONENUMBER.ToString(),
                     AmountPaid = item.AMOUNTPAID
                 }); ;
             }
-
-            return tempCollection;
         }
     }
 }

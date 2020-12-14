@@ -33,8 +33,5 @@ namespace WeSplitApp.ViewModel
 
             TripSortMethods();
         }
-
-        
-
     }
 }

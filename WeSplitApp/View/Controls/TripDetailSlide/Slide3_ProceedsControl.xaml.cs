@@ -22,21 +22,11 @@ namespace WeSplitApp.View.Controls.TripDetailSlide
     /// <summary>
     /// Interaction logic for Slide3_ProceedsControl.xaml
     /// </summary>
-    public partial class Slide3_ProceedsControl : UserControl, INotifyPropertyChanged
+    public partial class Slide3_ProceedsControl : UserControl
     {
-        public static RoutedCommand HomeScreenCommand { get; set; }
         public Slide3_ProceedsControl()
         {
             InitializeComponent();
-            HomeScreenCommand = new RoutedCommand();
-            CommandBindings.Add(new CommandBinding(HomeScreenCommand, HomeScreenExecuted));
-        }
-        private void HomeScreenExecuted(object sender, ExecutedRoutedEventArgs e) => HomeScreen.GetHomeScreenInstance().SetContentControl(new TripsCollectionViewModel());
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
 }

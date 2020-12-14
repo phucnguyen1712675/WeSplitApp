@@ -32,8 +32,5 @@ namespace WeSplitApp.ViewModel
             this._itemHandler = GetData();
             TripSortMethods();
         }
-
-       
-
     }
 }

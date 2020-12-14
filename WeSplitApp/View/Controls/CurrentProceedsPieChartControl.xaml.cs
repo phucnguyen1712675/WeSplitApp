@@ -24,8 +24,6 @@ namespace WeSplitApp.View.Controls
         public CurrentProceedsPieChartControl()
         {
             InitializeComponent();
-
-            this.DataContext = new CurrentProceedsPieChartViewModel(TripDetailsViewModel.SelectedTrip);
         }
     }
 }

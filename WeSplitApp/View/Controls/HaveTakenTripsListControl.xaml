@@ -20,10 +20,6 @@
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     mc:Ignorable="d">
 
-    <!--<UserControl.DataContext>
-        <viewModel:HaveTakenTripsListViewModel />
-    </UserControl.DataContext>-->
-
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -114,7 +110,6 @@
                                  />
                 </ListBox>
             </StackPanel>
-
             <local:TripsListControl
                 Grid.Row="2"
                 HorizontalContentAlignment="Center"
