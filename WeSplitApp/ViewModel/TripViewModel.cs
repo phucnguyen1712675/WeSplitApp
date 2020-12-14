@@ -15,33 +15,17 @@ namespace WeSplitApp.ViewModel
     public class TripViewModel : SortMethodList
     {
         public bool IsDone { get; set; } = false;
-
-        protected TripItemHandler _itemHandler;
-
-        public TripItemHandler ItemHandler
-        {
-            get => this._itemHandler;
-            set
-            {
-                this._itemHandler = value;
-                OnPropertyChanged();
-            }
-        }
+        public TripItemHandler ItemHandler { get; set; }
 
         public List<TRIP> Items
         {
             get => this.ItemHandler.Items;
-            set
-            {
-                this.ItemHandler = new TripItemHandler(value);
-                OnPropertyChanged();
-            }
+            set => this.ItemHandler = new TripItemHandler(value);
         }
 
         public TripItemHandler GetData() => new TripItemHandler(HomeScreen.GetDatabaseEntities().TRIPS.Where(t => t.ISDONE == this.IsDone)
                                                                                               .Select(t => t)
                                                                                               .ToList());
-
 
         public void TripSortMethods()
         {
@@ -62,7 +46,7 @@ namespace WeSplitApp.ViewModel
             if (MySort.ContainsKey(method))
             {
                 List<TRIP> resultSort = (List<TRIP>)MySort[method].DynamicInvoke();
-                _itemHandler = new TripItemHandler(resultSort);
+                ItemHandler = new TripItemHandler(resultSort);
                 DisplayObjects();
             }
         }
@@ -124,32 +108,25 @@ namespace WeSplitApp.ViewModel
             ShowSelectedTrip(x as TRIP);
         }));
 
-        private void ShowSelectedTrip(TRIP item)
+        private void ShowSelectedTrip(TRIP trip)
         {
             HomeScreen.SetNavigationDrawerNavNull();
-            HomeScreen.GetHomeScreenInstance().SetContentControl((new TripDetailsViewModel(item)));
+            var newTripViewModel = new TripDetailsViewModel
+            {
+                SelectedTrip = trip
+            };
+            HomeScreen.GetHomeScreenInstance().SetContentControl(newTripViewModel);
         }
         #endregion
 
         #region paging
 
-        private ObservableCollection<TRIP> _toShowItems;
-        public ObservableCollection<TRIP> ToShowItems
-        {
-            get => this._toShowItems;
-            set
-            {
-                this._toShowItems = value;
-                OnPropertyChanged();
-
-            }
-        }
-
+        public ObservableCollection<TRIP> ToShowItems { get; set; }
         public override void DisplayObjects()
         {
             var page = this.SelectedIndex + 1;
-            var skip = (page - 1) * this._paging.RowsPerPage;
-            var take = this._paging.RowsPerPage;
+            var skip = (page - 1) * this.Paging.RowsPerPage;
+            var take = this.Paging.RowsPerPage;
 
             this.ToShowItems = new ObservableCollection<TRIP>(this.Items.Skip(skip).Take(take));
         }
@@ -168,22 +145,13 @@ namespace WeSplitApp.ViewModel
         #endregion
 
         #region search
-        public ObservableCollection<TRIP> _searchResult;
-        public ObservableCollection<TRIP> SearchResult
-        {
-            get => this._searchResult;
-            set
-            {
-                this._searchResult = value;
-                OnPropertyChanged();
-            }
-        }
+        public ObservableCollection<TRIP> SearchResult { get; set; }
 
         public void DisplayObjects_Search()
         {
             var page = this.SelectedIndex + 1;
-            var skip = (page - 1) * this._paging.RowsPerPage;
-            var take = this._paging.RowsPerPage;
+            var skip = (page - 1) * this.Paging.RowsPerPage;
+            var take = this.Paging.RowsPerPage;
 
             this.ToShowItems = new ObservableCollection<TRIP>(this.SearchResult.Skip(skip).Take(take));
         }
@@ -276,7 +244,7 @@ namespace WeSplitApp.ViewModel
 
         public void AddTrip(TRIP tRIP)
         {
-            _itemHandler.Add(tRIP);
+            ItemHandler.Add(tRIP);
             DisplayObjects();
         }
 

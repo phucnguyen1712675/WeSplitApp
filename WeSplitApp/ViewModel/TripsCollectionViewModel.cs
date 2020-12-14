@@ -36,8 +36,8 @@ namespace WeSplitApp.ViewModel
         {
             this.SelectedIndex = 0;
             // index = SelectedIndex;
-            this.HaveTakenTripsListViewModel = new HaveTakenTripsListViewModel();
-            this.BeingTakenTripsListViewModel = new BeingTakenTripsListViewModel();
+            this.HaveTakenTripsListViewModel = HaveTakenTripsListViewModel.Instance;
+            this.BeingTakenTripsListViewModel = BeingTakenTripsListViewModel.Instance;
         }
     }
 }

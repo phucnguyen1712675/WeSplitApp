@@ -11,18 +11,7 @@ namespace WeSplitApp.ViewModel
 {
     public class MemberListViewModel : SortMethodList
     {
-        private ObservableCollection<MEMBER> _mEMBERS;
-        public ObservableCollection<MEMBER> MEMBERS
-        {
-            get => this._mEMBERS;
-            set
-            {
-                this._mEMBERS = value;
-                OnPropertyChanged();
-            }
-        }
-
-        //public PagingListObjects PagingListObjects { get; set; }
+        public ObservableCollection<MEMBER> MEMBERS { get; set; }
 
         private static MemberListViewModel instance = null;
         public static MemberListViewModel Instance => instance ?? (instance = new MemberListViewModel());
@@ -31,8 +20,8 @@ namespace WeSplitApp.ViewModel
         {
             MySort = new Dictionary<string, Delegate> {
                   { "Mặc định", new Func<List<MEMBER>>(SetDefaultPosition)},
-            { "Tên tăng dần", new Func<List<MEMBER>>(SetAscendingPositionAccordingToName)},
-            { "Tên giảm đần", new Func<List<MEMBER>>(SetDescendingPositionAccordingToName)}
+                { "Tên tăng dần", new Func<List<MEMBER>>(SetAscendingPositionAccordingToName)},
+                { "Tên giảm đần", new Func<List<MEMBER>>(SetDescendingPositionAccordingToName)}
             };
 
             this.MEMBERS = new ObservableCollection<MEMBER>((HomeScreen.GetDatabaseEntities().MEMBERS).ToList());
@@ -87,7 +76,7 @@ namespace WeSplitApp.ViewModel
         #endregion
 
         #region Paging
-
+        public ObservableCollection<MEMBER> ToShowItems { get; set; }
         public override void DisplayObjects()
         {
             var page = this.SelectedIndex + 1;
