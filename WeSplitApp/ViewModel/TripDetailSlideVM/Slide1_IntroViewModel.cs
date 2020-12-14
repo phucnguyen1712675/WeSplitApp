@@ -23,8 +23,10 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
             set
             {
                 this._selectedTrip = value;
-                //OnPropertyChanged();
-                this.ImagePresenterViewModel.SelectedTrip = this._selectedTrip;
+                this.ImagePresenterViewModel = new ImagePresenterViewModel();
+                this.ToGoDatePickerViewModel = new CalenderPickerViewModel();
+                this.ReturnDatePickerViewModel = new CalenderPickerViewModel();
+                this.ImagePresenterViewModel.SelectedTrip = value;
                 this.ToGoDatePickerViewModel.SelectedDate = (DateTime)this._selectedTrip.TOGODATE;
                 this.ReturnDatePickerViewModel.SelectedDate = (DateTime)this._selectedTrip.RETURNDATE;
             }
@@ -55,9 +57,9 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
         {
             this.IsTitleEditing = false;
             this.IsDescriptionEditing = false;
-            this.ImagePresenterViewModel = new ImagePresenterViewModel();
+            /*this.ImagePresenterViewModel = new ImagePresenterViewModel();
             this.ToGoDatePickerViewModel = new CalenderPickerViewModel();
-            this.ReturnDatePickerViewModel = new CalenderPickerViewModel();
+            this.ReturnDatePickerViewModel = new CalenderPickerViewModel();*/
         }
 
         private TRIP _clonedTrip = new TRIP();
@@ -144,7 +146,6 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
         }
         private async void ExecuteAddNewImageDialog(object obj)
         {
-            //MessageBox.Show(this.SelectedTrip.TRIP_IMAGES.Count.ToString());
             OpenMultipleFilesDialogArguments dialogArgs = new OpenMultipleFilesDialogArguments()
             {
                 Width = 600,
@@ -156,19 +157,26 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
 
             if (!result.Canceled)
             {
-                result.Files.ForEach(file => this.SelectedTrip.TRIP_IMAGES.Add(new TRIP_IMAGES
-                {
-                    TRIP_ID = this.SelectedTrip.TRIP_ID,
-                    IMAGE = file
-                }));
+                result.Files.ForEach(file => {
 
-                TRIP temp = HomeScreen.GetDatabaseEntities().TRIPS.FirstOrDefault(item => item.TRIP_ID == this._selectedTrip.TRIP_ID);
-                temp = this._selectedTrip;
-
+                    if (file.Contains(AppDomain.CurrentDomain.BaseDirectory))
+                    {
+                        file = "\\" + file.Remove(0, AppDomain.CurrentDomain.BaseDirectory.Length);
+                    }
+                    var newTripImages = new TRIP_IMAGES
+                    {
+                        TRIP_ID = this.SelectedTrip.TRIP_ID,
+                        IMAGE = file
+                    };
+                    //this.SelectedTrip.TRIP_IMAGES.Add(newTripImages);
+                    HomeScreen.GetDatabaseEntities().TRIP_IMAGES.Add(newTripImages);
+                });
                 HomeScreen.GetDatabaseEntities().SaveChanges();
-
-                MessageBox.Show(this.SelectedTrip.TRIP_IMAGES.Count.ToString());
-                //MessageBox.Show("Success");
+                var temp = HomeScreen.GetDatabaseEntities().TRIPS.FirstOrDefault(trip => trip.TRIP_ID == this.SelectedTrip.TRIP_ID);
+                this.ImagePresenterViewModel = new ImagePresenterViewModel
+                {
+                    SelectedTrip = temp
+                };
             }
         }
         private void ExtendedOpenedEventHandler(object sender, DialogOpenedEventArgs eventargs)
@@ -235,7 +243,7 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
             if (eventArgs.Parameter is bool parameter &&
                 parameter == false) return;
 
-            //OK, lets cancel the close...
+            /*//OK, lets cancel the close...
             eventArgs.Cancel();
 
             //...now, lets update the "session" with some new content!
@@ -245,10 +253,7 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
             //lets run a fake operation for 3 seconds then close this baby.
             Task.Delay(TimeSpan.FromSeconds(3))
                 .ContinueWith((t, _) => eventArgs.Session.Close(false), null,
-                    TaskScheduler.FromCurrentSynchronizationContext());
-
-            this._selectedTrip.TRIP_IMAGES = this.ImagePresenterViewModel.SelectedTrip.TRIP_IMAGES;
-            this.SaveAddAction();
+                    TaskScheduler.FromCurrentSynchronizationContext());*/
         }
     }
 }

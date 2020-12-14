@@ -173,7 +173,7 @@
                 </StackPanel>
             </Border>
             <Button
-                Margin="10,10"
+                Margin="10"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom"
                 Command="{Binding RunAddNewImagesCommand}"
