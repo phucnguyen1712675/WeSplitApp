@@ -161,7 +161,6 @@ namespace WeSplitApp.ViewModel
                 _locationMaxPaging = value;
             }
         }
-        public int LocationMaxPaging { get; set; }
 
         private int _locationLoadSortMethod;
         public int LocationLoadSortMethod
@@ -226,7 +225,6 @@ namespace WeSplitApp.ViewModel
                 _tripMaxPaging = value;
             }
         }
-        public int TripMaxPaging { get; set; }
 
         private int _tripLoadSortMethod;
         public int TripLoadSortMethod
