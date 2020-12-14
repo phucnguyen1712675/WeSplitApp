@@ -13,7 +13,6 @@ namespace WeSplitApp.ViewModel
 
         public override void Validate()
         {
-            bool ageOk = true;
 
             string Name = AddNewTripViewModel.Instance.AddTrip.TITTLE;
             string Description = AddNewTripViewModel.Instance.AddTrip.DESCRIPTION;
@@ -22,29 +21,27 @@ namespace WeSplitApp.ViewModel
             string ReturnDate = AddNewTripViewModel.Instance.AddTrip.RETURNDATE != null ? ((DateTime)AddNewTripViewModel.Instance.AddTrip.RETURNDATE).ToString() : null;
             ObservableCollection<TRIP_IMAGES> Trip_Images = AddNewTripViewModel.Instance.AddTrip.TRIP_IMAGES;
 
-            if (string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(Description) || string.IsNullOrEmpty(Image)
-                 || string.IsNullOrEmpty(ToGoDate) || string.IsNullOrEmpty(ReturnDate) || Trip_Images == null)
-                ageOk = false;
+            var ageOk = !(string.IsNullOrEmpty(Name)
+                || string.IsNullOrEmpty(Description)
+                || string.IsNullOrEmpty(Image)
+                || string.IsNullOrEmpty(ToGoDate)
+                || string.IsNullOrEmpty(ReturnDate)
+                || Trip_Images == null);
 
-            
             if (ageOk)
             {
-                if (Convert.ToDateTime(ReturnDate) < Convert.ToDateTime(ToGoDate))
+                HasValidationErrors = Convert.ToDateTime(ReturnDate) < Convert.ToDateTime(ToGoDate);
+                if (HasValidationErrors)
                 {
-
-                    HasValidationErrors = true;
                     MessageBox.Show("Ngày về không thể sau ngày đi");
+                    return;
                 }
-                else
+                foreach (var item in AddNewTripViewModel.Instance.AddTrip.TRIP_IMAGES)
                 {
-                    foreach (var item in AddNewTripViewModel.Instance.AddTrip.TRIP_IMAGES)
+                    if (item.IMAGE.Contains(AppDomain.CurrentDomain.BaseDirectory))
                     {
-                        if (item.IMAGE.Contains(AppDomain.CurrentDomain.BaseDirectory))
-                        {
-                            item.IMAGE = "\\" + item.IMAGE.Remove(0, AppDomain.CurrentDomain.BaseDirectory.Length);
-                        }
+                        item.IMAGE = "\\" + item.IMAGE.Remove(0, AppDomain.CurrentDomain.BaseDirectory.Length);
                     }
-                    HasValidationErrors = false;
                 }
             }
             else

@@ -9,36 +9,15 @@ namespace WeSplitApp.ViewModel
 {
     public class TripsCollectionViewModel : ViewModel
     {
-        private int _selectedIndex;
-        public int SelectedIndex
-        {
-            get => this._selectedIndex;
-            set
-            {
-                this._selectedIndex = value;
-                OnPropertyChanged();
-                index = SelectedIndex;
-                //Goi ham gi do khi Change
-                //hamGiDo();
-                HomeScreen.GetHomeScreenInstance().SearchTextBox.Text = String.Empty;
-                
-                if (index == 0)
-                {
-                    TripsListViewModel.instanse.search_byTripName("");
-                }
-                else
-                {
-                    ExpectedTripListViewModel.instanse.search_byTripName();
-
-                }
-
-            }
-        }
+        public int SelectedIndex { get; set; }
+        public HaveTakenTripsListViewModel HaveTakenTripsListViewModel { get; set; }
+        public BeingTakenTripsListViewModel BeingTakenTripsListViewModel { get; set; }
         public TripsCollectionViewModel()
         {
-            this._selectedIndex = 0;
-            index = SelectedIndex;
+            this.SelectedIndex = 0;
+            // index = SelectedIndex;
+            this.HaveTakenTripsListViewModel = new HaveTakenTripsListViewModel();
+            this.BeingTakenTripsListViewModel = new BeingTakenTripsListViewModel();
         }
-        public static int index;
     }
 }

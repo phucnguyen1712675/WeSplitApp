@@ -9,31 +9,12 @@ namespace WeSplitApp.ViewModel
 {
     public class MemberListViewModel : PagingListObjects
     {
-        private ObservableCollection<MEMBER> _mEMBERS;
-        public ObservableCollection<MEMBER> MEMBERS
-        {
-            get => this._mEMBERS;
-            set
-            {
-                this._mEMBERS = value;
-                OnPropertyChanged();
-            }
-        }
-
+        public ObservableCollection<MEMBER> MEMBERS { get; set; }
         public PagingListObjects PagingListObjects { get; set; }
+        public ObservableCollection<MEMBER> ToShowItems { get; set; }
 
         private static MemberListViewModel instance = null;
-        public static MemberListViewModel Instance
-        {
-            get
-            {
-                if(instance == null)
-                {
-                    instance = new MemberListViewModel();
-                }
-                return instance;
-            }
-        }
+        public static MemberListViewModel Instance => instance ?? (instance = new MemberListViewModel());
 
         private MemberListViewModel()
         {
@@ -46,30 +27,18 @@ namespace WeSplitApp.ViewModel
         }
 
         #region Paging
-        private ObservableCollection<MEMBER> _toShowItems;
-        public ObservableCollection<MEMBER> ToShowItems
-        {
-            get => this._toShowItems;
-            set
-            {
-                this._toShowItems = value;
-                OnPropertyChanged();
-            }
-        }
 
         public override void DisplayObjects()
         {
             var page = this.SelectedIndex + 1;
-            var skip = (page - 1) * this._paging.RowsPerPage;
-            var take = this._paging.RowsPerPage;
+            var skip = (page - 1) * this.Paging.RowsPerPage;
+            var take = this.Paging.RowsPerPage;
 
             this.ToShowItems = new ObservableCollection<MEMBER>(this.MEMBERS.Skip(skip).Take(take));
         }
-
-
         public static bool getNewRowPerPage(int RowsPerPage) // được gọi trong setting
         {
-            if(RowsPerPage > instance.MEMBERS.Count)
+            if (RowsPerPage > instance.MEMBERS.Count)
             {
                 return false;
             }
@@ -77,16 +46,12 @@ namespace WeSplitApp.ViewModel
 
             return true;
         }
-
-        public static int getRowsPerPage() //gọi lúc tắt app để lưu setting paging
-        {
-            return instance.Paging.RowsPerPage;
-        }
+        public static int getRowsPerPage() => instance.Paging.RowsPerPage; //gọi lúc tắt app để lưu setting paging
         #endregion
 
         public static void updateList(MEMBER member)
         {
-            if(instance != null)
+            if (instance != null)
             {
                 instance.MEMBERS.Add(member);
                 instance.DisplayObjects();
@@ -95,10 +60,9 @@ namespace WeSplitApp.ViewModel
 
         public void searchMember_ByName()
         {
-            
             string request = HomeScreen.GetHomeScreenInstance().SearchTextBox.Text;
             //MessageBox.Show("Chay duoc roi");
-            List <MEMBER> memberList;
+            List<MEMBER> memberList;
             if (request.Length <= 0)
             {
                 memberList = (HomeScreen.GetDatabaseEntities().MEMBERS).ToList();
@@ -109,7 +73,7 @@ namespace WeSplitApp.ViewModel
                 //search by TITLE
                 var requestText = convertUnicode.convertToUnSign(request.Trim().ToLower());
                 memberList = (HomeScreen.GetDatabaseEntities().MEMBERS.AsEnumerable().Where(mem => convertUnicode.convertToUnSign(mem.NAME.Trim().ToLower()).Contains(requestText))).ToList();
-                
+
                 //MessageBox.Show(b[0].TITTLE);
                 //this.ToShowItems = new ObservableCollection<TRIP>(tripList);
             }

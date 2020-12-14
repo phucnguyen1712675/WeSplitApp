@@ -9,73 +9,20 @@ namespace WeSplitApp.ViewModel
 {
     public class StepperBaseViewModel : ViewModel
     {
-        protected StepperLayout m_layout;
-        protected bool m_isLinear;
-        protected bool m_contentAnimationsEnabled;
-
-        public bool ContentAnimationsEnabled
+        public bool ContentAnimationsEnabled { get; set; }
+        public bool IsLinear { get; set; }
+        public StepperLayout Layout { get; set; }
+        public IEnumerable<StepperLayout> Layouts => new List<StepperLayout>()
         {
-            get
-            {
-                return m_contentAnimationsEnabled;
-            }
-
-            set
-            {
-                m_contentAnimationsEnabled = value;
-
-                OnPropertyChanged(nameof(ContentAnimationsEnabled));
-            }
-        }
-
-        public bool IsLinear
-        {
-            get
-            {
-                return m_isLinear;
-            }
-
-            set
-            {
-                m_isLinear = value;
-
-                OnPropertyChanged(nameof(IsLinear));
-            }
-        }
-
-        public StepperLayout Layout
-        {
-            get
-            {
-                return m_layout;
-            }
-
-            set
-            {
-                m_layout = value;
-
-                OnPropertyChanged(nameof(Layout));
-            }
-        }
-
-        public IEnumerable<StepperLayout> Layouts
-        {
-            get
-            {
-                return new List<StepperLayout>()
-                {
-                    StepperLayout.Horizontal,
-                    StepperLayout.Vertical
-                };
-            }
-        }
+            StepperLayout.Horizontal,
+            StepperLayout.Vertical
+        };
 
         public StepperBaseViewModel()
-            /*: base()*/
         {
-            m_layout = StepperLayout.Vertical;
-            m_isLinear = true;
-            m_contentAnimationsEnabled = true;
+            this.Layout = StepperLayout.Vertical;
+            this.IsLinear = true;
+            this.ContentAnimationsEnabled = true;
         }
     }
 }

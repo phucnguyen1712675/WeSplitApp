@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 
@@ -14,8 +15,18 @@ namespace WeSplitApp.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             string relative = (string)value;
-            if(relative == null) return relative;
-            if (relative.Contains(AppDomain.CurrentDomain.BaseDirectory)) return relative;
+            if(relative == null)
+            {
+                return relative;
+            }
+            if (relative.Contains(AppDomain.CurrentDomain.BaseDirectory))
+            {
+                return relative;
+            }
+            if (relative.Equals("/Resources/Images/NullImage.png"))
+            {
+                return relative;
+            }
             string folder = AppDomain.CurrentDomain.BaseDirectory;
             string absolutePath = $"{folder}{relative}";
             return absolutePath;

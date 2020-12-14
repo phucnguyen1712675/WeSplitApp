@@ -13,96 +13,57 @@ namespace WeSplitApp.ViewModel
 {
     public class TotalCostsPieChartViewModel : ViewModel
     {
-        private SeriesCollection _totalCostsPieChart;
-        public SeriesCollection TotalCostsPieChart
+        private TRIP _selectedTrip;
+        public TRIP SelectedTrip
         {
-            get => this._totalCostsPieChart;
+            get => this._selectedTrip;
             set
             {
-                this._totalCostsPieChart = value;
-                OnPropertyChanged();
+                this._selectedTrip = value;
+                //OnPropertyChanged();
+                GetTripLocationCosts();
+                GetTripCostIncurredCost();
             }
         }
-
-        public Func<ChartPoint, string> PointLabel { get; set; }
-
-        private LegendLocation _legendLocation;
-        public LegendLocation LegendLocation
-        {
-            get => this._legendLocation;
-            set
-            {
-                this._legendLocation = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private string _actionDescribe;
-        public string ActionDescribe
-        {
-            get => this._actionDescribe;
-            set
-            {
-                this._actionDescribe = value;
-                OnPropertyChanged();
-            }
-        }
+        public SeriesCollection TotalCostsPieChart { get; set; }
+        public LegendLocation LegendLocation { get; set; }
+        public string ActionDescribe { get; set; }
         private ICommand _showDetailCommand { get; set; }
         public ICommand ShowDetailCommand => this._showDetailCommand ?? (this._showDetailCommand = new CommandHandler(() => MyShowDetailAction(), () => CanExecute));
-        public bool CanExecute
-        {
-            get
-            {
-                // check if executing is allowed, i.e., validate, check if a process is running, etc. 
-                return true;
-            }
-        }
-
-        public void MyShowDetailAction()
-        {
-            this.LegendLocation = this.LegendLocation == LegendLocation.None ? LegendLocation.Top : LegendLocation.None;
-            this.ActionDescribe = this.ActionDescribe.Equals("SHOW DETAIL") ? "CLOSE DETAIL" : "SHOW DETAIL";
-        }
-        public TotalCostsPieChartViewModel(TRIP trip)
+        
+        public TotalCostsPieChartViewModel()
         {
             this.LegendLocation = LegendLocation.None;
             this.ActionDescribe = "SHOW DETAIL";
             this.TotalCostsPieChart = new SeriesCollection();
-
-            this.PointLabel = chartPoint =>
-                string.Format("{0} ({1:P})", chartPoint.Y, chartPoint.Participation);
-            GetTripLocationCosts(trip);
-            GetTripCostIncurredCost(trip);
-
-            
         }
-
-        private void GetTripLocationCosts(TRIP trip)
+        private void GetTripLocationCosts()
         {
-            foreach (var item in trip.TRIP_LOCATION)
+            foreach (var item in this.SelectedTrip.TRIP_LOCATION)
             {
                 this.TotalCostsPieChart.Add(new PieSeries
                 {
                     Title = item.LOCATION.NAME,
                     Values = new ChartValues<double> { item.COSTS },
-                    DataLabels = false,
-                    LabelPoint = this.PointLabel
                 });
             }
         }
-
-        private void GetTripCostIncurredCost(TRIP trip)
+        private void GetTripCostIncurredCost()
         {
-            foreach (var item in trip.TRIP_COSTINCURRED)
+            foreach (var item in this.SelectedTrip.TRIP_COSTINCURRED)
             {
                 this.TotalCostsPieChart.Add(new PieSeries
                 {
                     Title = item.COSTINCURRED.NAME,
                     Values = new ChartValues<double> { Convert.ToDouble(item.COST) },
-                    DataLabels = false,
-                    LabelPoint = this.PointLabel
                 });
             }
+        }
+        public bool CanExecute => true;
+        public void MyShowDetailAction()
+        {
+            this.LegendLocation = this.LegendLocation == LegendLocation.None ? LegendLocation.Top : LegendLocation.None;
+            this.ActionDescribe = this.ActionDescribe.Equals("SHOW DETAIL") ? "CLOSE DETAIL" : "SHOW DETAIL";
         }
     }
 }

@@ -9,22 +9,19 @@ namespace WeSplitApp.ViewModel
 {
     public class StepTwoViewModel : Step
     {
-        public StepTwoViewModel():base(){ }
+        public StepTwoViewModel() : base() { }
 
         public override void Validate()
         {
-            bool ageOk = true;
-            if (AddNewTripViewModel.Instance.AddTrip.TRIP_LOCATION.Count ==0) ageOk = false;
-           // if (AddNewTripViewModel.Instance.AddTrip.TRIP_COSTINCURRED.Count == 0) ageOk = false;
+            bool ageOk = AddNewTripViewModel.Instance.AddTrip.TRIP_LOCATION.Count != 0;
 
             if (ageOk)
             {
                 string totalcost = AddNewTripViewModel.Instance.AddTrip.TOTALCOSTS.ToString();
-                HasValidationErrors = false;
             }
-            else
+            HasValidationErrors = !ageOk;
+            if (!HasValidationErrors)
             {
-                HasValidationErrors = true;
                 MessageBox.Show("Nhập thiếu trường dữ liệu");
             }
         }

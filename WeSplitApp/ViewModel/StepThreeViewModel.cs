@@ -11,37 +11,33 @@ namespace WeSplitApp.ViewModel
     public class StepThreeViewModel : Step
     {
         //public static Dictionary<MEMBER, string> Trip_Members = new Dictionary<MEMBER, string>();
-        public StepThreeViewModel() {}
         public override void Validate()
         {
-            bool ageOk = true;
-            if (AddNewTripViewModel.Instance.AddTrip.TRIP_MEMBER.Count == 0) ageOk = false;
-
-            if (ageOk) {
-                HasValidationErrors = false;
-            }
-            else
+            bool ageOk = AddNewTripViewModel.Instance.AddTrip.TRIP_MEMBER.Count != 0;
+            HasValidationErrors = !ageOk;
+            if (!HasValidationErrors)
             {
-                HasValidationErrors = true;
                 MessageBox.Show("Nhập thiếu trường dữ liệu");
             }
         }
 
         public static bool isAddOk()
         {
-            bool ageOk = true;
-            if (AddNewTripViewModel.Instance.AddTrip.TRIP_MEMBER.Count == 0) ageOk = false;
+            bool ageOk = AddNewTripViewModel.Instance.AddTrip.TRIP_MEMBER.Count != 0;
             if (ageOk)
             {
-
                 TRIP temp = AddNewTripViewModel.Instance.AddTrip;
-                if (temp.RETURNDATE < DateTime.Now) { 
-                    temp.ISDONE = true;
-                }
-                else temp.ISDONE = false;
+                temp.ISDONE = temp.RETURNDATE < DateTime.Now;
                 HomeScreen.GetDatabaseEntities().TRIPS.Add(temp);
                 HomeScreen.GetDatabaseEntities().SaveChanges();
-                TripsListViewModel.AddTrip(temp);
+                if ((bool)temp.ISDONE)
+                {
+                    HaveTakenTripsListViewModel.AddTrip(temp);
+                }
+                else
+                {
+                    BeingTakenTripsListViewModel.AddTrip(temp);
+                }
                 MessageBox.Show("Thêm thành công");
             }
             else

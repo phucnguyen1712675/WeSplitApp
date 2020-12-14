@@ -8,32 +8,12 @@ namespace WeSplitApp.ViewModel
 {
     class LocationListViewModel : PagingListObjects
     {
-        public ObservableCollection<LOCATION> _lOCATIONS;
-        public ObservableCollection<LOCATION> LOCATIONS { 
-            get => this._lOCATIONS; 
-            set
-            {
-                this._lOCATIONS = value;
-                OnPropertyChanged();
-            }
-        }
+        public ObservableCollection<LOCATION> LOCATIONS { get; set; }
         public PagingListObjects PagingListObjects { get; set; }
-
-        private static LocationListViewModel instance = null;
-        public static LocationListViewModel Instance
-        {
-            get
-            {
-                if(instance == null)
-                {
-                    instance = new LocationListViewModel();
-                }
-                return instance;
-            }
-        }
+        public ObservableCollection<LOCATION> ToShowItems { get; set; }
         private LocationListViewModel()
         {
-           this.LOCATIONS = new ObservableCollection<LOCATION>(HomeScreen.GetDatabaseEntities().LOCATIONS.ToList());
+            this.LOCATIONS = new ObservableCollection<LOCATION>(HomeScreen.GetDatabaseEntities().LOCATIONS.ToList());
             //TODO read from data.config
             int RowsPerPage = 5;
 
@@ -41,28 +21,19 @@ namespace WeSplitApp.ViewModel
             SelectedIndex = 0;
             DisplayObjects();
         }
+        private static LocationListViewModel instance = null;
+        public static LocationListViewModel Instance => instance ?? (instance = new LocationListViewModel());
 
         #region Paging
-        private ObservableCollection<LOCATION> _toShowItems;
-        public ObservableCollection<LOCATION> ToShowItems
-        {
-            get => this._toShowItems;
-            set
-            {
-                this._toShowItems = value;
-                OnPropertyChanged();
-            }
-        }
 
         public override void DisplayObjects()
         {
             var page = this.SelectedIndex + 1;
-            var skip = (page - 1) * this._paging.RowsPerPage;
-            var take = this._paging.RowsPerPage;
+            var skip = (page - 1) * this.Paging.RowsPerPage;
+            var take = this.Paging.RowsPerPage;
 
             this.ToShowItems = new ObservableCollection<LOCATION>(this.LOCATIONS.Skip(skip).Take(take));
         }
-
         public static bool getNewRowPerPage(int RowsPerPage) //được gọi trong setting
         {
             if (RowsPerPage > instance.LOCATIONS.Count)
@@ -73,11 +44,7 @@ namespace WeSplitApp.ViewModel
 
             return true;
         }
-
-        public static int getRowsPerPage() //gọi lúc tắt app để lưu setting paging
-        {
-            return instance.Paging.RowsPerPage;
-        }
+        public static int getRowsPerPage() => instance.Paging.RowsPerPage; //gọi lúc tắt app để lưu setting paging
         #endregion
 
         internal static void updateList(LOCATION newLocation)
@@ -90,7 +57,6 @@ namespace WeSplitApp.ViewModel
         }
         public void searchLocation_ByName()
         {
-
             string request = HomeScreen.GetHomeScreenInstance().SearchTextBox.Text;
             //MessageBox.Show("Chay duoc roi");
             List<LOCATION> locationList;
