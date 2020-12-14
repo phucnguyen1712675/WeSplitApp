@@ -124,6 +124,16 @@ namespace WeSplitApp.ViewModel
             HomeScreen.SetNavigationDrawerNavNull();
             HomeScreen.GetHomeScreenInstance().SetContentControl((new TripDetailsViewModel(item)));
         }
+
+        /*        private void ShowSelectedTrip(TRIP trip)
+                {
+                    HomeScreen.SetNavigationDrawerNavNull();
+                    var newTripViewModel = new TripDetailsViewModel
+                    {
+                        SelectedTrip = trip
+                    };
+                    HomeScreen.GetHomeScreenInstance().SetContentControl(newTripViewModel);
+                }*/
         #endregion
 
         #region paging
