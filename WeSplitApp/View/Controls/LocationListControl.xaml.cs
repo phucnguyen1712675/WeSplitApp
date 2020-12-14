@@ -29,10 +29,5 @@ namespace WeSplitApp.View.Controls
         {
             instance.LocationList.Items.Refresh();
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            LocationListViewModel.getNewRowPerPage(Convert.ToInt32(tempBox.Text));
-        }
     }
 }

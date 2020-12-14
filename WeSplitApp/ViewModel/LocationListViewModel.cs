@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using WeSplitApp.Utils;
@@ -6,23 +7,69 @@ using WeSplitApp.View;
 
 namespace WeSplitApp.ViewModel
 {
-    class LocationListViewModel : PagingListObjects
+    class LocationListViewModel : SortMethodList
     {
         public ObservableCollection<LOCATION> LOCATIONS { get; set; }
         public PagingListObjects PagingListObjects { get; set; }
         public ObservableCollection<LOCATION> ToShowItems { get; set; }
         private LocationListViewModel()
         {
-            this.LOCATIONS = new ObservableCollection<LOCATION>(HomeScreen.GetDatabaseEntities().LOCATIONS.ToList());
-            //TODO read from data.config
-            int RowsPerPage = 5;
+            MySort = new Dictionary<string, Delegate> {
+                  { "Mặc định", new Func<List<LOCATION>>(SetDefaultPosition)},
+            { "Tên tăng dần", new Func<List<LOCATION>>(SetAscendingPositionAccordingToName)},
+            { "Tên giảm đần", new Func<List<LOCATION>>(SetDescendingPositionAccordingToName)}
+            };
 
-            CalculatePagingInfo(RowsPerPage, LOCATIONS.Count);
-            SelectedIndex = 0;
-            DisplayObjects();
+            this.LOCATIONS = new ObservableCollection<LOCATION>(HomeScreen.GetDatabaseEntities().LOCATIONS.ToList());
+        }
+
+        public int GetMaximum()
+        {
+            return LOCATIONS.Count();
+        }
+
+        #region sort
+        internal List<string> getSortMethod()
+        {
+            return MySort.Keys.ToList();
+        }
+
+        protected override void SetSort(string method)
+        {
+            if (MySort.ContainsKey(method))
+            {
+                List<LOCATION> resultSort = (List<LOCATION>)MySort[method].DynamicInvoke();
+                LOCATIONS = new ObservableCollection<LOCATION>(resultSort);
+                DisplayObjects();
+            }
+        }
+        private List<LOCATION> SetDescendingPositionAccordingToName()
+        {
+            return LOCATIONS.OrderByDescending(c => c.NAME).ToList();
         }
         private static LocationListViewModel instance = null;
         public static LocationListViewModel Instance => instance ?? (instance = new LocationListViewModel());
+
+        private List<LOCATION> SetAscendingPositionAccordingToName()
+        {
+            return LOCATIONS.OrderBy(c => c.NAME).ToList();
+        }
+
+        private List<LOCATION> SetDefaultPosition()
+        {
+            return LOCATIONS.OrderBy(c => c.LOCATION_ID).ToList();
+        }
+
+        public void MakeSort(string method)
+        {
+            SetSort(method);
+        }
+
+        public void MakeSort(int method)
+        {
+            MakeSort(MySort.Keys.ToList()[method]);
+        }
+        #endregion
 
         #region Paging
 
@@ -34,20 +81,23 @@ namespace WeSplitApp.ViewModel
 
             this.ToShowItems = new ObservableCollection<LOCATION>(this.LOCATIONS.Skip(skip).Take(take));
         }
-        public static bool getNewRowPerPage(int RowsPerPage) //được gọi trong setting
+        public bool getNewRowPerPage(int RowsPerPage) //được gọi trong setting
         {
-            if (RowsPerPage > instance.LOCATIONS.Count)
+            if (RowsPerPage > LOCATIONS.Count)
             {
                 return false;
             }
-            instance.CalculatePagingInfo(RowsPerPage, instance.LOCATIONS.Count);
+            CalculatePagingInfo(RowsPerPage, LOCATIONS.Count);
 
             return true;
         }
-        public static int getRowsPerPage() => instance.Paging.RowsPerPage; //gọi lúc tắt app để lưu setting paging
+        public int getRowsPerPage() //gọi lúc tắt app để lưu setting paging
+        {
+            return Paging.RowsPerPage;
+        }
         #endregion
 
-        internal static void updateList(LOCATION newLocation)
+        internal void updateList(LOCATION newLocation)
         {
             if (instance != null)
             {

@@ -38,7 +38,7 @@ namespace WeSplitApp.ViewModel.DialogHelperClass
                     // trường hợp đang làm trong màn hình AddTrip <=> refresh list Locations
                     if (AddNewTripViewModel.Instance != null) { AddNewTripViewModel.Instance.LOCATIONs.Add(NewLocation); }
                     //trường hợp đang làm trong màn hình LocationList <=> refresh list Location
-                    LocationListViewModel.updateList(NewLocation);
+                    LocationListViewModel.Instance.updateList(NewLocation);
                 }
                 else
                 {

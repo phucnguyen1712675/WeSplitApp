@@ -45,7 +45,7 @@
             Grid.Column="1"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            ItemsSource="{Binding ToShowItems1}"
+            ItemsSource="{Binding ToShowItems}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
             ScrollViewer.VerticalScrollBarVisibility="Hidden">
             <i:Interaction.Triggers>

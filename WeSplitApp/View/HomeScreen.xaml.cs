@@ -92,7 +92,7 @@ namespace WeSplitApp.View
                 new FirstLevelNavigationItem() { Label = "Các chuyến đi", Icon = PackIconKind.MapMarker, NavigationItemSelectedCallback = item => new TripsCollectionViewModel()},
                 new FirstLevelNavigationItem() { Label = "Danh sách thành viên", Icon = PackIconKind.AccountMultipleOutline, NavigationItemSelectedCallback = item =>MemberListViewModel.Instance},
                 new FirstLevelNavigationItem() { Label = "Danh sách điểm dừng", Icon = PackIconKind.MapMarkerStar, NavigationItemSelectedCallback = item => LocationListViewModel.Instance},
-                new FirstLevelNavigationItem() { Label = "Cài đặt", Icon = PackIconKind.Settings, NavigationItemSelectedCallback = item => new SettingsViewModel()},
+                new FirstLevelNavigationItem() { Label = "Cài đặt", Icon = PackIconKind.Settings, NavigationItemSelectedCallback = item => SettingsViewModel.Instance},
                 new FirstLevelNavigationItem() { Label = "Về chúng tôi", Icon = PackIconKind.About, NavigationItemSelectedCallback = item => new AboutUsViewModel()},
             };
 
@@ -194,7 +194,7 @@ namespace WeSplitApp.View
         {
             /*string typeSearch = HaveTakenTripsListControl.GetInstance().SearchByComboBox.Text;
             int option = 0;
-            for (int i = 0; i <= NavigationItems.Count; i++)
+            for (int i = 0; i < 3; i++)
             {
                 if (NavigationItems[i].IsSelected)
                 {
@@ -205,13 +205,14 @@ namespace WeSplitApp.View
             switch (option)
             {
                 case 0:
+                    
                     if (TripsCollectionViewModel.index == 0)
                     {
-                        TripsListViewModel.instanse.search_byTripName(typeSearch);
+                        HaveTakenTripsListViewModel.Instance.search_byTripName();
                     }
                     else
                     {
-                        ExpectedTripListViewModel.instanse.search_byTripName();
+                        BeingTakenTripsListViewModel.Instance.search_byTripName();
                     }
                     break;
                 case 1:
@@ -227,6 +228,16 @@ namespace WeSplitApp.View
             //MessageBox.Show( NavigationItems[0].IsSelected.ToString());
             //TripsListViewModel.instanse.search_byTripName();
             //ExpectedTripListViewModel.instanse.search_byTripName();
+        }
+
+        private void MaterialWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+             SettingsViewModel.Instance.LoadAll();
+        }
+
+        private void MaterialWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            SettingsViewModel.Instance.SaveAll();
         }
     }
 }

@@ -41,7 +41,7 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <md:Card 
-                        Margin="0,0,10,20"
+                        Margin="0,6,15,6"
                         Width="400"
                         Height="100"
                         md:ShadowAssist.ShadowDepth="Depth1"
@@ -96,8 +96,10 @@
                 <ComboBox
                 ItemsSource="{Binding Paging.Pages, Mode=OneWay}"
                 Name="MemberListPagingComboBox"
-                Width="100"   
-                Height="40"
+                Background="White"
+                Width="80"   
+                Height="45"
+                FontSize="14"
                 HorizontalContentAlignment="Center"
                 VerticalContentAlignment="Center"
                 SelectedIndex="{Binding SelectedIndex}"
@@ -121,10 +123,6 @@
             Style="{StaticResource MaterialDesignIconButton}"
             ToolTip="Next" 
             Margin="20,10,00,0"/>
-
-                <!--TODO test change Rows per page-->
-                <TextBox Text="{Binding Paging.RowsPerPage}" Name="tempBox"/>
-                <Button Click="Button_Click"/>
             </StackPanel>
         </StackPanel>
     </Grid>

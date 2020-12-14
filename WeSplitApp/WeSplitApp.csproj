@@ -265,6 +265,7 @@
     <Compile Include="Utils\Paging.cs" />
     <Compile Include="Utils\PagingListObjects.cs" />
     <Compile Include="Utils\RelayCommand.cs" />
+    <Compile Include="Utils\SortMethodList.cs" />
     <Compile Include="Utils\TripItemHandler.cs" />
     <Compile Include="ViewModel\AboutUsViewModel.cs" />
     <Compile Include="ViewModel\AddNewTripViewModel.cs" />
@@ -295,6 +296,7 @@
     <Compile Include="ViewModel\HaveTakenTripsListViewModel.cs" />
     <Compile Include="ViewModel\TripMemberPaidAmountDataGridViewModel.cs" />
     <Compile Include="ViewModel\TripsCollectionViewModel.cs" />
+    <Compile Include="ViewModel\TripViewModel.cs" />
     <Compile Include="ViewModel\ViewModel.cs" />
     <Compile Include="View\Controls\AboutUsControl.xaml.cs">
       <DependentUpon>AboutUsControl.xaml</DependentUpon>
@@ -594,6 +596,7 @@
     <Resource Include="Resources\Images\LocationListBackGround1.jpg" />
     <Resource Include="Resources\Images\4012176.jpg" />
     <Resource Include="Resources\Images\NullImage.png" />
+    <Resource Include="Resources\Images\SettingBackGround1.jpg" />
     <Content Include="WESPLITAPP_DB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>WESPLITAPP_DB.edmx</DependentUpon>

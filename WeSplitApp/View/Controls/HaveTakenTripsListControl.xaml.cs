@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WeSplitApp.ViewModel;
 
 namespace WeSplitApp.View.Controls
 {
@@ -23,11 +24,71 @@ namespace WeSplitApp.View.Controls
         private static HaveTakenTripsListControl haveTakenTripList = null;
 
         public static HaveTakenTripsListControl GetInstance() => haveTakenTripList;
+
         public HaveTakenTripsListControl()
         {
             InitializeComponent();
+            DataContext = HaveTakenTripsListViewModel.Instance;
             haveTakenTripList = this;
         }
 
+        private void selectedChange(object sender, SelectionChangedEventArgs e)
+        {
+            HomeScreen.GetHomeScreenInstance().SearchTextBox.Clear();
+        }
+
+        private void orderChange(object sender, SelectionChangedEventArgs e)
+        {
+            if(sortListBox != null)
+            {
+                sortListBox.SelectedIndex = 0;
+                SettingsViewModel.Instance.getTripLoadSortMethod(0);
+            }
+        }
+
+        private void OnSelected1(object sender, RoutedEventArgs e)
+        {
+            SettingsViewModel.Instance.getTripLoadSortMethod(0);
+        }
+
+        private void OnSelected2(object sender, RoutedEventArgs e)
+        {
+            if (SortComboBox.SelectedIndex == 0)
+            {
+                SettingsViewModel.Instance.getTripLoadSortMethod(1);
+            }
+            else
+            {
+                SettingsViewModel.Instance.getTripLoadSortMethod(2);
+            }
+        }
+
+        private void OnSelected3(object sender, RoutedEventArgs e)
+        {
+            if (SortComboBox.SelectedIndex == 0)
+            {
+                SettingsViewModel.Instance.getTripLoadSortMethod(3);
+            }
+            else
+            {
+                SettingsViewModel.Instance.getTripLoadSortMethod(4);
+            }
+        }
+
+        private void OnSelected4(object sender, RoutedEventArgs e)
+        {
+
+            if (SortComboBox.SelectedIndex == 0)
+            {
+                SettingsViewModel.Instance.getTripLoadSortMethod(5);
+            }
+            else
+            {
+                SettingsViewModel.Instance.getTripLoadSortMethod(6);
+            }
+        }
+
+
     }
 }
+ 

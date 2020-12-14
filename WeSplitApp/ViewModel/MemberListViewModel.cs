@@ -1,30 +1,90 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using WeSplitApp.Utils;
 using WeSplitApp.View;
+using WeSplitApp.View.Controls;
 
 namespace WeSplitApp.ViewModel
 {
-    public class MemberListViewModel : PagingListObjects
+    public class MemberListViewModel : SortMethodList
     {
-        public ObservableCollection<MEMBER> MEMBERS { get; set; }
-        public PagingListObjects PagingListObjects { get; set; }
-        public ObservableCollection<MEMBER> ToShowItems { get; set; }
+        private ObservableCollection<MEMBER> _mEMBERS;
+        public ObservableCollection<MEMBER> MEMBERS
+        {
+            get => this._mEMBERS;
+            set
+            {
+                this._mEMBERS = value;
+                OnPropertyChanged();
+            }
+        }
+
+        //public PagingListObjects PagingListObjects { get; set; }
 
         private static MemberListViewModel instance = null;
         public static MemberListViewModel Instance => instance ?? (instance = new MemberListViewModel());
 
         private MemberListViewModel()
         {
-            this.MEMBERS = new ObservableCollection<MEMBER>(HomeScreen.GetDatabaseEntities().MEMBERS.ToList());
-            //TODO read from data.config
-            int RowsPerPage = 5;
+            MySort = new Dictionary<string, Delegate> {
+                  { "Mặc định", new Func<List<MEMBER>>(SetDefaultPosition)},
+            { "Tên tăng dần", new Func<List<MEMBER>>(SetAscendingPositionAccordingToName)},
+            { "Tên giảm đần", new Func<List<MEMBER>>(SetDescendingPositionAccordingToName)}
+            };
 
-            CalculatePagingInfo(RowsPerPage, MEMBERS.Count);
-            DisplayObjects();
+            this.MEMBERS = new ObservableCollection<MEMBER>((HomeScreen.GetDatabaseEntities().MEMBERS).ToList());
         }
+
+        public int GetMaximum()
+        {
+            return MEMBERS.Count();
+        }
+
+        #region sort
+        protected override void SetSort(string method)
+        {
+            if (MySort.ContainsKey(method))
+            {
+                List<MEMBER> resultSort =(List<MEMBER>)MySort[method].DynamicInvoke();
+                MEMBERS = new ObservableCollection<MEMBER>(resultSort);
+                DisplayObjects();
+            }
+        }
+
+        private List<MEMBER> SetDescendingPositionAccordingToName()
+        {
+            return MEMBERS.OrderByDescending(c => c.NAME).ToList();
+        }
+
+        private List<MEMBER> SetAscendingPositionAccordingToName()
+        {
+            return MEMBERS.OrderBy(c => c.NAME).ToList();
+        }
+
+        private List<MEMBER> SetDefaultPosition()
+        {
+            return MEMBERS.OrderBy(c => c.MEMBER_ID).ToList();
+        }
+
+        public List<string> getSortMethod()
+        {
+            return instance.MySort.Keys.ToList();
+        }
+
+        public void MakeSort(string method)
+        {
+            SetSort(method);
+        }
+
+        public void MakeSort(int method)
+        {
+            MakeSort(MySort.Keys.ToList()[method]);
+        }
+
+        #endregion
 
         #region Paging
 
@@ -36,20 +96,21 @@ namespace WeSplitApp.ViewModel
 
             this.ToShowItems = new ObservableCollection<MEMBER>(this.MEMBERS.Skip(skip).Take(take));
         }
-        public static bool getNewRowPerPage(int RowsPerPage) // được gọi trong setting
+
+        public bool getNewRowPerPage(int RowsPerPage) // được gọi trong setting
         {
-            if (RowsPerPage > instance.MEMBERS.Count)
+            if(RowsPerPage > MEMBERS.Count)
             {
                 return false;
             }
-            instance.CalculatePagingInfo(RowsPerPage, instance.MEMBERS.Count);
-
+            CalculatePagingInfo(RowsPerPage, MEMBERS.Count);
+            SelectedIndex = 0;
+            DisplayObjects();
             return true;
         }
-        public static int getRowsPerPage() => instance.Paging.RowsPerPage; //gọi lúc tắt app để lưu setting paging
         #endregion
 
-        public static void updateList(MEMBER member)
+        public void updateList(MEMBER member)
         {
             if (instance != null)
             {
