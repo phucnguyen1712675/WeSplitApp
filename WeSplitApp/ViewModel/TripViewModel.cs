@@ -4,19 +4,23 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using WeSplitApp.Utils;
 using WeSplitApp.View;
+using WeSplitApp.View.Controls;
 
 namespace WeSplitApp.ViewModel
 {
-   public class TripViewModel : SortMethodList
+    public class TripViewModel : SortMethodList
     {
         public bool IsDone { get; set; } = false;
 
         protected TripItemHandler _itemHandler;
 
-        public TripItemHandler ItemHandler { get => this._itemHandler;
+        public TripItemHandler ItemHandler
+        {
+            get => this._itemHandler;
             set
             {
                 this._itemHandler = value;
@@ -24,7 +28,8 @@ namespace WeSplitApp.ViewModel
             }
         }
 
-        public List<TRIP> Items {
+        public List<TRIP> Items
+        {
             get => this.ItemHandler.Items;
             set
             {
@@ -36,7 +41,7 @@ namespace WeSplitApp.ViewModel
         public TripItemHandler GetData() => new TripItemHandler(HomeScreen.GetDatabaseEntities().TRIPS.Where(t => t.ISDONE == this.IsDone)
                                                                                               .Select(t => t)
                                                                                               .ToList());
-         
+
 
         public void TripSortMethods()
         {
@@ -85,13 +90,13 @@ namespace WeSplitApp.ViewModel
         private List<TRIP> SetDescendingPositionAccordingToName()
         {
             var result = Items;
-            var result2 =   result.OrderByDescending(c => c.TITTLE).ToList();
+            var result2 = result.OrderByDescending(c => c.TITTLE).ToList();
             return result;
         }
 
         private List<TRIP> SetAscendingPositionAccordingToName()
         {
-            var result =  Items.OrderBy(c => c.TITTLE).ToList();
+            var result = Items.OrderBy(c => c.TITTLE).ToList();
             return result;
         }
 
@@ -183,7 +188,89 @@ namespace WeSplitApp.ViewModel
             this.ToShowItems = new ObservableCollection<TRIP>(this.SearchResult.Skip(skip).Take(take));
         }
 
-        public virtual void search_byTripName() { }
+        public void search_byTripName()
+        {
+            string request = HomeScreen.GetHomeScreenInstance().SearchTextBox.Text;
+            var requestText = convertUnicode.convertToUnSign(request.Trim().ToLower());
+            string typeSearch = "";
+            if (IsDone)
+            {
+                typeSearch = HaveTakenTripsListControl.GetInstance().SearchByComboBox.Text;
+            }
+            else
+            {
+                typeSearch = BeingTakenTripsListControl.GetInstance().SearchByComboBox.Text;
+            }
+            //MessageBox.Show(typeSearch);
+            List<TRIP> tripList = new List<TRIP>();
+            //tripList = (HomeScreen.GetDatabaseEntities().TRIPS.AsEnumerable().Where(t => convertUnicode.convertToUnSign(t.TITTLE.Trim().ToLower()).Contains(request) && t.ISDONE == true).ToList());
+
+            switch (typeSearch)
+            {
+                case "Tên chuyến đi":
+                    tripList = (HomeScreen.GetDatabaseEntities().TRIPS.AsEnumerable()
+                        .Where(t => convertUnicode.convertToUnSign(t.TITTLE.Trim().ToLower()).Contains(requestText) && t.ISDONE == IsDone)
+                        .ToList());
+
+                    //MessageBox.Show(b[0].TITTLE);
+                    break;
+                case "Tên thành viên":
+                    // search member theo ten nhap vao 
+                    var memlist = (HomeScreen.GetDatabaseEntities().MEMBERS.AsEnumerable()
+                        .Where(mem => convertUnicode.convertToUnSign(mem.NAME.Trim().ToLower()).Contains(requestText))).ToList();
+                    tripList.Clear();
+                    // tim chuyen di theo ten thanh vien
+                    foreach (var index in memlist)
+                    {
+                        //tim chuyen di co thanh vien index
+                        var memberTripList = (from t in HomeScreen.GetDatabaseEntities().TRIPS
+                                              join mem in HomeScreen.GetDatabaseEntities().TRIP_MEMBER on t.TRIP_ID equals mem.TRIP_ID
+                                              where mem.MEMBER_ID == index.MEMBER_ID && t.ISDONE == IsDone
+                                              select t).ToList();
+                        // kiem tra chuyen di da co trong List chua va them vao
+                        foreach (TRIP trip in memberTripList)
+                        {
+                            if (tripList == null || !tripList.Contains(trip))
+                            {
+                                tripList.Add(trip);
+                            }
+                        }
+
+                    }
+                    break;
+                case "Tên địa điểm":
+                    // search member theo ten nhap vao 
+                    var locationList = (HomeScreen.GetDatabaseEntities().LOCATIONS.AsEnumerable()
+                        .Where(loca => convertUnicode.convertToUnSign(loca.NAME.Trim().ToLower()).Contains(requestText))).ToList();
+                    tripList.Clear();
+                    // tim chuyen di theo ten thanh vien
+                    foreach (var index in locationList)
+                    {
+                        //tim chuyen di co thanh vien index
+                        var locationTripList = (from t in HomeScreen.GetDatabaseEntities().TRIPS
+                                              join loca in HomeScreen.GetDatabaseEntities().TRIP_LOCATION on t.TRIP_ID equals loca.TRIP_ID
+                                              where loca.LOCATION_ID == index.LOCATION_ID && t.ISDONE == IsDone
+                                              select t).ToList();
+                        // kiem tra chuyen di da co trong List chua va them vao
+                        foreach (TRIP trip in locationTripList)
+                        {
+                            if (tripList == null || !tripList.Contains(trip))
+                            {
+                                tripList.Add(trip);
+                            }
+                        }
+
+                    }
+                    break;
+                default:
+                    MessageBox.Show("Chưa chọn loại tìm kiếm");
+                    break;
+            }
+            SearchResult = new ObservableCollection<TRIP>(tripList);
+            CalculatePagingInfo(Paging.RowsPerPage, SearchResult.Count);
+            DisplayObjects_Search();
+
+        }
         #endregion
 
 

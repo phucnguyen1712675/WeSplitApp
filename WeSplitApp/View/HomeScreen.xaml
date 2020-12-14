@@ -161,8 +161,28 @@
                                             <Button Style="{DynamicResource MaterialDesignToolButton}">
                                                 <md:PackIcon Kind="Search" Opacity=".56" />
                                             </Button>
+                                            <!--<TextBox
+                                                Grid.Column="1"
+                                                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                                Text="Good stuff"
+                                                VerticalAlignment="Center"
+                                                md:TextFieldAssist.HasClearButton="True"
+                                                md:TextFieldAssist.PrefixText="$"
+                                                md:TextFieldAssist.SuffixText="mm">
+                                                <md:HintAssist.Hint>
+                                                    <StackPanel
+                                                    Orientation="Horizontal"
+                                                    Margin="-2 0 0 0">
+                                                        <md:PackIcon
+                                                      Kind="AccessPoint" />
+                                                        <TextBlock
+                                                      Text="WiFi" />
+                                                    </StackPanel>
+                                                </md:HintAssist.Hint>
+                                            </TextBox>-->
                                             <TextBox
                                                 x:Name="SearchTextBox"
+                                                md:TextFieldAssist.HasClearButton="True"
                                                 Grid.Column="1"
                                                 MinWidth="200"
                                                 Margin="8,0,0,0"
@@ -170,7 +190,8 @@
                                                 md:HintAssist.Hint="Search"
                                                 md:TextFieldAssist.DecorationVisibility="Hidden"
                                                 BorderThickness="0"
-                                                TextChanged="SearchEvent" />
+                                                TextChanged="SearchEvent"
+                                                />
                                             <Button Grid.Column="2" Style="{DynamicResource MaterialDesignToolButton}">
                                                 <md:PackIcon
                                                     Margin="8,0,0,0"

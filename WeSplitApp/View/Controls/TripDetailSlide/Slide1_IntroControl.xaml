@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:conv="clr-namespace:WeSplitApp.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:local="clr-namespace:WeSplitApp.View.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -19,11 +20,40 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
-
-            <conv:ImageConverter x:Key="imageConverter" />
+            <Style
+                x:Key="FadeOutButton"
+                BasedOn="{StaticResource MaterialDesignIconButton}"
+                TargetType="{x:Type Button}">
+                <Style.Triggers>
+                    <EventTrigger RoutedEvent="Control.MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation
+                                    Storyboard.TargetProperty="Opacity"
+                                    To="1"
+                                    Duration="0:0:1" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="Control.MouseLeave">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation
+                                    Storyboard.TargetProperty="Opacity"
+                                    To="0.2"
+                                    Duration="0:0:1" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Style.Triggers>
+            </Style>
+            <conv:ImageConverter x:Key="ImageConverter" />
             <conv:StatusToStringConverter x:Key="statusToStringConverter" />
             <conv:StatusColorConverter x:Key="statusColorConverter" />
             <conv:StatusToDetailTitleConverter x:Key="statusToDetailTitleConverter" />
+            <conv:TripImagesToNotNullCollectionConverter x:Key="TripImagesToNotNullCollectionConverter" />
+            <conv:BooleanToVisibilityConverter x:Key="TrueToVisibleConverter" />
+            <conv:BooleanToVisibilityConverter x:Key="FalseToVisibleConverter" IsReversed="True" />
 
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
@@ -48,11 +78,10 @@
             Grid.Row="0"
             Margin="130,0"
             HorizontalAlignment="Stretch">
-
             <TextBlock
                 DockPanel.Dock="Right"
-                Foreground="{Binding ISDONE, Converter={StaticResource statusColorConverter}}"
-                Text="{Binding ISDONE, Converter={StaticResource statusToStringConverter}}" />
+                Foreground="{Binding SelectedTrip.ISDONE, Converter={StaticResource statusColorConverter}}"
+                Text="{Binding SelectedTrip.ISDONE, Converter={StaticResource statusToStringConverter}}" />
             <Grid HorizontalAlignment="Left">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -63,58 +92,94 @@
                 <TextBlock
                     Grid.Column="0"
                     FontWeight="Bold"
-                    Text="{Binding ISDONE, Converter={StaticResource statusToDetailTitleConverter}}" />
+                    Text="{Binding SelectedTrip.ISDONE, Converter={StaticResource statusToDetailTitleConverter}}" />
                 <md:PackIcon Grid.Column="1" Kind="ChevronRight" />
                 <TextBlock
                     Grid.Column="2"
                     Foreground="#8e9294"
-                    Text="{Binding TITTLE}" />
+                    Text="{Binding SelectedTrip.TITTLE}" />
             </Grid>
         </DockPanel>
-
         <Grid Grid.Row="1" Margin="130,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1.5*" />
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Border
-                Grid.Column="0"
-                BorderThickness="0"
-                CornerRadius="15,0,0,15">
-                <Border.Background>
-                    <ImageBrush ImageSource="{Binding TRIP_IMAGES[0].IMAGE, Converter={StaticResource imageConverter}}" Stretch="UniformToFill" />
-                </Border.Background>
-            </Border>
-            <Grid Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
+            <Grid DataContext="{Binding Path=SelectedTrip, Converter={StaticResource TripImagesToNotNullCollectionConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.5*" />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
 
-                <Image
-                    Grid.Row="0"
-                    Margin="10,0,10,5"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Source="{Binding TRIP_IMAGES[1].IMAGE, Converter={StaticResource imageConverter}}"
-                    Stretch="UniformToFill" />
-                <Image
-                    Grid.Row="1"
-                    Margin="10,5,10,0"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Source="{Binding TRIP_IMAGES[2].IMAGE, Converter={StaticResource imageConverter}}"
-                    Stretch="UniformToFill" />
+                <Border
+                    Grid.Column="0"
+                    BorderThickness="0"
+                    CornerRadius="15,0,0,15">
+                    <Border.Background>
+                        <ImageBrush ImageSource="{Binding TRIP_IMAGES[0].IMAGE, Converter={StaticResource ImageConverter}}" Stretch="UniformToFill" />
+                    </Border.Background>
+                </Border>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <Image
+                        Grid.Row="0"
+                        Margin="10,0,10,5"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Source="{Binding TRIP_IMAGES[1].IMAGE, Converter={StaticResource ImageConverter}}"
+                        Stretch="UniformToFill" />
+                    <Image
+                        Grid.Row="1"
+                        Margin="10,5,10,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Source="{Binding TRIP_IMAGES[2].IMAGE, Converter={StaticResource ImageConverter}}"
+                        Stretch="UniformToFill" />
+                </Grid>
+                <Border
+                    Grid.Column="2"
+                    BorderThickness="0"
+                    CornerRadius="0,15,15,0">
+                    <Border.Background>
+                        <ImageBrush ImageSource="{Binding TRIP_IMAGES[3].IMAGE, Converter={StaticResource ImageConverter}}" Stretch="UniformToFill" />
+                    </Border.Background>
+                </Border>
             </Grid>
             <Border
-                Grid.Column="2"
-                BorderThickness="0"
-                CornerRadius="0,15,15,0">
-                <Border.Background>
-                    <ImageBrush ImageSource="{Binding TRIP_IMAGES[3].IMAGE, Converter={StaticResource imageConverter}}" Stretch="UniformToFill" />
-                </Border.Background>
+                Height="35"
+                Margin="10,10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Background="White"
+                BorderBrush="#FFECEFF1"
+                BorderThickness="1"
+                CornerRadius="20">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseLeftButtonUp">
+                        <i:InvokeCommandAction Command="{Binding RunImagePresenterDialogCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <StackPanel
+                    Margin="10"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <md:PackIcon
+                        Margin="0,0,5,0"
+                        Foreground="{DynamicResource PrimaryHueMidBrush}"
+                        Kind="Details" />
+                    <TextBlock Text="Xem chi tiết" />
+                </StackPanel>
             </Border>
+            <Button
+                Margin="10,10"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Command="{Binding RunAddNewImagesCommand}"
+                Content="{md:PackIcon Kind=Add}"
+                Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                ToolTip="Add new images" />
         </Grid>
 
         <Grid
@@ -130,39 +195,117 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <TextBlock
-                x:Name="titleTextBlock"
+            <StackPanel
                 Grid.Row="0"
                 Grid.Column="0"
-                FontWeight="Bold"
-                Foreground="#0a0521"
-                Style="{StaticResource MaterialDesignHeadline3TextBlock}"
-                Text="{Binding TITTLE}"
-                TextAlignment="Left"
-                TextWrapping="WrapWithOverflow" />
-            <TextBlock
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <Grid>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Foreground="#0a0521"
+                        Style="{StaticResource MaterialDesignHeadline3TextBlock}"
+                        Text="{Binding SelectedTrip.TITTLE}"
+                        TextAlignment="Left"
+                        TextWrapping="WrapWithOverflow"
+                        Visibility="{Binding IsTitleEditing, Converter={StaticResource FalseToVisibleConverter}}" />
+                    <TextBox
+                        VerticalAlignment="Center"
+                        HorizontalContentAlignment="Center"
+                        FontSize="24"
+                        FontWeight="Bold"
+                        Foreground="#0a0521"
+                        Text="{Binding SelectedTrip.TITTLE}"
+                        Visibility="{Binding IsTitleEditing, Converter={StaticResource TrueToVisibleConverter}}" />
+                </Grid>
+                <Button
+                    Margin="10,0,0,0"
+                    Command="{Binding EditTitleCommand}"
+                    Content="{md:PackIcon Kind=Edit}"
+                    Opacity="0.2"
+                    Style="{StaticResource FadeOutButton}"
+                    ToolTip="Edit"
+                    Visibility="{Binding IsTitleEditing, Converter={StaticResource FalseToVisibleConverter}}" />
+                <Button
+                    Margin="10,0,0,0"
+                    Command="{Binding SaveCommand}"
+                    Content="{md:PackIcon Kind=ContentSave}"
+                    Opacity="0.2"
+                    Style="{StaticResource FadeOutButton}"
+                    ToolTip="Save"
+                    Visibility="{Binding IsTitleEditing, Converter={StaticResource TrueToVisibleConverter}}" />
+                <Button
+                    Command="{Binding CancelTitleCommand}"
+                    Content="{md:PackIcon Kind=CloseThick}"
+                    Opacity="0.2"
+                    Style="{StaticResource FadeOutButton}"
+                    ToolTip="Cancel"
+                    Visibility="{Binding IsTitleEditing, Converter={StaticResource TrueToVisibleConverter}}" />
+            </StackPanel>
+            <StackPanel
                 Grid.Row="1"
                 Grid.Column="0"
                 Margin="0,5"
-                Foreground="#8e9294"
-                Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
-                Text="{Binding DESCRIPTION}"
-                TextAlignment="Left"
-                TextWrapping="WrapWithOverflow" />
-
-            <md:Chip
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <Grid>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Foreground="#8e9294"
+                        Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                        Text="{Binding SelectedTrip.DESCRIPTION}"
+                        TextAlignment="Left"
+                        TextWrapping="WrapWithOverflow"
+                        Visibility="{Binding IsDescriptionEditing, Converter={StaticResource FalseToVisibleConverter}}" />
+                    <TextBox
+                        VerticalAlignment="Center"
+                        HorizontalContentAlignment="Center"
+                        Foreground="#8e9294"
+                        Text="{Binding SelectedTrip.DESCRIPTION}"
+                        Visibility="{Binding IsDescriptionEditing, Converter={StaticResource TrueToVisibleConverter}}" />
+                </Grid>
+                <Button
+                    Margin="10,0,0,0"
+                    Command="{Binding EditDescriptionCommand}"
+                    Content="{md:PackIcon Kind=Edit}"
+                    Opacity="0.2"
+                    Style="{StaticResource FadeOutButton}"
+                    ToolTip="Edit"
+                    Visibility="{Binding IsDescriptionEditing, Converter={StaticResource FalseToVisibleConverter}}" />
+                <Button
+                    Margin="10,0,0,0"
+                    Command="{Binding SaveCommand}"
+                    Content="{md:PackIcon Kind=ContentSave}"
+                    Opacity="0.2"
+                    Style="{StaticResource FadeOutButton}"
+                    ToolTip="Save"
+                    Visibility="{Binding IsDescriptionEditing, Converter={StaticResource TrueToVisibleConverter}}" />
+                <Button
+                    Command="{Binding CancelDescriptionCommand}"
+                    Content="{md:PackIcon Kind=CloseThick}"
+                    Opacity="0.2"
+                    Style="{StaticResource FadeOutButton}"
+                    ToolTip="Cancel"
+                    Visibility="{Binding IsDescriptionEditing, Converter={StaticResource TrueToVisibleConverter}}" />
+            </StackPanel>
+            <StackPanel
                 Grid.Row="0"
                 Grid.Column="1"
                 HorizontalAlignment="Right"
-                VerticalAlignment="Center"
-                VerticalContentAlignment="Center"
-                Content="https://www.google.com/"
-                IconBackground="{DynamicResource PrimaryHueDarkBrush}"
-                IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}">
-                <md:Chip.Icon>
-                    <md:PackIcon Kind="LinkVariant" />
-                </md:Chip.Icon>
-            </md:Chip>
+                VerticalAlignment="Center">
+                <md:Chip
+                    VerticalContentAlignment="Center"
+                    Command="{Binding BackToHomeScreenCommand}"
+                    Content="Back to home screen"
+                    Icon="{md:PackIcon Kind=Home}"
+                    IconBackground="{DynamicResource PrimaryHueDarkBrush}"
+                    IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}" />
+            </StackPanel>
         </Grid>
         <Border
             Grid.Row="3"
@@ -181,7 +324,7 @@
             <Grid Grid.Column="0">
                 <Grid.RowDefinitions>
                     <RowDefinition />
-                    <RowDefinition Height="1.5*" />
+                    <RowDefinition Height="2.5*" />
                 </Grid.RowDefinitions>
 
                 <TextBlock
@@ -191,35 +334,45 @@
                     Style="{StaticResource MaterialDesignHeadline5TextBlock}"
                     Text="Về chuyến đi" />
                 <StackPanel Grid.Row="1">
-                    <StackPanel Margin="0,5" Orientation="Horizontal">
-                        <TextBlock Text="Ngày đi: " />
-                        <TextBlock Text="{Binding TOGODATE, StringFormat=dd-MM-yyyy}" />
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock VerticalAlignment="Center" Text="Ngày đi: " />
+                            <TextBlock VerticalAlignment="Center" Text="{Binding SelectedTrip.TOGODATE, StringFormat=d}" />
+                        </StackPanel>
+                        <Button
+                            Margin="10,0,0,0"
+                            Command="{Binding RunToGoDatePickerDialogCommand}"
+                            Content="{md:PackIcon Kind=Edit}"
+                            Opacity="0.2"
+                            Style="{StaticResource FadeOutButton}"
+                            ToolTip="Edit" />
                     </StackPanel>
-                    <StackPanel Margin="0,5" Orientation="Horizontal">
-                        <TextBlock Text="Ngày đi: " />
-                        <TextBlock Text="{Binding RETURNDATE, StringFormat=dd-MM-yyyy}" />
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock VerticalAlignment="Center" Text="Ngày về: " />
+                            <TextBlock VerticalAlignment="Center" Text="{Binding SelectedTrip.RETURNDATE, StringFormat=d}" />
+                        </StackPanel>
+                        <Button
+                            Margin="10,0,0,0"
+                            Command="{Binding RunReturnDatePickerDialogCommand}"
+                            Content="{md:PackIcon Kind=Edit}"
+                            Opacity="0.2"
+                            Style="{StaticResource FadeOutButton}"
+                            ToolTip="Edit" />
                     </StackPanel>
                 </StackPanel>
             </Grid>
-            <StackPanel
+            <Button
                 Grid.Column="1"
+                Margin="16"
                 HorizontalAlignment="Right"
-                DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
-                Orientation="Horizontal">
-                <Button
-                    Margin="16"
-                    VerticalAlignment="Center"
-                    Command="{Binding BackCommand}"
-                    Content="{md:PackIcon Kind=StepBackward}"
-                    Style="{DynamicResource MaterialDesignFloatingActionMiniButton}"
-                    ToolTip="Back to home screen" />
-                <Button
-                    Margin="16"
-                    Command="{x:Static md:Transitioner.MoveNextCommand}"
-                    Content="{md:PackIcon Kind=StepForward}"
-                    Style="{DynamicResource MaterialDesignFloatingActionAccentButton}"
-                    ToolTip="Move to next screen" />
-            </StackPanel>
+                md:ButtonProgressAssist.IsIndeterminate="True"
+                md:ButtonProgressAssist.IsIndicatorVisible="True"
+                md:ButtonProgressAssist.Value="-1"
+                Command="{x:Static md:Transitioner.MoveNextCommand}"
+                Content="{md:PackIcon Kind=StepForward}"
+                Style="{DynamicResource MaterialDesignFloatingActionAccentButton}"
+                ToolTip="Move to next screen" />
         </Grid>
     </Grid>
 </UserControl>

@@ -26,8 +26,6 @@ namespace WeSplitApp.View.Controls
         public TotalCostsPieChartControl()
         {
             InitializeComponent();
-
-            this.DataContext = new TotalCostsPieChartViewModel(TripDetailsViewModel.SelectedTrip);
         }
     }
 }

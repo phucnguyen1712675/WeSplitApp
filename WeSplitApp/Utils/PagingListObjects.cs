@@ -10,11 +10,29 @@ using WeSplitApp.View;
 
 namespace WeSplitApp.Utils
 {
-     public class PagingListObjects: ViewModel.ViewModel
+    public class PagingListObjects : ViewModel.ViewModel
     {
+        public Paging Paging { get; set; }
+
+        protected int _selectedIndex;
+        public int SelectedIndex
+        {
+            get => this._selectedIndex;
+            set
+            {
+                this._selectedIndex = value;
+                //OnPropertyChanged();
+                DisplayObjects();
+            }
+        }
+
+        protected ICommand _previousCommand { get; set; }
+        public ICommand PreviousCommand => this._previousCommand ?? (this._previousCommand = new CommandHandler(() => MyPreviousAction(), () => CanExecute));
+        protected ICommand _nextCommand { get; set; }
+        public ICommand NextCommand => this._nextCommand ?? (this._nextCommand = new CommandHandler(() => MyNextAction(), () => CanExecute));
         public PagingListObjects()
         {
-            this._paging = new Paging();
+            this.Paging = new Paging();
         }
         protected void CalculatePagingInfo(int rowsPerPage, int totalObjects)
         {
@@ -28,45 +46,15 @@ namespace WeSplitApp.Utils
             };
             this.SelectedIndex = 0;
         }
-
-        protected Paging _paging;
-
-        public Paging Paging
-        {
-            get => this._paging;
-            set
-            {
-                this._paging = value;
-                OnPropertyChanged();
-            }
-        }
-
-        protected int _selectedIndex;
-        public int SelectedIndex
-        {
-            get => this._selectedIndex;
-            set
-            {
-                this._selectedIndex = value;
-                OnPropertyChanged();
-                DisplayObjects();
-            }
-        }
-
-        protected ICommand _previousCommand { get; set; }
-        public ICommand PreviousCommand => this._previousCommand ?? (this._previousCommand = new CommandHandler(() => MyPreviousAction(), () => CanExecute));
-        protected ICommand _nextCommand { get; set; }
-        public ICommand NextCommand => this._nextCommand ?? (this._nextCommand = new CommandHandler(() => MyNextAction(), () => CanExecute));
-
         protected void MyNextAction()
         {
-            if (this.SelectedIndex < this._paging.TotalPages - 1)
+            if (this.SelectedIndex < this.Paging.TotalPages - 1)
             {
                 this.SelectedIndex += 1;
             }
             else
             {
-                MessageBox.Show("Maximum page!", "Reach Maximum page", MessageBoxButton.OK);
+                MessageBox.Show("Maximum page!");
             }
         }
 
@@ -78,17 +66,11 @@ namespace WeSplitApp.Utils
             }
             else
             {
-                MessageBox.Show("Minimum page!", "Reach Minimum page", MessageBoxButton.OK);
+                MessageBox.Show("Minimum page!");
             }
         }
 
-        public bool CanExecute
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public bool CanExecute => true;
 
         public virtual void DisplayObjects() { }
     }
