@@ -13,15 +13,16 @@ namespace WeSplitApp.ViewModel
 
         public override void Validate()
         {
-            bool ageOk = AddNewTripViewModel.Instance.AddTrip.TRIP_LOCATION.Count != 0;
+            bool ageOk = true;
+            if (AddNewTripViewModel.Instance.AddTrip.TRIP_LOCATION.Count == 0) ageOk = false;
 
             if (ageOk)
             {
-                string totalcost = AddNewTripViewModel.Instance.AddTrip.TOTALCOSTS.ToString();
+                HasValidationErrors = false;
             }
-            HasValidationErrors = !ageOk;
-            if (!HasValidationErrors)
+            else
             {
+                HasValidationErrors = true;
                 MessageBox.Show("Nhập thiếu trường dữ liệu");
             }
         }

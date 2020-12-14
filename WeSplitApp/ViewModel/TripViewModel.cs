@@ -24,7 +24,6 @@ namespace WeSplitApp.ViewModel
             set
             {
                 this._itemHandler = value;
-                OnPropertyChanged();
             }
         }
 
@@ -34,7 +33,6 @@ namespace WeSplitApp.ViewModel
             set
             {
                 this.ItemHandler = new TripItemHandler(value);
-                OnPropertyChanged();
             }
         }
 
@@ -124,21 +122,21 @@ namespace WeSplitApp.ViewModel
             ShowSelectedTrip(x as TRIP);
         }));
 
-        private void ShowSelectedTrip(TRIP item)
-        {
-            HomeScreen.SetNavigationDrawerNavNull();
-            HomeScreen.GetHomeScreenInstance().SetContentControl((new TripDetailsViewModel(item)));
-        }
-
-        /*        private void ShowSelectedTrip(TRIP trip)
+        /*        private void ShowSelectedTrip(TRIP item)
                 {
                     HomeScreen.SetNavigationDrawerNavNull();
-                    var newTripViewModel = new TripDetailsViewModel
-                    {
-                        SelectedTrip = trip
-                    };
-                    HomeScreen.GetHomeScreenInstance().SetContentControl(newTripViewModel);
+                    HomeScreen.GetHomeScreenInstance().SetContentControl((new TripDetailsViewModel(item)));
                 }*/
+
+        private void ShowSelectedTrip(TRIP trip)
+        {
+            HomeScreen.SetNavigationDrawerNavNull();
+            var newTripViewModel = new TripDetailsViewModel
+            {
+                SelectedTrip = trip
+            };
+            HomeScreen.GetHomeScreenInstance().SetContentControl(newTripViewModel);
+        }
         #endregion
 
         #region paging
@@ -150,7 +148,6 @@ namespace WeSplitApp.ViewModel
             set
             {
                 this._toShowItems = value;
-                OnPropertyChanged();
 
             }
         }
@@ -158,8 +155,8 @@ namespace WeSplitApp.ViewModel
         public override void DisplayObjects()
         {
             var page = this.SelectedIndex + 1;
-            var skip = (page - 1) * this._paging.RowsPerPage;
-            var take = this._paging.RowsPerPage;
+            var skip = (page - 1) * this.Paging.RowsPerPage;
+            var take = this.Paging.RowsPerPage;
 
             this.ToShowItems = new ObservableCollection<TRIP>(this.Items.Skip(skip).Take(take));
         }
@@ -185,15 +182,14 @@ namespace WeSplitApp.ViewModel
             set
             {
                 this._searchResult = value;
-                OnPropertyChanged();
             }
         }
 
         public void DisplayObjects_Search()
         {
             var page = this.SelectedIndex + 1;
-            var skip = (page - 1) * this._paging.RowsPerPage;
-            var take = this._paging.RowsPerPage;
+            var skip = (page - 1) * this.Paging.RowsPerPage;
+            var take = this.Paging.RowsPerPage;
 
             this.ToShowItems = new ObservableCollection<TRIP>(this.SearchResult.Skip(skip).Take(take));
         }
@@ -288,6 +284,8 @@ namespace WeSplitApp.ViewModel
         {
             _itemHandler.Add(tRIP);
             DisplayObjects();
+            if (Items.Count % Paging.RowsPerPage == 1)
+                CalculatePagingInfo(Paging.RowsPerPage, Items.Count, SelectedIndex);
         }
 
         internal int GetMaxiMum()

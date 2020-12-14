@@ -20,7 +20,6 @@ namespace WeSplitApp.Utils
             set
             {
                 this._mySort = value;
-                OnPropertyChanged();
             }
         }
 

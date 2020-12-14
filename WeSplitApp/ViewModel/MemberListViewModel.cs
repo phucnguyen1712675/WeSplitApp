@@ -18,7 +18,6 @@ namespace WeSplitApp.ViewModel
             set
             {
                 this._mEMBERS = value;
-                OnPropertyChanged();
             }
         }
 
@@ -88,12 +87,23 @@ namespace WeSplitApp.ViewModel
 
         #region Paging
 
+        private ObservableCollection<MEMBER> _toShowItems;
+        public ObservableCollection<MEMBER> ToShowItems
+        {
+            get => this._toShowItems;
+            set
+            {
+                this._toShowItems = value;
+            }
+        }
+
         public override void DisplayObjects()
         {
             var page = this.SelectedIndex + 1;
             var skip = (page - 1) * this.Paging.RowsPerPage;
             var take = this.Paging.RowsPerPage;
-
+            //TODO test Paging.Pages
+            var temp= Paging.TotalPages;
             this.ToShowItems = new ObservableCollection<MEMBER>(this.MEMBERS.Skip(skip).Take(take));
         }
 
@@ -114,8 +124,10 @@ namespace WeSplitApp.ViewModel
         {
             if (instance != null)
             {
-                instance.MEMBERS.Add(member);
-                instance.DisplayObjects();
+                MEMBERS.Add(member);
+                DisplayObjects();
+                if (MEMBERS.Count % Paging.RowsPerPage == 1)
+                    CalculatePagingInfo(Paging.RowsPerPage, MEMBERS.Count, SelectedIndex);
             }
         }
 
