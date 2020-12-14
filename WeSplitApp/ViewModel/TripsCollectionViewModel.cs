@@ -5,11 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using WeSplitApp.View;
+using WeSplitApp.View.Controls;
 namespace WeSplitApp.ViewModel
 {
     public class TripsCollectionViewModel : ViewModel
     {
-        private int _selectedIndex;
+        public int SelectedIndex { get; set; }
+        public HaveTakenTripsListViewModel HaveTakenTripsListViewModel { get; set; }
+        public BeingTakenTripsListViewModel BeingTakenTripsListViewModel { get; set; }
+        /*private int _selectedIndex;
         public int SelectedIndex
         {
             get => this._selectedIndex;
@@ -20,25 +24,20 @@ namespace WeSplitApp.ViewModel
                 index = SelectedIndex;
                 //Goi ham gi do khi Change
                 //hamGiDo();
-                HomeScreen.GetHomeScreenInstance().SearchTextBox.Text = String.Empty;
-                
-                if (index == 0)
-                {
-                    HaveTakenTripsListViewModel.Instance.search_byTripName();
-                }
-                else
-                {
-                    BeingTakenTripsListViewModel.Instance.search_byTripName();
-                }
+                HomeScreen.GetHomeScreenInstance().SearchTextBox.Text = " ";
+                HomeScreen.GetHomeScreenInstance().SearchTextBox.Clear();
+                BeingTakenTripsListControl.GetInstance().SearchByComboBox.SelectedIndex = 0;
+                HaveTakenTripsListControl.GetInstance().SearchByComboBox.SelectedIndex = 0;        
 
 
             }
-        }
+        }*/
         public TripsCollectionViewModel()
         {
-            this._selectedIndex = 0;
-            index = SelectedIndex;
+            this.SelectedIndex = 0;
+            // index = SelectedIndex;
+            this.HaveTakenTripsListViewModel = new HaveTakenTripsListViewModel();
+            this.BeingTakenTripsListViewModel = new BeingTakenTripsListViewModel();
         }
-        public static int index;
     }
 }

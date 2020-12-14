@@ -12,66 +12,32 @@ namespace WeSplitApp.ViewModel
 {
     public class CurrentProceedsPieChartViewModel : ViewModel
     {
-        private SeriesCollection _currentProceedsPieChart;
-        public SeriesCollection CurrentProceedsPieChart
+        private TRIP _selectedTrip;
+        public TRIP SelectedTrip
         {
-            get => this._currentProceedsPieChart;
+            get => this._selectedTrip;
             set
             {
-                this._currentProceedsPieChart = value;
-                OnPropertyChanged();
+                this._selectedTrip = value;
+                //OnPropertyChanged();
+                GetTripMemberPaidAmount();
             }
         }
-
-        private LegendLocation _legendLocation;
-        public LegendLocation LegendLocation
-        {
-            get => this._legendLocation;
-            set
-            {
-                this._legendLocation = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private string _actionDescribe;
-        public string ActionDescribe
-        {
-            get => this._actionDescribe;
-            set
-            {
-                this._actionDescribe = value;
-                OnPropertyChanged();
-            }
-        }
+        public SeriesCollection CurrentProceedsPieChart { get; set; }
+        public LegendLocation LegendLocation { get; set; }
+        public string ActionDescribe { get; set; }
         private ICommand _showDetailCommand { get; set; }
         public ICommand ShowDetailCommand => this._showDetailCommand ?? (this._showDetailCommand = new CommandHandler(() => MyShowDetailAction(), () => CanExecute));
-        public bool CanExecute
-        {
-            get
-            {
-                // check if executing is allowed, i.e., validate, check if a process is running, etc. 
-                return true;
-            }
-        }
-
-        public void MyShowDetailAction()
-        {
-            this.LegendLocation = this.LegendLocation == LegendLocation.None ? LegendLocation.Top : LegendLocation.None;
-            this.ActionDescribe = this.ActionDescribe.Equals("SHOW DETAIL") ? "CLOSE DETAIL" : "SHOW DETAIL";
-        }
-        public CurrentProceedsPieChartViewModel(TRIP trip)
+        
+        public CurrentProceedsPieChartViewModel()
         {
             this.LegendLocation = LegendLocation.None;
             this.ActionDescribe = "SHOW DETAIL";
             this.CurrentProceedsPieChart = new SeriesCollection();
-
-            GetTripMemberPaidAmount(trip);
         }
-
-        private void GetTripMemberPaidAmount(TRIP trip)
+        private void GetTripMemberPaidAmount()
         {
-            foreach (var item in trip.TRIP_MEMBER)
+            foreach (var item in this.SelectedTrip.TRIP_MEMBER)
             {
                 this.CurrentProceedsPieChart.Add(new PieSeries
                 {
@@ -79,6 +45,12 @@ namespace WeSplitApp.ViewModel
                     Values = new ChartValues<double> { item.AMOUNTPAID }
                 });
             }
+        }
+        public bool CanExecute => true;
+        public void MyShowDetailAction()
+        {
+            this.LegendLocation = this.LegendLocation == LegendLocation.None ? LegendLocation.Top : LegendLocation.None;
+            this.ActionDescribe = this.ActionDescribe.Equals("SHOW DETAIL") ? "CLOSE DETAIL" : "SHOW DETAIL";
         }
     }
 }

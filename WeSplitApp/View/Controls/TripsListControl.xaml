@@ -8,7 +8,6 @@
     xmlns:local="clr-namespace:WeSplitApp.View.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
-    xmlns:mde="clr-namespace:MaterialDesignExtensions.Controls;assembly=MaterialDesignExtensions"
     d:DesignHeight="700"
     d:DesignWidth="960"
     Background="White"
@@ -108,7 +107,7 @@
             Command="{Binding PreviousCommand}"
             Content="{md:PackIcon Kind=ChevronLeft,
                                   Size=26}"
-            Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+            Style="{StaticResource MaterialDesignIconButton}"
             ToolTip="Previous" />
         <Button
             Grid.Column="2"
@@ -117,7 +116,7 @@
             Command="{Binding NextCommand}"
             Content="{md:PackIcon Kind=ChevronRight,
                                   Size=26}"
-            Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+            Style="{StaticResource MaterialDesignIconButton}"
             ToolTip="Next" />
     </Grid>
 </UserControl>

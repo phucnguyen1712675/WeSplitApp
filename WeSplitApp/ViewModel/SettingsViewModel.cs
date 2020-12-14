@@ -244,6 +244,10 @@ namespace WeSplitApp.ViewModel
             }
         }
 
+        public void getTripLoadSortMethod(int sortOption)
+        {
+            TripLoadSortMethod = sortOption;
+        }
         public List<string> TripSortMethods { get; set; }
 
         internal void UpdateTripMaxPaging()

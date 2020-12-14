@@ -24,7 +24,6 @@ namespace WeSplitApp.View
 
         private List<INavigationItem> m_navigationItems;
         public List<INavigationItem> NavigationItems => m_navigationItems;
-
         public static INavigationItem selectedINavigationItem { get; set; }
 
         public static Snackbar Snackbar = new Snackbar();
@@ -108,27 +107,21 @@ namespace WeSplitApp.View
             navigationDrawerNav.DataContext = this;
 
             Loaded += LoadedHandler;
-
         }
 
         public static HomeScreen GetHomeScreenInstance() => homeScreen;
         public static WESPLITAPPEntities GetDatabaseEntities() => homeScreen.database; //TODO
-
+        public static void SetNewContentControl(object newContent) => homeScreen.SetContentControl(newContent);
         private void LoadedHandler(object sender, RoutedEventArgs args)
         {
             navigationDrawerNav.SelectedItem = m_navigationItems[0];
             m_navigationItems[0].IsSelected = true;
-            selectedINavigationItem = m_navigationItems[0]; 
+            selectedINavigationItem = m_navigationItems[0];
         }
-
         public void setVisibilityAddButton(Visibility visibility) => AddButton.Visibility = visibility;
         private void NavigationItemSelectedHandler(object sender, NavigationItemSelectedEventArgs args) => SelectNavigationItem(args.NavigationItem);
         public void SetContentControl(object newContent) => contentControl.Content = newContent;
-
-        public static void RestoreNavigationItem()
-        {
-            homeScreen.SelectNavigationItem(selectedINavigationItem);
-        }
+        public static void RestoreNavigationItem() => homeScreen.SelectNavigationItem(selectedINavigationItem);
 
         private void SelectNavigationItem(INavigationItem navigationItem)
         {
@@ -199,6 +192,7 @@ namespace WeSplitApp.View
         }
         private void SearchEvent(object sender, TextChangedEventArgs e)
         {
+            /*string typeSearch = HaveTakenTripsListControl.GetInstance().SearchByComboBox.Text;
             int option = 0;
             for (int i = 0; i < 3; i++)
             {
@@ -211,6 +205,7 @@ namespace WeSplitApp.View
             switch (option)
             {
                 case 0:
+                    
                     if (TripsCollectionViewModel.index == 0)
                     {
                         HaveTakenTripsListViewModel.Instance.search_byTripName();
@@ -227,7 +222,7 @@ namespace WeSplitApp.View
                     LocationListViewModel.Instance.searchLocation_ByName();
                     //giao dien member
                     break;
-            }
+            }*/
 
 
             //MessageBox.Show( NavigationItems[0].IsSelected.ToString());

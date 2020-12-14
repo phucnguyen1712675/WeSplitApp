@@ -24,8 +24,6 @@ namespace WeSplitApp.View.Controls
         public TripMemberPaidAmountDataGridControl()
         {
             InitializeComponent();
-
-            this.DataContext = new TripMemberPaidAmountDataGridViewModel(TripDetailsViewModel.SelectedTrip);
         }
     }
 }

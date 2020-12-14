@@ -20,7 +20,7 @@ namespace WeSplitApp.ViewModel
                 {
                     m_isDarkTheme = value;
 
-                    OnPropertyChanged(nameof(IsDarkTheme));
+                    //OnPropertyChanged(nameof(IsDarkTheme));
 
                     SetTheme(m_isDarkTheme);
                 }

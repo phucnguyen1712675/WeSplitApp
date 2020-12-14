@@ -12,20 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WeSplitApp.ViewModel;
 
-namespace WeSplitApp.View.Controls
+namespace WeSplitApp.View.Controls.TripDetailSlide
 {
     /// <summary>
-    /// Interaction logic for ImagePresenterControl.xaml
+    /// Interaction logic for CalenderPickerControl.xaml
     /// </summary>
-    public partial class ImagePresenterControl : UserControl
+    public partial class CalenderPickerControl : UserControl
     {
-        public ImagePresenterControl()
+        public CalenderPickerControl()
         {
             InitializeComponent();
-
-            this.DataContext = new ImagePresenterViewModel(TripDetailsViewModel.SelectedTrip);
         }
     }
 }

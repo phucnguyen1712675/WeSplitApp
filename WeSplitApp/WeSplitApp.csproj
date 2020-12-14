@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\PropertyChanged.Fody.3.3.1\build\PropertyChanged.Fody.props" Condition="Exists('..\packages\PropertyChanged.Fody.3.3.1\build\PropertyChanged.Fody.props')" />
   <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -174,6 +175,9 @@
     <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.19\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
     </Reference>
+    <Reference Include="PropertyChanged, Version=3.3.1.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
+      <HintPath>..\packages\PropertyChanged.Fody.3.3.1\lib\net40\PropertyChanged.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -208,13 +212,23 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Converters\AmountPaidStatusToColorConverter.cs" />
+    <Compile Include="Converters\AmountPaidStatusToIconConverter.cs" />
+    <Compile Include="Converters\AmountPaidToMemberStatusConverter.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\BoolToIntConverter.cs" />
     <Compile Include="Converters\ImageConverter.cs" />
+    <Compile Include="Converters\IndexToIsEnabledNextButtonConverter.cs" />
+    <Compile Include="Converters\IndexToIsEnabledPreviousButtonConverter.cs" />
     <Compile Include="Converters\RatioConverter.cs" />
     <Compile Include="Converters\DoubleToVNDConverter.cs" />
     <Compile Include="Converters\StatusColorConverter.cs" />
     <Compile Include="Converters\StatusToDetailTitleConverter.cs" />
     <Compile Include="Converters\StatusToStringConverter.cs" />
+    <Compile Include="Converters\StringToEachPersonTextConverter.cs" />
+    <Compile Include="Converters\TripCostsToMoneyEachPersonConverter.cs" />
+    <Compile Include="Converters\TripCostToAvarageMoneyConverter.cs" />
+    <Compile Include="Converters\TripImagesToNotNullCollectionConverter.cs" />
     <Compile Include="COSTINCURRED.cs">
       <DependentUpon>WESPLITAPP_DB.tt</DependentUpon>
     </Compile>
@@ -241,6 +255,7 @@
     <Compile Include="TRIP_MEMBER.cs">
       <DependentUpon>WESPLITAPP_DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Utils\AnotherCommandImplementation.cs" />
     <Compile Include="Utils\CommandHandler.cs" />
     <Compile Include="Utils\convertUnicode.cs" />
     <Compile Include="Utils\EventArgs.cs" />
@@ -262,7 +277,9 @@
     <Compile Include="ViewModel\BeingTakenTripsListViewModel.cs" />
     <Compile Include="ViewModel\CurrentProceedsPieChartViewModel.cs" />
     <Compile Include="ViewModel\HomeScreenViewModel.cs" />
-    <Compile Include="ViewModel\ImagePresenterViewModel.cs" />
+    <Compile Include="ViewModel\TripDetailSlideVM\FileSystemControlViewModel.cs" />
+    <Compile Include="ViewModel\TripDetailSlideVM\FileSystemDialogViewModel.cs" />
+    <Compile Include="ViewModel\TripDetailSlideVM\ImagePresenterViewModel.cs" />
     <Compile Include="ViewModel\SelectableViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\SplashScreenViewModel.cs" />
@@ -271,6 +288,7 @@
     <Compile Include="ViewModel\StepThreeViewModel.cs" />
     <Compile Include="ViewModel\StepTwoViewModel.cs" />
     <Compile Include="ViewModel\TotalCostsPieChartViewModel.cs" />
+    <Compile Include="ViewModel\TripDetailSlideVM\CalenderPickerViewModel.cs" />
     <Compile Include="ViewModel\TripDetailSlideVM\Slide1_IntroViewModel.cs" />
     <Compile Include="ViewModel\TripDetailSlideVM\Slide2_ProceedsViewModel.cs" />
     <Compile Include="ViewModel\TripDetailSlideVM\Slide3_TotalCostsViewModel.cs" />
@@ -310,7 +328,7 @@
     <Compile Include="View\Controls\HaveTakenTripsListControl.xaml.cs">
       <DependentUpon>HaveTakenTripsListControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Controls\ImagePresenterControl.xaml.cs">
+    <Compile Include="View\Controls\TripDetailSlide\ImagePresenterControl.xaml.cs">
       <DependentUpon>ImagePresenterControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Controls\SettingsControl.xaml.cs">
@@ -321,6 +339,12 @@
     </Compile>
     <Compile Include="View\Controls\TripDetailsControl.xaml.cs">
       <DependentUpon>TripDetailsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\TripDetailSlide\CalenderPickerControl.xaml.cs">
+      <DependentUpon>CalenderPickerControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\TripDetailSlide\SampleProgressDialog.xaml.cs">
+      <DependentUpon>SampleProgressDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Controls\TripDetailSlide\Slide1_IntroControl.xaml.cs">
       <DependentUpon>Slide1_IntroControl.xaml</DependentUpon>
@@ -476,7 +500,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Controls\ImagePresenterControl.xaml">
+    <Page Include="View\Controls\TripDetailSlide\ImagePresenterControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -489,6 +513,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Controls\TripDetailsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\TripDetailSlide\CalenderPickerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\TripDetailSlide\SampleProgressDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -563,6 +595,7 @@
     <Resource Include="Resources\Images\MemberListBackGround3.jpg" />
     <Resource Include="Resources\Images\LocationListBackGround1.jpg" />
     <Resource Include="Resources\Images\4012176.jpg" />
+    <Resource Include="Resources\Images\NullImage.png" />
     <Resource Include="Resources\Images\SettingBackGround1.jpg" />
     <Content Include="WESPLITAPP_DB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -588,8 +621,11 @@
     <Error Condition="!Exists('..\packages\StrongNamer.0.2.5\build\StrongNamer.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\StrongNamer.0.2.5\build\StrongNamer.targets'))" />
     <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
     <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+    <Error Condition="!Exists('..\packages\Fody.6.3.0\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.6.3.0\build\Fody.targets'))" />
+    <Error Condition="!Exists('..\packages\PropertyChanged.Fody.3.3.1\build\PropertyChanged.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\PropertyChanged.Fody.3.3.1\build\PropertyChanged.Fody.props'))" />
   </Target>
   <Import Project="..\packages\MaterialDesignThemes.4.0.0-ci2265\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.0.0-ci2265\build\MaterialDesignThemes.targets')" />
   <Import Project="..\packages\StrongNamer.0.2.5\build\StrongNamer.targets" Condition="Exists('..\packages\StrongNamer.0.2.5\build\StrongNamer.targets')" />
   <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+  <Import Project="..\packages\Fody.6.3.0\build\Fody.targets" Condition="Exists('..\packages\Fody.6.3.0\build\Fody.targets')" />
 </Project>
