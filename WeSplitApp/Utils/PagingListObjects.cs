@@ -12,7 +12,7 @@ namespace WeSplitApp.Utils
 {
     public class PagingListObjects : ViewModel.ViewModel
     {
-        public Paging Paging { get; set; }
+        public Paging Paging { get; set;}
 
         protected int _selectedIndex;
         public int SelectedIndex
@@ -21,7 +21,6 @@ namespace WeSplitApp.Utils
             set
             {
                 this._selectedIndex = value;
-                //OnPropertyChanged();
                 DisplayObjects();
             }
         }
@@ -34,7 +33,7 @@ namespace WeSplitApp.Utils
         {
             this.Paging = new Paging();
         }
-        protected void CalculatePagingInfo(int rowsPerPage, int totalObjects)
+        protected void CalculatePagingInfo(int rowsPerPage, int totalObjects, int selectedIndex = 0)
         {
             // Tinh toan phan trang
             Paging = new Paging()
@@ -44,7 +43,7 @@ namespace WeSplitApp.Utils
                 TotalPages = totalObjects / rowsPerPage +
                     (((totalObjects % rowsPerPage) == 0) ? 0 : 1)
             };
-            this.SelectedIndex = 0;
+            this.SelectedIndex = selectedIndex;
         }
         protected void MyNextAction()
         {

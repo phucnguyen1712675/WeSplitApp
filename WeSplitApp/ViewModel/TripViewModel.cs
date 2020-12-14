@@ -15,12 +15,25 @@ namespace WeSplitApp.ViewModel
     public class TripViewModel : SortMethodList
     {
         public bool IsDone { get; set; } = false;
-        public TripItemHandler ItemHandler { get; set; }
+
+        protected TripItemHandler _itemHandler;
+
+        public TripItemHandler ItemHandler
+        {
+            get => this._itemHandler;
+            set
+            {
+                this._itemHandler = value;
+            }
+        }
 
         public List<TRIP> Items
         {
             get => this.ItemHandler.Items;
-            set => this.ItemHandler = new TripItemHandler(value);
+            set
+            {
+                this.ItemHandler = new TripItemHandler(value);
+            }
         }
 
         public TripItemHandler GetData() => new TripItemHandler(HomeScreen.GetDatabaseEntities().TRIPS.Where(t => t.ISDONE == this.IsDone)
@@ -121,7 +134,17 @@ namespace WeSplitApp.ViewModel
 
         #region paging
 
-        public ObservableCollection<TRIP> ToShowItems { get; set; }
+        private ObservableCollection<TRIP> _toShowItems;
+        public ObservableCollection<TRIP> ToShowItems
+        {
+            get => this._toShowItems;
+            set
+            {
+                this._toShowItems = value;
+
+            }
+        }
+
         public override void DisplayObjects()
         {
             var page = this.SelectedIndex + 1;
@@ -145,7 +168,15 @@ namespace WeSplitApp.ViewModel
         #endregion
 
         #region search
-        public ObservableCollection<TRIP> SearchResult { get; set; }
+        public ObservableCollection<TRIP> _searchResult;
+        public ObservableCollection<TRIP> SearchResult
+        {
+            get => this._searchResult;
+            set
+            {
+                this._searchResult = value;
+            }
+        }
 
         public void DisplayObjects_Search()
         {
@@ -246,6 +277,8 @@ namespace WeSplitApp.ViewModel
         {
             ItemHandler.Add(tRIP);
             DisplayObjects();
+            if (Items.Count % Paging.RowsPerPage == 1)
+                CalculatePagingInfo(Paging.RowsPerPage, Items.Count, SelectedIndex);
         }
 
         internal int GetMaxiMum()

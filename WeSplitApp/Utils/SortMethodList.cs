@@ -10,9 +10,18 @@ namespace WeSplitApp.Utils
     {
         public SortMethodList()
         {
-            this.MySort = new Dictionary<string, Delegate>();
+            this._mySort = new Dictionary<string, Delegate>();
         }
-        public Dictionary<string, Delegate> MySort { get; set; }
+
+        private Dictionary<string, Delegate> _mySort;
+        public Dictionary<string, Delegate> MySort
+        {
+            get => this._mySort;
+            set
+            {
+                this._mySort = value;
+            }
+        }
 
         protected virtual void SetSort(string method) { }
     }

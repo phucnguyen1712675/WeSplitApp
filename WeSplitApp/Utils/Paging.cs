@@ -15,7 +15,8 @@ namespace WeSplitApp.Utils
         private int _totalPages;
         public int TotalPages
         {
-            get => _totalPages; set
+            get => _totalPages; 
+            set
             {
                 _totalPages = value;
                 Pages = new ObservableCollection<PageInfo>();
@@ -27,7 +28,6 @@ namespace WeSplitApp.Utils
                         TotalPages = _totalPages
                     });
                 }
-                //OnPropertyChanged();
             }
         }
         public ObservableCollection<PageInfo> Pages { get; set; }

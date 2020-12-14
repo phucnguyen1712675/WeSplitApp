@@ -60,7 +60,6 @@ namespace WeSplitApp.ViewModel
             set
             {
                 this._splashScreen = value;
-
             }
         }
 
@@ -91,7 +90,6 @@ namespace WeSplitApp.ViewModel
             set
             {
                 this._memberCurrentPaging = value;
-
                 MemberListViewModel.Instance.getNewRowPerPage(_memberCurrentPaging);
             }
         }
@@ -103,7 +101,6 @@ namespace WeSplitApp.ViewModel
             set
             {
                 _memberMaxPaging = value;
-
             }
         }
 
@@ -114,7 +111,6 @@ namespace WeSplitApp.ViewModel
             set
             {
                 this._memberLoadSortMethod = value;
-
                 MemberListViewModel.Instance.MakeSort(MemberLoadSortMethod);
             }
         }
@@ -152,8 +148,17 @@ namespace WeSplitApp.ViewModel
             set
             {
                 this._locationCurrentPaging = value;
-
                 LocationListViewModel.Instance.getNewRowPerPage(_locationCurrentPaging);
+            }
+        }
+
+        private int _locationMaxPaging;
+        public int LocationMaxPaging
+        {
+            get => _locationMaxPaging;
+            set
+            {
+                _locationMaxPaging = value;
             }
         }
         public int LocationMaxPaging { get; set; }
@@ -207,9 +212,18 @@ namespace WeSplitApp.ViewModel
             set
             {
                 this._tripCurrentPaging = value;
+               BeingTakenTripsListViewModel.Instance.getNewRowPerPage(_tripCurrentPaging);
+               HaveTakenTripsListViewModel.Instance.getNewRowPerPage(_tripCurrentPaging);
+            }
+        }
 
-                BeingTakenTripsListViewModel.Instance.getNewRowPerPage(_tripCurrentPaging);
-                HaveTakenTripsListViewModel.Instance.getNewRowPerPage(_tripCurrentPaging);
+        private int _tripMaxPaging;
+        public int TripMaxPaging
+        {
+            get => _tripMaxPaging;
+            set
+            {
+                _tripMaxPaging = value;
             }
         }
         public int TripMaxPaging { get; set; }
@@ -221,7 +235,6 @@ namespace WeSplitApp.ViewModel
             set
             {
                 this._tripLoadSortMethod = value;
-
                 BeingTakenTripsListViewModel.Instance.MakeSort(_tripLoadSortMethod);
                 HaveTakenTripsListViewModel.Instance.MakeSort(_tripLoadSortMethod);
             }

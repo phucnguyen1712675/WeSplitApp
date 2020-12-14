@@ -13,10 +13,16 @@ namespace WeSplitApp.ViewModel
         //public static Dictionary<MEMBER, string> Trip_Members = new Dictionary<MEMBER, string>();
         public override void Validate()
         {
-            bool ageOk = AddNewTripViewModel.Instance.AddTrip.TRIP_MEMBER.Count != 0;
-            HasValidationErrors = !ageOk;
-            if (!HasValidationErrors)
+            bool ageOk = true;
+            if (AddNewTripViewModel.Instance.AddTrip.TRIP_MEMBER.Count == 0) ageOk = false;
+
+            if (ageOk)
             {
+                HasValidationErrors = false;
+            }
+            else
+            {
+                HasValidationErrors = true;
                 MessageBox.Show("Nhập thiếu trường dữ liệu");
             }
         }

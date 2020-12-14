@@ -101,8 +101,10 @@ namespace WeSplitApp.ViewModel
         {
             if (instance != null)
             {
-                instance.LOCATIONS.Add(newLocation);
-                instance.DisplayObjects();
+                LOCATIONS.Add(newLocation);
+                DisplayObjects();
+                if (LOCATIONS.Count % Paging.RowsPerPage == 1)
+                    CalculatePagingInfo(Paging.RowsPerPage, LOCATIONS.Count, SelectedIndex);
             }
         }
         public void searchLocation_ByName()
