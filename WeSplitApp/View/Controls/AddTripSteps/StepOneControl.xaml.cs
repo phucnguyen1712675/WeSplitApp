@@ -43,7 +43,7 @@ namespace WeSplitApp.View.Controls.AddTripSteps
             if (dr == System.Windows.Forms.DialogResult.OK)
             {
                 string imagePath = fileDialog.FileName;
-                var folder = AppDomain.CurrentDomain.BaseDirectory;
+                //var folder = AppDomain.CurrentDomain.BaseDirectory;
 
                 var bitmap = new BitmapImage(
                     new Uri(imagePath, UriKind.Absolute)

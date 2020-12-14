@@ -22,7 +22,9 @@ namespace WeSplitApp.ViewModel
             set
             {
                 this._selectedTrip = value;
-                //OnPropertyChanged();
+                this.Slide1_IntroViewModel = new Slide1_IntroViewModel();
+                this.Slide2_ProceedsViewModel = new Slide2_ProceedsViewModel();
+                this.Slide3_TotalCostsViewModel = new Slide3_TotalCostsViewModel();
                 this.Slide1_IntroViewModel.SelectedTrip = this._selectedTrip;
                 this.Slide2_ProceedsViewModel.SelectedTrip = this._selectedTrip;
                 this.Slide3_TotalCostsViewModel.SelectedTrip = this._selectedTrip;
@@ -32,11 +34,13 @@ namespace WeSplitApp.ViewModel
         public Slide2_ProceedsViewModel Slide2_ProceedsViewModel { get; set; }
         public Slide3_TotalCostsViewModel Slide3_TotalCostsViewModel { get; set; }
 
+        public static TripDetailsViewModel Instance;
         public TripDetailsViewModel()
         {
-            this.Slide1_IntroViewModel = new Slide1_IntroViewModel();
+            Instance = this;
+            /*this.Slide1_IntroViewModel = new Slide1_IntroViewModel();
             this.Slide2_ProceedsViewModel = new Slide2_ProceedsViewModel();
-            this.Slide3_TotalCostsViewModel = new Slide3_TotalCostsViewModel();
+            this.Slide3_TotalCostsViewModel = new Slide3_TotalCostsViewModel();*/
         }
     }
 }

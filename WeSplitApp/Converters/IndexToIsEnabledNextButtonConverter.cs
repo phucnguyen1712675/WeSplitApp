@@ -14,7 +14,14 @@ namespace WeSplitApp.Converters
         {
             var selectedIndex = (int)values[0];
             var imagesCount = (int)values[1];
-            return !(selectedIndex == imagesCount - 1);
+            var currentPage = (int)values[2];
+            var totalPage = (int)values[3];
+            var rowPerPage = (int)values[4];
+            var isLastPage = currentPage == totalPage;
+            var isLastImage = selectedIndex + 1 + rowPerPage * (currentPage - 1) == imagesCount;
+            // 0 1 2 3 
+            //4(0) 5(1) 6(2) 7(3)
+            return !(isLastPage && isLastImage);
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
