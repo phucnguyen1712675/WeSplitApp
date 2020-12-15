@@ -192,7 +192,7 @@ namespace WeSplitApp.View
         }
         private void SearchEvent(object sender, TextChangedEventArgs e)
         {
-            /*string typeSearch = HaveTakenTripsListControl.GetInstance().SearchByComboBox.Text;
+            string typeSearch = HaveTakenTripsListControl.GetInstance().SearchByComboBox.Text;
             int option = 0;
             for (int i = 0; i < 3; i++)
             {
@@ -205,7 +205,7 @@ namespace WeSplitApp.View
             switch (option)
             {
                 case 0:
-                    
+
                     if (TripsCollectionViewModel.index == 0)
                     {
                         HaveTakenTripsListViewModel.Instance.search_byTripName();
@@ -222,12 +222,8 @@ namespace WeSplitApp.View
                     LocationListViewModel.Instance.searchLocation_ByName();
                     //giao dien member
                     break;
-            }*/
+            }
 
-
-            //MessageBox.Show( NavigationItems[0].IsSelected.ToString());
-            //TripsListViewModel.instanse.search_byTripName();
-            //ExpectedTripListViewModel.instanse.search_byTripName();
         }
 
         private void MaterialWindow_Loaded(object sender, RoutedEventArgs e)
