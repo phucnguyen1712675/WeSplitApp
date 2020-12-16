@@ -17,15 +17,44 @@
     <UserControl.Resources>
         <ResourceDictionary Source="/Resources/AppResource.xaml"/>
     </UserControl.Resources>
-        <Grid>
-            <Image Source="/Resources/Images/LocationListBackGround1.jpg" Height="600" HorizontalAlignment="Left" VerticalAlignment="Center" />
+    <Grid>
+        <Image Source="/Resources/Images/LocationListBackGround1.jpg" Height="600" HorizontalAlignment="Left" VerticalAlignment="Center" />
 
-        <StackPanel HorizontalAlignment="Right">
-            <TextBlock Text="Danh sách Điểm dừng" 
+
+        <Grid HorizontalAlignment="Right"
+                    Width="900">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <!--<TextBlock Text="Danh sách Điểm dừng" 
                    Style="{StaticResource MaterialDesignHeadline5TextBlock}"
                    VerticalAlignment="Top"
-                       Margin="30,20,0,0"/>
+                       Margin="30,20,0,0"/>-->
+
+            <StackPanel Orientation="Horizontal" Grid.Row="0">
+                <md:PackIcon
+                    Width="40"
+                    Height="40"
+                    Margin="0,0,15,0"
+                    Foreground="#002171"
+                    Kind="MapMarker" />
+                <TextBlock 
+                    x:Name="TilteTextBlock"
+                    Width="880"
+                    Margin="0,10,0,10"
+                    FontWeight="Bold"
+                    FontSize="25"
+                    Style="{StaticResource MaterialDesignHeadline2TextBlock}"
+                    Text="Danh sách Điểm dừng"
+                    TextAlignment="Justify"
+                    TextWrapping="WrapWithOverflow" />
+            </StackPanel>
+
             <ListView x:Name="LocationList"
+                  Grid.Row="1"
                   ItemsSource="{Binding ToShowItems}"
                   HorizontalAlignment="Center"
                   VerticalAlignment="Center"
@@ -83,7 +112,11 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            <StackPanel VerticalAlignment="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
+            <StackPanel 
+                Grid.Row="2"
+                VerticalAlignment="Center" 
+                Orientation="Horizontal" 
+                HorizontalAlignment="Center">
                 <Button
             Grid.Column="0"
             HorizontalAlignment="Center"
@@ -91,7 +124,7 @@
             Content="{md:PackIcon Kind=ArrowLeftBoldCircleOutline, Size=40}"
             Style="{StaticResource MaterialDesignIconButton}"
             ToolTip="Previous"
-            Margin="0,10,20,0"/>
+            Margin="0,0,20,0"/>
 
                 <ComboBox
                 ItemsSource="{Binding Paging.Pages, Mode=OneWay}"
@@ -122,8 +155,8 @@
             Content="{md:PackIcon Kind=ArrowRightBoldCircleOutline, Size=40}"
             Style="{StaticResource MaterialDesignIconButton}"
             ToolTip="Next" 
-            Margin="20,10,00,0"/>
+            Margin="20,0,00,0"/>
             </StackPanel>
-        </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

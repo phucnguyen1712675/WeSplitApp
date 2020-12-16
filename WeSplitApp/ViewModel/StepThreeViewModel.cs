@@ -44,6 +44,7 @@ namespace WeSplitApp.ViewModel
                 {
                     BeingTakenTripsListViewModel.Instance.AddTrip(temp);
                 }
+                SettingsViewModel.Instance.UpdateTripSortMethod();
                 MessageBox.Show("Thêm thành công");
             }
             else

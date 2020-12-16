@@ -22,37 +22,46 @@
 
     <Grid>
         <Image
-            Height="600"
+            Height="650"
+            Margin="30,0,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Source="/Resources/Images/MemberListBackGround3.jpg" />
 
-        <StackPanel HorizontalAlignment="Right"
+        <Grid HorizontalAlignment="Right"
                     Width="810">
-            <Viewbox
-                Grid.Row="0"
-                Margin="0"
-                VerticalAlignment="Center"
-                Stretch="Uniform"
-                StretchDirection="DownOnly">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            
+            <StackPanel Orientation="Horizontal" Grid.Row="0">
+                <md:PackIcon
+                    Width="40"
+                    Height="40"
+                    Margin="0,0,15,0"
+                    Foreground="#002171"
+                    Kind="Accounts" />
                 <TextBlock 
                     x:Name="TilteTextBlock"
                     Width="880"
+                    Margin="0,10,0,10"
                     FontWeight="Bold"
-                    FontSize="30"
+                    FontSize="25"
                     Style="{StaticResource MaterialDesignHeadline2TextBlock}"
                     Text="Danh sách thành viên"
                     TextAlignment="Justify"
                     TextWrapping="WrapWithOverflow" />
-            </Viewbox>
+            </StackPanel>
 
             <ListView
+                Grid.Row="1"
                 x:Name="MemberList"
-                Height="530"
+                Height="540"
                 Width="auto"
                 Padding="20"
                 VerticalAlignment="Center"
-                HorizontalAlignment="Center"
                 HorizontalContentAlignment="Center"
                 ItemsSource="{Binding ToShowItems}"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
@@ -66,7 +75,7 @@
                         <md:Card
                             Width="200"
                             Height="240"
-                            Margin="0,0,10,5"
+                            Margin="0,0,20,10"
                             md:ShadowAssist.ShadowDepth="Depth1"
                             UniformCornerRadius="10">
                             <Grid>
@@ -135,12 +144,13 @@
             </ListView>
 
             <StackPanel
+                Grid.Row="2"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
                 Orientation="Horizontal">
                 <Button
                     Grid.Column="0"
-                    Margin="0,10,20,0"
+                    Margin="0,0,20,0"
                     HorizontalAlignment="Center"
                     Command="{Binding PreviousCommand}"
                     Content="{md:PackIcon Kind=ArrowLeftBoldCircleOutline,
@@ -148,7 +158,6 @@
                     Style="{StaticResource MaterialDesignIconButton}"
                     ToolTip="Previous" />
 
-                <!---->
                 <ComboBox
                     Name="MemberListPagingComboBox"
                     Width="80"
@@ -173,7 +182,7 @@
 
                 <Button
                     Grid.Column="2"
-                    Margin="20,10,00,0"
+                    Margin="20,0,0,0"
                     HorizontalAlignment="Center"
                     Command="{Binding NextCommand}"
                     Content="{md:PackIcon Kind=ArrowRightBoldCircleOutline,
@@ -181,8 +190,6 @@
                     Style="{StaticResource MaterialDesignIconButton}"
                     ToolTip="Next" />
             </StackPanel>
-
-        </StackPanel>
-
+        </Grid>
     </Grid>
 </UserControl>

@@ -43,6 +43,7 @@ namespace WeSplitApp.ViewModel.DialogHelperClass
                     member = NewMember;
                 }
                 HomeScreen.GetDatabaseEntities().SaveChanges();
+                SettingsViewModel.Instance.UpdateMemberSortMethod();
                 MessageBox.Show("Thành công");
             }
             else
