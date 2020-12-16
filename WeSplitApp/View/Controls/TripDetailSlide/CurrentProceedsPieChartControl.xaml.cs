@@ -1,6 +1,4 @@
-﻿using LiveCharts;
-using LiveCharts.Wpf;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,14 +14,14 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WeSplitApp.ViewModel;
 
-namespace WeSplitApp.View.Controls
+namespace WeSplitApp.View.Controls.TripDetailSlide
 {
     /// <summary>
-    /// Interaction logic for TotalCostsPieChartControl.xaml
+    /// Interaction logic for CurrentProceedsPieChartControl.xaml
     /// </summary>
-    public partial class TotalCostsPieChartControl : UserControl
+    public partial class CurrentProceedsPieChartControl : UserControl
     {
-        public TotalCostsPieChartControl()
+        public CurrentProceedsPieChartControl()
         {
             InitializeComponent();
         }

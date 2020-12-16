@@ -23,10 +23,19 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
             set
             {
                 this._selectedTrip = value;
-                //OnPropertyChanged();
-                this.ImagePresenterViewModel.SelectedTrip = this._selectedTrip;
-                this.ToGoDatePickerViewModel.SelectedDate = (DateTime)this._selectedTrip.TOGODATE;
-                this.ReturnDatePickerViewModel.SelectedDate = (DateTime)this._selectedTrip.RETURNDATE;
+
+                this.ImagePresenterViewModel = new ImagePresenterViewModel
+                {
+                    SelectedTrip = value
+                };
+                this.ToGoDatePickerViewModel = new CalenderPickerViewModel
+                {
+                    SelectedDate = (DateTime)this._selectedTrip.TOGODATE
+                };
+                this.ReturnDatePickerViewModel = new CalenderPickerViewModel
+                {
+                    SelectedDate = (DateTime)this._selectedTrip.RETURNDATE
+                };
             }
         }
         public CalenderPickerViewModel ToGoDatePickerViewModel { get; set; }
@@ -35,29 +44,27 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
         public bool IsTitleEditing { get; set; }
         public bool IsDescriptionEditing { get; set; }
         private ICommand _backToHomeScreenCommand { get; set; }
-        public ICommand BackToHomeScreenCommand => this._backToHomeScreenCommand ?? (this._backToHomeScreenCommand = new CommandHandler(() => BackToHomeScreenAction(), () => CanExecute));
-        private ICommand _saveCommand { get; set; }
-        public ICommand SaveCommand => this._saveCommand ?? (this._saveCommand = new CommandHandler(() => SaveEditAction(), () => CanExecute));
+        public ICommand BackToHomeScreenCommand => this._backToHomeScreenCommand ?? (this._backToHomeScreenCommand = new CommandHandler((param) => BackToHomeScreenAction(), () => CanExecute));
+        private ICommand _saveTitleCommand { get; set; }
+        public ICommand SaveTitleCommand => this._saveTitleCommand ?? (this._saveTitleCommand = new CommandHandler((param) => SaveTitleAction(), () => CanExecute));
+        private ICommand _saveDescriptionCommand { get; set; }
+        public ICommand SaveDescriptionCommand => this._saveDescriptionCommand ?? (this._saveDescriptionCommand = new CommandHandler((param) => SaveDescriptionAction(), () => CanExecute));
         private ICommand _editTitleCommand { get; set; }
-        public ICommand EditTitleCommand => this._editTitleCommand ?? (this._editTitleCommand = new CommandHandler(() => EditTitleAction(), () => CanExecute));
+        public ICommand EditTitleCommand => this._editTitleCommand ?? (this._editTitleCommand = new CommandHandler((param) => EditTitleAction(), () => CanExecute));
         private ICommand _cancelTitleCommand { get; set; }
-        public ICommand CancelTitleCommand => this._cancelTitleCommand ?? (this._cancelTitleCommand = new CommandHandler(() => CancelTitleAction(), () => CanExecute));
+        public ICommand CancelTitleCommand => this._cancelTitleCommand ?? (this._cancelTitleCommand = new CommandHandler((param) => CancelTitleAction(), () => CanExecute));
         private ICommand _editDescriptionCommand { get; set; }
-        public ICommand EditDescriptionCommand => this._editDescriptionCommand ?? (this._editDescriptionCommand = new CommandHandler(() => EditDescriptionAction(), () => CanExecute));
+        public ICommand EditDescriptionCommand => this._editDescriptionCommand ?? (this._editDescriptionCommand = new CommandHandler((param) => EditDescriptionAction(), () => CanExecute));
         private ICommand _cancelDescriptionCommand { get; set; }
-        public ICommand CancelDescriptionCommand => this._cancelDescriptionCommand ?? (this._cancelDescriptionCommand = new CommandHandler(() => CancelDescriptionAction(), () => CanExecute));
+        public ICommand CancelDescriptionCommand => this._cancelDescriptionCommand ?? (this._cancelDescriptionCommand = new CommandHandler((param) => CancelDescriptionAction(), () => CanExecute));
         public ICommand RunToGoDatePickerDialogCommand => new AnotherCommandImplementation(ExecuteRunToGoDatePickerDialog);
         public ICommand RunReturnDatePickerDialogCommand => new AnotherCommandImplementation(ExecuteRunReturnDatePickerDialog);
         public ICommand RunImagePresenterDialogCommand => new AnotherCommandImplementation(ExecuteImagePresenterDialog);
         public ICommand RunAddNewImagesCommand => new AnotherCommandImplementation(ExecuteAddNewImageDialog);
-
         public Slide1_IntroViewModel()
         {
             this.IsTitleEditing = false;
             this.IsDescriptionEditing = false;
-            this.ImagePresenterViewModel = new ImagePresenterViewModel();
-            this.ToGoDatePickerViewModel = new CalenderPickerViewModel();
-            this.ReturnDatePickerViewModel = new CalenderPickerViewModel();
         }
 
         private TRIP _clonedTrip = new TRIP();
@@ -67,13 +74,6 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
         private void SaveEditAction()
         {
             HomeScreen.GetDatabaseEntities().Entry(this.SelectedTrip).State = EntityState.Modified;
-            HomeScreen.GetDatabaseEntities().SaveChanges();
-
-            ChangeEditingTitleVisibility();
-        }
-        private void SaveAddAction()
-        {
-            HomeScreen.GetDatabaseEntities().Entry(this.SelectedTrip).State = EntityState.Added;
             HomeScreen.GetDatabaseEntities().SaveChanges();
         }
         private void EditTitleAction()
@@ -100,6 +100,19 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
             this.SelectedTrip.DESCRIPTION = this._clonedTrip.DESCRIPTION;
 
             ChangeEditingDescriptionVisibility();
+        }
+        private void SaveDescriptionAction()
+        {
+            SaveEditAction();
+
+            ChangeEditingDescriptionVisibility();
+        }
+
+        private void SaveTitleAction()
+        {
+            SaveEditAction();
+
+            ChangeEditingTitleVisibility();
         }
         public bool CanExecute => true;
 
@@ -144,7 +157,6 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
         }
         private async void ExecuteAddNewImageDialog(object obj)
         {
-            //MessageBox.Show(this.SelectedTrip.TRIP_IMAGES.Count.ToString());
             OpenMultipleFilesDialogArguments dialogArgs = new OpenMultipleFilesDialogArguments()
             {
                 Width = 600,
@@ -156,19 +168,26 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
 
             if (!result.Canceled)
             {
-                result.Files.ForEach(file => this.SelectedTrip.TRIP_IMAGES.Add(new TRIP_IMAGES
-                {
-                    TRIP_ID = this.SelectedTrip.TRIP_ID,
-                    IMAGE = file
-                }));
+                result.Files.ForEach(file => {
 
-                TRIP temp = HomeScreen.GetDatabaseEntities().TRIPS.FirstOrDefault(item => item.TRIP_ID == this._selectedTrip.TRIP_ID);
-                temp = this._selectedTrip;
-
+                    if (file.Contains(AppDomain.CurrentDomain.BaseDirectory))
+                    {
+                        file = "\\" + file.Remove(0, AppDomain.CurrentDomain.BaseDirectory.Length);
+                    }
+                    var newTripImages = new TRIP_IMAGES
+                    {
+                        TRIP_ID = this.SelectedTrip.TRIP_ID,
+                        IMAGE = file
+                    };
+                    //this.SelectedTrip.TRIP_IMAGES.Add(newTripImages);
+                    HomeScreen.GetDatabaseEntities().TRIP_IMAGES.Add(newTripImages);
+                });
                 HomeScreen.GetDatabaseEntities().SaveChanges();
-
-                MessageBox.Show(this.SelectedTrip.TRIP_IMAGES.Count.ToString());
-                //MessageBox.Show("Success");
+                var temp = HomeScreen.GetDatabaseEntities().TRIPS.FirstOrDefault(trip => trip.TRIP_ID == this.SelectedTrip.TRIP_ID);
+                this.ImagePresenterViewModel = new ImagePresenterViewModel
+                {
+                    SelectedTrip = temp
+                };
             }
         }
         private void ExtendedOpenedEventHandler(object sender, DialogOpenedEventArgs eventargs)
@@ -192,10 +211,15 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
                     TaskScheduler.FromCurrentSynchronizationContext());
 
             var isValid = this.ToGoDatePickerViewModel.SelectedDate <= this.SelectedTrip.RETURNDATE;
+
             if (isValid)
             {
                 this._selectedTrip.TOGODATE = this.ToGoDatePickerViewModel.SelectedDate;
                 this.SaveEditAction();
+                this.ToGoDatePickerViewModel = new CalenderPickerViewModel
+                {
+                    SelectedDate = (DateTime)this._selectedTrip.TOGODATE
+                };
             }
             else
             {
@@ -220,10 +244,15 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
                     TaskScheduler.FromCurrentSynchronizationContext());
 
             var isValid = this.ReturnDatePickerViewModel.SelectedDate >= this.SelectedTrip.TOGODATE;
+
             if (isValid)
             {
                 this._selectedTrip.RETURNDATE = this.ReturnDatePickerViewModel.SelectedDate;
                 this.SaveEditAction();
+                this.ReturnDatePickerViewModel = new CalenderPickerViewModel
+                {
+                    SelectedDate = (DateTime)this._selectedTrip.RETURNDATE
+                };
             }
             else
             {
@@ -234,21 +263,6 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
         {
             if (eventArgs.Parameter is bool parameter &&
                 parameter == false) return;
-
-            //OK, lets cancel the close...
-            eventArgs.Cancel();
-
-            //...now, lets update the "session" with some new content!
-            eventArgs.Session.UpdateContent(new SampleProgressDialog());
-            //note, you can also grab the session when the dialog opens via the DialogOpenedEventHandler
-
-            //lets run a fake operation for 3 seconds then close this baby.
-            Task.Delay(TimeSpan.FromSeconds(3))
-                .ContinueWith((t, _) => eventArgs.Session.Close(false), null,
-                    TaskScheduler.FromCurrentSynchronizationContext());
-
-            this._selectedTrip.TRIP_IMAGES = this.ImagePresenterViewModel.SelectedTrip.TRIP_IMAGES;
-            this.SaveAddAction();
         }
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using WeSplitApp.Utils;
 
-namespace WeSplitApp.ViewModel
+namespace WeSplitApp.ViewModel.TripDetailSlideVM
 {
     public class CurrentProceedsPieChartViewModel : ViewModel
     {
@@ -27,7 +27,7 @@ namespace WeSplitApp.ViewModel
         public LegendLocation LegendLocation { get; set; }
         public string ActionDescribe { get; set; }
         private ICommand _showDetailCommand { get; set; }
-        public ICommand ShowDetailCommand => this._showDetailCommand ?? (this._showDetailCommand = new CommandHandler(() => MyShowDetailAction(), () => CanExecute));
+        public ICommand ShowDetailCommand => this._showDetailCommand ?? (this._showDetailCommand = new CommandHandler((param) => MyShowDetailAction(), () => CanExecute));
         
         public CurrentProceedsPieChartViewModel()
         {

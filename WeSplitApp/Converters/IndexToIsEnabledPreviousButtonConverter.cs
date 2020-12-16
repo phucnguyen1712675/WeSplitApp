@@ -8,15 +8,18 @@ using System.Windows.Data;
 
 namespace WeSplitApp.Converters
 {
-    public class IndexToIsEnabledPreviousButtonConverter : IValueConverter
+    public class IndexToIsEnabledPreviousButtonConverter : IMultiValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            var selectedIndex = (int)value;
-            return !(selectedIndex == 0);
+            var selectedIndex = (int)values[0];
+            var currentPage = (int)values[1];
+            var isFirstPage = currentPage == 1;
+            var isFirstPicture = selectedIndex == 0;
+            return !(isFirstPage && isFirstPicture);
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }

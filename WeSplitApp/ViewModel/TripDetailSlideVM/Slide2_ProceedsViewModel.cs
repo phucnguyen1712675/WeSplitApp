@@ -18,27 +18,24 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
             set
             {
                 this._selectedTrip = value;
-                //OnPropertyChanged();
-                this.TotalCostsPieChartViewModel.SelectedTrip = this.SelectedTrip;
+
+                this.TotalCostsPieChartViewModel = new TotalCostsPieChartViewModel
+                {
+                    SelectedTrip = value
+                };
             }
         }
         public TotalCostsPieChartViewModel TotalCostsPieChartViewModel { get; set; }
         public bool IsEditing { get; set; }
         private ICommand _backToHomeScreenCommand { get; set; }
-        public ICommand BackToHomeScreenCommand => this._backToHomeScreenCommand ?? (this._backToHomeScreenCommand = new CommandHandler(() => BackToHomeScreenAction(), () => CanExecute));
+        public ICommand BackToHomeScreenCommand => this._backToHomeScreenCommand ?? (this._backToHomeScreenCommand = new CommandHandler((param) => BackToHomeScreenAction(), () => CanExecute));
         private ICommand _editCommand { get; set; }
-        public ICommand EditCommand => this._editCommand ?? (this._editCommand = new CommandHandler(() => EditAction(), () => CanExecute));
-
-        public Slide2_ProceedsViewModel()
-        {
-            this.TotalCostsPieChartViewModel = new TotalCostsPieChartViewModel();
-        }
+        public ICommand EditCommand => this._editCommand ?? (this._editCommand = new CommandHandler((param) => EditAction(), () => CanExecute));
         private void BackToHomeScreenAction() => HomeScreen.SetNewContentControl(new TripsCollectionViewModel());
         private void EditAction()
         {
             this.IsEditing = !this.IsEditing;
         }
         public bool CanExecute => true;
-
     }
 }

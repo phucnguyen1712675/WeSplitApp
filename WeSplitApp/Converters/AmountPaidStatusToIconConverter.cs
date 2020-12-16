@@ -22,7 +22,7 @@ namespace WeSplitApp.Converters
             var amountPaid = (double)values[1];
             var missingAmount = averageMoney - amountPaid;
 
-            var icon = Math.Abs(missingAmount) >= precise ? PackIconKind.CloseCircleOutline : PackIconKind.CheckCircleOutline;
+            var icon = Math.Abs(missingAmount) >= precise && missingAmount >= 0.0 ? PackIconKind.CloseCircleOutline : PackIconKind.CheckCircleOutline;
 
             return icon;
         }

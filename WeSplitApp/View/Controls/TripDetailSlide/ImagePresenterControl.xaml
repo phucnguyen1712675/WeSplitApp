@@ -65,7 +65,7 @@
             <Grid
                 Grid.Row="1"
                 Margin="0,10"
-                HorizontalAlignment="Stretch"
+                HorizontalAlignment="Center"
                 VerticalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -76,27 +76,11 @@
                 <ListView
                     x:Name="imageListView"
                     Grid.Column="1"
-                    HorizontalAlignment="Center"
+                    HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     ItemsSource="{Binding ImageToShowCollection}"
                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                     SelectedIndex="{Binding SelectedIndex}">
-                    <!--<ListView.Resources>
-                        <Style TargetType="{x:Type ListViewItem}">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type ListViewItem}">
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsSelected" Value="True">
-                                                <Setter Property="BorderThickness" Value="2" />
-                                                <Setter Property="BorderBrush" Value="#BBBCB6" />
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </ListView.Resources>-->
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel />
@@ -120,7 +104,6 @@
                     Grid.Column="0"
                     HorizontalAlignment="Right"
                     Command="{Binding PreviousCommand}"
-                    IsEnabled="{Binding ElementName=imageListView, Path=SelectedIndex, Converter={StaticResource IndexToIsEnabledPreviousButtonConverter}}"
                     Style="{StaticResource MaterialDesignIconButton}"
                     ToolTip="Previous">
                     <md:PackIcon Kind="ChevronLeft">
@@ -128,6 +111,12 @@
                             <ScaleTransform CenterX="0.5" CenterY="0.5" ScaleX="2" ScaleY="2" />
                         </md:PackIcon.LayoutTransform>
                     </md:PackIcon>
+                    <Button.IsEnabled>
+                        <MultiBinding Converter="{StaticResource IndexToIsEnabledPreviousButtonConverter}">
+                            <Binding ElementName="imageListView" Path="SelectedIndex" />
+                            <Binding Path="CurrentPage" />
+                        </MultiBinding>
+                    </Button.IsEnabled>
                 </Button>
                 <Button
                     Grid.Column="2"
@@ -144,13 +133,17 @@
                         <MultiBinding Converter="{StaticResource IndexToIsEnabledNextButtonConverter}">
                             <Binding ElementName="imageListView" Path="SelectedIndex" />
                             <Binding Path="SelectedTrip.TRIP_IMAGES.Count" />
+                            <Binding Path="CurrentPage" />
+                            <Binding Path="TotalPage" />
+                            <Binding Path="RowsPerPage" />
                         </MultiBinding>
                     </Button.IsEnabled>
                 </Button>
             </Grid>
             <Button
                 Grid.Row="2"
-                HorizontalAlignment="Center"
+                Margin="0,8,8,0"
+                HorizontalAlignment="Right"
                 Command="{x:Static wpf:DialogHost.CloseDialogCommand}"
                 Content="CANCEL"
                 IsCancel="True"
