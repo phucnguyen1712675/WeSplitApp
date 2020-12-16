@@ -150,8 +150,7 @@ namespace WeSplitApp.ViewModel
             var page = this.SelectedIndex + 1;
             var skip = (page - 1) * this.Paging.RowsPerPage;
             var take = this.Paging.RowsPerPage;
-
-            this.ToShowItems = new ObservableCollection<TRIP>(this.Items.Skip(skip).Take(take));
+            this.ToShowItems = new ObservableCollection<TRIP>(this.SearchResult.Skip(skip).Take(take));
         }
 
         public bool getNewRowPerPage(int RowsPerPage) // được gọi trong setting
@@ -177,43 +176,21 @@ namespace WeSplitApp.ViewModel
                 this._searchResult = value;
             }
         }
-
-        public void DisplayObjects_Search()
-        {
-            var page = this.SelectedIndex + 1;
-            var skip = (page - 1) * this.Paging.RowsPerPage;
-            var take = this.Paging.RowsPerPage;
-
-            this.ToShowItems = new ObservableCollection<TRIP>(this.SearchResult.Skip(skip).Take(take));
-        }
-
         public void search_byTripName()
         {
             string request = HomeScreen.GetHomeScreenInstance().SearchTextBox.Text;
             var requestText = convertUnicode.convertToUnSign(request.Trim().ToLower());
             string typeSearch = HomeScreen.GetHomeScreenInstance().SearchByComboBox.Text;
-            //if (IsDone)
-            //{
-            //    typeSearch = HaveTakenTripsListControl.GetInstance().SearchByComboBox.Text;
-            //}
-            //else
-            //{
-            //    typeSearch = BeingTakenTripsListControl.GetInstance().SearchByComboBox.Text;
-            //}
-            //MessageBox.Show(typeSearch);
             List<TRIP> tripList = new List<TRIP>();
 
             switch (typeSearch)
             {
                 case "Tên chuyến đi":
-                    //tripList = (HomeScreen.GetDatabaseEntities().TRIPS.AsEnumerable()
-                    //    .Where(t => convertUnicode.convertToUnSign(t.TITTLE.Trim().ToLower()).Contains(requestText) && t.ISDONE == IsDone)
-                    //    .ToList());
+
                     tripList = (ItemHandler.Items.AsEnumerable()
                         .Where(t => convertUnicode.convertToUnSign(t.TITTLE.Trim().ToLower()).Contains(requestText) && t.ISDONE == IsDone)
                         .ToList());
                     
-                    //MessageBox.Show(b[0].TITTLE);
                     break;
                 case "Tên thành viên":
                     // search member theo ten nhap vao 
@@ -269,7 +246,7 @@ namespace WeSplitApp.ViewModel
             }
             SearchResult = new ObservableCollection<TRIP>(tripList);
             CalculatePagingInfo(Paging.RowsPerPage, SearchResult.Count);
-            DisplayObjects_Search();
+            DisplayObjects();
         }
         #endregion
 

@@ -33,11 +33,12 @@ namespace WeSplitApp.ViewModel
             };
 
             this.MEMBERS = new ObservableCollection<MEMBER>((HomeScreen.GetDatabaseEntities().MEMBERS).ToList());
+            this.searchMEMBERS = this.MEMBERS;
         }
 
         public int GetMaximum()
         {
-            return MEMBERS.Count();
+            return searchMEMBERS.Count();
         }
 
         #region sort
@@ -46,24 +47,24 @@ namespace WeSplitApp.ViewModel
             if (MySort.ContainsKey(method))
             {
                 List<MEMBER> resultSort =(List<MEMBER>)MySort[method].DynamicInvoke();
-                MEMBERS = new ObservableCollection<MEMBER>(resultSort);
+                searchMEMBERS = new ObservableCollection<MEMBER>(resultSort);
                 DisplayObjects();
             }
         }
 
         private List<MEMBER> SetDescendingPositionAccordingToName()
         {
-            return MEMBERS.OrderByDescending(c => c.NAME).ToList();
+            return searchMEMBERS.OrderByDescending(c => c.NAME).ToList();
         }
 
         private List<MEMBER> SetAscendingPositionAccordingToName()
         {
-            return MEMBERS.OrderBy(c => c.NAME).ToList();
+            return searchMEMBERS.OrderBy(c => c.NAME).ToList();
         }
 
         private List<MEMBER> SetDefaultPosition()
         {
-            return MEMBERS.OrderBy(c => c.MEMBER_ID).ToList();
+            return searchMEMBERS.OrderBy(c => c.MEMBER_ID).ToList();
         }
 
         public List<string> getSortMethod()
@@ -101,16 +102,16 @@ namespace WeSplitApp.ViewModel
             var take = this.Paging.RowsPerPage;
             //TODO test Paging.Pages
             var temp= Paging.TotalPages;
-            this.ToShowItems = new ObservableCollection<MEMBER>(this.MEMBERS.Skip(skip).Take(take));
+            this.ToShowItems = new ObservableCollection<MEMBER>(this.searchMEMBERS.Skip(skip).Take(take));
         }
 
         public bool getNewRowPerPage(int RowsPerPage) // được gọi trong setting
         {
-            if(RowsPerPage > MEMBERS.Count)
+            if(RowsPerPage > searchMEMBERS.Count)
             {
                 return false;
             }
-            CalculatePagingInfo(RowsPerPage, MEMBERS.Count);
+            CalculatePagingInfo(RowsPerPage, searchMEMBERS.Count);
             SelectedIndex = 0;
             DisplayObjects();
             return true;
@@ -136,37 +137,24 @@ namespace WeSplitApp.ViewModel
                 this._searchMEMBERS = value;
             }
         }
-        public void DisplayObjects_Search()
-        {
-            var page = this.SelectedIndex + 1;
-            var skip = (page - 1) * this.Paging.RowsPerPage;
-            var take = this.Paging.RowsPerPage;
-            //TODO test Paging.Pages
-            var temp = Paging.TotalPages;
-            this.ToShowItems = new ObservableCollection<MEMBER>(this.searchMEMBERS.Skip(skip).Take(take));
-        }
         public void searchMember_ByName()
         {
             string request = HomeScreen.GetHomeScreenInstance().SearchTextBox.Text;
-            //MessageBox.Show("Chay duoc roi");
             List<MEMBER> memberList;
             if (request.Length <= 0)
             {
                 memberList = (instance.MEMBERS).ToList();
-                //this.ToShowItems = new ObservableCollection<TRIP>(all);
             }
             else
             {
-                //search by TITLE
+                //search by Name
                 var requestText = convertUnicode.convertToUnSign(request.Trim().ToLower());
                 memberList = (instance.MEMBERS.AsEnumerable().Where(mem => convertUnicode.convertToUnSign(mem.NAME.Trim().ToLower()).Contains(requestText))).ToList();
 
-                //MessageBox.Show(b[0].TITTLE);
-                //this.ToShowItems = new ObservableCollection<TRIP>(tripList);
             }
             instance.searchMEMBERS = new ObservableCollection<MEMBER>(memberList);
-            instance.CalculatePagingInfo(instance.Paging.RowsPerPage, instance.MEMBERS.Count);
-            instance.DisplayObjects_Search();
+            instance.CalculatePagingInfo(instance.Paging.RowsPerPage, instance.searchMEMBERS.Count);
+            instance.DisplayObjects();
         }
     }
 }
