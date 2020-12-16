@@ -27,18 +27,32 @@
             VerticalAlignment="Top"
             Source="/Resources/Images/MemberListBackGround3.jpg" />
 
-        <StackPanel HorizontalAlignment="Right">
-            <TextBlock
-                Margin="20,20,20,0"
-                VerticalAlignment="Top"
-                Style="{StaticResource MaterialDesignHeadline5TextBlock}"
-                Text="Danh sách thành viên" />
+        <StackPanel HorizontalAlignment="Right"
+                    Width="810">
+            <Viewbox
+                Grid.Row="0"
+                Margin="0"
+                VerticalAlignment="Center"
+                Stretch="Uniform"
+                StretchDirection="DownOnly">
+                <TextBlock 
+                    x:Name="TilteTextBlock"
+                    Width="880"
+                    FontWeight="Bold"
+                    FontSize="30"
+                    Style="{StaticResource MaterialDesignHeadline2TextBlock}"
+                    Text="Danh sách thành viên"
+                    TextAlignment="Justify"
+                    TextWrapping="WrapWithOverflow" />
+            </Viewbox>
+
             <ListView
                 x:Name="MemberList"
-                Width="800"
                 Height="530"
-                Padding="20,0"
+                Width="auto"
+                Padding="20"
                 VerticalAlignment="Center"
+                HorizontalAlignment="Center"
                 HorizontalContentAlignment="Center"
                 ItemsSource="{Binding ToShowItems}"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
