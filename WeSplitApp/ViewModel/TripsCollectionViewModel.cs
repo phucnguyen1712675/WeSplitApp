@@ -25,8 +25,10 @@ namespace WeSplitApp.ViewModel
                 index = SelectedIndex;
                 HomeScreen.GetHomeScreenInstance().SearchTextBox.Text = " ";
                 HomeScreen.GetHomeScreenInstance().SearchTextBox.Clear();
-                BeingTakenTripsListControl.GetInstance().SearchByComboBox.SelectedIndex = 0;
-                HaveTakenTripsListControl.GetInstance().SearchByComboBox.SelectedIndex = 0;
+                HomeScreen.GetHomeScreenInstance().SearchByComboBox.SelectedIndex = 0;
+
+
+
             }
         }
 

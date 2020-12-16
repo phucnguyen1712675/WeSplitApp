@@ -191,26 +191,28 @@ namespace WeSplitApp.ViewModel
         {
             string request = HomeScreen.GetHomeScreenInstance().SearchTextBox.Text;
             var requestText = convertUnicode.convertToUnSign(request.Trim().ToLower());
-            string typeSearch = "";
-            if (IsDone)
-            {
-                typeSearch = HaveTakenTripsListControl.GetInstance().SearchByComboBox.Text;
-            }
-            else
-            {
-                typeSearch = BeingTakenTripsListControl.GetInstance().SearchByComboBox.Text;
-            }
+            string typeSearch = HomeScreen.GetHomeScreenInstance().SearchByComboBox.Text;
+            //if (IsDone)
+            //{
+            //    typeSearch = HaveTakenTripsListControl.GetInstance().SearchByComboBox.Text;
+            //}
+            //else
+            //{
+            //    typeSearch = BeingTakenTripsListControl.GetInstance().SearchByComboBox.Text;
+            //}
             //MessageBox.Show(typeSearch);
             List<TRIP> tripList = new List<TRIP>();
-            //tripList = (HomeScreen.GetDatabaseEntities().TRIPS.AsEnumerable().Where(t => convertUnicode.convertToUnSign(t.TITTLE.Trim().ToLower()).Contains(request) && t.ISDONE == true).ToList());
 
             switch (typeSearch)
             {
                 case "Tên chuyến đi":
-                    tripList = (HomeScreen.GetDatabaseEntities().TRIPS.AsEnumerable()
+                    //tripList = (HomeScreen.GetDatabaseEntities().TRIPS.AsEnumerable()
+                    //    .Where(t => convertUnicode.convertToUnSign(t.TITTLE.Trim().ToLower()).Contains(requestText) && t.ISDONE == IsDone)
+                    //    .ToList());
+                    tripList = (ItemHandler.Items.AsEnumerable()
                         .Where(t => convertUnicode.convertToUnSign(t.TITTLE.Trim().ToLower()).Contains(requestText) && t.ISDONE == IsDone)
                         .ToList());
-
+                    
                     //MessageBox.Show(b[0].TITTLE);
                     break;
                 case "Tên thành viên":
@@ -222,7 +224,7 @@ namespace WeSplitApp.ViewModel
                     foreach (var index in memlist)
                     {
                         //tim chuyen di co thanh vien index
-                        var memberTripList = (from t in HomeScreen.GetDatabaseEntities().TRIPS
+                        var memberTripList = (from t in ItemHandler.Items
                                               join mem in HomeScreen.GetDatabaseEntities().TRIP_MEMBER on t.TRIP_ID equals mem.TRIP_ID
                                               where mem.MEMBER_ID == index.MEMBER_ID && t.ISDONE == IsDone
                                               select t).ToList();
@@ -246,8 +248,8 @@ namespace WeSplitApp.ViewModel
                     foreach (var index in locationList)
                     {
                         //tim chuyen di co thanh vien index
-                        var locationTripList = (from t in HomeScreen.GetDatabaseEntities().TRIPS
-                                              join loca in HomeScreen.GetDatabaseEntities().TRIP_LOCATION on t.TRIP_ID equals loca.TRIP_ID
+                        var locationTripList = (from t in ItemHandler.Items
+                                                join loca in HomeScreen.GetDatabaseEntities().TRIP_LOCATION on t.TRIP_ID equals loca.TRIP_ID
                                               where loca.LOCATION_ID == index.LOCATION_ID && t.ISDONE == IsDone
                                               select t).ToList();
                         // kiem tra chuyen di da co trong List chua va them vao

@@ -81,28 +81,6 @@
                     TextAlignment="Justify"
                     TextWrapping="WrapWithOverflow" />
             </Viewbox>
-            <StackPanel Margin="130,10,0,20" Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Top">
-                    <Label Content="Tìm kiếm theo" Margin="0,0,30,0"/>
-                    <ComboBox x:Name="SearchByComboBox"
-                          md:HintAssist.Hint="Tên"
-                          md:HintAssist.HintOpacity=".26"
-                          IsEditable="True"
-                          Width="200"
-                          HorizontalContentAlignment="Center"
-                          SelectionChanged="selectedChange" >
-                        <ComboBoxItem
-                            Content="Tên chuyến đi"
-                            HorizontalAlignment="Center"
-                            IsSelected="True"/>
-                        <ComboBoxItem
-                            HorizontalAlignment="Center"
-                            Content="Tên thành viên" />
-                        <ComboBoxItem
-                            HorizontalAlignment="Center"
-                            Content="Tên địa điểm" />
-                    </ComboBox>
-            </StackPanel>
-
             <local:ExpectedTripListControl
                 HorizontalContentAlignment="Center"
                 VerticalContentAlignment="Center"
