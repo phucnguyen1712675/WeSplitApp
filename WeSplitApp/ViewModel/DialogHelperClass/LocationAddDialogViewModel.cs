@@ -46,6 +46,7 @@ namespace WeSplitApp.ViewModel.DialogHelperClass
                     location = NewLocation;
                 }
                 HomeScreen.GetDatabaseEntities().SaveChanges();
+                SettingsViewModel.Instance.UpdateLocationSortMethod();
                 MessageBox.Show("Thành công");
             }
             else

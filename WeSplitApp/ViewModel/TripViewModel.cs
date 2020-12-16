@@ -247,7 +247,6 @@ namespace WeSplitApp.ViewModel
             SearchResult = new ObservableCollection<TRIP>(tripList);
             CalculatePagingInfo(Paging.RowsPerPage, SearchResult.Count);
             DisplayObjects();
-
         }
         #endregion
 

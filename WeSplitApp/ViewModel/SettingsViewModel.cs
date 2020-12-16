@@ -115,12 +115,18 @@ namespace WeSplitApp.ViewModel
             }
         }
 
+        public void UpdateMemberSortMethod() // chạy mỗi khi thêm mới, edit thông tin
+        {
+            MemberListViewModel.Instance.MakeSort(MemberLoadSortMethod);
+        }
+
         public List<string> MemberSortMethods { get; set; }
 
         internal void UpdateMemberMaxPaging()
         {
             MemberMaxPaging = MemberListViewModel.Instance.GetMaximum();
         }
+
         #endregion
 
         #region Location
@@ -171,6 +177,11 @@ namespace WeSplitApp.ViewModel
                 this._locationLoadSortMethod = value;
                 LocationListViewModel.Instance.MakeSort(LocationLoadSortMethod);
             }
+        }
+
+        public void UpdateLocationSortMethod() // chạy mỗi lần thêm mới, edit thông tin
+        {
+            LocationListViewModel.Instance.MakeSort(LocationLoadSortMethod);
         }
 
         public List<string> LocationSortMethods { get; set; }
@@ -238,10 +249,12 @@ namespace WeSplitApp.ViewModel
             }
         }
 
-        public void getTripLoadSortMethod(int sortOption)
+        public void UpdateTripSortMethod() // chạy mỗi lần thêm mới, edit thông tin
         {
-            TripLoadSortMethod = sortOption;
+            BeingTakenTripsListViewModel.Instance.MakeSort(_tripLoadSortMethod);
+            HaveTakenTripsListViewModel.Instance.MakeSort(_tripLoadSortMethod);
         }
+
         public List<string> TripSortMethods { get; set; }
 
         internal void UpdateTripMaxPaging()
@@ -250,6 +263,8 @@ namespace WeSplitApp.ViewModel
             int HaveTrips = BeingTakenTripsListViewModel.Instance.GetMaxiMum();
             TripMaxPaging = (BeingTrips > HaveTrips) ? BeingTrips : HaveTrips;
         }
+
+
         #endregion
     }
 }
