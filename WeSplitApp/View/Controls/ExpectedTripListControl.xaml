@@ -10,7 +10,7 @@
     xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mde="clr-namespace:MaterialDesignExtensions.Controls;assembly=MaterialDesignExtensions"
     d:DesignHeight="700"
-    d:DesignWidth="960"
+    Width="830"
     Background="White"
     FontFamily="{md:MaterialDesignFont}"
     Foreground="{DynamicResource MaterialDesignBody}"
@@ -108,7 +108,7 @@
             Command="{Binding PreviousCommand}"
             Content="{md:PackIcon Kind=ChevronLeft,
                                   Size=26}"
-            Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+            Style="{StaticResource MaterialDesignIconButton}"
             ToolTip="Previous" />
         <Button
             Grid.Column="2"
@@ -117,7 +117,7 @@
             Command="{Binding NextCommand}"
             Content="{md:PackIcon Kind=ChevronRight,
                                   Size=26}"
-            Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+            Style="{StaticResource MaterialDesignIconButton}"
             ToolTip="Next" />
     </Grid>
 </UserControl>
