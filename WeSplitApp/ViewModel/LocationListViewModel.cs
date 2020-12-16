@@ -21,11 +21,12 @@ namespace WeSplitApp.ViewModel
             };
 
             this.LOCATIONS = new ObservableCollection<LOCATION>(HomeScreen.GetDatabaseEntities().LOCATIONS.ToList());
+            this.searchLOCATIONS = this.LOCATIONS;
         }
 
         public int GetMaximum()
         {
-            return LOCATIONS.Count();
+            return searchLOCATIONS.Count();
         }
 
         #region sort
@@ -39,25 +40,25 @@ namespace WeSplitApp.ViewModel
             if (MySort.ContainsKey(method))
             {
                 List<LOCATION> resultSort = (List<LOCATION>)MySort[method].DynamicInvoke();
-                LOCATIONS = new ObservableCollection<LOCATION>(resultSort);
+                searchLOCATIONS = new ObservableCollection<LOCATION>(resultSort);
                 DisplayObjects();
             }
         }
         private List<LOCATION> SetDescendingPositionAccordingToName()
         {
-            return LOCATIONS.OrderByDescending(c => c.NAME).ToList();
+            return searchLOCATIONS.OrderByDescending(c => c.NAME).ToList();
         }
         private static LocationListViewModel instance = null;
         public static LocationListViewModel Instance => instance ?? (instance = new LocationListViewModel());
 
         private List<LOCATION> SetAscendingPositionAccordingToName()
         {
-            return LOCATIONS.OrderBy(c => c.NAME).ToList();
+            return searchLOCATIONS.OrderBy(c => c.NAME).ToList();
         }
 
         private List<LOCATION> SetDefaultPosition()
         {
-            return LOCATIONS.OrderBy(c => c.LOCATION_ID).ToList();
+            return searchLOCATIONS.OrderBy(c => c.LOCATION_ID).ToList();
         }
 
         public void MakeSort(string method)
@@ -79,15 +80,15 @@ namespace WeSplitApp.ViewModel
             var skip = (page - 1) * this.Paging.RowsPerPage;
             var take = this.Paging.RowsPerPage;
 
-            this.ToShowItems = new ObservableCollection<LOCATION>(this.LOCATIONS.Skip(skip).Take(take));
+            this.ToShowItems = new ObservableCollection<LOCATION>(this.searchLOCATIONS.Skip(skip).Take(take));
         }
         public bool getNewRowPerPage(int RowsPerPage) //được gọi trong setting
         {
-            if (RowsPerPage > LOCATIONS.Count)
+            if (RowsPerPage > searchLOCATIONS.Count)
             {
                 return false;
             }
-            CalculatePagingInfo(RowsPerPage, LOCATIONS.Count);
+            CalculatePagingInfo(RowsPerPage, searchLOCATIONS.Count);
 
             return true;
         }
@@ -109,14 +110,6 @@ namespace WeSplitApp.ViewModel
         }
 
         public ObservableCollection<LOCATION> searchLOCATIONS { get; set; }
-        public void DisplayObjects_Search()
-        {
-            var page = this.SelectedIndex + 1;
-            var skip = (page - 1) * this.Paging.RowsPerPage;
-            var take = this.Paging.RowsPerPage;
-
-            this.ToShowItems = new ObservableCollection<LOCATION>(this.searchLOCATIONS.Skip(skip).Take(take));
-        }
         public void searchLocation_ByName()
         {
             string request = HomeScreen.GetHomeScreenInstance().SearchTextBox.Text;
@@ -137,8 +130,8 @@ namespace WeSplitApp.ViewModel
                 //this.ToShowItems = new ObservableCollection<TRIP>(tripList);
             }
             instance.searchLOCATIONS = new ObservableCollection<LOCATION>(locationList);
-            instance.CalculatePagingInfo(instance.Paging.RowsPerPage, instance.LOCATIONS.Count);
-            instance.DisplayObjects_Search();
+            instance.CalculatePagingInfo(instance.Paging.RowsPerPage, instance.searchLOCATIONS.Count);
+            instance.DisplayObjects();
         }
     }
 }
