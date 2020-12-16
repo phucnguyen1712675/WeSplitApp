@@ -38,7 +38,7 @@
                 Mode="SecondaryMid">
                 <StackPanel Orientation="Horizontal">
                     <Button HorizontalAlignment="Left" Style="{StaticResource MaterialDesignFloatingActionMiniButton}">
-                        <materialDesign:PackIcon Kind="CashUsd" />
+                        <materialDesign:PackIcon Kind="Account" />
                     </Button>
                     <TextBlock
                         Margin="8,0,0,0"
@@ -47,7 +47,7 @@
                 </StackPanel>
             </materialDesign:ColorZone>
 
-            <StackPanel Grid.Row="1">
+            <StackPanel Grid.Row="1" Margin="16">
                 <Grid Margin="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto" />
@@ -86,24 +86,18 @@
                         Text="{Binding NewMember.PHONENUMBER, Mode=TwoWay}" />
                 </Grid>
                 <Grid Margin="10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
                     <materialDesign:PackIcon
-                        Grid.Column="0"
+                        HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Kind="GenderMaleFemale" />
                     <ListBox
                         Name="MemberGenderListBox"
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        Margin="0,10"
                         HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
                         SelectedIndex="{Binding NewMember.GENDER, Converter={StaticResource BoolToIntConverter}, Mode=TwoWay}"
                         Style="{StaticResource MaterialDesignChoiceChipPrimaryOutlineListBox}">
-                        <ListBoxItem Margin="20,0" Content="Nữ" />
-                        <ListBoxItem Margin="20,0" Content="Nam" />
+                        <ListBoxItem Margin="5,0" Content="Nữ" />
+                        <ListBoxItem Margin="5,0" Content="Nam" />
                     </ListBox>
                 </Grid>
 
@@ -131,7 +125,7 @@
                         Margin="0,0,0,10"
                         HorizontalAlignment="Center"
                         Click="MemberAddAvatarButton_Click"
-                        Content="Ảnh avatar" />
+                        Content="Chọn ảnh đại diện" />
                 </StackPanel>
             </StackPanel>
 

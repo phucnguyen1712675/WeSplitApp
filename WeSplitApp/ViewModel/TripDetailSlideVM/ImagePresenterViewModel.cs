@@ -34,9 +34,9 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
         public int ImagesCount => this.SelectedTrip.TRIP_IMAGES.Count;
         public List<TRIP_IMAGES> ImageToShowCollection { get; set; }
         private ICommand _previousCommand { get; set; }
-        public ICommand PreviousCommand => this._previousCommand ?? (this._previousCommand = new CommandHandler(() => MyPreviousAction(), () => CanExecute));
+        public ICommand PreviousCommand => this._previousCommand ?? (this._previousCommand = new CommandHandler((param) => MyPreviousAction(), () => CanExecute));
         private ICommand _nextCommand { get; set; }
-        public ICommand NextCommand => this._nextCommand ?? (this._nextCommand = new CommandHandler(() => MyNextAction(), () => CanExecute));
+        public ICommand NextCommand => this._nextCommand ?? (this._nextCommand = new CommandHandler((param) => MyNextAction(), () => CanExecute));
         private void CalculatePagingInfo()
         {
             var count = this.SelectedTrip.TRIP_IMAGES.Count;

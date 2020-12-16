@@ -4,9 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:conv="clr-namespace:WeSplitApp.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:WeSplitApp.View.Controls"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:WeSplitApp.View.Controls.TripDetailSlide"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:viewModel="clr-namespace:WeSplitApp.ViewModel.TripDetailSlideVM"
     d:DesignHeight="900"
     d:DesignWidth="1900"
     Background="White"
@@ -46,261 +48,338 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid Width="900" HorizontalAlignment="Center">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="3.5*" />
-        </Grid.RowDefinitions>
+    <Grid>
+        <Grid Margin="130,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="3.5*" />
+            </Grid.RowDefinitions>
 
-        <StackPanel
-            Grid.Row="0"
-            Margin="0,20"
-            VerticalAlignment="Center">
-            <Grid Margin="0,10">
-                <Button
-                    Margin="5,0,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Command="{Binding BackToHomeScreenCommand}"
-                    Content="{md:PackIcon Kind=Home,
-                                          Size=30}"
-                    Foreground="#FFF44336"
-                    Style="{StaticResource MaterialDesignIconButton}" />
+            <DockPanel Grid.Row="0" HorizontalAlignment="Stretch">
                 <TextBlock
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    FontWeight="Bold"
-                    Style="{StaticResource MaterialDesignHeadline3TextBlock}"
-                    Text="Về các khoản thu"
-                    TextAlignment="Center" />
-            </Grid>
+                    DockPanel.Dock="Right"
+                    Foreground="{Binding SelectedTrip.ISDONE, Converter={StaticResource statusColorConverter}}"
+                    Text="{Binding SelectedTrip.ISDONE, Converter={StaticResource statusToStringConverter}}" />
+                <Grid HorizontalAlignment="Left">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
 
-            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                <Border
-                    Height="40"
-                    Margin="10,0"
-                    BorderBrush="#FFECEFF1"
-                    BorderThickness="1"
-                    CornerRadius="20">
-                    <StackPanel
-                        Margin="10,0"
-                        VerticalAlignment="Center"
-                        Orientation="Horizontal">
-                        <md:PackIcon
-                            Margin="0,0,5,0"
-                            Foreground="{DynamicResource PrimaryHueMidBrush}"
-                            Kind="Calendar" />
-                        <TextBlock Text="{Binding SelectedTrip.TOGODATE, StringFormat='{}{0:dd/MM/yyyy}'}" />
-                        <TextBlock Text=" - " />
-                        <TextBlock Text="{Binding SelectedTrip.RETURNDATE, StringFormat='{}{0:dd/MM/yyyy}'}" />
-                    </StackPanel>
-                </Border>
-                <Border
-                    Height="40"
-                    Margin="10,0"
-                    BorderBrush="#FFECEFF1"
-                    BorderThickness="1"
-                    CornerRadius="20">
-                    <StackPanel
-                        Margin="10,0"
-                        VerticalAlignment="Center"
-                        Orientation="Horizontal">
-                        <md:PackIcon
-                            Margin="0,0,5,0"
-                            Foreground="{DynamicResource PrimaryHueMidBrush}"
-                            Kind="AccountSupervisor" />
-                        <TextBlock Text="Số người: " />
-                        <TextBlock Text="{Binding SelectedTrip.TRIP_MEMBER.Count}" />
-                    </StackPanel>
-                </Border>
-                <Border
-                    Height="40"
-                    Margin="10,0"
-                    BorderBrush="#FFECEFF1"
-                    BorderThickness="1"
-                    CornerRadius="20">
-                    <StackPanel
-                        Margin="10,0"
-                        VerticalAlignment="Center"
-                        Orientation="Horizontal">
-                        <md:PackIcon
-                            Margin="0,0,5,0"
-                            Foreground="{DynamicResource PrimaryHueMidBrush}"
-                            Kind="Cash" />
-                        <TextBlock Text="Trung bình: " />
+                    <TextBlock
+                        Grid.Column="0"
+                        FontWeight="Bold"
+                        Text="{Binding SelectedTrip.ISDONE, Converter={StaticResource statusToDetailTitleConverter}}" />
+                    <md:PackIcon Grid.Column="1" Kind="ChevronRight" />
+                    <TextBlock
+                        Grid.Column="2"
+                        Foreground="#8e9294"
+                        Text="{Binding SelectedTrip.TITTLE}" />
+                </Grid>
+            </DockPanel>
+            <StackPanel
+                Grid.Row="1"
+                Margin="0,10"
+                HorizontalAlignment="Center">
+                <Grid Margin="0,10" HorizontalAlignment="Center">
+                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                         <TextBlock
-                            x:Name="averageMoney"
-                            Text="{Binding Path=SelectedTrip, Converter={StaticResource TripCostToAvarageMoneyConverter}, StringFormat=N2}"
-                            Visibility="Collapsed" />
-                        <TextBlock Text="{Binding Path=SelectedTrip, Converter={StaticResource TripCostsToMoneyEachPersonConverter}}" />
+                            VerticalAlignment="Center"
+                            FontWeight="Bold"
+                            Style="{StaticResource MaterialDesignHeadline3TextBlock}"
+                            Text="Về các khoản thu"
+                            TextAlignment="Center" />
+                        <Button
+                            Margin="10,0,0,0"
+                            Command="{Binding BackToHomeScreenCommand}"
+                            Foreground="#3f8300"
+                            Style="{StaticResource MaterialDesignIconButton}"
+                            ToolTip="Back to home screen">
+                            <md:PackIcon Kind="Home">
+                                <md:PackIcon.LayoutTransform>
+                                    <ScaleTransform CenterX="0.5" CenterY="0.5" ScaleX="2" ScaleY="2" />
+                                </md:PackIcon.LayoutTransform>
+                            </md:PackIcon>
+                        </Button>
                     </StackPanel>
-                </Border>
-                <Border
-                    Height="40"
-                    Margin="10,0"
-                    BorderBrush="#FFECEFF1"
-                    BorderThickness="1"
-                    CornerRadius="20">
-                    <StackPanel
+                </Grid>
+
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <Border
+                        Height="40"
                         Margin="10,0"
-                        VerticalAlignment="Center"
-                        Orientation="Horizontal">
-                        <md:PackIcon
-                            Margin="0,0,5,0"
-                            Foreground="{DynamicResource PrimaryHueMidBrush}"
-                            Kind="CurrencyUsd" />
-                        <TextBlock Text="Đã thu: " />
-                        <TextBlock Text="{Binding SelectedTrip.CURRENTPROCEEDS, Converter={StaticResource doubleToVNDConverter}}" />
-                    </StackPanel>
-                </Border>
+                        BorderBrush="#FFECEFF1"
+                        BorderThickness="1"
+                        CornerRadius="20">
+                        <StackPanel
+                            Margin="10,0"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <md:PackIcon
+                                Margin="0,0,5,0"
+                                Foreground="{DynamicResource PrimaryHueMidBrush}"
+                                Kind="Calendar" />
+                            <TextBlock Text="{Binding SelectedTrip.TOGODATE, StringFormat='{}{0:dd/MM/yyyy}'}" />
+                            <TextBlock Text=" - " />
+                            <TextBlock Text="{Binding SelectedTrip.RETURNDATE, StringFormat='{}{0:dd/MM/yyyy}'}" />
+                        </StackPanel>
+                    </Border>
+                    <Border
+                        Height="40"
+                        Margin="10,0"
+                        BorderBrush="#FFECEFF1"
+                        BorderThickness="1"
+                        CornerRadius="20">
+                        <StackPanel
+                            Margin="10,0"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <md:PackIcon
+                                Margin="0,0,5,0"
+                                Foreground="{DynamicResource PrimaryHueMidBrush}"
+                                Kind="AccountSupervisor" />
+                            <TextBlock Text="Số người: " />
+                            <TextBlock Text="{Binding SelectedTrip.TRIP_MEMBER.Count}" />
+                        </StackPanel>
+                    </Border>
+                    <Border
+                        Height="40"
+                        Margin="10,0"
+                        BorderBrush="#FFECEFF1"
+                        BorderThickness="1"
+                        CornerRadius="20">
+                        <StackPanel
+                            Margin="10,0"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <md:PackIcon
+                                Margin="0,0,5,0"
+                                Foreground="{DynamicResource PrimaryHueMidBrush}"
+                                Kind="Cash" />
+                            <TextBlock Text="Trung bình: " />
+                            <TextBlock
+                                x:Name="averageMoney"
+                                Text="{Binding Path=SelectedTrip, Converter={StaticResource TripCostToAvarageMoneyConverter}, StringFormat=N2}"
+                                Visibility="Collapsed" />
+                            <TextBlock Text="{Binding Path=SelectedTrip, Converter={StaticResource TripCostsToMoneyEachPersonConverter}}" />
+                        </StackPanel>
+                    </Border>
+                    <Border
+                        Height="40"
+                        Margin="10,0"
+                        BorderBrush="#FFECEFF1"
+                        BorderThickness="1"
+                        CornerRadius="20">
+                        <StackPanel
+                            Margin="10,0"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <md:PackIcon
+                                Margin="0,0,5,0"
+                                Foreground="{DynamicResource PrimaryHueMidBrush}"
+                                Kind="CurrencyUsd" />
+                            <TextBlock Text="Đã thu: " />
+                            <TextBlock Text="{Binding SelectedTrip.CURRENTPROCEEDS, Converter={StaticResource doubleToVNDConverter}}" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
             </StackPanel>
-        </StackPanel>
 
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*" />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
+            <Grid
+                Grid.Row="2"
+                Margin="0,10"
+                HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="450" />
+                </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <TextBlock
-                    Grid.Row="0"
-                    Margin="0,20"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Foreground="#FF4A148C"
-                    Style="{StaticResource MaterialDesignHeadline5TextBlock}"
-                    Text="Danh sách thành viên" />
-                <ListView
-                    Grid.Row="1"
-                    Width="450"
-                    ItemsSource="{Binding SelectedTrip.TRIP_MEMBER}"
-                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                    ScrollViewer.VerticalScrollBarVisibility="Hidden">
-                    <ListView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel />
-                        </ItemsPanelTemplate>
-                    </ListView.ItemsPanel>
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <md:Card
-                                Width="450"
-                                Height="70"
-                                Padding="5"
-                                md:ShadowAssist.ShadowDepth="Depth0"
-                                Background="#FFF5F5F5">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="1.9*" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0" VerticalAlignment="Top">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <GroupBox
+                        Grid.Row="1"
+                        Margin="16"
+                        VerticalAlignment="Top"
+                        Header="Danh sách thành viên"
+                        Style="{DynamicResource MaterialDesignCardGroupBox}">
+                        <GroupBox.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <md:PackIcon
+                                        Width="32"
+                                        Height="32"
+                                        VerticalAlignment="Center"
+                                        Kind="AccountGroup" />
+                                    <TextBlock
+                                        Margin="8,0,0,0"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                        Text="{Binding}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </GroupBox.HeaderTemplate>
+                        <ListView
+                            x:Name="memberListView"
+                            Width="450"
+                            ItemsSource="{Binding SelectedTrip.TRIP_MEMBER}"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseLeftButtonUp">
+                                    <i:InvokeCommandAction Command="{Binding EditMemberCommand}" CommandParameter="{Binding ElementName=memberListView, Path=SelectedItem}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel />
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <md:Card
+                                        Width="450"
+                                        Height="70"
+                                        Padding="5"
+                                        md:ShadowAssist.ShadowDepth="Depth0"
+                                        Background="#FFF5F5F5">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="1.8*" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
 
-                                    <Border
-                                        Grid.Column="0"
-                                        Width="60"
-                                        Height="60"
-                                        BorderThickness="0"
-                                        CornerRadius="90">
-                                        <Border.Background>
-                                            <ImageBrush ImageSource="{Binding MEMBER.AVATAR, Converter={StaticResource imageConverter}}" Stretch="UniformToFill" />
-                                        </Border.Background>
-                                    </Border>
-                                    <StackPanel
-                                        Grid.Column="1"
-                                        Margin="15,0"
-                                        VerticalAlignment="Center">
-                                        <TextBlock
-                                            Grid.Row="0"
-                                            Margin="0,5"
-                                            FontSize="16"
-                                            Text="{Binding MEMBER.NAME}"
-                                            TextTrimming="CharacterEllipsis" />
-                                        <TextBlock
-                                            Grid.Row="1"
-                                            Foreground="#FF757575"
-                                            Text="{Binding MEMBER.PHONENUMBER}" />
-                                    </StackPanel>
-                                    <StackPanel
-                                        Grid.Column="2"
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Center">
-                                        <StackPanel Margin="0,5" Orientation="Horizontal">
-                                            <md:PackIcon Margin="0,0,5,0" Kind="Cash100" />
-                                            <TextBlock Foreground="#0a0521" Text="{Binding AMOUNTPAID, Converter={StaticResource doubleToVNDConverter}}" />
-                                        </StackPanel>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock>
-                                                <TextBlock.Text>
-                                                    <MultiBinding Converter="{StaticResource AmountPaidToMemberStatusConverter}">
-                                                        <Binding ElementName="averageMoney" Path="Text" />
-                                                        <Binding Path="AMOUNTPAID" />
-                                                    </MultiBinding>
-                                                </TextBlock.Text>
-                                                <TextBlock.Foreground>
+                                            <Border
+                                                Grid.Column="0"
+                                                Width="60"
+                                                Height="60"
+                                                BorderThickness="0"
+                                                CornerRadius="90">
+                                                <Border.Background>
+                                                    <ImageBrush ImageSource="{Binding MEMBER.AVATAR, Converter={StaticResource imageConverter}}" Stretch="UniformToFill" />
+                                                </Border.Background>
+                                            </Border>
+                                            <StackPanel
+                                                Grid.Column="1"
+                                                Margin="15,0"
+                                                VerticalAlignment="Center">
+                                                <TextBlock
+                                                    Grid.Row="0"
+                                                    Margin="0,5"
+                                                    FontSize="16"
+                                                    Text="{Binding MEMBER.NAME}"
+                                                    TextTrimming="CharacterEllipsis" />
+                                                <TextBlock
+                                                    Grid.Row="1"
+                                                    Foreground="#FF757575"
+                                                    Text="{Binding MEMBER.PHONENUMBER}" />
+                                            </StackPanel>
+                                            <StackPanel
+                                                Grid.Column="2"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center">
+                                                <StackPanel Margin="0,5" Orientation="Horizontal">
+                                                    <md:PackIcon Margin="0,0,5,0" Kind="Cash100" />
+                                                    <TextBlock Foreground="#0a0521" Text="{Binding AMOUNTPAID, Converter={StaticResource doubleToVNDConverter}}" />
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock>
+                                                        <TextBlock.Text>
+                                                            <MultiBinding Converter="{StaticResource AmountPaidToMemberStatusConverter}">
+                                                                <Binding ElementName="averageMoney" Path="Text" />
+                                                                <Binding Path="AMOUNTPAID" />
+                                                            </MultiBinding>
+                                                        </TextBlock.Text>
+                                                        <TextBlock.Foreground>
+                                                            <MultiBinding Converter="{StaticResource AmountPaidStatusToColorConverter}">
+                                                                <Binding ElementName="averageMoney" Path="Text" />
+                                                                <Binding Path="AMOUNTPAID" />
+                                                            </MultiBinding>
+                                                        </TextBlock.Foreground>
+                                                    </TextBlock>
+                                                </StackPanel>
+                                            </StackPanel>
+                                            <md:PackIcon
+                                                Grid.Column="3"
+                                                Margin="15,0,20,0"
+                                                VerticalAlignment="Center">
+                                                <md:PackIcon.Foreground>
                                                     <MultiBinding Converter="{StaticResource AmountPaidStatusToColorConverter}">
                                                         <Binding ElementName="averageMoney" Path="Text" />
                                                         <Binding Path="AMOUNTPAID" />
                                                     </MultiBinding>
-                                                </TextBlock.Foreground>
-                                            </TextBlock>
-                                        </StackPanel>
-                                    </StackPanel>
-                                    <md:PackIcon
-                                        Grid.Column="3"
-                                        Margin="15,0,20,0"
-                                        VerticalAlignment="Center">
-                                        <md:PackIcon.Foreground>
-                                            <MultiBinding Converter="{StaticResource AmountPaidStatusToColorConverter}">
-                                                <Binding ElementName="averageMoney" Path="Text" />
-                                                <Binding Path="AMOUNTPAID" />
-                                            </MultiBinding>
-                                        </md:PackIcon.Foreground>
-                                        <md:PackIcon.Kind>
-                                            <MultiBinding Converter="{StaticResource AmountPaidStatusToIconConverter}">
-                                                <Binding ElementName="averageMoney" Path="Text" />
-                                                <Binding Path="AMOUNTPAID" />
-                                            </MultiBinding>
-                                        </md:PackIcon.Kind>
-                                    </md:PackIcon>
-                                </Grid>
-                            </md:Card>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </Grid>
-
-            <Grid
-                Grid.Column="1"
-                Margin="50,0,0,0"
-                HorizontalAlignment="Center">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="3*" />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-
-                <local:CurrentProceedsPieChartControl Grid.Row="0" DataContext="{Binding CurrentProceedsPieChartViewModel}" />
-                <StackPanel
-                    Grid.Row="1"
-                    HorizontalAlignment="Center"
-                    Orientation="Horizontal">
-                    <Button
-                        Margin="16"
-                        VerticalAlignment="Center"
-                        Command="{x:Static md:Transitioner.MovePreviousCommand}"
-                        Content="{md:PackIcon Kind=StepBackward}"
-                        Style="{DynamicResource MaterialDesignFloatingActionMiniButton}"
-                        ToolTip="Back to home screen" />
-
-                </StackPanel>
+                                                </md:PackIcon.Foreground>
+                                                <md:PackIcon.Kind>
+                                                    <MultiBinding Converter="{StaticResource AmountPaidStatusToIconConverter}">
+                                                        <Binding ElementName="averageMoney" Path="Text" />
+                                                        <Binding Path="AMOUNTPAID" />
+                                                    </MultiBinding>
+                                                </md:PackIcon.Kind>
+                                            </md:PackIcon>
+                                            <Expander md:ExpanderAssist.VerticalHeaderPadding="0,35,0,5" ExpandDirection="Right">
+                                                <Expander.Header>
+                                                    <TextBlock RenderTransformOrigin=".5,.5" Text="Action">
+                                                        <TextBlock.LayoutTransform>
+                                                            <RotateTransform Angle="90" />
+                                                        </TextBlock.LayoutTransform>
+                                                    </TextBlock>
+                                                </Expander.Header>
+                                                <StackPanel Margin="8,24,16,24" Orientation="Horizontal">
+                                                    <Button
+                                                        Command="{Binding EditMemberCommand}"
+                                                        CommandParameter="{Binding ElementName=memberListView, Path=SelectedItem}"
+                                                        Content="{md:PackIcon Kind=Edit}"
+                                                        ToolTip="Edit" />
+                                                    <Button
+                                                        Command="{Binding DeleteMemberCommand}"
+                                                        Content="{md:PackIcon Kind=Delete}"
+                                                        ToolTip="Delete" />
+                                                </StackPanel>
+                                            </Expander>
+                                        </Grid>
+                                    </md:Card>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </GroupBox>
+                </Grid>
+                <local:CurrentProceedsPieChartControl
+                    Grid.Column="1"
+                    Height="465"
+                    Margin="30,0,0,0"
+                    VerticalAlignment="Top"
+                    DataContext="{Binding CurrentProceedsPieChartViewModel}" />
             </Grid>
         </Grid>
+        <Button
+            Margin="30,0"
+            HorizontalAlignment="Left"
+            Command="{x:Static md:Transitioner.MovePreviousCommand}"
+            Content="{md:PackIcon Kind=ChevronLeft,
+                                  Size=26}"
+            Style="{StaticResource MaterialDesignIconButton}"
+            ToolTip="Previous" />
+        <md:PopupBox
+            Margin="32"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}">
+            <StackPanel>
+                <Button
+                    Background="{DynamicResource SecondaryHueMidBrush}"
+                    Command="{Binding RunAddNewMemberCommand}"
+                    Content="{md:PackIcon Kind=AccountPlus,
+                                          Size=20}"
+                    Foreground="{DynamicResource SecondaryHueMidForegroundBrush}"
+                    ToolTip="Thêm thành viên" />
+            </StackPanel>
+        </md:PopupBox>
     </Grid>
-
 </UserControl>

@@ -19,10 +19,10 @@ namespace WeSplitApp.ViewModel.DialogHelperClass
         public string type { get; set; }
 
         private ICommand _yesCommand { get; set; }
-        public ICommand YesCommand => this._yesCommand ?? (this._yesCommand = new CommandHandler(() => YesCommandAction(), () => CanExecute));
+        public ICommand YesCommand => this._yesCommand ?? (this._yesCommand = new CommandHandler((param) => YesCommandAction(), () => CanExecute));
 
         private ICommand _noCommand { get; set; }
-        public ICommand NoCommand => this._noCommand ?? (this._noCommand = new CommandHandler(() => NoCommandAction(), () => CanExecute));
+        public ICommand NoCommand => this._noCommand ?? (this._noCommand = new CommandHandler((param) => NoCommandAction(), () => CanExecute));
 
         public virtual void NoCommandAction()
         {

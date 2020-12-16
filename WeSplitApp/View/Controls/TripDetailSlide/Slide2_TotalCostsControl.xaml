@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:conv="clr-namespace:WeSplitApp.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:WeSplitApp.View.Controls"
+    xmlns:local="clr-namespace:WeSplitApp.View.Controls.TripDetailSlide"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
     d:DesignHeight="900"
@@ -43,61 +43,66 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid HorizontalAlignment="Center">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="900" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-
-        <Button
-            Grid.Column="0"
-            Margin="30,0"
-            Command="{x:Static md:Transitioner.MovePreviousCommand}"
-            Content="{md:PackIcon Kind=ChevronLeft,
-                                  Size=26}"
-            Style="{StaticResource MaterialDesignIconButton}"
-            ToolTip="Previous" />
-        <Button
-            Grid.Column="2"
-            Margin="30,0"
-            Command="{x:Static md:Transitioner.MoveNextCommand}"
-            Content="{md:PackIcon Kind=ChevronRight,
-                                  Size=26}"
-            Style="{StaticResource MaterialDesignIconButton}"
-            ToolTip="Next" />
-        <Grid Grid.Column="1">
+    <Grid>
+        <Grid Margin="130,0">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="3.5*" />
             </Grid.RowDefinitions>
 
-            <StackPanel
-                Grid.Row="0"
-                Margin="0,20"
-                VerticalAlignment="Center">
-                <Grid Margin="0,10">
-                    <Button
-                        Margin="5,0,0,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        Command="{Binding BackToHomeScreenCommand}"
-                        Content="{md:PackIcon Kind=Home,
-                                              Size=30}"
-                        Foreground="#FFF44336"
-                        Style="{StaticResource MaterialDesignIconButton}" />
+            <DockPanel Grid.Row="0" HorizontalAlignment="Stretch">
+                <TextBlock
+                    DockPanel.Dock="Right"
+                    Foreground="{Binding SelectedTrip.ISDONE, Converter={StaticResource statusColorConverter}}"
+                    Text="{Binding SelectedTrip.ISDONE, Converter={StaticResource statusToStringConverter}}" />
+                <Grid HorizontalAlignment="Left">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
                     <TextBlock
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
+                        Grid.Column="0"
                         FontWeight="Bold"
-                        Style="{StaticResource MaterialDesignHeadline3TextBlock}"
-                        Text="Về các khoản chi"
-                        TextAlignment="Center" />
+                        Text="{Binding SelectedTrip.ISDONE, Converter={StaticResource statusToDetailTitleConverter}}" />
+                    <md:PackIcon Grid.Column="1" Kind="ChevronRight" />
+                    <TextBlock
+                        Grid.Column="2"
+                        Foreground="#8e9294"
+                        Text="{Binding SelectedTrip.TITTLE}" />
                 </Grid>
-                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            </DockPanel>
+            <StackPanel
+                Grid.Row="1"
+                Margin="0,10"
+                HorizontalAlignment="Center">
+                <Grid Margin="0,10" HorizontalAlignment="Center">
+                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            FontWeight="Bold"
+                            Style="{StaticResource MaterialDesignHeadline3TextBlock}"
+                            Text="Về các khoản chi"
+                            TextAlignment="Center" />
+                        <Button
+                            Margin="10,0,0,0"
+                            Command="{Binding BackToHomeScreenCommand}"
+                            Foreground="#3f8300"
+                            Style="{StaticResource MaterialDesignIconButton}"
+                            ToolTip="Back to home screen">
+                            <md:PackIcon Kind="Home">
+                                <md:PackIcon.LayoutTransform>
+                                    <ScaleTransform CenterX="0.5" CenterY="0.5" ScaleX="2" ScaleY="2" />
+                                </md:PackIcon.LayoutTransform>
+                            </md:PackIcon>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+                <StackPanel Margin="0,10" Orientation="Horizontal">
                     <Border
                         Height="40"
-                        Margin="10,0"
                         BorderBrush="#FFECEFF1"
                         BorderThickness="1"
                         CornerRadius="20">
@@ -171,188 +176,214 @@
                 </StackPanel>
             </StackPanel>
 
-            <Grid Grid.Row="1" VerticalAlignment="Center">
+            <Grid
+                Grid.Row="2"
+                Margin="0,10"
+                HorizontalAlignment="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="450" />
                 </Grid.ColumnDefinitions>
 
-                <Grid Grid.Column="0" Margin="0,0,50,0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="3*" />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-
-                    <local:TotalCostsPieChartControl
-                        Grid.Column="0"
-                        Margin="30,0"
-                        DataContext="{Binding TotalCostsPieChartViewModel}" />
-
-                    <!--<StackPanel
-                        Grid.Row="1"
-                        HorizontalAlignment="Center"
-                        Orientation="Horizontal">
-                        <Button
-                            Margin="16"
-                            VerticalAlignment="Center"
-                            Command="{x:Static md:Transitioner.MovePreviousCommand}"
-                            Content="{md:PackIcon Kind=StepBackward}"
-                            Style="{DynamicResource MaterialDesignFloatingActionMiniButton}"
-                            ToolTip="Back to home screen" />
-                        <Button
-                            Margin="16"
-                            Command="{x:Static md:Transitioner.MoveNextCommand}"
-                            Content="{md:PackIcon Kind=StepForward}"
-                            Style="{DynamicResource MaterialDesignFloatingActionAccentButton}"
-                            ToolTip="Move to next screen" />
-                    </StackPanel>-->
-                </Grid>
-                <Grid Grid.Column="1" VerticalAlignment="Center">
+                <Grid Grid.Column="0" VerticalAlignment="Top">
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition />
                     </Grid.RowDefinitions>
 
-                    <ListView
+                    <GroupBox
                         Grid.Row="0"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        ItemsSource="{Binding SelectedTrip.TRIP_LOCATION}"
-                        ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                        ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                        <ListView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel />
-                            </ItemsPanelTemplate>
-                        </ListView.ItemsPanel>
-                        <ListView.ItemTemplate>
+                        Height="200"
+                        Margin="0,16,16,16"
+                        Header="Chi phí tại từng địa điểm"
+                        Style="{DynamicResource MaterialDesignCardGroupBox}">
+                        <GroupBox.HeaderTemplate>
                             <DataTemplate>
-                                <md:Card
-                                    Width="200"
-                                    Height="240"
-                                    md:ShadowAssist.ShadowDepth="Depth0"
-                                    Background="White"
-                                    UniformCornerRadius="25">
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition />
-                                            <RowDefinition />
-                                        </Grid.RowDefinitions>
-
-                                        <Image
-                                            Grid.Row="0"
-                                            Source="/Resources/Images/map.jpg"
-                                            Stretch="UniformToFill" />
-                                        <Viewbox
-                                            Grid.Row="1"
-                                            Margin="10,10,10,0"
-                                            Stretch="Uniform"
-                                            StretchDirection="DownOnly">
-                                            <TextBlock
-                                                Width="160"
-                                                FontWeight="Bold"
-                                                Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
-                                                Text="{Binding LOCATION.NAME}"
-                                                TextAlignment="Justify"
-                                                TextWrapping="WrapWithOverflow" />
-                                        </Viewbox>
+                                <StackPanel Orientation="Horizontal">
+                                    <md:PackIcon
+                                        Width="32"
+                                        Height="32"
+                                        VerticalAlignment="Center"
+                                        Kind="MapMarker" />
+                                    <TextBlock
+                                        Margin="8,0,0,0"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                        Text="{Binding}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </GroupBox.HeaderTemplate>
+                        <ListView
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            ItemsSource="{Binding SelectedTrip.TRIP_LOCATION}"
+                            ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                            ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel />
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <md:Card
+                                        Width="200"
+                                        Height="100"
+                                        md:ShadowAssist.ShadowDepth="Depth0"
+                                        Background="LightGray">
                                         <Border
-                                            Grid.Row="2"
-                                            Height="25"
-                                            Margin="20,0,10,10"
-                                            HorizontalAlignment="Left"
-                                            VerticalAlignment="Center"
-                                            Background="#FFF1D4DE"
-                                            BorderThickness="0"
-                                            CornerRadius="15">
-                                            <StackPanel
-                                                Margin="10,0"
-                                                VerticalAlignment="Center"
-                                                Orientation="Horizontal">
-                                                <md:PackIcon
-                                                    Margin="0,0,5,0"
-                                                    Foreground="#FFFF1744"
-                                                    Kind="CashUsd" />
-                                                <TextBlock Foreground="#FFFF1744" Text="{Binding COSTS, Converter={StaticResource doubleToVNDConverter}}" />
+                                            Background="White"
+                                            BorderBrush="LightGray"
+                                            BorderThickness="1"
+                                            CornerRadius="25">
+                                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <StackPanel
+                                                    Margin="10,10,10,0"
+                                                    HorizontalAlignment="Center"
+                                                    Orientation="Horizontal">
+                                                    <md:PackIcon
+                                                        Margin="0,0,5,0"
+                                                        VerticalAlignment="Center"
+                                                        Kind="CurrencyUsd" />
+                                                    <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="{Binding COSTS, Converter={StaticResource doubleToVNDConverter}}" />
+                                                </StackPanel>
+                                                <Viewbox
+                                                    Margin="10"
+                                                    HorizontalAlignment="Center"
+                                                    Stretch="Uniform"
+                                                    StretchDirection="DownOnly">
+                                                    <TextBlock
+                                                        Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                                        Text="{Binding LOCATION.NAME}"
+                                                        TextAlignment="Justify"
+                                                        TextWrapping="WrapWithOverflow" />
+                                                </Viewbox>
                                             </StackPanel>
                                         </Border>
-                                    </Grid>
-                                </md:Card>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                    <ListView
+                                    </md:Card>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </GroupBox>
+
+                    <GroupBox
                         Grid.Row="1"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        ItemsSource="{Binding SelectedTrip.TRIP_COSTINCURRED}"
-                        ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                        ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                        <ListView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel />
-                            </ItemsPanelTemplate>
-                        </ListView.ItemsPanel>
-                        <ListView.ItemTemplate>
+                        Height="200"
+                        Margin="0,16,16,16"
+                        Header="Các chi phí khác"
+                        Style="{DynamicResource MaterialDesignCardGroupBox}">
+                        <GroupBox.HeaderTemplate>
                             <DataTemplate>
-                                <md:Card
-                                    Width="200"
-                                    Height="240"
-                                    md:ShadowAssist.ShadowDepth="Depth0"
-                                    Background="White"
-                                    UniformCornerRadius="25">
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition />
-                                            <RowDefinition />
-                                        </Grid.RowDefinitions>
-
-                                        <Image
-                                            Grid.Row="0"
-                                            Source="/Resources/Images/map.jpg"
-                                            Stretch="UniformToFill" />
-                                        <Viewbox
-                                            Grid.Row="1"
-                                            Margin="10,10,10,0"
-                                            Stretch="Uniform"
-                                            StretchDirection="DownOnly">
-                                            <TextBlock
-                                                Width="160"
-                                                FontWeight="Bold"
-                                                Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
-                                                Text="{Binding COSTINCURRED.NAME}"
-                                                TextAlignment="Justify"
-                                                TextWrapping="WrapWithOverflow" />
-                                        </Viewbox>
+                                <StackPanel Orientation="Horizontal">
+                                    <md:PackIcon
+                                        Width="32"
+                                        Height="32"
+                                        VerticalAlignment="Center"
+                                        Kind="Shopping" />
+                                    <TextBlock
+                                        Margin="8,0,0,0"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                        Text="{Binding}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </GroupBox.HeaderTemplate>
+                        <ListView
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            ItemsSource="{Binding SelectedTrip.TRIP_COSTINCURRED}"
+                            ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                            ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel />
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <md:Card
+                                        Width="200"
+                                        Height="100"
+                                        md:ShadowAssist.ShadowDepth="Depth0"
+                                        Background="LightGray">
                                         <Border
-                                            Grid.Row="2"
-                                            Height="25"
-                                            Margin="20,0,10,10"
-                                            HorizontalAlignment="Left"
-                                            VerticalAlignment="Center"
-                                            Background="#FFF8F4F4"
-                                            BorderThickness="0"
-                                            CornerRadius="15">
-                                            <StackPanel
-                                                Margin="10,0"
-                                                VerticalAlignment="Center"
-                                                Orientation="Horizontal">
-                                                <md:PackIcon
-                                                    Margin="0,0,5,0"
-                                                    Foreground="#FFFF1744"
-                                                    Kind="CashUsd" />
-                                                <TextBlock Foreground="#FFFF1744" Text="{Binding COST, Converter={StaticResource doubleToVNDConverter}}" />
+                                            Background="White"
+                                            BorderBrush="LightGray"
+                                            BorderThickness="1"
+                                            CornerRadius="25">
+                                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <StackPanel
+                                                    Margin="10,10,10,0"
+                                                    HorizontalAlignment="Center"
+                                                    Orientation="Horizontal">
+                                                    <md:PackIcon
+                                                        Margin="0,0,5,0"
+                                                        VerticalAlignment="Center"
+                                                        Kind="CurrencyUsd" />
+                                                    <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="{Binding COST, Converter={StaticResource doubleToVNDConverter}}" />
+                                                </StackPanel>
+                                                <Viewbox
+                                                    Margin="10"
+                                                    Stretch="Uniform"
+                                                    StretchDirection="DownOnly">
+                                                    <TextBlock
+                                                        HorizontalAlignment="Center"
+                                                        Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                                        Text="{Binding COSTINCURRED.NAME}"
+                                                        TextAlignment="Justify"
+                                                        TextWrapping="WrapWithOverflow" />
+                                                </Viewbox>
                                             </StackPanel>
                                         </Border>
-                                    </Grid>
-                                </md:Card>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
+                                    </md:Card>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </GroupBox>
                 </Grid>
+                <local:TotalCostsPieChartControl
+                    Grid.Column="1"
+                    Height="465"
+                    Margin="30,0,0,0"
+                    VerticalAlignment="Top"
+                    DataContext="{Binding TotalCostsPieChartViewModel}" />
             </Grid>
         </Grid>
+        <Button
+            Margin="30,0"
+            HorizontalAlignment="Left"
+            Command="{x:Static md:Transitioner.MovePreviousCommand}"
+            Content="{md:PackIcon Kind=ChevronLeft,
+                                  Size=26}"
+            Style="{StaticResource MaterialDesignIconButton}"
+            ToolTip="Previous" />
+        <Button
+            Margin="30,0"
+            HorizontalAlignment="Right"
+            Command="{x:Static md:Transitioner.MoveNextCommand}"
+            Content="{md:PackIcon Kind=ChevronRight,
+                                  Size=26}"
+            Style="{StaticResource MaterialDesignIconButton}"
+            ToolTip="Next" />
+        <md:PopupBox
+            Margin="32"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}">
+            <StackPanel>
+                <Button
+                    Background="{DynamicResource PrimaryHueMidBrush}"
+                    Content="{md:PackIcon Kind=Shopping,
+                                          Size=20}"
+                    Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
+                    ToolTip="Thêm chi phí khác" />
+                <Button
+                    Background="{DynamicResource SecondaryHueMidBrush}"
+                    Content="{md:PackIcon Kind=MapMarker,
+                                          Size=20}"
+                    Foreground="{DynamicResource SecondaryHueMidForegroundBrush}"
+                    ToolTip="Thêm chi phí tại các địa điểm " />
+            </StackPanel>
+        </md:PopupBox>
     </Grid>
 </UserControl>
