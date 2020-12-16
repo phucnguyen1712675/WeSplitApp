@@ -36,59 +36,6 @@ namespace WeSplitApp.View.Controls
         {
             HomeScreen.GetHomeScreenInstance().SearchTextBox.Clear();
         }
-
-        private void orderChange(object sender, SelectionChangedEventArgs e)
-        {
-            if(sortListBox != null)
-            {
-                sortListBox.SelectedIndex = 0;
-                SettingsViewModel.Instance.getTripLoadSortMethod(0);
-            }
-        }
-
-        private void OnSelected1(object sender, RoutedEventArgs e)
-        {
-            SettingsViewModel.Instance.getTripLoadSortMethod(0);
-        }
-
-        private void OnSelected2(object sender, RoutedEventArgs e)
-        {
-            if (SortComboBox.SelectedIndex == 0)
-            {
-                SettingsViewModel.Instance.getTripLoadSortMethod(1);
-            }
-            else
-            {
-                SettingsViewModel.Instance.getTripLoadSortMethod(2);
-            }
-        }
-
-        private void OnSelected3(object sender, RoutedEventArgs e)
-        {
-            if (SortComboBox.SelectedIndex == 0)
-            {
-                SettingsViewModel.Instance.getTripLoadSortMethod(3);
-            }
-            else
-            {
-                SettingsViewModel.Instance.getTripLoadSortMethod(4);
-            }
-        }
-
-        private void OnSelected4(object sender, RoutedEventArgs e)
-        {
-
-            if (SortComboBox.SelectedIndex == 0)
-            {
-                SettingsViewModel.Instance.getTripLoadSortMethod(5);
-            }
-            else
-            {
-                SettingsViewModel.Instance.getTripLoadSortMethod(6);
-            }
-        }
-
-
     }
 }
  

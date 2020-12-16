@@ -27,15 +27,12 @@ namespace WeSplitApp.ViewModel
                 HomeScreen.GetHomeScreenInstance().SearchTextBox.Clear();
                 BeingTakenTripsListControl.GetInstance().SearchByComboBox.SelectedIndex = 0;
                 HaveTakenTripsListControl.GetInstance().SearchByComboBox.SelectedIndex = 0;
-
-
             }
         }
 
         public TripsCollectionViewModel()
         {
             this.SelectedIndex = 0;
-            // index = SelectedIndex;
             this.HaveTakenTripsListViewModel = HaveTakenTripsListViewModel.Instance;
             this.BeingTakenTripsListViewModel = BeingTakenTripsListViewModel.Instance;
         }
