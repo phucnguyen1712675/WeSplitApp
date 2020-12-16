@@ -37,7 +37,7 @@
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1.3*" />
-                <RowDefinition Height="0.9*" />
+                <RowDefinition Height="auto" />
                 <RowDefinition Height="8*" />
             </Grid.RowDefinitions>
             <Viewbox
@@ -56,60 +56,28 @@
                     TextWrapping="WrapWithOverflow" />
             </Viewbox>
 
-            <StackPanel Margin="130,0,0,0" Grid.Row="1">
-                <DockPanel >
-                    <Label x:Name="SapXepLabel" Grid.Column="0" Content="Sắp xếp theo"
-                       VerticalAlignment="Center"
-                       />
-                    <ComboBox x:Name="SortComboBox" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Stretch"
-                          Margin="0,0,0,0"
-                    md:HintAssist.Hint="Sort By"
-                    md:HintAssist.HintOpacity=".26"
-                    IsEditable="True"    
-                    SelectionChanged="orderChange"
-                          >
-                        <ComboBoxItem
-                      Content="Tăng dần" IsSelected="True"/>
-                        <ComboBoxItem
-                      Content="Giảm dần" />
-                    </ComboBox>
-                    <DockPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,130,0">
-                        <Label Content="Tìm kiếm theo" />
-                        <ComboBox x:Name="SearchByComboBox"
+            <StackPanel Margin="130,10,0,20" Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Top">
+                <Label Content="Tìm kiếm theo" Margin="0,0,30,0"/>
+                <ComboBox x:Name="SearchByComboBox"
                           md:HintAssist.Hint="Tên"
                           md:HintAssist.HintOpacity=".26"
                           IsEditable="True"
+                          Width="200"
+                          HorizontalContentAlignment="Center"
                           SelectionChanged="selectedChange" >
-                            <ComboBoxItem
-                            Content="Tên chuyến đi" IsSelected="True"/>
-                            <ComboBoxItem
+                    <ComboBoxItem
+                            Content="Tên chuyến đi"
+                            HorizontalAlignment="Center"
+                            IsSelected="True"/>
+                    <ComboBoxItem
+                            HorizontalAlignment="Center"
                             Content="Tên thành viên" />
-                            <ComboBoxItem
+                    <ComboBoxItem
+                            HorizontalAlignment="Center"
                             Content="Tên địa điểm" />
-                        </ComboBox>
-                    </DockPanel>
-                </DockPanel>
-                <ListBox
-                    x:Name="sortListBox"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Center"
-                    SelectionMode="Single"
-                Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineListBox}"
-                    >
-                    <ListBoxItem  Content="Mặc định" IsSelected="True" 
-                                 Selected="OnSelected1" 
-                        />
-                    <ListBoxItem Content="Tên chuyến di"
-                                 Selected="OnSelected2" 
-                                 />
-                    <ListBoxItem Content="Ngày đi" 
-                                 Selected="OnSelected3" 
-                                 />
-                    <ListBoxItem Content="Ngày về" 
-                                 Selected="OnSelected4" 
-                                 />
-                </ListBox>
+                </ComboBox>
             </StackPanel>
+
             <local:TripsListControl
                 Grid.Row="2"
                 HorizontalContentAlignment="Center"

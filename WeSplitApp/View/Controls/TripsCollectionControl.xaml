@@ -37,7 +37,7 @@
                         Duration="0:0:0.8" />
                 </md:TransitionerSlide.OpeningEffects>
 
-                <local:HaveTakenTripsListControl DataContext="{Binding HaveTakenTripsListViewModel}" />
+                <local:HaveTakenTripsListControl DataContext="{Binding HaveTakenTripsListViewModel}"/>
             </md:TransitionerSlide>
 
             <md:TransitionerSlide

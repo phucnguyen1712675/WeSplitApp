@@ -148,6 +148,7 @@
                     Style="{StaticResource MaterialDesignIconButton}"
                     ToolTip="Previous" />
 
+                <!---->
                 <ComboBox
                     Name="MemberListPagingComboBox"
                     Width="80"
