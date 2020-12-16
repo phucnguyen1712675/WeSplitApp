@@ -32,11 +32,6 @@ namespace WeSplitApp.View.Controls
             DataContext = BeingTakenTripsListViewModel.Instance;
             beingTakenTripList = this;
         }
-
-        private void selectedChange(object sender, SelectionChangedEventArgs e)
-        {
-            HomeScreen.GetHomeScreenInstance().SearchTextBox.Clear();
-        }
        
 
         private void orderChange(object sender, SelectionChangedEventArgs e)

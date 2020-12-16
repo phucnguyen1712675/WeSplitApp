@@ -194,7 +194,7 @@ namespace WeSplitApp.View
         }
         private void SearchEvent(object sender, TextChangedEventArgs e)
         {
-            string typeSearch = HaveTakenTripsListControl.GetInstance().SearchByComboBox.Text;
+            string typeSearch = HomeScreen.GetHomeScreenInstance().SearchByComboBox.Text;
             int option = 0;
             for (int i = 0; i < 3; i++)
             {
@@ -236,6 +236,12 @@ namespace WeSplitApp.View
         private void MaterialWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             SettingsViewModel.Instance.SaveAll();
+        }
+
+        private void resetSearchBox(object sender, SelectionChangedEventArgs e)
+        {
+            HomeScreen.GetHomeScreenInstance().SearchTextBox.Clear();
+
         }
     }
 }

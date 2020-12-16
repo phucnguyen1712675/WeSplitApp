@@ -127,7 +127,24 @@ namespace WeSplitApp.ViewModel
                     CalculatePagingInfo(Paging.RowsPerPage, MEMBERS.Count, SelectedIndex);
             }
         }
-
+        private ObservableCollection<MEMBER> _searchMEMBERS;
+        public ObservableCollection<MEMBER> searchMEMBERS
+        {
+            get => this._searchMEMBERS;
+            set
+            {
+                this._searchMEMBERS = value;
+            }
+        }
+        public void DisplayObjects_Search()
+        {
+            var page = this.SelectedIndex + 1;
+            var skip = (page - 1) * this.Paging.RowsPerPage;
+            var take = this.Paging.RowsPerPage;
+            //TODO test Paging.Pages
+            var temp = Paging.TotalPages;
+            this.ToShowItems = new ObservableCollection<MEMBER>(this.searchMEMBERS.Skip(skip).Take(take));
+        }
         public void searchMember_ByName()
         {
             string request = HomeScreen.GetHomeScreenInstance().SearchTextBox.Text;
@@ -135,21 +152,21 @@ namespace WeSplitApp.ViewModel
             List<MEMBER> memberList;
             if (request.Length <= 0)
             {
-                memberList = (HomeScreen.GetDatabaseEntities().MEMBERS).ToList();
+                memberList = (instance.MEMBERS).ToList();
                 //this.ToShowItems = new ObservableCollection<TRIP>(all);
             }
             else
             {
                 //search by TITLE
                 var requestText = convertUnicode.convertToUnSign(request.Trim().ToLower());
-                memberList = (HomeScreen.GetDatabaseEntities().MEMBERS.AsEnumerable().Where(mem => convertUnicode.convertToUnSign(mem.NAME.Trim().ToLower()).Contains(requestText))).ToList();
+                memberList = (instance.MEMBERS.AsEnumerable().Where(mem => convertUnicode.convertToUnSign(mem.NAME.Trim().ToLower()).Contains(requestText))).ToList();
 
                 //MessageBox.Show(b[0].TITTLE);
                 //this.ToShowItems = new ObservableCollection<TRIP>(tripList);
             }
-            instance.MEMBERS = new ObservableCollection<MEMBER>(memberList);
+            instance.searchMEMBERS = new ObservableCollection<MEMBER>(memberList);
             instance.CalculatePagingInfo(instance.Paging.RowsPerPage, instance.MEMBERS.Count);
-            instance.DisplayObjects();
+            instance.DisplayObjects_Search();
         }
     }
 }

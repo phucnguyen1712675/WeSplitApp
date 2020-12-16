@@ -32,11 +32,6 @@ namespace WeSplitApp.View.Controls
             haveTakenTripList = this;
         }
 
-        private void selectedChange(object sender, SelectionChangedEventArgs e)
-        {
-            HomeScreen.GetHomeScreenInstance().SearchTextBox.Clear();
-        }
-
         private void orderChange(object sender, SelectionChangedEventArgs e)
         {
             if(sortListBox != null)

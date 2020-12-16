@@ -107,6 +107,16 @@ namespace WeSplitApp.ViewModel
                     CalculatePagingInfo(Paging.RowsPerPage, LOCATIONS.Count, SelectedIndex);
             }
         }
+
+        public ObservableCollection<LOCATION> searchLOCATIONS { get; set; }
+        public void DisplayObjects_Search()
+        {
+            var page = this.SelectedIndex + 1;
+            var skip = (page - 1) * this.Paging.RowsPerPage;
+            var take = this.Paging.RowsPerPage;
+
+            this.ToShowItems = new ObservableCollection<LOCATION>(this.searchLOCATIONS.Skip(skip).Take(take));
+        }
         public void searchLocation_ByName()
         {
             string request = HomeScreen.GetHomeScreenInstance().SearchTextBox.Text;
@@ -114,21 +124,21 @@ namespace WeSplitApp.ViewModel
             List<LOCATION> locationList;
             if (request.Length <= 0)
             {
-                locationList = (HomeScreen.GetDatabaseEntities().LOCATIONS).ToList();
+                locationList = (instance.LOCATIONS).ToList();
                 //this.ToShowItems = new ObservableCollection<TRIP>(all);
             }
             else
             {
                 //search by TITLE
                 var requestText = convertUnicode.convertToUnSign(request.Trim().ToLower());
-                locationList = (HomeScreen.GetDatabaseEntities().LOCATIONS.AsEnumerable().Where(loca => convertUnicode.convertToUnSign(loca.NAME.Trim().ToLower()).Contains(requestText))).ToList();
+                locationList = (instance.LOCATIONS.AsEnumerable().Where(loca => convertUnicode.convertToUnSign(loca.NAME.Trim().ToLower()).Contains(requestText))).ToList();
 
                 //MessageBox.Show(b[0].TITTLE);
                 //this.ToShowItems = new ObservableCollection<TRIP>(tripList);
             }
-            instance.LOCATIONS = new ObservableCollection<LOCATION>(locationList);
+            instance.searchLOCATIONS = new ObservableCollection<LOCATION>(locationList);
             instance.CalculatePagingInfo(instance.Paging.RowsPerPage, instance.LOCATIONS.Count);
-            instance.DisplayObjects();
+            instance.DisplayObjects_Search();
         }
     }
 }
