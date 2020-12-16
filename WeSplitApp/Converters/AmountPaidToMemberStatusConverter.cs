@@ -23,7 +23,7 @@ namespace WeSplitApp.Converters
             var missingAmount = averageMoney - amountPaid;
 
             string status;
-            if (Math.Abs(missingAmount) >= precise)
+            if (Math.Abs(missingAmount) >= precise && missingAmount >= 0.0)
             {
                 object missingAmountConvertedValue = Converter1.Convert(missingAmount, targetType, parameter, culture);
                 status = $"Thiếu: {missingAmountConvertedValue}";

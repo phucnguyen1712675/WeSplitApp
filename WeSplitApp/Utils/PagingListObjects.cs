@@ -26,9 +26,9 @@ namespace WeSplitApp.Utils
         }
 
         protected ICommand _previousCommand { get; set; }
-        public ICommand PreviousCommand => this._previousCommand ?? (this._previousCommand = new CommandHandler(() => MyPreviousAction(), () => CanExecute));
+        public ICommand PreviousCommand => this._previousCommand ?? (this._previousCommand = new CommandHandler((param) => MyPreviousAction(), () => CanExecute));
         protected ICommand _nextCommand { get; set; }
-        public ICommand NextCommand => this._nextCommand ?? (this._nextCommand = new CommandHandler(() => MyNextAction(), () => CanExecute));
+        public ICommand NextCommand => this._nextCommand ?? (this._nextCommand = new CommandHandler((param) => MyNextAction(), () => CanExecute));
         public PagingListObjects()
         {
             this.Paging = new Paging();

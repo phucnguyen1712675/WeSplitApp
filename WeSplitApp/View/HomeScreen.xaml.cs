@@ -12,6 +12,8 @@ using WeSplitApp.View.DialogHelper;
 using WeSplitApp.ViewModel;
 using WeSplitApp.ViewModel.DialogHelperClass;
 using WeSplitApp.View.Controls;
+using WeSplitApp.View.Controls.TripDetailSlide;
+
 namespace WeSplitApp.View
 {
     /// <summary>

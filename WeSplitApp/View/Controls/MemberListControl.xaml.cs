@@ -27,7 +27,10 @@ namespace WeSplitApp.View.Controls
 
         public static void updateMemberList()
         {
-            instance.MemberList.Items.Refresh();
+            if (instance != null)
+            {
+                instance.MemberList.Items.Refresh();
+            }
         }
     }
 }

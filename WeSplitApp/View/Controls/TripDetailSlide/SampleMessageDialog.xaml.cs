@@ -12,16 +12,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WeSplitApp.ViewModel;
 
-namespace WeSplitApp.View.Controls
+namespace WeSplitApp.View.Controls.TripDetailSlide
 {
     /// <summary>
-    /// Interaction logic for CurrentProceedsPieChartControl.xaml
+    /// Interaction logic for SampleMessageDialog.xaml
     /// </summary>
-    public partial class CurrentProceedsPieChartControl : UserControl
+    public partial class SampleMessageDialog : UserControl
     {
-        public CurrentProceedsPieChartControl()
+        public SampleMessageDialog()
         {
             InitializeComponent();
         }

@@ -275,7 +275,7 @@
     <Compile Include="ViewModel\LocationListViewModel.cs" />
     <Compile Include="ViewModel\MemberListViewModel.cs" />
     <Compile Include="ViewModel\BeingTakenTripsListViewModel.cs" />
-    <Compile Include="ViewModel\CurrentProceedsPieChartViewModel.cs" />
+    <Compile Include="ViewModel\TripDetailSlideVM\CurrentProceedsPieChartViewModel.cs" />
     <Compile Include="ViewModel\HomeScreenViewModel.cs" />
     <Compile Include="ViewModel\TripDetailSlideVM\FileSystemControlViewModel.cs" />
     <Compile Include="ViewModel\TripDetailSlideVM\FileSystemDialogViewModel.cs" />
@@ -287,7 +287,8 @@
     <Compile Include="ViewModel\StepperBaseViewModel.cs" />
     <Compile Include="ViewModel\StepThreeViewModel.cs" />
     <Compile Include="ViewModel\StepTwoViewModel.cs" />
-    <Compile Include="ViewModel\TotalCostsPieChartViewModel.cs" />
+    <Compile Include="ViewModel\TripDetailSlideVM\SampleMessageDialogViewModel.cs" />
+    <Compile Include="ViewModel\TripDetailSlideVM\TotalCostsPieChartViewModel.cs" />
     <Compile Include="ViewModel\TripDetailSlideVM\CalenderPickerViewModel.cs" />
     <Compile Include="ViewModel\TripDetailSlideVM\Slide1_IntroViewModel.cs" />
     <Compile Include="ViewModel\TripDetailSlideVM\Slide2_ProceedsViewModel.cs" />
@@ -322,7 +323,7 @@
     <Compile Include="View\Controls\LocationListControl.xaml.cs">
       <DependentUpon>LocationListControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Controls\CurrentProceedsPieChartControl.xaml.cs">
+    <Compile Include="View\Controls\TripDetailSlide\CurrentProceedsPieChartControl.xaml.cs">
       <DependentUpon>CurrentProceedsPieChartControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Controls\HaveTakenTripsListControl.xaml.cs">
@@ -334,7 +335,10 @@
     <Compile Include="View\Controls\SettingsControl.xaml.cs">
       <DependentUpon>SettingsControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Controls\TotalCostsPieChartControl.xaml.cs">
+    <Compile Include="View\Controls\TripDetailSlide\SampleMessageDialog.xaml.cs">
+      <DependentUpon>SampleMessageDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\TripDetailSlide\TotalCostsPieChartControl.xaml.cs">
       <DependentUpon>TotalCostsPieChartControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Controls\TripDetailsControl.xaml.cs">
@@ -492,7 +496,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Controls\CurrentProceedsPieChartControl.xaml">
+    <Page Include="View\Controls\TripDetailSlide\CurrentProceedsPieChartControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -508,7 +512,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Controls\TotalCostsPieChartControl.xaml">
+    <Page Include="View\Controls\TripDetailSlide\SampleMessageDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\TripDetailSlide\TotalCostsPieChartControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

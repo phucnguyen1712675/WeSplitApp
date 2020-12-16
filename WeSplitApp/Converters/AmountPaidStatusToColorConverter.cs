@@ -22,7 +22,7 @@ namespace WeSplitApp.Converters
             var amountPaid = (double)values[1];
             var missingAmount = averageMoney - amountPaid;
 
-            var statusColor = Math.Abs(missingAmount) >= precise ? new SolidColorBrush(Color.FromArgb(0xFF, 0xC6, 0x28, 0x28)) : new SolidColorBrush(Color.FromArgb(0xFF, 0x2E, 0x7D, 0x32));
+            var statusColor = Math.Abs(missingAmount) >= precise && missingAmount >= 0.0 ? new SolidColorBrush(Color.FromArgb(0xFF, 0xC6, 0x28, 0x28)) : new SolidColorBrush(Color.FromArgb(0xFF, 0x2E, 0x7D, 0x32));
 
             return statusColor;
         }
