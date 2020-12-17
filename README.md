@@ -17,22 +17,22 @@
     - Mỗi lần hiện thị ngẫu nhiên một thông tin thú vị về một địa điểm du lịch
     - Cho phép chọn check “Không hiện hộp thoại này mỗi khi khởi động”. Từ nay về sau đi thẳng vào màn hình HomeScreen luôn
  - HomeScreen (100% = 4đ)
-    - Liệt kê danh sách các chuyến đi, phân ra theo đã đi và dự định/sắp tới đi
+    - Liệt kê danh sách các chuyến đi, phân chia theo đã đi và dự định/sắp đi.
     - Xem chi tiết các chuyến đi: 
         - Thông tin chuyến đi, xem các ảnh của chuyến đi dạng carousel
         - Danh sách thành viên, thông tin tiền thu kèm biểu đồ phần trăm. Ngoài ra còn cho biết thành viên nào ứng trước tiền cho thành viên nào, Thành viên nào còn chưa/đã trả đủ
         - Danh sách các địa điểm dừng, các chi phí khác, thông tin tiền chi ra từng địa điểm kèm biểu đồ
- - SearchScreen (100% = 2đ ) : Tìm kiếm theo tên địa điểm, theo tên thành viên
+ - SearchScreen (100% = 2đ ) : Tìm kiếm chuyến đi theo tên chuyến đi, theo tên thành viên tham gia.
 - CreateJourneyScreen (100% = 1đ) : Cho phép trưởng nhóm tạo mới một chuyến đi với các thông tin sau
     - Tên chuyến đi, thông tin chuyến đi
     - Thêm các thành viên kèm tiền thu, có thêm thành viên nào ứng tiền cho thành viên nào
     - Thêm các điểm dừng kèm chi phí, ngoài ra còn có các chi phí khác
 - UpdateJourneyScreen (100% = 2.5đ) : Cập nhập thông tin chuyến đi với các thông tin sau
     - Tên chuyến đi, thông tin chuyến đi
-    - danh sách thành viên kèm tiền thu
+    - Danh sách thành viên kèm tiền thu
     - Danh sách điểm dừng kèm chi phí, bao gồm các chi phí khác
 ### Các đặc điểm đặc sắc ( +2 đ)
- - Ngoài tìm kiếm theo tên chuyến đi, thành viên, thì còn có tìm kiếm theo tên điểm dừng
+ - Ngoài tìm kiếm theo tên chuyến đi, thành viên, thì còn có tìm kiếm theo tên điểm dừng có trong chuyến đi
  - Có MemberListScreen (màn hình danh sách thành viên)
     - Thêm/sửa cập nhật thông tin các thành viên
     - Tìm kiếm thành viên theo tên
@@ -50,8 +50,8 @@
  - Có học sử dụng package hỗ trợ thêm tạo giao diện
 
 ### Con đường bất hạnh 
-- check dữ liệu người dùng nhập vào
-- việc kết hợp logic Search/Sort/Phân trang với nhau
+- Check dữ liệu người dùng nhập vào
+- Ciệc kết hợp logic Search/Sort/Phân trang với nhau diễn tra tuần tự.
 ### Link youtube demo
 
 ### ghi chú quyền
