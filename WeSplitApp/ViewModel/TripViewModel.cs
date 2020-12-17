@@ -60,6 +60,10 @@ namespace WeSplitApp.ViewModel
             {
                 List<TRIP> resultSort = (List<TRIP>)MySort[method].DynamicInvoke();
                 ItemHandler = new TripItemHandler(resultSort);
+                if(Items != SearchResult.ToList())
+                {
+                    search_byTripName();
+                }
                 DisplayObjects();
             }
         }

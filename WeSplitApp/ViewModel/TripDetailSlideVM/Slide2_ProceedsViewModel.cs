@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using WeSplitApp.Utils;
 using WeSplitApp.View;
@@ -31,7 +32,11 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
         public ICommand BackToHomeScreenCommand => this._backToHomeScreenCommand ?? (this._backToHomeScreenCommand = new CommandHandler((param) => BackToHomeScreenAction(), () => CanExecute));
         private ICommand _editCommand { get; set; }
         public ICommand EditCommand => this._editCommand ?? (this._editCommand = new CommandHandler((param) => EditAction(), () => CanExecute));
-        private void BackToHomeScreenAction() => HomeScreen.SetNewContentControl(new TripsCollectionViewModel());
+        private void BackToHomeScreenAction()
+        {
+            HomeScreen.SetNewContentControl(new TripsCollectionViewModel());
+            HomeScreen.GetHomeScreenInstance().AddButton.Visibility = Visibility.Visible;
+        }
         private void EditAction()
         {
             this.IsEditing = !this.IsEditing;

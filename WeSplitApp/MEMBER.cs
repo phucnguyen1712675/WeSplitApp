@@ -18,6 +18,7 @@ namespace WeSplitApp
         public MEMBER()
         {
             this.TRIP_MEMBER = new ObservableCollection<TRIP_MEMBER>();
+            this.TRIP_MEMBER1 = new ObservableCollection<TRIP_MEMBER>();
         }
     
         public int MEMBER_ID { get; set; }
@@ -28,5 +29,7 @@ namespace WeSplitApp
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ObservableCollection<TRIP_MEMBER> TRIP_MEMBER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ObservableCollection<TRIP_MEMBER> TRIP_MEMBER1 { get; set; }
     }
 }

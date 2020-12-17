@@ -26,7 +26,7 @@ namespace WeSplitApp.ViewModel
 
         public int GetMaximum()
         {
-            return searchLOCATIONS.Count();
+            return LOCATIONS.Count();
         }
 
         #region sort
@@ -40,25 +40,29 @@ namespace WeSplitApp.ViewModel
             if (MySort.ContainsKey(method))
             {
                 List<LOCATION> resultSort = (List<LOCATION>)MySort[method].DynamicInvoke();
-                searchLOCATIONS = new ObservableCollection<LOCATION>(resultSort);
+                LOCATIONS = new ObservableCollection<LOCATION>(resultSort);
+                if(searchLOCATIONS != LOCATIONS)
+                {
+                    searchLocation_ByName();
+                }
                 DisplayObjects();
             }
         }
         private List<LOCATION> SetDescendingPositionAccordingToName()
         {
-            return searchLOCATIONS.OrderByDescending(c => c.NAME).ToList();
+            return LOCATIONS.OrderByDescending(c => c.NAME).ToList();
         }
         private static LocationListViewModel instance = null;
         public static LocationListViewModel Instance => instance ?? (instance = new LocationListViewModel());
 
         private List<LOCATION> SetAscendingPositionAccordingToName()
         {
-            return searchLOCATIONS.OrderBy(c => c.NAME).ToList();
+            return LOCATIONS.OrderBy(c => c.NAME).ToList();
         }
 
         private List<LOCATION> SetDefaultPosition()
         {
-            return searchLOCATIONS.OrderBy(c => c.LOCATION_ID).ToList();
+            return LOCATIONS.OrderBy(c => c.LOCATION_ID).ToList();
         }
 
         public void MakeSort(string method)
@@ -117,21 +121,21 @@ namespace WeSplitApp.ViewModel
             List<LOCATION> locationList;
             if (request.Length <= 0)
             {
-                locationList = (instance.LOCATIONS).ToList();
+                locationList = (LOCATIONS).ToList();
                 //this.ToShowItems = new ObservableCollection<TRIP>(all);
             }
             else
             {
                 //search by TITLE
                 var requestText = convertUnicode.convertToUnSign(request.Trim().ToLower());
-                locationList = (instance.LOCATIONS.AsEnumerable().Where(loca => convertUnicode.convertToUnSign(loca.NAME.Trim().ToLower()).Contains(requestText))).ToList();
+                locationList = (LOCATIONS.AsEnumerable().Where(loca => convertUnicode.convertToUnSign(loca.NAME.Trim().ToLower()).Contains(requestText))).ToList();
 
                 //MessageBox.Show(b[0].TITTLE);
                 //this.ToShowItems = new ObservableCollection<TRIP>(tripList);
             }
-            instance.searchLOCATIONS = new ObservableCollection<LOCATION>(locationList);
-            instance.CalculatePagingInfo(instance.Paging.RowsPerPage, instance.searchLOCATIONS.Count);
-            instance.DisplayObjects();
+            searchLOCATIONS = new ObservableCollection<LOCATION>(locationList);
+            CalculatePagingInfo(Paging.RowsPerPage,searchLOCATIONS.Count);
+            DisplayObjects();
         }
     }
 }
