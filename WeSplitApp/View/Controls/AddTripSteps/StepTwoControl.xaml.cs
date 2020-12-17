@@ -41,6 +41,10 @@ namespace WeSplitApp.View.Controls.AddTripSteps
             {
                 MessageBox.Show("Bạn chưa nhập Chi phí"); return;
             }
+            if (!cost.All(char.IsDigit))
+            {
+                MessageBox.Show("Chi phí là Số ( vd: 10000)"); return;
+            }
             if (AddNewTripViewModel.Instance.AddTrip.TRIP_LOCATION.Where(item => item.LOCATION_ID == location.LOCATION_ID).ToList().Count != 0) //TODO 
             {
                 MessageBox.Show("Đã có điểm dừng này !"); return;

@@ -80,6 +80,7 @@
                         x:Name="MemberPhoneNumberTextBox"
                         Grid.Column="1"
                         Margin="10"
+                        TextChanged="MemberPhoneNumberTextBox_TextChanged"
                         VerticalAlignment="Center"
                         md:HintAssist.Hint="Số điện thoại"
                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"

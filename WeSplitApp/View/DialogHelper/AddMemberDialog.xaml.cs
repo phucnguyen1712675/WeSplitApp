@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Windows.Media.Imaging;
 using WeSplitApp.View.Controls;
 using Button = System.Windows.Controls.Button;
+using MessageBox = System.Windows.Forms.MessageBox;
 using UserControl = System.Windows.Controls.UserControl;
 
 namespace WeSplitApp.View.DialogHelper
@@ -48,6 +49,15 @@ namespace WeSplitApp.View.DialogHelper
                 MEMBER reloadMember = HomeScreen.GetDatabaseEntities().MEMBERS.FirstOrDefault(item => item.MEMBER_ID == memberId);
                 HomeScreen.GetDatabaseEntities().Entry(reloadMember).Reload();
                 MemberListControl.updateMemberList();
+            }
+        }
+
+        private void MemberPhoneNumberTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            string phoneNumber = MemberPhoneNumberTextBox.Text;
+            if (!phoneNumber.All(char.IsDigit)){
+                MessageBox.Show("Số điện thoại không chứa chữ cái");
+                MemberPhoneNumberTextBox.Text = null;
             }
         }
     }

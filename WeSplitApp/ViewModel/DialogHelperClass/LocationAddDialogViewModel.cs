@@ -30,7 +30,7 @@ namespace WeSplitApp.ViewModel.DialogHelperClass
                 && !string.IsNullOrEmpty(NewLocation.DESCRIPTION))
             {
                 if (NewLocation.TYPE == null) NewLocation.TYPE = false;
-
+                NewLocation.NAME = NewLocation.NAME.Trim();
                 if (type == "add")
                 {
                     HomeScreen.GetDatabaseEntities().LOCATIONS.Add(NewLocation);
@@ -39,6 +39,7 @@ namespace WeSplitApp.ViewModel.DialogHelperClass
                     if (AddNewTripViewModel.Instance != null) { AddNewTripViewModel.Instance.LOCATIONs.Add(NewLocation); }
                     //trường hợp đang làm trong màn hình LocationList <=> refresh list Location
                     LocationListViewModel.Instance.updateList(NewLocation);
+                    SettingsViewModel.Instance.UpdateLocationMaxPaging();
                 }
                 else
                 {

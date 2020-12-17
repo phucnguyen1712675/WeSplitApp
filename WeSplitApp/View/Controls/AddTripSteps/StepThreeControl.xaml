@@ -64,31 +64,61 @@
                             <ColumnDefinition Width="3*" />
                             <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
-                        <ComboBox
-                            Name="MemberListComboBox"
+                        <StackPanel
                             Grid.Column="0"
-                            VerticalAlignment="Center"
+                            VerticalAlignment="Center">
+                            <ComboBox
+                            Name="MemberListComboBox"
+                            SelectionChanged="MemberListComboBox_SelectionChanged"
                             md:HintAssist.Hint="Thành viên"
                             ItemsSource="{Binding MEMBERs}">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <Border BorderBrush="#FFBA93FF" BorderThickness="0,0,0,1">
-                                        <StackPanel>
-                                            <StackPanel Orientation="Horizontal">
-                                                <md:PackIcon Kind="Account" />
-                                                <Label Margin="10,0,0,0" Content="{Binding MEMBER_ID}" />
-                                                <Label Content=" - " />
-                                                <Label Content="{Binding NAME}" />
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border BorderBrush="#FFBA93FF" BorderThickness="0,0,0,1">
+                                            <StackPanel>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <md:PackIcon Kind="Account" />
+                                                    <Label Margin="10,0,0,0" Content="{Binding MEMBER_ID}" />
+                                                    <Label Content=" - " />
+                                                    <Label Content="{Binding NAME}" />
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <md:PackIcon Kind="PhoneDial" />
+                                                    <Label Margin="10,0,0,0" Content="{Binding PHONENUMBER}" />
+                                                </StackPanel>
                                             </StackPanel>
-                                            <StackPanel Orientation="Horizontal">
-                                                <md:PackIcon Kind="PhoneDial" />
-                                                <Label Margin="10,0,0,0" Content="{Binding PHONENUMBER}" />
+                                        </Border>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+
+                            <ComboBox
+                            Name="ByMemberListComboBox"
+                            Margin="0,20,0,0"
+                            md:HintAssist.Hint="Trả trước bởi (không bắt buộc)"
+                            SelectionChanged="MemberListComboBox_SelectionChanged"
+                            ItemsSource="{Binding MEMBERs}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border BorderBrush="#FFBA93FF" BorderThickness="0,0,0,1">
+                                            <StackPanel>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <md:PackIcon Kind="Account" />
+                                                    <Label Margin="10,0,0,0" Content="{Binding MEMBER_ID}" />
+                                                    <Label Content=" - " />
+                                                    <Label Content="{Binding NAME}" />
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <md:PackIcon Kind="PhoneDial" />
+                                                    <Label Margin="10,0,0,0" Content="{Binding PHONENUMBER}" />
+                                                </StackPanel>
                                             </StackPanel>
-                                        </StackPanel>
-                                    </Border>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
+                                        </Border>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </StackPanel>
+                       
                         <TextBox
                             x:Name="MemberAmountpaidTextBox"
                             Grid.Column="1"
@@ -101,6 +131,7 @@
                             Style="{StaticResource MaterialDesignFilledTextBox}"
                             TextWrapping="Wrap" />
                     </Grid>
+                    
                     <Button
                         x:Name="MemberAddToTripButton"
                         Width="100"
@@ -127,18 +158,49 @@
                         ShadowDepth="0.5" />
                 </Border.Effect>
                 <StackPanel>
+                    <Grid Visibility="Hidden">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0" Name="col1"/>
+                        <Grid Grid.Column="1" Name="col2"/>
+                        <Grid Grid.Column="2" Name="col3"/>
+                        <Grid Grid.Column="3" Name="col4"/>
+                    </Grid>
                     <ListView x:Name="MemberAddedListView" ItemsSource="{Binding AddTrip.TRIP_MEMBER}">
+                        <ListView.Resources>
+                            <DataTemplate x:Key="Templ">
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding}"/>
+                            </DataTemplate>
+                            <Style x:Key="HeaderStyle" TargetType="GridViewColumnHeader">
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            </Style>
+                        </ListView.Resources>
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn
-                                    Width="300"
+                                    HeaderTemplate="{StaticResource Templ}" HeaderContainerStyle="{StaticResource HeaderStyle}"
+                                    Width="{Binding ElementName=col1, Path=ActualWidth}"
                                     DisplayMemberBinding="{Binding MEMBER.NAME}"
                                     Header="Tên" />
                                 <GridViewColumn
-                                    Width="200"
+                                    HeaderTemplate="{StaticResource Templ}" HeaderContainerStyle="{StaticResource HeaderStyle}"
+                                    Width="{Binding ElementName=col2, Path=ActualWidth}"
                                     DisplayMemberBinding="{Binding MEMBER.PHONENUMBER}"
                                     Header="SĐT" />
-                                <GridViewColumn DisplayMemberBinding="{Binding AMOUNTPAID}" Header="Đã thu" />
+                                <GridViewColumn 
+                                    HeaderTemplate="{StaticResource Templ}" HeaderContainerStyle="{StaticResource HeaderStyle}"
+                                     Width="{Binding ElementName=col3, Path=ActualWidth}"
+                                    DisplayMemberBinding="{Binding AMOUNTPAID}" 
+                                    Header="Đã thu" />
+                                <GridViewColumn
+                                    HeaderTemplate="{StaticResource Templ}" HeaderContainerStyle="{StaticResource HeaderStyle}"
+                                    Width="{Binding ElementName=col4, Path=ActualWidth}"
+                                    DisplayMemberBinding="{Binding MEMBER1.NAME}"
+                                    Header="Trả bởi" />
                             </GridView>
                         </ListView.View>
                     </ListView>

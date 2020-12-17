@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using WeSplitApp.Utils;
 using WeSplitApp.View;
@@ -86,7 +87,11 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
         {
 
         }
-        private void BackToHomeScreenAction() => HomeScreen.SetNewContentControl(new TripsCollectionViewModel());
+        private void BackToHomeScreenAction()
+        {
+            HomeScreen.SetNewContentControl(new TripsCollectionViewModel());
+            HomeScreen.GetHomeScreenInstance().AddButton.Visibility = Visibility.Visible;
+        }
         private void EditAction()
         {
             this.IsEditing = !this.IsEditing;

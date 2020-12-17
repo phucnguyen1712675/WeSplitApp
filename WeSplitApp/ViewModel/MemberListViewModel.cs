@@ -38,7 +38,7 @@ namespace WeSplitApp.ViewModel
 
         public int GetMaximum()
         {
-            return searchMEMBERS.Count();
+            return MEMBERS.Count();
         }
 
         #region sort
@@ -47,29 +47,33 @@ namespace WeSplitApp.ViewModel
             if (MySort.ContainsKey(method))
             {
                 List<MEMBER> resultSort =(List<MEMBER>)MySort[method].DynamicInvoke();
-                searchMEMBERS = new ObservableCollection<MEMBER>(resultSort);
+                MEMBERS = new ObservableCollection<MEMBER>(resultSort);
+                if(searchMEMBERS != MEMBERS)
+                {
+                    searchMember_ByName();
+                }
                 DisplayObjects();
             }
         }
 
         private List<MEMBER> SetDescendingPositionAccordingToName()
         {
-            return searchMEMBERS.OrderByDescending(c => c.NAME).ToList();
+            return MEMBERS.OrderByDescending(c => c.NAME).ToList();
         }
 
         private List<MEMBER> SetAscendingPositionAccordingToName()
         {
-            return searchMEMBERS.OrderBy(c => c.NAME).ToList();
+            return MEMBERS.OrderBy(c => c.NAME).ToList();
         }
 
         private List<MEMBER> SetDefaultPosition()
         {
-            return searchMEMBERS.OrderBy(c => c.MEMBER_ID).ToList();
+            return MEMBERS.OrderBy(c => c.MEMBER_ID).ToList();
         }
 
         public List<string> getSortMethod()
         {
-            return instance.MySort.Keys.ToList();
+            return MySort.Keys.ToList();
         }
 
         public void MakeSort(string method)
@@ -143,18 +147,18 @@ namespace WeSplitApp.ViewModel
             List<MEMBER> memberList;
             if (request.Length <= 0)
             {
-                memberList = (instance.MEMBERS).ToList();
+                memberList = (MEMBERS).ToList();
             }
             else
             {
                 //search by Name
                 var requestText = convertUnicode.convertToUnSign(request.Trim().ToLower());
-                memberList = (instance.MEMBERS.AsEnumerable().Where(mem => convertUnicode.convertToUnSign(mem.NAME.Trim().ToLower()).Contains(requestText))).ToList();
+                memberList = (MEMBERS.AsEnumerable().Where(mem => convertUnicode.convertToUnSign(mem.NAME.Trim().ToLower()).Contains(requestText))).ToList();
 
             }
-            instance.searchMEMBERS = new ObservableCollection<MEMBER>(memberList);
-            instance.CalculatePagingInfo(instance.Paging.RowsPerPage, instance.searchMEMBERS.Count);
-            instance.DisplayObjects();
+            searchMEMBERS = new ObservableCollection<MEMBER>(memberList);
+            CalculatePagingInfo(Paging.RowsPerPage, searchMEMBERS.Count);
+            DisplayObjects();
         }
     }
 }
