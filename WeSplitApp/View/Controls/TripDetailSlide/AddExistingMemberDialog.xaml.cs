@@ -21,9 +21,17 @@ namespace WeSplitApp.View.Controls.TripDetailSlide
     /// </summary>
     public partial class AddExistingMemberDialog : UserControl
     {
+        public static AddExistingMemberDialog instance { get; set; }
         public AddExistingMemberDialog()
         {
             InitializeComponent();
+            instance = this;
+        }
+
+        public static void updateByMemberListComboBox()
+        {
+            if(instance != null)
+                instance.ByMemberListComboBox.Items.Refresh();
         }
     }
 }

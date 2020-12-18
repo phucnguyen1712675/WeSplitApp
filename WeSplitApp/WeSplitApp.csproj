@@ -219,6 +219,7 @@
     <Compile Include="Converters\BoolToForegroundForDeleteMemberConverter.cs" />
     <Compile Include="Converters\BoolToIndexGenderConverver.cs" />
     <Compile Include="Converters\BoolToIntConverter.cs" />
+    <Compile Include="Converters\ClearButton.cs" />
     <Compile Include="Converters\ImageConverter.cs" />
     <Compile Include="Converters\IndexToIsEnabledNextButtonConverter.cs" />
     <Compile Include="Converters\IndexToIsEnabledPreviousButtonConverter.cs" />
@@ -347,9 +348,6 @@
     </Compile>
     <Compile Include="View\Controls\TripDetailSlide\AddMemberToSelectedTripDesionDialog.xaml.cs">
       <DependentUpon>AddMemberToSelectedTripDesionDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Controls\TripDetailSlide\AddNewMemberAmountPaidToSelectedTripControl.xaml.cs">
-      <DependentUpon>AddNewMemberAmountPaidToSelectedTripControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Controls\TripDetailSlide\AddOtherCostDialog.xaml.cs">
       <DependentUpon>AddOtherCostDialog.xaml</DependentUpon>
@@ -550,10 +548,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Controls\TripDetailSlide\AddNewMemberAmountPaidToSelectedTripControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\Controls\TripDetailSlide\AddOtherCostDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -677,6 +671,8 @@
     <Resource Include="Resources\Images\NhaTrang.jpg" />
     <Resource Include="Resources\Images\aboutUs22BackGround.jpg" />
     <Resource Include="Resources\Images\3987545.jpg" />
+    <Resource Include="Resources\Images\Phuc.jpg" />
+    <Resource Include="Resources\Images\Tin.jpg" />
     <Content Include="WESPLITAPP_DB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>WESPLITAPP_DB.edmx</DependentUpon>

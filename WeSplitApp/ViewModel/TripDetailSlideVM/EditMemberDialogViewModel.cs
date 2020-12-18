@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,26 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
     {
         public TRIP_MEMBER SelectedTripMember { get; set; }
         public string AvatarStatus { get; set; }
+        public ObservableCollection<MEMBER> ByMembers { get; set; }
+
+        private MEMBER _selectedByMember;
+        public MEMBER SelectedByMember
+        {
+            get => this._selectedByMember;
+            set
+            {
+                this._selectedByMember = value;
+                this.SelectedTripMember.MEMBER1 = value;
+                if (value != null)
+                {
+                    this.SelectedTripMember.BYMEMBER_ID = this._selectedByMember.MEMBER_ID;
+                }
+                else
+                {
+                    this.SelectedTripMember.BYMEMBER_ID = null;
+                }
+            }
+        }
         public ICommand ChangeAvatarCommand => new AnotherCommandImplementation(ExecuteChangeAvatarDialog);
         private void ExecuteChangeAvatarDialog(object obj)
         {

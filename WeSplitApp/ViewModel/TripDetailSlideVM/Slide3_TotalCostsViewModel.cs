@@ -44,6 +44,7 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
         private ICommand _deleteMemberCommand { get; set; }
         public ICommand DeleteMemberCommand => this._deleteMemberCommand ?? (this._deleteMemberCommand = new CommandHandler((param) => DeleteMemberAction(param), () => CanExecute));
         public ICommand RunMemberAddingDecisionCommand => new AnotherCommandImplementation(ExecuteMemberAddingDecisionDialog);
+        public bool CanExecute => true;
 
         public static Slide3_TotalCostsViewModel Instance;
 
@@ -51,8 +52,40 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
         {
             Instance = this;
         }
-        private void ExtendedOpenedEventHandler(object sender, DialogOpenedEventArgs eventargs)
+        
+          private void ExtendedOpenedEventHandler(object sender, DialogOpenedEventArgs eventargs)
             => Console.WriteLine("You could intercept the open and affect the dialog using eventArgs.Session.");
+            
+        #region Execute dialog
+        private async void EditMemberAction(object memberID)
+        {
+            int memberId = (int)memberID;
+            this.SelectedItem = HomeScreen.GetDatabaseEntities().TRIP_MEMBER.FirstOrDefault(x => x.TRIP_ID == this.SelectedTrip.TRIP_ID && x.MEMBER_ID == memberId);
+
+
+            ObservableCollection<MEMBER> ByMembers = new ObservableCollection<MEMBER>(HomeScreen.GetDatabaseEntities().MEMBERS.ToList());
+            MEMBER removeMember = ByMembers.FirstOrDefault(item => item.MEMBER_ID == this.SelectedItem.MEMBER_ID);
+            ByMembers.Remove(removeMember);
+
+            this.EditMemberDialogViewModel = new EditMemberDialogViewModel
+            {
+                SelectedTripMember = this.SelectedItem,
+                AvatarStatus = "CHANGE AVATAR",
+                ByMembers = ByMembers,
+                SelectedByMember = this.SelectedItem.MEMBER1
+            };
+
+            var view = new EditMemberDialog
+            {
+                DataContext = this.EditMemberDialogViewModel
+            };
+
+            //show the dialog
+            var result = await DialogHost.Show(view, HomeScreen.DialogHostName, ExtendedOpenedEventHandler, EditMemberClosingEventHandler);
+
+            //check the result...
+            Console.WriteLine("Dialog was closed, the CommandParameter used to close it was: " + (result ?? "NULL"));
+        }
 
         private async void ExecuteMemberAddingDecisionDialog(object obj)
         {
@@ -65,7 +98,74 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
             Console.WriteLine("Dialog was closed, the CommandParameter used to close it was: " + (result ?? "NULL"));
         }
 
-        private async void DeleteMemberAction(object memberID)
+
+        private void MemberAddingDecisionClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
+        {
+            if (eventArgs.Parameter is bool parameter && parameter == false)
+            {
+                ExecuteAddNewMemberDialog();
+            }
+            else
+            {
+                ExecuteAddExistingMemberDialog();
+            }
+        }
+
+        private async void ExecuteAddNewMemberDialog()
+        {
+            var guessAvarageMoney = NewAvarageMoneyIfAddAMember();
+
+            this.EditMemberDialogViewModel = new EditMemberDialogViewModel
+            {
+                SelectedTripMember = new TRIP_MEMBER()
+                {
+                    AMOUNTPAID = guessAvarageMoney,
+                    MEMBER = new MEMBER()
+                },
+                AvatarStatus = "CHOOSE AVATAR",
+                SelectedByMember = new MEMBER(),
+                ByMembers = new ObservableCollection<MEMBER>(HomeScreen.GetDatabaseEntities().MEMBERS.ToList())
+            };
+
+            var view = new EditMemberDialog
+            {
+                DataContext = this.EditMemberDialogViewModel
+            };
+
+            //show the dialog
+            var result = await DialogHost.Show(view, Slide3_ProceedsControl.DialogHostName, ExtendedOpenedEventHandler, AddNewMemberToTripClosingEventHandler);
+
+            //check the result...
+            Console.WriteLine("Dialog was closed, the CommandParameter used to close it was: " + (result ?? "NULL"));
+        }
+
+        private async void ExecuteAddExistingMemberDialog()
+        {
+            List<int> existsMemberID = (from member in this.SelectedTrip.TRIP_MEMBER
+                                       select member.MEMBER_ID).ToList();
+            var memberCollection = new ObservableCollection<MEMBER>(
+                HomeScreen.GetDatabaseEntities().MEMBERS.ToList().Where(item => !existsMemberID.Contains(item.MEMBER_ID)));
+            var tripMember = HomeScreen.GetDatabaseEntities().TRIP_MEMBER.ToList();
+
+            this.AddExistingMemberDialogViewModel = new AddExistingMemberDialogViewModel
+            {
+                Members = memberCollection,
+                ByMembers = new ObservableCollection<MEMBER>()
+            };
+
+            var view = new AddExistingMemberDialog
+            {
+                DataContext = this.AddExistingMemberDialogViewModel
+            };
+
+            //show the dialog
+            var result = await DialogHost.Show(view, Slide3_ProceedsControl.DialogHostName, ExtendedOpenedEventHandler, AddNewMemberClosingEventHandler);
+
+            //check the result...
+            Console.WriteLine("Dialog was closed, the CommandParameter used to close it was: " + (result ?? "NULL"));
+        }
+
+        private async void DeleteMemberAction(object memberID) //Dialog hỏi xóa thành viên
         {
             int memberId = (int)memberID;
             var db = HomeScreen.GetDatabaseEntities();
@@ -92,6 +192,44 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
 
             //check the result...
             Console.WriteLine("Dialog was closed, the CommandParameter used to close it was: " + (result ?? "NULL"));
+        }
+
+
+        private void DeleteMemberClosingEventHandler(object sender, DialogClosingEventArgs eventArgs) // xử lý khi xóa
+        {
+            if (eventArgs.Parameter is bool parameter &&
+                parameter == false) return;
+
+            //OK, lets cancel the close...
+            eventArgs.Cancel();
+
+            //...now, lets update the "session" with some new content!
+            eventArgs.Session.UpdateContent(new SampleProgressDialog());
+            //note, you can also grab the session when the dialog opens via the DialogOpenedEventHandler
+
+            //lets run a fake operation for 3 seconds then close this baby.
+            Task.Delay(TimeSpan.FromSeconds(3))
+                .ContinueWith((t, _) => eventArgs.Session.Close(false), null,
+                    TaskScheduler.FromCurrentSynchronizationContext());
+
+            DeleteTripMember(this.SelectedItem);
+        }
+        #endregion
+        
+
+        #region backend dialog
+        internal void DeleteTripMember(TRIP_MEMBER tripMember)
+        {
+            var db = HomeScreen.GetDatabaseEntities();
+            var trip = db.TRIPS.Find(tripMember.TRIP_ID);
+            db.TRIP_MEMBER.Remove(tripMember);
+            trip.CURRENTPROCEEDS = CalculateCurrentProceeds();
+            db.SaveChanges();
+
+            this.CurrentProceedsPieChartViewModel = new CurrentProceedsPieChartViewModel
+            {
+                SelectedTrip = trip
+            };
         }
 
         private async void EditMemberAction(object memberID)
@@ -124,12 +262,7 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
             Console.WriteLine("Dialog was closed, the CommandParameter used to close it was: " + (result ?? "NULL"));
         }
 
-        private double NewAvarageMoneyIfAddAMember()
-        {
-            var total = this.SelectedTrip.TOTALCOSTS;
-            var memberNumber = this.SelectedTrip.TRIP_MEMBER.Count + 1;
-            return total / memberNumber;
-        }
+
 
         private async void ExecuteAddNewMemberDialog()
         {
@@ -190,7 +323,7 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
             }
         }
 
-        private void AddNewMemberToTripClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
+         private void AddNewMemberToTripClosingEventHandler(object sender, DialogClosingEventArgs eventArgs) // Thêm mới thành viên
         {
             if (eventArgs.Parameter is bool parameter &&
                 parameter == false) return;
@@ -207,7 +340,15 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
                 .ContinueWith((t, _) => eventArgs.Session.Close(false), null,
                     TaskScheduler.FromCurrentSynchronizationContext());
 
-            var db = HomeScreen.GetDatabaseEntities();
+            HomeScreen.GetDatabaseEntities().MEMBERS.Add(this.EditMemberDialogViewModel.SelectedTripMember.MEMBER);
+            HomeScreen.GetDatabaseEntities().SaveChanges();
+            this.EditMemberDialogViewModel.SelectedTripMember.TRIP_ID = this.SelectedTrip.TRIP_ID;
+            HomeScreen.GetDatabaseEntities().TRIP_MEMBER.Add(this.EditMemberDialogViewModel.SelectedTripMember);
+           //TODO caculateCurrentProcced
+            HomeScreen.GetDatabaseEntities().SaveChanges();
+
+            UpdatePieChar();
+            /*var db = HomeScreen.GetDatabaseEntities();
             var trip = db.TRIPS.Find(this.SelectedTrip.TRIP_ID);
             var newTripMember = this.EditMemberDialogViewModel.SelectedTripMember;
             var newMember = newTripMember.MEMBER;
@@ -219,7 +360,7 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
             this.CurrentProceedsPieChartViewModel = new CurrentProceedsPieChartViewModel
             {
                 SelectedTrip = trip
-            };
+            };*/
         }
 
         private void EditMemberClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
@@ -237,8 +378,12 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
                 Task.Delay(TimeSpan.FromSeconds(3))
                     .ContinueWith((t, _) => eventArgs.Session.Close(false), null,
                         TaskScheduler.FromCurrentSynchronizationContext());
+                // tính toán lại tổng tiền thu
 
-                var db = HomeScreen.GetDatabaseEntities();
+                CaculateCurrentProcced();
+                SaveNewTripToDB();
+                UpdatePieChar();
+                /*var db = HomeScreen.GetDatabaseEntities();
                 var trip = db.TRIPS.Find(this.SelectedTrip.TRIP_ID);
                 var tripMember = this.SelectedItem;
                 var trip_member = db.TRIP_MEMBER.Find(tripMember.TRIP_ID, tripMember.MEMBER_ID);
@@ -251,7 +396,7 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
                 this.CurrentProceedsPieChartViewModel = new CurrentProceedsPieChartViewModel
                 {
                     SelectedTrip = trip
-                };
+                };*/
             }
             else
             {
@@ -264,19 +409,7 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
                 db.Entry(reloadTripMember).Reload();
             }
         }
-        internal void DeleteTripMember(TRIP_MEMBER tripMember)
-        {
-            var db = HomeScreen.GetDatabaseEntities();
-            var trip = db.TRIPS.Find(tripMember.TRIP_ID);
-            db.TRIP_MEMBER.Remove(tripMember);
-            trip.CURRENTPROCEEDS = CalculateCurrentProceeds();
-            db.SaveChanges();
 
-            this.CurrentProceedsPieChartViewModel = new CurrentProceedsPieChartViewModel
-            {
-                SelectedTrip = trip
-            };
-        }
         private void DeleteMemberClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
         {
             if (eventArgs.Parameter is bool parameter &&
@@ -297,7 +430,7 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
             DeleteTripMember(this.SelectedItem);
         }
 
-        private void AddNewMemberClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
+        private void AddNewMemberClosingEventHandler(object sender, DialogClosingEventArgs eventArgs) // thêm thành viên có sẵn
         {
             if (eventArgs.Parameter is bool parameter &&
                 parameter == false) return;
@@ -321,26 +454,62 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
 
             foreach (var member in newTripMemberCollection)
             {
-                var hasAlreadyInSelectedTrip = tripMember.Any(x => x.MEMBER_ID == member.MEMBER_ID);
+                var hasAlreadyInSelectedTrip = this.SelectedTrip.TRIP_MEMBER.Any(x => x.MEMBER_ID == member.MEMBER_ID);
 
                 if (!hasAlreadyInSelectedTrip)
                 {
-                    db.TRIP_MEMBER.Add(new TRIP_MEMBER
-                    {
-                        TRIP_ID = this.SelectedTrip.TRIP_ID,
-                        MEMBER_ID = member.MEMBER_ID,
-                        AMOUNTPAID = member.AmountPaid
-                    });
+                    if (member.ByMember_ID != null)
+                        this.SelectedTrip.TRIP_MEMBER.Add(new TRIP_MEMBER
+                        {
+                            TRIP_ID = this.SelectedTrip.TRIP_ID,
+                            MEMBER_ID = member.MEMBER_ID,
+                            AMOUNTPAID = member.AmountPaid,
+                            BYMEMBER_ID = member.ByMember_ID.MEMBER_ID
+                        });
+                    else
+                        this.SelectedTrip.TRIP_MEMBER.Add(new TRIP_MEMBER
+                        {
+                            TRIP_ID = this.SelectedTrip.TRIP_ID,
+                            MEMBER_ID = member.MEMBER_ID,
+                            AMOUNTPAID = member.AmountPaid
+                        });
                 }
             }
-            trip.CURRENTPROCEEDS = CalculateCurrentProceeds();
+
+            CaculateCurrentProcced();
+            SaveNewTripToDB();
+            UpdatePieChar();
+            
+            /* trip.CURRENTPROCEEDS = CalculateCurrentProceeds();
             db.SaveChanges();
 
             this.CurrentProceedsPieChartViewModel = new CurrentProceedsPieChartViewModel
             {
                 SelectedTrip = trip
-            };
+            };*/
         }
+
+        #endregion
+
+        #region support
+        private void BackToHomeScreenAction()
+        {
+            HomeScreen.SetNewContentControl(new TripsCollectionViewModel());
+            HomeScreen.GetHomeScreenInstance().AddButton.Visibility = Visibility.Visible;
+        }
+
+
+        private void CaculateCurrentProcced()
+        {
+            double CurrentProcced = 0;
+            foreach (var item in this.SelectedTrip.TRIP_MEMBER.ToList())
+            {
+                CurrentProcced = CurrentProcced + item.AMOUNTPAID;
+            }
+
+            this.SelectedTrip.CURRENTPROCEEDS = CurrentProcced;
+        }
+
         private double CalculateCurrentProceeds()
         {
             var db = HomeScreen.GetDatabaseEntities();
@@ -355,13 +524,31 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
             });
 
             return total;
+          }
+
+        private void SaveNewTripToDB()
+        {
+            var editTrip = HomeScreen.GetDatabaseEntities().TRIPS.FirstOrDefault(item => item.TRIP_ID == this.SelectedTrip.TRIP_ID);
+            editTrip = this.SelectedTrip;
+
+            HomeScreen.GetDatabaseEntities().Entry(this.SelectedTrip).State = EntityState.Modified;
+            HomeScreen.GetDatabaseEntities().SaveChanges();
         }
 
-        public bool CanExecute => true;
-        private void BackToHomeScreenAction()
+        private void UpdatePieChar()
         {
-            HomeScreen.SetNewContentControl(new TripsCollectionViewModel());
-            HomeScreen.GetHomeScreenInstance().AddButton.Visibility = Visibility.Visible;
+            this.CurrentProceedsPieChartViewModel = new CurrentProceedsPieChartViewModel
+            {
+                SelectedTrip = this.SelectedTrip
+            };
         }
+
+        private double NewAvarageMoneyIfAddAMember()
+        {
+            var total = this.SelectedTrip.TOTALCOSTS;
+            var memberNumber = this.SelectedTrip.TRIP_MEMBER.Count + 1;
+            return total / memberNumber;
+        }
+        #endregion
     }
 }

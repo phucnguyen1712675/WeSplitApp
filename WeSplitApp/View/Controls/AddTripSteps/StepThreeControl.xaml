@@ -94,7 +94,7 @@
 
                             <ComboBox
                             Name="ByMemberListComboBox"
-                            Margin="0,20,0,0"
+                            Margin="0,40,0,0"
                             md:HintAssist.Hint="Trả trước bởi (không bắt buộc)"
                             SelectionChanged="MemberListComboBox_SelectionChanged"
                             ItemsSource="{Binding MEMBERs}">
