@@ -37,7 +37,6 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
             }
         }
 
-        private int OldMemberCount;
         private int NewMemberCount;
         public ObservableCollection<MemberChipStyle> SelectedMembers { get; set; }
         public ObservableCollection<MemberChipStyle> MEMBERSTOSHOW { get; set; }
@@ -61,7 +60,6 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
         {
             this.InputFormVisibility = Visibility.Collapsed;
             this.AutoAddAmountPaid = true;
-            this.OldMemberCount = 0;
             this.NewMemberCount = 0;
         }
         private void ExecuteChangeAutoAddAction() => this.AutoAddAmountPaid = !this.AutoAddAmountPaid;
@@ -73,19 +71,19 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
         }
         private void ExecuteAcceptAction() //khi bấm thêm dô list temp
         {
+            SelectedMembers.Add(this.SelectedMember);
             if (this.AutoAddAmountPaid)
             {
                 for (int i = 0; i < this.NewMemberCount; i++)
                 {
-                    this.SelectedMembers[this.OldMemberCount + i].AmountPaid = this.SelectedMember.AmountPaid;
+                    this.SelectedMembers[i].AmountPaid = this.SelectedMember.AmountPaid;
                 }
             }
-            SelectedMembers.Add(this.SelectedMember);
             this.NewMemberCount++;
             ChangeInputFormVisibility();
         }
 
-        private void GetMembersToShow() 
+        private void GetMembersToShow()
         {
             this.SelectedMembers = new ObservableCollection<MemberChipStyle>();
             this.MEMBERSTOSHOW = new ObservableCollection<MemberChipStyle>();
@@ -93,8 +91,6 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
             foreach (var member in this.Members)
             {
                 var isChecked = Slide3_TotalCostsViewModel.Instance.SelectedTrip.TRIP_MEMBER.Any(x => x.MEMBER_ID == member.MEMBER_ID);
-                
-                var amountPaid = isChecked ? HomeScreen.GetDatabaseEntities().TRIP_MEMBER.FirstOrDefault(x => x.MEMBER_ID == member.MEMBER_ID && x.TRIP_ID == Slide3_TotalCostsViewModel.Instance.SelectedTrip.TRIP_ID).AMOUNTPAID : 0.0;
 
                 MEMBER ByMember_ID = new MEMBER();
 
@@ -107,13 +103,12 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
                     AVATAR = member.AVATAR,
                     GENDER = member.GENDER,
                     IsChecked = isChecked,
-                    AmountPaid = amountPaid
+                    AmountPaid = 0.0
                 };
 
                 if (isChecked)
                 {
                     this.SelectedMembers.Add(newMember);
-                    this.OldMemberCount++;
                 }
                 this.MEMBERSTOSHOW.Add(newMember);
             }
@@ -121,7 +116,7 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
         private void ExecuteRunCheckedAction(object memberId) // khi bấm toggle button
         {
             var memberID = (int)memberId;
-            if (memberID != 0) 
+            if (memberID != 0)
             {
                 var member = this.MEMBERSTOSHOW.FirstOrDefault(x => x.MEMBER_ID == memberID);
 
@@ -139,40 +134,20 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
 
                     //mở bảng nhập tiền thong tin
                     this.SelectedMember = member;
-                    this.ByMembers = new ObservableCollection<MEMBER>( HomeScreen.GetDatabaseEntities().MEMBERS.ToList());
+                    this.ByMembers = new ObservableCollection<MEMBER>(HomeScreen.GetDatabaseEntities().MEMBERS.ToList());
                     MEMBER removeMember = ByMembers.FirstOrDefault(item => item.MEMBER_ID == this.SelectedMember.MEMBER_ID);
                     this.ByMembers.Remove(removeMember);
-                    
-                    var avarageMoney = Slide3_TotalCostsViewModel.Instance.SelectedTrip.TOTALCOSTS / (this.SelectedMembers.Count + 1);
+                    int totalMember = Slide3_TotalCostsViewModel.Instance.SelectedTrip.TRIP_MEMBER.Count + this.SelectedMembers.Count + 1;
+                    var avarageMoney = Slide3_TotalCostsViewModel.Instance.SelectedTrip.TOTALCOSTS / totalMember;
                     this.SelectedMember.AmountPaid = avarageMoney;
-                    
+
                     ChangeInputFormVisibility();
                 }
                 else // khi bấm xóa
                 {
                     if (member.MEMBER_ID != this.SelectedMember.MEMBER_ID)
                     {
-                        var isOldMember = Slide3_TotalCostsViewModel.Instance.SelectedTrip.TRIP_MEMBER.Any(x => x.MEMBER_ID == member.MEMBER_ID);
-
-                        if (isOldMember)
-                        {
-                            var messageBoxResult = MessageBox.Show("Are you sure?", "Delete Confirmation", MessageBoxButton.OKCancel);
-
-                            if (messageBoxResult == MessageBoxResult.OK)
-                            {
-                                SelectedMembers.Remove(member);
-                                var TripMember = HomeScreen.GetDatabaseEntities().TRIP_MEMBER.FirstOrDefault(x => x.MEMBER_ID == this.SelectedMember.MEMBER_ID);
-                                Slide3_TotalCostsViewModel.Instance.DeleteTripMember(TripMember);
-                            }
-                            else
-                            {
-                                member.IsChecked = true;
-                            }
-                        }
-                        else
-                        {
-                            SelectedMembers.Remove(member);
-                        }
+                        SelectedMembers.Remove(member);
                     }
                     else
                     {

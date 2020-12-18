@@ -33,5 +33,10 @@ namespace WeSplitApp.View.Controls.TripDetailSlide
             if(instance != null)
                 instance.ByMemberListComboBox.Items.Refresh();
         }
+
+        private void ClearSlectedByMemberButton_Click(object sender, RoutedEventArgs e)
+        {
+            ByMemberListComboBox.SelectedItem = null;
+        }
     }
 }

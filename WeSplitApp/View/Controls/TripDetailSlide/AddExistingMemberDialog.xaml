@@ -20,6 +20,7 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
+            <conv:ClearButton x:Key="ClearButton"/>
             <conv:ImageConverter x:Key="imageConverter" />
             <conv:DoubleToVNDConverter x:Key="DoubleToVNDConverter" />
             <conv:BoolToForegroundForDeleteMemberConverter x:Key="BoolToForegroundForDeleteMemberConverter" />
@@ -96,33 +97,53 @@
                         Text="{Binding SelectedMember.AmountPaid, Converter={StaticResource DoubleToVNDConverter}}" />
                     <!---->
 
-                    <ComboBox
+                    <Grid
                         Grid.Row="3"
+                         Margin="0,30,0,0">
+                        <ComboBox
                         Name="ByMemberListComboBox"
                         VerticalAlignment="Center"
-                        Margin="0,30,0,0"
                         md:HintAssist.Hint="Trả trước bởi (không bắt buộc)"
                         SelectedItem="{Binding SelectedMember.ByMember_ID}"
                         ItemsSource="{Binding ByMembers}">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <Border BorderBrush="#FFBA93FF" BorderThickness="0,0,0,1">
-                                    <StackPanel>
-                                        <StackPanel Orientation="Horizontal">
-                                            <md:PackIcon Kind="Account" />
-                                            <Label Margin="10,0,0,0" Content="{Binding MEMBER_ID}" />
-                                            <Label Content=" - " />
-                                            <Label Content="{Binding NAME}" />
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="#FFBA93FF" BorderThickness="0,0,0,1">
+                                        <StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <md:PackIcon Kind="Account" />
+                                                <Label Margin="10,0,0,0" Content="{Binding MEMBER_ID}" />
+                                                <Label Content=" - " />
+                                                <Label Content="{Binding NAME}" />
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <md:PackIcon Kind="PhoneDial" />
+                                                <Label Margin="10,0,0,0" Content="{Binding PHONENUMBER}" />
+                                            </StackPanel>
                                         </StackPanel>
-                                        <StackPanel Orientation="Horizontal">
-                                            <md:PackIcon Kind="PhoneDial" />
-                                            <Label Margin="10,0,0,0" Content="{Binding PHONENUMBER}" />
-                                        </StackPanel>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
+                                    </Border>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <Grid  
+                        Visibility="{Binding SelectedItem, ElementName=ByMemberListComboBox, Converter={StaticResource ClearButton}}"
+                        Margin="0,0,15,0"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Right">
+                            <Button
+                        VerticalContentAlignment="Center"
+                        x:Name="ClearSlectedByMemberButton"
+                        Width="16"
+                        Height="16"
+                        Background="#FF9D69ED"
+                        Click="ClearSlectedByMemberButton_Click"
+                        Style="{StaticResource MaterialDesignIconForegroundButton}"
+                        ToolTip="Clear">
+                                <md:PackIcon Kind="Close" Foreground="White" Width="16" Height="16"/>
+                            </Button>
+                        </Grid>
+                    </Grid>
+                    
 
                     <StackPanel
                         Grid.Row="4"
