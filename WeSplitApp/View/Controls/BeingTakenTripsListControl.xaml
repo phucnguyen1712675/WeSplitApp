@@ -42,7 +42,8 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="1.3*" />
                 <RowDefinition Height="8*" />
-            </Grid.RowD
+            </Grid.RowDefinitions>
+
             <Grid Margin="130,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
