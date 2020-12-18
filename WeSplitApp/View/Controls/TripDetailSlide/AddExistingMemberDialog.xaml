@@ -10,8 +10,11 @@
     xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
     xmlns:system="clr-namespace:System;assembly=mscorlib"
+    HorizontalAlignment="Right"
+    VerticalAlignment="Bottom"
+    HorizontalContentAlignment="Center"
     d:DesignHeight="500"
-    d:DesignWidth="1000"
+    d:DesignWidth="750"
     Background="White"
     mc:Ignorable="d">
 
@@ -32,14 +35,14 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="400" />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="320" />
+            <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
 
         <Grid>
             <GroupBox
-                Width="350"
-                Margin="16,16,0,16"
+                Width="300"
+                Margin="10,16,0,16"
                 Header="AMOUNT PAID INPUT"
                 Style="{DynamicResource MaterialDesignCardGroupBox}"
                 Visibility="{Binding InputFormVisibility}">
@@ -59,11 +62,12 @@
                         </StackPanel>
                     </DataTemplate>
                 </GroupBox.HeaderTemplate>
-                <Grid DataContext="{Binding SelectedMember}">
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Border
@@ -75,23 +79,53 @@
                         BorderThickness="0"
                         CornerRadius="90">
                         <Border.Background>
-                            <ImageBrush ImageSource="{Binding AVATAR, Converter={StaticResource imageConverter}}" />
+                            <ImageBrush ImageSource="{Binding SelectedMember.AVATAR, Converter={StaticResource imageConverter}}" />
                         </Border.Background>
                     </Border>
                     <TextBlock
                         Grid.Row="1"
                         HorizontalAlignment="Center"
                         Style="{StaticResource MaterialDesignHeadline5TextBlock}"
-                        Text="{Binding NAME}" />
+                        Text="{Binding SelectedMember.NAME}" />
                     <TextBox
                         Grid.Row="2"
                         Margin="16,6,16,0"
                         VerticalAlignment="Center"
                         md:HintAssist.Hint="Amount Paid"
                         md:HintAssist.IsFloating="True"
-                        Text="{Binding AmountPaid, Converter={StaticResource DoubleToVNDConverter}}" />
-                    <StackPanel
+                        Text="{Binding SelectedMember.AmountPaid, Converter={StaticResource DoubleToVNDConverter}}" />
+                    <!---->
+
+                    <ComboBox
                         Grid.Row="3"
+                        Name="ByMemberListComboBox"
+                        VerticalAlignment="Center"
+                        Margin="0,30,0,0"
+                        md:HintAssist.Hint="Trả trước bởi (không bắt buộc)"
+                        SelectedItem="{Binding SelectedMember.ByMember_ID}"
+                        ItemsSource="{Binding ByMembers}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="#FFBA93FF" BorderThickness="0,0,0,1">
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <md:PackIcon Kind="Account" />
+                                            <Label Margin="10,0,0,0" Content="{Binding MEMBER_ID}" />
+                                            <Label Content=" - " />
+                                            <Label Content="{Binding NAME}" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <md:PackIcon Kind="PhoneDial" />
+                                            <Label Margin="10,0,0,0" Content="{Binding PHONENUMBER}" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <StackPanel
+                        Grid.Row="4"
                         HorizontalAlignment="Right"
                         Orientation="Horizontal">
                         <Button
@@ -117,10 +151,11 @@
                 Stretch="Uniform"
                 Visibility="{Binding ImageBackgroundVisibility}" />
         </Grid>
+        
         <GroupBox
             Grid.Column="1"
-            Width="560"
-            Margin="16"
+            Width="400"
+            Margin="10,16,10,16"
             Header="Danh bạ"
             Style="{DynamicResource MaterialDesignCardGroupBox}">
             <GroupBox.HeaderTemplate>

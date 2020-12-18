@@ -27,8 +27,8 @@
         <Image Source="/Resources/Images/AboutUs22BackGround.jpg" 
                HorizontalAlignment="Right" VerticalAlignment="Top"
                Stretch="Fill"
-               Width="650"
-               Height="550"/>
+               Width="680"
+               Height="600"/>
         <Border BorderBrush="#FFFFC03A" BorderThickness="1"/>
         <Border BorderBrush="#FFFFC03A" BorderThickness="3" VerticalAlignment="Bottom"/>
 
@@ -205,7 +205,7 @@
                            <TextBlock
                              Style="{StaticResource MaterialDesignHeadline6TextBlock}"
                              FontSize="15"
-                             Text="Ngô Nha Trang"
+                             Text="Nguyễn Thành Vĩnh Phúc"
                                />
                            <TextBlock
                            TextWrapping="Wrap"
@@ -283,7 +283,7 @@
                        </Border.Effect>
                        <Border CornerRadius="100">
                            <Border.Background>
-                               <ImageBrush ImageSource="/Resources/Images/NhaTrang.jpg" 
+                               <ImageBrush ImageSource="/Resources/Images/Phuc.jpg" 
                                            RenderOptions.BitmapScalingMode="NearestNeighbor" />
                            </Border.Background>
                        </Border>
@@ -327,7 +327,7 @@
                        </Border.Effect>
                        <Border CornerRadius="100">
                            <Border.Background>
-                               <ImageBrush ImageSource="/Resources/Images/NhaTrang.jpg" 
+                               <ImageBrush ImageSource="/Resources/Images/Tin.jpg" 
                                            RenderOptions.BitmapScalingMode="NearestNeighbor" />
                            </Border.Background>
                        </Border>
@@ -352,7 +352,7 @@
                            <TextBlock
                              Style="{StaticResource MaterialDesignHeadline6TextBlock}"
                              FontSize="15"
-                             Text="Ngô Nha Trang"
+                             Text="Võ Thiện Tín"
                                />
                            <TextBlock
                            TextWrapping="Wrap"

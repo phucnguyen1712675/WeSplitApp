@@ -13,6 +13,7 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
+            <conv:ClearButton x:Key="ClearButton"/>
             <conv:ImageConverter x:Key="imageConverter" />
             <conv:DoubleToVNDConverter x:Key="DoubleToVNDConverter" />
             <conv:BoolToIndexGenderConverver x:Key="BoolToIndexGenderConverver" />
@@ -67,6 +68,7 @@
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
+                <RowDefinition />
             </Grid.RowDefinitions>
             <TextBox
                 Margin="0,12,0,0"
@@ -94,8 +96,56 @@
                 md:HintAssist.Hint="Amount Paid"
                 md:HintAssist.IsFloating="True"
                 Text="{Binding SelectedTripMember.AMOUNTPAID, Converter={StaticResource DoubleToVNDConverter}}" />
+
+            <Grid Grid.Row="4"  Margin="0,40,0,0">
+                <ComboBox
+                  Margin="0,0,0,0"
+                    Background="White"
+                  Name="ByMemberListComboBox"
+                  VerticalAlignment="Center"
+                  md:HintAssist.Hint="Trả trước bởi (không bắt buộc)"
+                  SelectedItem="{Binding SelectedByMember}"
+                  ItemsSource="{Binding ByMembers}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="#FFBA93FF" BorderThickness="0,0,0,1">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <md:PackIcon Kind="Account" />
+                                        <Label Margin="10,0,0,0" Content="{Binding MEMBER_ID}" />
+                                        <Label Content=" - " />
+                                        <Label Content="{Binding NAME}" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <md:PackIcon Kind="PhoneDial" />
+                                        <Label Margin="10,0,0,0" Content="{Binding PHONENUMBER}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Grid  
+                    Visibility="{Binding SelectedItem, ElementName=ByMemberListComboBox, Converter={StaticResource ClearButton}}"
+                    Margin="0,0,15,0"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Right">
+                    <Button
+                        VerticalContentAlignment="Center"
+                        x:Name="ClearSlectedByMemberButton"
+                        Width="16"
+                        Height="16"
+                        Background="#FF9D69ED"
+                        Click="ClearSlectedByMemberButton_Click"
+                        Style="{StaticResource MaterialDesignIconForegroundButton}"
+                        ToolTip="Clear">
+                        <md:PackIcon Kind="Close" Foreground="White" Width="16" Height="16"/>
+                    </Button>
+                </Grid>
+            </Grid>
+
             <StackPanel
-                Grid.Row="4"
+                Grid.Row="5"
                 Margin="0,16,0,0"
                 HorizontalAlignment="Center"
                 Orientation="Horizontal">

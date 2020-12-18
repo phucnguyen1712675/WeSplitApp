@@ -19,11 +19,23 @@
              BorderThickness="1"
              >
     <Grid>
-        <Image Source="/Resources/Images/AboutUs1BackGround.jpg" 
-               HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+        
         <Border BorderBrush="#FFFFC03A" BorderThickness="1"/>
         <Border BorderBrush="#FFFFC03A" BorderThickness="3" VerticalAlignment="Top"/>
-
+        <Image 
+            Source="/Resources/Images/AboutUs22BackGround.jpg" 
+               HorizontalAlignment="Left" VerticalAlignment="Top"
+               Stretch="Fill"
+               Width="660"
+               Height="550"
+            RenderTransformOrigin="0.5,0.5">
+            <Image.RenderTransform>
+                <ScaleTransform ScaleX="-1" />
+            </Image.RenderTransform>
+        </Image>
+        <Image Source="/Resources/Images/AboutUs1BackGround.jpg" 
+               HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+        
         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Margin="130,0,0,0" md:ShadowAssist.ShadowDepth="Depth2">
             <TextBlock
               Style="{StaticResource MaterialDesignHeadline3TextBlock}"

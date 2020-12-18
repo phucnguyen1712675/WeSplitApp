@@ -24,5 +24,10 @@ namespace WeSplitApp.View.Controls.TripDetailSlide
         {
             InitializeComponent();
         }
+
+        private void ClearSlectedByMemberButton_Click(object sender, RoutedEventArgs e)
+        {
+            ByMemberListComboBox.SelectedItem = null;
+        }
     }
 }
