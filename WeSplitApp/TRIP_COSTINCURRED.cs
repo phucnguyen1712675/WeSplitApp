@@ -6,12 +6,14 @@
 //     Manual changes to this file will be overwritten if the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
+using PropertyChanged;
 
 namespace WeSplitApp
 {
     using System;
     using System.Collections.ObjectModel;
-    
+
+    [AddINotifyPropertyChangedInterface]
     public partial class TRIP_COSTINCURRED
     {
         public int COST_ID { get; set; }

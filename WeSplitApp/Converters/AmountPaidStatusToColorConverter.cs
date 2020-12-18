@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 
@@ -11,18 +12,19 @@ namespace WeSplitApp.Converters
 {
     public class AmountPaidStatusToColorConverter : IMultiValueConverter
     {
+        public IMultiValueConverter Converter1 { get; set; }
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (string.IsNullOrEmpty(values[0].ToString()) || string.IsNullOrEmpty(values[1].ToString()))
+            if (values.Any(x => x == DependencyProperty.UnsetValue))
             {
-                return null;
+                return DependencyProperty.UnsetValue;
             }
+            var averageMoney = Converter1.Convert(values, targetType, parameter, culture);
+            var amountPaid = (double)values[2];
+            var missingAmount = (double)averageMoney - amountPaid;
             const double precise = 0.0000001;
-            var averageMoney = double.Parse(values[0].ToString());
-            var amountPaid = (double)values[1];
-            var missingAmount = averageMoney - amountPaid;
-
-            var statusColor = Math.Abs(missingAmount) >= precise && missingAmount >= 0.0 ? new SolidColorBrush(Color.FromArgb(0xFF, 0xC6, 0x28, 0x28)) : new SolidColorBrush(Color.FromArgb(0xFF, 0x2E, 0x7D, 0x32));
+            var isNotEqual = Math.Abs(missingAmount) >= precise && missingAmount >= 0.0;
+            var statusColor = isNotEqual? new SolidColorBrush(Color.FromArgb(0xFF, 0xC6, 0x28, 0x28)) : new SolidColorBrush(Color.FromArgb(0xFF, 0x2E, 0x7D, 0x32));
 
             return statusColor;
         }
