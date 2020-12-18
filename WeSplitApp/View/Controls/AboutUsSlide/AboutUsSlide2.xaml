@@ -1,0 +1,424 @@
+﻿<UserControl x:Class="WeSplitApp.View.Controls.AboutUsSlide.AboutUsSlide2"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"  
+             xmlns:converters="clr-namespace:WeSplitApp.Converters"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WeSplitApp.View.Controls.AboutUsSlide"
+             TextElement.FontFamily="Segeo ui light"
+             TextElement.FontSize="14"
+             mc:Ignorable="d"
+             Background="White"
+             Width="{Binding Source={x:Static SystemParameters.PrimaryScreenWidth}, Converter={converters:RatioConverter}, ConverterParameter='0.85'}"
+             Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={converters:RatioConverter}, ConverterParameter='0.7'}"
+             HorizontalAlignment="Center"
+             VerticalAlignment="Center"
+             md:ShadowAssist.ShadowDepth="Depth2"
+             BorderBrush="#007bb1"
+             BorderThickness="1"
+             UseLayoutRounding="True">
+    <Grid>
+        <Image Source="/Resources/Images/AboutUs2BackGround.jpg" 
+               HorizontalAlignment="Left" VerticalAlignment="Bottom"
+               Stretch="Fill"
+               Width="500"
+               Height="350"/>
+        <Image Source="/Resources/Images/AboutUs22BackGround.jpg" 
+               HorizontalAlignment="Right" VerticalAlignment="Top"
+               Stretch="Fill"
+               Width="650"
+               Height="550"/>
+        <Border BorderBrush="#FFFFC03A" BorderThickness="1"/>
+        <Border BorderBrush="#FFFFC03A" BorderThickness="3" VerticalAlignment="Bottom"/>
+
+        <Grid Margin="70,10,0,0" Name="ParentStatckpnael" Height="auto">
+            <StackPanel VerticalAlignment="Top">
+                <TextBlock
+           Margin="0,80,0,0"
+           Style="{StaticResource MaterialDesignHeadline3TextBlock}"
+           Text="ABOUT US "
+           FontSize="35"
+           Foreground="#FFFFC03A"
+           FontWeight="Bold"/>
+              
+                <Viewbox
+           Margin="20,0,0,0"
+           Stretch="Uniform"
+           HorizontalAlignment="Left"
+           StretchDirection="DownOnly">
+                    <TextBlock
+                        Margin="0,0,0,0"
+               Width="400"
+               TextAlignment="Justify"
+               Style="{StaticResource MaterialDesignBody1TextBlock}"
+               FontSize="18"
+               TextWrapping="WrapWithOverflow"
+               Text="Làm việc nhóm là khả năng làm việc cùng nhau hướng đến tầm nhìn chung. Là khả năng dẫn dắt những thành tích cá nhân vì các mục tiêu của tổ chức. Đây là nguồn nhiên liệu giúp những người bình thường có thể đạt được những kết quả phi thường."/>
+                </Viewbox>
+            </StackPanel>
+
+            
+            <StackPanel Margin="0,30,100,0" Panel.ZIndex="1000" HorizontalAlignment="Right">
+                <!--Trang-->
+                <Grid
+                    Margin="0,-20,0,0"
+                    Width="400"
+                    Grid.Column="2"
+                    HorizontalAlignment="Left"
+                    md:ShadowAssist.ShadowDepth="Depth2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <Border
+                        Grid.ColumnSpan="2"
+                         Panel.ZIndex="100"
+                         Width="170"
+                         Height="170"
+                         Background="White"
+                         Padding="5"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Center"
+                         CornerRadius="100">
+                        <Border
+                            Background="White"
+                            BorderThickness="2"
+                            BorderBrush="#FFC7F8FF"
+                            Padding="2"
+                            CornerRadius="100">
+                            <Border.Effect>
+                                <DropShadowEffect
+                                 BlurRadius="3"
+                                 Opacity="0.3"
+                                 ShadowDepth="0.8" />
+                            </Border.Effect>
+                            <Border CornerRadius="100">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="/Resources/Images/NhaTrang.jpg" 
+                                                RenderOptions.BitmapScalingMode="NearestNeighbor" />
+                                </Border.Background>
+                            </Border>
+                        </Border>
+                    </Border>
+
+                    <Grid
+                        Grid.Column="1"
+                        Margin="0,15,0,15">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="2*"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+                        <md:Card
+                             VerticalAlignment="Top"
+                             md:ShadowAssist.ShadowDepth="Depth2"
+                             Background="#FFFEFEFF"
+                             Padding="8"
+                             UniformCornerRadius="6" 
+                             Height="92">
+                            <StackPanel Margin="45,0,0,0">
+                                <TextBlock
+                                  Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                                  FontSize="15"
+                                  Text="Ngô Nha Trang"
+                                    />
+                                <TextBlock
+                                TextWrapping="Wrap"
+                                 Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                Text="nói về thứ gì đó, như giới thiệu bản thân, nhưng nên ngắn gọn, tầm 3 hàng." />
+                            </StackPanel>
+                        </md:Card>
+                        <md:Card
+                             Margin="0,7,0,0"
+                             Grid.Row="1"
+                             md:ShadowAssist.ShadowDepth="Depth2"
+                             md:ShadowAssist.ShadowEdges="Bottom,Right"
+                             Background="#FFFEFEFF"
+                             UniformCornerRadius="6">
+                            <Grid Margin="45,0,0,0" Width="130" HorizontalAlignment="Right">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+                                <Button
+                                      HorizontalAlignment="Left"
+                                        Width="30"
+                                        Height="30"
+                                      Foreground="White"
+                                      ToolTip="GitHub link"
+                                      Style="{StaticResource MaterialDesignIconButton}"
+                                      Background="#6a1a9a"
+                                      Content="{md:PackIcon Kind=Github, Size=20}"/>
+                                <Button
+                                      Grid.Column="1"
+                                      HorizontalAlignment="Left"
+                                        Width="30"
+                                        Height="30"
+                                      Foreground="White"
+                                      ToolTip="Email link"
+                                      Style="{StaticResource MaterialDesignIconButton}"
+                                      Background="#FFB71C1C"
+                                      Content="{md:PackIcon Kind=Mail, Size=20}"/>
+                                <Button
+                                      Grid.Column="2"
+                                      HorizontalAlignment="Left"
+                                        Width="30"
+                                        Height="30"
+                                      Foreground="White"
+                                      ToolTip="FaceBook link"
+                                      Style="{StaticResource MaterialDesignIconButton}"
+                                      Background="#1274d0"
+                                      Content="{md:PackIcon Kind=Facebook, Size=20}"/>
+                            </Grid>
+                        </md:Card>
+                    </Grid>
+                </Grid>
+
+                <!--Phúc-->
+                <Grid
+               Margin="130,-5,0,0"
+               Width="400"
+               HorizontalAlignment="Left"
+               Grid.Column="2"
+               md:ShadowAssist.ShadowDepth="Depth2">
+               <Grid.ColumnDefinitions>
+                   <ColumnDefinition Width="2*"/>
+                   <ColumnDefinition Width="1*"/>
+               </Grid.ColumnDefinitions>
+              
+               <Grid
+                   Grid.Column="0"
+                   Margin="0,15,0,15">
+                   <Grid.RowDefinitions>
+                       <RowDefinition Height="2*"/>
+                       <RowDefinition Height="1*"/>
+                   </Grid.RowDefinitions>
+                   <md:Card
+                        VerticalAlignment="Top"
+                        md:ShadowAssist.ShadowDepth="Depth2"
+                        Background="#FFFEFEFF"
+                        Padding="8"
+                        UniformCornerRadius="6" 
+                        Height="92">
+                       <StackPanel Margin="0,0,45,0">
+                           <TextBlock
+                             Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                             FontSize="15"
+                             Text="Ngô Nha Trang"
+                               />
+                           <TextBlock
+                           TextWrapping="Wrap"
+                            Style="{StaticResource MaterialDesignBody2TextBlock}"
+                           Text="nói về thứ gì đó, như giới thiệu bản thân, nhưng nên ngắn gọn, tầm 3 hàng." />
+                       </StackPanel>
+                   </md:Card>
+                   <md:Card
+                        Margin="0,7,0,0"
+                        Grid.Row="1"
+                        md:ShadowAssist.ShadowDepth="Depth2"
+                        md:ShadowAssist.ShadowEdges="Bottom,Left"
+                        Background="#FFFEFEFF"
+                        UniformCornerRadius="6">
+                       <Grid Margin="10,0,0,0" Width="130" HorizontalAlignment="Left">
+                           <Grid.ColumnDefinitions>
+                               <ColumnDefinition Width="1*"/>
+                               <ColumnDefinition Width="1*"/>
+                               <ColumnDefinition Width="1*"/>
+                           </Grid.ColumnDefinitions>
+                           <Button
+                                 HorizontalAlignment="Left"
+                                   Width="30"
+                                   Height="30"
+                                 Foreground="White"
+                                 ToolTip="GitHub link"
+                                 Style="{StaticResource MaterialDesignIconButton}"
+                                 Background="#6a1a9a"
+                                 Content="{md:PackIcon Kind=Github, Size=20}"/>
+                           <Button
+                                 Grid.Column="1"
+                                 HorizontalAlignment="Left"
+                                   Width="30"
+                                   Height="30"
+                                 Foreground="White"
+                                 ToolTip="Email link"
+                                 Style="{StaticResource MaterialDesignIconButton}"
+                                 Background="#FFB71C1C"
+                                 Content="{md:PackIcon Kind=Mail, Size=20}"/>
+                           <Button
+                                 Grid.Column="2"
+                                 HorizontalAlignment="Left"
+                                   Width="30"
+                                   Height="30"
+                                 Foreground="White"
+                                 ToolTip="FaceBook link"
+                                 Style="{StaticResource MaterialDesignIconButton}"
+                                 Background="#1274d0"
+                                 Content="{md:PackIcon Kind=Facebook, Size=20}"/>
+                       </Grid>
+                   </md:Card>
+               </Grid>
+               
+               <Border
+                   Grid.ColumnSpan="2"
+                    Panel.ZIndex="100"
+                    Width="170"
+                    Height="170"
+                    Background="White"
+                    Padding="5"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    CornerRadius="100">
+                   <Border
+                       Background="White"
+                       BorderThickness="2"
+                       BorderBrush="#FFC7F8FF"
+                       Padding="2"
+                       CornerRadius="100">
+                       <Border.Effect>
+                           <DropShadowEffect
+                            BlurRadius="3"
+                            Opacity="0.3"
+                            ShadowDepth="0.8" />
+                       </Border.Effect>
+                       <Border CornerRadius="100">
+                           <Border.Background>
+                               <ImageBrush ImageSource="/Resources/Images/NhaTrang.jpg" 
+                                           RenderOptions.BitmapScalingMode="NearestNeighbor" />
+                           </Border.Background>
+                       </Border>
+                   </Border>
+               </Border>
+
+           </Grid>
+
+                <!--Tín-->
+                <Grid
+               Margin="0,-5,0,0"
+               Width="400"
+               HorizontalAlignment="Left"
+               Grid.Column="2"
+               md:ShadowAssist.ShadowDepth="Depth2">
+               <Grid.ColumnDefinitions>
+                   <ColumnDefinition Width="1*"/>
+                   <ColumnDefinition Width="2*"/>
+               </Grid.ColumnDefinitions>
+               <Border
+                   Grid.ColumnSpan="2"
+                    Panel.ZIndex="100"
+                    Width="170"
+                    Height="170"
+                    Background="White"
+                    Padding="5"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    CornerRadius="100">
+                   <Border
+                       Background="White"
+                       BorderThickness="2"
+                       BorderBrush="#FFC7F8FF"
+                       Padding="2"
+                       CornerRadius="100">
+                       <Border.Effect>
+                           <DropShadowEffect
+                            BlurRadius="3"
+                            Opacity="0.3"
+                            ShadowDepth="0.8" />
+                       </Border.Effect>
+                       <Border CornerRadius="100">
+                           <Border.Background>
+                               <ImageBrush ImageSource="/Resources/Images/NhaTrang.jpg" 
+                                           RenderOptions.BitmapScalingMode="NearestNeighbor" />
+                           </Border.Background>
+                       </Border>
+                   </Border>
+               </Border>
+
+               <Grid
+                   Grid.Column="1"
+                   Margin="0,15,0,15">
+                   <Grid.RowDefinitions>
+                       <RowDefinition Height="2*"/>
+                       <RowDefinition Height="1*"/>
+                   </Grid.RowDefinitions>
+                   <md:Card
+                        VerticalAlignment="Top"
+                        md:ShadowAssist.ShadowDepth="Depth2"
+                        Background="#FFFEFEFF"
+                        Padding="8"
+                        UniformCornerRadius="6" 
+                        Height="92">
+                       <StackPanel Margin="45,0,0,0">
+                           <TextBlock
+                             Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                             FontSize="15"
+                             Text="Ngô Nha Trang"
+                               />
+                           <TextBlock
+                           TextWrapping="Wrap"
+                            Style="{StaticResource MaterialDesignBody2TextBlock}"
+                           Text="nói về thứ gì đó, như giới thiệu bản thân, nhưng nên ngắn gọn, tầm 3 hàng." />
+                       </StackPanel>
+                   </md:Card>
+                   <md:Card
+                        Margin="0,7,0,0"
+                        Grid.Row="1"
+                        md:ShadowAssist.ShadowDepth="Depth2"
+                        md:ShadowAssist.ShadowEdges="Bottom,Right"
+                        Background="#FFFEFEFF"
+                        UniformCornerRadius="6">
+                       <Grid Margin="45,0,0,0" Width="130" HorizontalAlignment="Right">
+                           <Grid.ColumnDefinitions>
+                               <ColumnDefinition Width="1*"/>
+                               <ColumnDefinition Width="1*"/>
+                               <ColumnDefinition Width="1*"/>
+                           </Grid.ColumnDefinitions>
+                           <Button
+                                 HorizontalAlignment="Left"
+                                   Width="30"
+                                   Height="30"
+                                 Foreground="White"
+                                 ToolTip="GitHub link"
+                                 Style="{StaticResource MaterialDesignIconButton}"
+                                 Background="#6a1a9a"
+                                 Content="{md:PackIcon Kind=Github, Size=20}"/>
+                           <Button
+                                 Grid.Column="1"
+                                 HorizontalAlignment="Left"
+                                   Width="30"
+                                   Height="30"
+                                 Foreground="White"
+                                 ToolTip="Email link"
+                                 Style="{StaticResource MaterialDesignIconButton}"
+                                 Background="#FFB71C1C"
+                                 Content="{md:PackIcon Kind=Mail, Size=20}"/>
+                           <Button
+                                 Grid.Column="2"
+                                 HorizontalAlignment="Left"
+                                   Width="30"
+                                   Height="30"
+                                 Foreground="White"
+                                 ToolTip="FaceBook link"
+                                 Style="{StaticResource MaterialDesignIconButton}"
+                                 Background="#1274d0"
+                                 Content="{md:PackIcon Kind=Facebook, Size=20}"/>
+                       </Grid>
+                   </md:Card>
+               </Grid>
+           </Grid>
+            </StackPanel>
+        </Grid>
+
+        <Button
+            Margin="-10,0,20,0"
+            HorizontalAlignment="Left"
+            Background="#FF9EDDFF"
+            BorderBrush="#FF9EDDFF"
+            Style="{StaticResource MaterialDesignRaisedDarkButton}"
+            Command="{x:Static md:Transitioner.MovePreviousCommand}"
+            Content="{md:PackIcon Kind=ChevronLeft, Size=26}"
+            Height="50"
+            md:ButtonAssist.CornerRadius="5 25 25 5"
+            ToolTip="Back" />
+    </Grid>
+</UserControl>

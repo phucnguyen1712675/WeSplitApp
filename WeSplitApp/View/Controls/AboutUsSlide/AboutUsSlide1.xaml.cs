@@ -12,16 +12,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WeSplitApp.ViewModel;
 
-namespace WeSplitApp.View.Controls
+namespace WeSplitApp.View.Controls.AboutUsSlide
 {
     /// <summary>
-    /// Interaction logic for AboutUsControl.xaml
+    /// Interaction logic for AboutUsSlide1.xaml
     /// </summary>
-    public partial class AboutUsControl : UserControl
+    public partial class AboutUsSlide1 : UserControl
     {
-        public AboutUsControl()
+        public AboutUsSlide1()
         {
             InitializeComponent();
         }
