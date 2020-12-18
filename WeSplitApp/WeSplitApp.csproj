@@ -302,6 +302,12 @@
     <Compile Include="View\Controls\AboutUsControl.xaml.cs">
       <DependentUpon>AboutUsControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Controls\AboutUsSlide\AboutUsSlide1.xaml.cs">
+      <DependentUpon>AboutUsSlide1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\AboutUsSlide\AboutUsSlide2.xaml.cs">
+      <DependentUpon>AboutUsSlide2.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Controls\AddNewTripControl.xaml.cs">
       <DependentUpon>AddNewTripControl.xaml</DependentUpon>
     </Compile>
@@ -468,6 +474,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Controls\AboutUsSlide\AboutUsSlide1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\AboutUsSlide\AboutUsSlide2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Controls\AddNewTripControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -605,6 +619,11 @@
     <Resource Include="Resources\Images\4012176.jpg" />
     <Resource Include="Resources\Images\NullImage.png" />
     <Resource Include="Resources\Images\SettingBackGround1.jpg" />
+    <Resource Include="Resources\Images\aboutUsBackGround.jpg" />
+    <Resource Include="Resources\Images\aboutUs1BackGround.jpg" />
+    <Resource Include="Resources\Images\aboutUs2BackGround.jpg" />
+    <Resource Include="Resources\Images\NhaTrang.jpg" />
+    <Resource Include="Resources\Images\aboutUs22BackGround.jpg" />
     <Content Include="WESPLITAPP_DB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>WESPLITAPP_DB.edmx</DependentUpon>
