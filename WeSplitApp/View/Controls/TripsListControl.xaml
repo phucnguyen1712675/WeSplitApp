@@ -52,6 +52,12 @@
                     <i:InvokeCommandAction Command="{Binding SelectedCommand}" CommandParameter="{Binding ElementName=tripListView, Path=SelectedItem}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                </Style>
+            </ListView.ItemContainerStyle>
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel />

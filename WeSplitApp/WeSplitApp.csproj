@@ -216,6 +216,8 @@
     <Compile Include="Converters\AmountPaidStatusToIconConverter.cs" />
     <Compile Include="Converters\AmountPaidToMemberStatusConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\BoolToForegroundForDeleteMemberConverter.cs" />
+    <Compile Include="Converters\BoolToIndexGenderConverver.cs" />
     <Compile Include="Converters\BoolToIntConverter.cs" />
     <Compile Include="Converters\ImageConverter.cs" />
     <Compile Include="Converters\IndexToIsEnabledNextButtonConverter.cs" />
@@ -226,6 +228,7 @@
     <Compile Include="Converters\StatusToDetailTitleConverter.cs" />
     <Compile Include="Converters\StatusToStringConverter.cs" />
     <Compile Include="Converters\StringToEachPersonTextConverter.cs" />
+    <Compile Include="Converters\StringToVisibilityForImageBackgroundConverter.cs" />
     <Compile Include="Converters\TripCostsToMoneyEachPersonConverter.cs" />
     <Compile Include="Converters\TripCostToAvarageMoneyConverter.cs" />
     <Compile Include="Converters\TripImagesToNotNullCollectionConverter.cs" />
@@ -275,8 +278,11 @@
     <Compile Include="ViewModel\LocationListViewModel.cs" />
     <Compile Include="ViewModel\MemberListViewModel.cs" />
     <Compile Include="ViewModel\BeingTakenTripsListViewModel.cs" />
+    <Compile Include="ViewModel\TripDetailSlideVM\AddExistingMemberDialogViewModel.cs" />
+    <Compile Include="ViewModel\TripDetailSlideVM\AddNewMemberAmountPaidToSelectedTripViewModel.cs" />
     <Compile Include="ViewModel\TripDetailSlideVM\CurrentProceedsPieChartViewModel.cs" />
     <Compile Include="ViewModel\HomeScreenViewModel.cs" />
+    <Compile Include="ViewModel\TripDetailSlideVM\EditMemberDialogViewModel.cs" />
     <Compile Include="ViewModel\TripDetailSlideVM\FileSystemControlViewModel.cs" />
     <Compile Include="ViewModel\TripDetailSlideVM\FileSystemDialogViewModel.cs" />
     <Compile Include="ViewModel\TripDetailSlideVM\ImagePresenterViewModel.cs" />
@@ -323,11 +329,23 @@
     <Compile Include="View\Controls\LocationListControl.xaml.cs">
       <DependentUpon>LocationListControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Controls\TripDetailSlide\AddExistingMemberDialog.xaml.cs">
+      <DependentUpon>AddExistingMemberDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\TripDetailSlide\AddMemberToSelectedTripDesionDialog.xaml.cs">
+      <DependentUpon>AddMemberToSelectedTripDesionDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\TripDetailSlide\AddNewMemberAmountPaidToSelectedTripControl.xaml.cs">
+      <DependentUpon>AddNewMemberAmountPaidToSelectedTripControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Controls\TripDetailSlide\CurrentProceedsPieChartControl.xaml.cs">
       <DependentUpon>CurrentProceedsPieChartControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Controls\HaveTakenTripsListControl.xaml.cs">
       <DependentUpon>HaveTakenTripsListControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\TripDetailSlide\EditMemberDialog.xaml.cs">
+      <DependentUpon>EditMemberDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Controls\TripDetailSlide\ImagePresenterControl.xaml.cs">
       <DependentUpon>ImagePresenterControl.xaml</DependentUpon>
@@ -496,11 +514,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Controls\TripDetailSlide\AddExistingMemberDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\TripDetailSlide\AddMemberToSelectedTripDesionDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\TripDetailSlide\AddNewMemberAmountPaidToSelectedTripControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Controls\TripDetailSlide\CurrentProceedsPieChartControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Controls\HaveTakenTripsListControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\TripDetailSlide\EditMemberDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -605,6 +639,7 @@
     <Resource Include="Resources\Images\4012176.jpg" />
     <Resource Include="Resources\Images\NullImage.png" />
     <Resource Include="Resources\Images\SettingBackGround1.jpg" />
+    <Resource Include="Resources\Images\3987545.jpg" />
     <Content Include="WESPLITAPP_DB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>WESPLITAPP_DB.edmx</DependentUpon>

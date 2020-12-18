@@ -1,9 +1,6 @@
-﻿using MaterialDesignThemes.Wpf;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,19 +12,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WeSplitApp.Utils;
-using WeSplitApp.ViewModel;
 
 namespace WeSplitApp.View.Controls.TripDetailSlide
 {
     /// <summary>
-    /// Interaction logic for Slide3_ProceedsControl.xaml
+    /// Interaction logic for EditMemberDialog.xaml
     /// </summary>
-    public partial class Slide3_ProceedsControl : UserControl
+    public partial class EditMemberDialog : UserControl
     {
-        public const string DialogHostName = "slide3DialogHost";
-        public DialogHost DialogHost => m_slide3DialogHost;
-        public Slide3_ProceedsControl()
+        public EditMemberDialog()
         {
             InitializeComponent();
         }

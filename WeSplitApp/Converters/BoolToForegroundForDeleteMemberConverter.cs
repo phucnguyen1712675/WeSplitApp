@@ -4,27 +4,20 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace WeSplitApp.Converters
 {
-    public class BooleanToVisibilityConverter : IValueConverter
+    public class BoolToForegroundForDeleteMemberConverter : IValueConverter
     {
-        /// <summary>
-        /// If set to True, conversion is reversed: True will become Collapsed.
-        /// </summary>
-        public bool IsReversed { get; set; }
-
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var val = System.Convert.ToBoolean(value);
-            if (this.IsReversed)
-            {
-                val = !val;
-            }
-            return val ? Visibility.Visible : Visibility.Collapsed;
+            bool isDeletable = (bool)value;
+            var foreground = isDeletable ? new SolidColorBrush(Color.FromArgb(0xFF, 0x01, 0xBF, 0x3A)) : new SolidColorBrush(Color.FromArgb(0xFF, 0x99, 0x11, 0x01));
+            return foreground;
         }
+
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();

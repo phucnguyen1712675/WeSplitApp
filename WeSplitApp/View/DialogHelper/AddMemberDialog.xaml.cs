@@ -31,7 +31,6 @@ namespace WeSplitApp.View.DialogHelper
             if (dr == DialogResult.OK)
             {
                 string imagePath = fileDialog.FileName;
-                var folder = AppDomain.CurrentDomain.BaseDirectory;
 
                 var bitmap = new BitmapImage(
                     new Uri(imagePath, UriKind.Absolute)
