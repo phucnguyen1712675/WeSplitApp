@@ -211,7 +211,7 @@
                         FontWeight="Bold"
                         Foreground="#0a0521"
                         Style="{StaticResource MaterialDesignHeadline3TextBlock}"
-                        Text="{Binding SelectedTrip.TITTLE}"
+                        Text="{Binding SelectedTrip.TITTLE, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                         TextAlignment="Left"
                         TextWrapping="WrapWithOverflow"
                         Visibility="{Binding IsTitleEditing, Converter={StaticResource FalseToVisibleConverter}}" />
@@ -260,7 +260,7 @@
                         VerticalAlignment="Center"
                         Foreground="#8e9294"
                         Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
-                        Text="{Binding SelectedTrip.DESCRIPTION}"
+                        Text="{Binding SelectedTrip.DESCRIPTION, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                         TextAlignment="Left"
                         TextWrapping="WrapWithOverflow"
                         Visibility="{Binding IsDescriptionEditing, Converter={StaticResource FalseToVisibleConverter}}" />
@@ -347,7 +347,7 @@
                         Margin="5,0,0,0"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
-                        Text="{Binding SelectedTrip.TOGODATE, StringFormat=d}" />
+                        Text="{Binding SelectedTrip.TOGODATE, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat=d}" />
                     <Button
                         Grid.Row="0"
                         Grid.Column="2"
@@ -368,7 +368,7 @@
                         Margin="5,0,0,0"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
-                        Text="{Binding SelectedTrip.RETURNDATE, StringFormat=d}" />
+                        Text="{Binding SelectedTrip.RETURNDATE, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat=d}" />
                     <Button
                         Grid.Row="1"
                         Grid.Column="2"

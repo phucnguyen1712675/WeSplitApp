@@ -34,57 +34,47 @@
             <ColumnDefinition Width="6*" />
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-
-            <Border
-                Grid.Row="0"
-                BorderThickness="0"
-                CornerRadius="10">
-                <Border.Background>
-                    <ImageBrush ImageSource="/Resources/Images/4012176.jpg" Stretch="UniformToFill" />
-                </Border.Background>
-            </Border>
-            <Button
-                Grid.Row="1"
-                Margin="0,0,0,36"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Bottom"
-                md:ButtonProgressAssist.IsIndeterminate="True"
-                md:ButtonProgressAssist.IsIndicatorVisible="True"
-                md:ButtonProgressAssist.Value="-1"
-                Command="{x:Static md:Transitioner.MovePreviousCommand}"
-                Content="{md:PackIcon Kind=StepBackward}"
-                Style="{DynamicResource MaterialDesignFloatingActionButton}"
-                ToolTip="Back" />
-        </Grid>
+        <Image
+            Margin="36"
+            Source="/Resources/Images/4012176.jpg"
+            Stretch="Uniform" />
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1.3*" />
-                <RowDefinition Height="auto" />
                 <RowDefinition Height="8*" />
             </Grid.RowDefinitions>
-            <Viewbox
-                Grid.Row="0"
-                Margin="130,0"
-                VerticalAlignment="Center"
-                Stretch="Uniform"
-                StretchDirection="DownOnly">
-                <TextBlock
-                    Width="880"
-                    FontWeight="Bold"
-                    Style="{StaticResource MaterialDesignHeadline2TextBlock}"
-                    Text="Những dự định tương lai"
-                    TextAlignment="Justify"
-                    TextWrapping="WrapWithOverflow" />
-            </Viewbox>
-            <local:ExpectedTripListControl
-                HorizontalContentAlignment="Center"
-                VerticalContentAlignment="Center"
-                Grid.Row="2"/>
+
+            <Grid Margin="130,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Viewbox
+                    VerticalAlignment="Center"
+                    Stretch="Uniform"
+                    StretchDirection="DownOnly">
+                    <TextBlock
+                        Width="880"
+                        FontWeight="Bold"
+                        Style="{StaticResource MaterialDesignHeadline2TextBlock}"
+                        Text="Những dự định tương lai"
+                        TextAlignment="Justify"
+                        TextWrapping="WrapWithOverflow" />
+                </Viewbox>
+                <Button
+                    Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    md:ButtonProgressAssist.IsIndeterminate="True"
+                    md:ButtonProgressAssist.IsIndicatorVisible="True"
+                    md:ButtonProgressAssist.Value="-1"
+                    Command="{x:Static md:Transitioner.MovePreviousCommand}"
+                    Content="{md:PackIcon Kind=StepBackward}"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                    ToolTip="Back" />
+            </Grid>
+            <local:TripsListControl Grid.Row="1" />
         </Grid>
     </Grid>
 </UserControl>

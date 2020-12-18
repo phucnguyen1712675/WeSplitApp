@@ -5,24 +5,27 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 
 namespace WeSplitApp.Converters
 {
     public class AmountPaidStatusToIconConverter : IMultiValueConverter
     {
+        public IMultiValueConverter Converter1 { get; set; }
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (string.IsNullOrEmpty(values[0].ToString()) || string.IsNullOrEmpty(values[1].ToString()))
+            if (values.Any(x => x == DependencyProperty.UnsetValue))
             {
-                return PackIconKind.Abc;
+                return DependencyProperty.UnsetValue;
             }
+            var averageMoney = Converter1.Convert(values, targetType, parameter, culture);
+            var amountPaid = (double)values[2];
+            var missingAmount = (double)averageMoney - amountPaid;
             const double precise = 0.0000001;
-            var averageMoney = double.Parse(values[0].ToString());
-            var amountPaid = (double)values[1];
-            var missingAmount = averageMoney - amountPaid;
+            var isNotEqual = Math.Abs(missingAmount) >= precise && missingAmount >= 0.0;
 
-            var icon = Math.Abs(missingAmount) >= precise && missingAmount >= 0.0 ? PackIconKind.CloseCircleOutline : PackIconKind.CheckCircleOutline;
+            var icon = isNotEqual? PackIconKind.CloseCircleOutline : PackIconKind.CheckCircleOutline;
 
             return icon;
         }

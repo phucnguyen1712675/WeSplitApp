@@ -221,38 +221,41 @@
                             <ColumnDefinition Width="5*"/>
                             <ColumnDefinition Width="4*"/>
                         </Grid.ColumnDefinitions>
-                        <Grid Grid.Column="0" Name="col1"/>
-                        <Grid Grid.Column="1" Name="col2"/>
-                        <Grid Grid.Column="2" Name="col3"/>
+                        <Grid Name="col1" Grid.Column="0" />
+                        <Grid Name="col2" Grid.Column="1" />
+                        <Grid Name="col3" Grid.Column="2" />
                     </Grid>
                     <ListView x:Name="LocationAddedListView"
                               ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                               ItemsSource="{Binding AddTrip.TRIP_LOCATION}">
                         <ListView.Resources>
                             <DataTemplate x:Key="Templ">
-                                <TextBlock HorizontalAlignment="Center" Text="{Binding}"/>
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding}" />
                             </DataTemplate>
                             <Style x:Key="HeaderStyle" TargetType="GridViewColumnHeader">
-                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
                             </Style>
                         </ListView.Resources>
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn
-                                    HeaderTemplate="{StaticResource Templ}" HeaderContainerStyle="{StaticResource HeaderStyle}"
                                     Width="{Binding ElementName=col1, Path=ActualWidth}"
                                     DisplayMemberBinding="{Binding LOCATION.NAME}"
-                                    Header="Tên" />
+                                    Header="Tên"
+                                    HeaderContainerStyle="{StaticResource HeaderStyle}"
+                                    HeaderTemplate="{StaticResource Templ}" />
                                 <GridViewColumn
-                                    HeaderTemplate="{StaticResource Templ}" HeaderContainerStyle="{StaticResource HeaderStyle}"
                                     Width="{Binding ElementName=col2, Path=ActualWidth}"
                                     DisplayMemberBinding="{Binding LOCATION.ADDRESS}"
-                                    Header="Địa chỉ" />
+                                    Header="Địa chỉ"
+                                    HeaderContainerStyle="{StaticResource HeaderStyle}"
+                                    HeaderTemplate="{StaticResource Templ}" />
                                 <GridViewColumn
-                                    HeaderTemplate="{StaticResource Templ}" HeaderContainerStyle="{StaticResource HeaderStyle}"
                                     Width="{Binding ElementName=col3, Path=ActualWidth}"
-                                    DisplayMemberBinding="{Binding COSTS}" 
-                                    Header="Chi phí" />
+                                    DisplayMemberBinding="{Binding COSTS}"
+                                    Header="Chi phí"
+                                    HeaderContainerStyle="{StaticResource HeaderStyle}"
+                                    HeaderTemplate="{StaticResource Templ}" />
                             </GridView>
                         </ListView.View>
                     </ListView>

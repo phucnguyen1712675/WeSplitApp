@@ -223,6 +223,7 @@
     <Compile Include="Converters\ImageConverter.cs" />
     <Compile Include="Converters\IndexToIsEnabledNextButtonConverter.cs" />
     <Compile Include="Converters\IndexToIsEnabledPreviousButtonConverter.cs" />
+    <Compile Include="Converters\IndexToVisibilityForTripCostConverter.cs" />
     <Compile Include="Converters\RatioConverter.cs" />
     <Compile Include="Converters\DoubleToVNDConverter.cs" />
     <Compile Include="Converters\StatusColorConverter.cs" />
@@ -279,8 +280,11 @@
     <Compile Include="ViewModel\LocationListViewModel.cs" />
     <Compile Include="ViewModel\MemberListViewModel.cs" />
     <Compile Include="ViewModel\BeingTakenTripsListViewModel.cs" />
+    <Compile Include="ViewModel\TripDetailSlideVM\AddCostToTripViewModel.cs" />
     <Compile Include="ViewModel\TripDetailSlideVM\AddExistingMemberDialogViewModel.cs" />
     <Compile Include="ViewModel\TripDetailSlideVM\AddNewMemberAmountPaidToSelectedTripViewModel.cs" />
+    <Compile Include="ViewModel\TripDetailSlideVM\AddLocationCostDialogViewModel.cs" />
+    <Compile Include="ViewModel\TripDetailSlideVM\AddOtherCostDialogViewModel.cs" />
     <Compile Include="ViewModel\TripDetailSlideVM\CurrentProceedsPieChartViewModel.cs" />
     <Compile Include="ViewModel\HomeScreenViewModel.cs" />
     <Compile Include="ViewModel\TripDetailSlideVM\EditMemberDialogViewModel.cs" />
@@ -339,8 +343,14 @@
     <Compile Include="View\Controls\TripDetailSlide\AddExistingMemberDialog.xaml.cs">
       <DependentUpon>AddExistingMemberDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Controls\TripDetailSlide\AddLocationCostDialog.xaml.cs">
+      <DependentUpon>AddLocationCostDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Controls\TripDetailSlide\AddMemberToSelectedTripDesionDialog.xaml.cs">
       <DependentUpon>AddMemberToSelectedTripDesionDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\TripDetailSlide\AddOtherCostDialog.xaml.cs">
+      <DependentUpon>AddOtherCostDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Controls\TripDetailSlide\CurrentProceedsPieChartControl.xaml.cs">
       <DependentUpon>CurrentProceedsPieChartControl.xaml</DependentUpon>
@@ -530,7 +540,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Controls\TripDetailSlide\AddLocationCostDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Controls\TripDetailSlide\AddMemberToSelectedTripDesionDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\TripDetailSlide\AddOtherCostDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

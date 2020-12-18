@@ -34,9 +34,12 @@
                 Converter1="{StaticResource TripCostToAvarageMoneyConverter}"
                 Converter2="{StaticResource doubleToVNDConverter}"
                 Converter3="{StaticResource StringToEachPersonTextConverter}" />
-            <conv:AmountPaidToMemberStatusConverter x:Key="AmountPaidToMemberStatusConverter" Converter1="{StaticResource doubleToVNDConverter}" />
-            <conv:AmountPaidStatusToColorConverter x:Key="AmountPaidStatusToColorConverter" />
-            <conv:AmountPaidStatusToIconConverter x:Key="AmountPaidStatusToIconConverter" />
+            <conv:AmountPaidToMemberStatusConverter
+                x:Key="AmountPaidToMemberStatusConverter"
+                Converter1="{StaticResource TripCostToAvarageMoneyConverter}"
+                Converter2="{StaticResource doubleToVNDConverter}" />
+            <conv:AmountPaidStatusToColorConverter x:Key="AmountPaidStatusToColorConverter" Converter1="{StaticResource TripCostToAvarageMoneyConverter}" />
+            <conv:AmountPaidStatusToIconConverter x:Key="AmountPaidStatusToIconConverter" Converter1="{StaticResource TripCostToAvarageMoneyConverter}" />
 
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
@@ -64,8 +67,8 @@
                     <DockPanel Grid.Row="0" HorizontalAlignment="Stretch">
                         <TextBlock
                             DockPanel.Dock="Right"
-                            Foreground="{Binding SelectedTrip.ISDONE, Converter={StaticResource statusColorConverter}}"
-                            Text="{Binding SelectedTrip.ISDONE, Converter={StaticResource statusToStringConverter}}" />
+                            Foreground="{Binding SelectedTrip.ISDONE, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource statusColorConverter}}"
+                            Text="{Binding SelectedTrip.ISDONE, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource statusToStringConverter}}" />
                         <Grid HorizontalAlignment="Left">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
@@ -81,7 +84,7 @@
                             <TextBlock
                                 Grid.Column="2"
                                 Foreground="#8e9294"
-                                Text="{Binding SelectedTrip.TITTLE}" />
+                                Text="{Binding SelectedTrip.TITTLE, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                         </Grid>
                     </DockPanel>
                     <StackPanel
@@ -126,9 +129,9 @@
                                         Margin="0,0,5,0"
                                         Foreground="{DynamicResource PrimaryHueMidBrush}"
                                         Kind="Calendar" />
-                                    <TextBlock Text="{Binding SelectedTrip.TOGODATE, StringFormat='{}{0:dd/MM/yyyy}'}" />
+                                    <TextBlock Text="{Binding SelectedTrip.TOGODATE, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat='{}{0:dd/MM/yyyy}'}" />
                                     <TextBlock Text=" - " />
-                                    <TextBlock Text="{Binding SelectedTrip.RETURNDATE, StringFormat='{}{0:dd/MM/yyyy}'}" />
+                                    <TextBlock Text="{Binding SelectedTrip.RETURNDATE, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat='{}{0:dd/MM/yyyy}'}" />
                                 </StackPanel>
                             </Border>
                             <Border
@@ -146,7 +149,7 @@
                                         Foreground="{DynamicResource PrimaryHueMidBrush}"
                                         Kind="AccountSupervisor" />
                                     <TextBlock Text="Số người: " />
-                                    <TextBlock Text="{Binding SelectedTrip.TRIP_MEMBER.Count}" />
+                                    <TextBlock Text="{Binding SelectedTrip.TRIP_MEMBER.Count, UpdateSourceTrigger=PropertyChanged}" />
                                 </StackPanel>
                             </Border>
                             <Border
@@ -164,11 +167,17 @@
                                         Foreground="{DynamicResource PrimaryHueMidBrush}"
                                         Kind="Cash" />
                                     <TextBlock Text="Trung bình: " />
-                                    <TextBlock
-                                        x:Name="averageMoney"
-                                        Text="{Binding Path=SelectedTrip, Converter={StaticResource TripCostToAvarageMoneyConverter}, StringFormat=N2}"
-                                        Visibility="Collapsed" />
-                                    <TextBlock x:Name="avarageMoneyEachPerson" Text="{Binding Path=SelectedTrip, Converter={StaticResource TripCostsToMoneyEachPersonConverter}}" />
+                                    <TextBlock>
+                                        <TextBlock.Text>
+                                            <MultiBinding
+                                                Converter="{StaticResource TripCostsToMoneyEachPersonConverter}"
+                                                Mode="TwoWay"
+                                                UpdateSourceTrigger="PropertyChanged">
+                                                <Binding Path="SelectedTrip.TOTALCOSTS" />
+                                                <Binding Path="SelectedTrip.TRIP_MEMBER.Count" />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
                                 </StackPanel>
                             </Border>
                             <Border
@@ -186,7 +195,7 @@
                                         Foreground="{DynamicResource PrimaryHueMidBrush}"
                                         Kind="CurrencyUsd" />
                                     <TextBlock Text="Đã thu: " />
-                                    <TextBlock Text="{Binding SelectedTrip.CURRENTPROCEEDS, Converter={StaticResource doubleToVNDConverter}}" />
+                                    <TextBlock Text="{Binding SelectedTrip.CURRENTPROCEEDS, Converter={StaticResource doubleToVNDConverter}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                                 </StackPanel>
                             </Border>
                         </StackPanel>
@@ -300,14 +309,22 @@
                                                         <StackPanel Orientation="Horizontal">
                                                             <TextBlock>
                                                                 <TextBlock.Text>
-                                                                    <MultiBinding Converter="{StaticResource AmountPaidToMemberStatusConverter}">
-                                                                        <Binding ElementName="averageMoney" Path="Text" />
+                                                                    <MultiBinding
+                                                                        Converter="{StaticResource AmountPaidToMemberStatusConverter}"
+                                                                        Mode="TwoWay"
+                                                                        UpdateSourceTrigger="PropertyChanged">
+                                                                        <Binding Path="DataContext.SelectedTrip.TOTALCOSTS" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}" />
+                                                                        <Binding Path="DataContext.SelectedTrip.TRIP_MEMBER.Count" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}" />
                                                                         <Binding Path="AMOUNTPAID" />
                                                                     </MultiBinding>
                                                                 </TextBlock.Text>
                                                                 <TextBlock.Foreground>
-                                                                    <MultiBinding Converter="{StaticResource AmountPaidStatusToColorConverter}">
-                                                                        <Binding ElementName="averageMoney" Path="Text" />
+                                                                    <MultiBinding
+                                                                        Converter="{StaticResource AmountPaidStatusToColorConverter}"
+                                                                        Mode="TwoWay"
+                                                                        UpdateSourceTrigger="PropertyChanged">
+                                                                        <Binding Path="DataContext.SelectedTrip.TOTALCOSTS" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}" />
+                                                                        <Binding Path="DataContext.SelectedTrip.TRIP_MEMBER.Count" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}" />
                                                                         <Binding Path="AMOUNTPAID" />
                                                                     </MultiBinding>
                                                                 </TextBlock.Foreground>
@@ -319,14 +336,22 @@
                                                         Margin="5,0,10,0"
                                                         VerticalAlignment="Center">
                                                         <md:PackIcon.Foreground>
-                                                            <MultiBinding Converter="{StaticResource AmountPaidStatusToColorConverter}">
-                                                                <Binding ElementName="averageMoney" Path="Text" />
+                                                            <MultiBinding
+                                                                Converter="{StaticResource AmountPaidStatusToColorConverter}"
+                                                                Mode="TwoWay"
+                                                                UpdateSourceTrigger="PropertyChanged">
+                                                                <Binding Path="DataContext.SelectedTrip.TOTALCOSTS" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}" />
+                                                                <Binding Path="DataContext.SelectedTrip.TRIP_MEMBER.Count" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}" />
                                                                 <Binding Path="AMOUNTPAID" />
                                                             </MultiBinding>
                                                         </md:PackIcon.Foreground>
                                                         <md:PackIcon.Kind>
-                                                            <MultiBinding Converter="{StaticResource AmountPaidStatusToIconConverter}">
-                                                                <Binding ElementName="averageMoney" Path="Text" />
+                                                            <MultiBinding
+                                                                Converter="{StaticResource AmountPaidStatusToIconConverter}"
+                                                                Mode="TwoWay"
+                                                                UpdateSourceTrigger="PropertyChanged">
+                                                                <Binding Path="DataContext.SelectedTrip.TOTALCOSTS" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}" />
+                                                                <Binding Path="DataContext.SelectedTrip.TRIP_MEMBER.Count" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}" />
                                                                 <Binding Path="AMOUNTPAID" />
                                                             </MultiBinding>
                                                         </md:PackIcon.Kind>
@@ -336,13 +361,6 @@
                                                         md:ExpanderAssist.VerticalHeaderPadding="0,35,0,15"
                                                         Background="{DynamicResource PrimaryHueLightBrush}"
                                                         ExpandDirection="Right">
-                                                        <!--<Expander.Header>
-                                                    <TextBlock RenderTransformOrigin=".5,.5" Text="Action">
-                                                        <TextBlock.LayoutTransform>
-                                                            <RotateTransform Angle="90" />
-                                                        </TextBlock.LayoutTransform>
-                                                    </TextBlock>
-                                                </Expander.Header>-->
                                                         <StackPanel Margin="0,0,15,0" VerticalAlignment="Center">
                                                             <Button
                                                                 Margin="0,3"

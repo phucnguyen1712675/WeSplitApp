@@ -20,28 +20,7 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
 {
     public class Slide1_IntroViewModel : ViewModel
     {
-        private TRIP _selectedTrip;
-        public TRIP SelectedTrip
-        {
-            get => this._selectedTrip;
-            set
-            {
-                this._selectedTrip = value;
-
-                this.ImagePresenterViewModel = new ImagePresenterViewModel
-                {
-                    SelectedTrip = value
-                };
-                this.ToGoDatePickerViewModel = new CalenderPickerViewModel
-                {
-                    SelectedDate = (DateTime)this._selectedTrip.TOGODATE
-                };
-                this.ReturnDatePickerViewModel = new CalenderPickerViewModel
-                {
-                    SelectedDate = (DateTime)this._selectedTrip.RETURNDATE
-                };
-            }
-        }
+        public TRIP SelectedTrip { get; set; }
         public CalenderPickerViewModel ToGoDatePickerViewModel { get; set; }
         public CalenderPickerViewModel ReturnDatePickerViewModel { get; set; }
         public ImagePresenterViewModel ImagePresenterViewModel { get; set; }
@@ -79,20 +58,9 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
         }
         private void ChangeEditingTitleVisibility() => this.IsTitleEditing = !this.IsTitleEditing;
         private void ChangeEditingDescriptionVisibility() => this.IsDescriptionEditing = !this.IsDescriptionEditing;
-        private void SaveEditAction()
-        {
-            HomeScreen.GetDatabaseEntities().Entry(this.SelectedTrip).State = EntityState.Modified;
-            HomeScreen.GetDatabaseEntities().SaveChanges();
-        }
         private void EditTitleAction()
         {
             this._clonedTrip.TITTLE = this.SelectedTrip.TITTLE;
-
-            ChangeEditingTitleVisibility();
-        }
-        private void CancelTitleAction()
-        {
-            this.SelectedTrip.TITTLE = this._clonedTrip.TITTLE;
 
             ChangeEditingTitleVisibility();
         }
@@ -103,29 +71,56 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
             ChangeEditingDescriptionVisibility();
         }
 
+        private void CancelTitleAction()
+        {
+            var db = HomeScreen.GetDatabaseEntities();
+            var trip = db.TRIPS.Find(this.SelectedTrip.TRIP_ID);
+            db.Entry(trip).Reload();
+            ChangeEditingTitleVisibility();
+
+            /*trip.TITTLE = this._clonedTrip.TITTLE;
+            db.SaveChanges();*/
+            //this.SelectedTrip.TITTLE = this._clonedTrip.TITTLE;
+        }
         private void CancelDescriptionAction()
         {
-            this.SelectedTrip.DESCRIPTION = this._clonedTrip.DESCRIPTION;
+            var db = HomeScreen.GetDatabaseEntities();
+            var trip = db.TRIPS.Find(this.SelectedTrip.TRIP_ID);
+            db.Entry(trip).Reload();
 
             ChangeEditingDescriptionVisibility();
         }
-        private void SaveDescriptionAction()
-        {
-            SaveEditAction();
-
-            ChangeEditingDescriptionVisibility();
-        }
-
         private void SaveTitleAction()
         {
-            SaveEditAction();
+            var db = HomeScreen.GetDatabaseEntities();
+            var trip = db.TRIPS.Find(this.SelectedTrip.TRIP_ID);
+            trip.TITTLE = this.SelectedTrip.TITTLE;
+            db.SaveChanges();
 
             ChangeEditingTitleVisibility();
         }
+        private void SaveDescriptionAction()
+        {
+            var db = HomeScreen.GetDatabaseEntities();
+            var trip = db.TRIPS.Find(this.SelectedTrip.TRIP_ID);
+            trip.DESCRIPTION = this.SelectedTrip.DESCRIPTION;
+            db.SaveChanges();
+
+            ChangeEditingDescriptionVisibility();
+        }
+
         public bool CanExecute => true;
+        private void ExtendedOpenedEventHandler(object sender, DialogOpenedEventArgs eventargs)
+            => Console.WriteLine("You could intercept the open and affect the dialog using eventArgs.Session.");
 
         private async void ExecuteRunToGoDatePickerDialog(object obj)
         {
+            var currentToGoDate = (DateTime)this.SelectedTrip.TOGODATE;
+
+            this.ToGoDatePickerViewModel = new CalenderPickerViewModel
+            {
+                SelectedDate = currentToGoDate
+            };
             var view = new CalenderPickerControl
             {
                 DataContext = this.ToGoDatePickerViewModel
@@ -139,6 +134,13 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
         }
         private async void ExecuteRunReturnDatePickerDialog(object obj)
         {
+            var currentReturnDate = (DateTime)this.SelectedTrip.RETURNDATE;
+
+            this.ReturnDatePickerViewModel = new CalenderPickerViewModel
+            {
+                SelectedDate = currentReturnDate
+            };
+
             var view = new CalenderPickerControl
             {
                 DataContext = this.ReturnDatePickerViewModel
@@ -152,6 +154,11 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
         }
         private async void ExecuteImagePresenterDialog(object obj)
         {
+            this.ImagePresenterViewModel = new ImagePresenterViewModel
+            {
+                SelectedTrip = this.SelectedTrip
+            };
+
             var view = new ImagePresenterControl
             {
                 DataContext = this.ImagePresenterViewModel
@@ -202,6 +209,8 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
                 }
                 if (result != null)
                 {
+                    var db = HomeScreen.GetDatabaseEntities();
+
                     result.ForEach(file => {
 
                         if (file.Contains(AppDomain.CurrentDomain.BaseDirectory))
@@ -214,31 +223,13 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
                             IMAGE = file
                         };
                         //this.SelectedTrip.TRIP_IMAGES.Add(newTripImages);
-                        HomeScreen.GetDatabaseEntities().TRIP_IMAGES.Add(newTripImages);
+                        db.TRIP_IMAGES.Add(newTripImages);
                     });
 
-                    HomeScreen.GetDatabaseEntities().SaveChanges();
-
-                    var temp = HomeScreen.GetDatabaseEntities().TRIPS.FirstOrDefault(trip => trip.TRIP_ID == this.SelectedTrip.TRIP_ID);
-
-                    this.ImagePresenterViewModel = new ImagePresenterViewModel
-                    {
-                        SelectedTrip = temp
-                    };
-
-                    /*var query = from item in result select new TRIP_IMAGES { IMAGE = item };
-                    AddNewTripViewModel.Instance.AddTrip.TRIP_IMAGES.Clear();
-
-                    foreach (var item in query)
-                    {
-                        AddNewTripViewModel.Instance.AddTrip.TRIP_IMAGES.Add(item);
-                    }
-                    var tempItemSource = TripImageListView.ItemsSource;*/
+                    db.SaveChanges();
                 }
             }
         }
-        private void ExtendedOpenedEventHandler(object sender, DialogOpenedEventArgs eventargs)
-            => Console.WriteLine("You could intercept the open and affect the dialog using eventArgs.Session.");
 
         private void ToGoDatePickerClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
         {
@@ -254,19 +245,18 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
 
             //lets run a fake operation for 3 seconds then close this baby.
             Task.Delay(TimeSpan.FromSeconds(3))
-                .ContinueWith((t, _) => eventArgs.Session.Close(false), null,
+                .ContinueWith((t, _) => eventArgs.Session.Close(false), null,   
                     TaskScheduler.FromCurrentSynchronizationContext());
 
             var isValid = this.ToGoDatePickerViewModel.SelectedDate <= this.SelectedTrip.RETURNDATE;
 
             if (isValid)
             {
-                this._selectedTrip.TOGODATE = this.ToGoDatePickerViewModel.SelectedDate;
-                this.SaveEditAction();
-                this.ToGoDatePickerViewModel = new CalenderPickerViewModel
-                {
-                    SelectedDate = (DateTime)this._selectedTrip.TOGODATE
-                };
+                var db = HomeScreen.GetDatabaseEntities();
+                var trip = db.TRIPS.Find(this.SelectedTrip.TRIP_ID);
+                var newToGoDate = this.ToGoDatePickerViewModel.SelectedDate;
+                trip.TOGODATE = newToGoDate;
+                db.SaveChanges();
             }
             else
             {
@@ -294,12 +284,11 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
 
             if (isValid)
             {
-                this._selectedTrip.RETURNDATE = this.ReturnDatePickerViewModel.SelectedDate;
-                this.SaveEditAction();
-                this.ReturnDatePickerViewModel = new CalenderPickerViewModel
-                {
-                    SelectedDate = (DateTime)this._selectedTrip.RETURNDATE
-                };
+                var db = HomeScreen.GetDatabaseEntities();
+                var trip = db.TRIPS.Find(this.SelectedTrip.TRIP_ID);
+                var newReturnDate = this.ReturnDatePickerViewModel.SelectedDate;
+                trip.TOGODATE = newReturnDate;
+                db.SaveChanges();
             }
             else
             {
