@@ -4,13 +4,17 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
 using WeSplitApp.Utils;
 using WeSplitApp.View;
 using WeSplitApp.View.Controls.TripDetailSlide;
+using MessageBox = System.Windows.Forms.MessageBox;
+using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
 
 namespace WeSplitApp.ViewModel.TripDetailSlideVM
 {
@@ -159,39 +163,78 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
             //check the result...
             Console.WriteLine("Dialog was closed, the CommandParameter used to close it was: " + (result ?? "NULL"));
         }
-        private async void ExecuteAddNewImageDialog(object obj)
+        private void ExecuteAddNewImageDialog(object obj)
         {
-            OpenMultipleFilesDialogArguments dialogArgs = new OpenMultipleFilesDialogArguments()
+            var fileDialog = new OpenFileDialog
             {
-                Width = 600,
-                Height = 600,
-                Filters = "All files|*.*|C# files|*.cs|XAML files|*.xaml"
+                Filter = "Images (*.BMP;*.JPG;*.GIF)|*.BMP;*.JPG;*.GIF|" +
+        "All files (*.*)|*.*",
+
+                Multiselect = true,
+                Title = "My Image Browser"
             };
 
-            OpenMultipleFilesDialogResult result = await OpenMultipleFilesDialog.ShowDialogAsync(HomeScreen.DialogHostName, dialogArgs);
+            DialogResult dr = fileDialog.ShowDialog();
 
-            if (!result.Canceled)
+            if (dr == DialogResult.OK)
             {
-                result.Files.ForEach(file => {
+                var result = new List<string>();
 
-                    if (file.Contains(AppDomain.CurrentDomain.BaseDirectory))
-                    {
-                        file = "\\" + file.Remove(0, AppDomain.CurrentDomain.BaseDirectory.Length);
-                    }
-                    var newTripImages = new TRIP_IMAGES
-                    {
-                        TRIP_ID = this.SelectedTrip.TRIP_ID,
-                        IMAGE = file
-                    };
-                    //this.SelectedTrip.TRIP_IMAGES.Add(newTripImages);
-                    HomeScreen.GetDatabaseEntities().TRIP_IMAGES.Add(newTripImages);
-                });
-                HomeScreen.GetDatabaseEntities().SaveChanges();
-                var temp = HomeScreen.GetDatabaseEntities().TRIPS.FirstOrDefault(trip => trip.TRIP_ID == this.SelectedTrip.TRIP_ID);
-                this.ImagePresenterViewModel = new ImagePresenterViewModel
+                foreach (string file in fileDialog.FileNames)
                 {
-                    SelectedTrip = temp
-                };
+                    try
+                    {
+                        result.Add(file);
+                    }
+                    catch (SecurityException ex)
+                    {
+                        MessageBox.Show("Security error. Please contact your administrator for details.\n\n" +
+                                "Error message: " + ex.Message + "\n\n" +
+                                "Details (send to Support):\n\n" + ex.StackTrace
+                                );
+                    }
+                    catch (Exception ex)
+                    {
+                       MessageBox.Show("Cannot display the image: " + file.Substring(file.LastIndexOf('\\'))
+                            + ". You may not have permission to read the file, or " +
+                            "it may be corrupt.\n\nReported error: " + ex.Message);
+                    }
+                }
+                if (result != null)
+                {
+                    result.ForEach(file => {
+
+                        if (file.Contains(AppDomain.CurrentDomain.BaseDirectory))
+                        {
+                            file = "\\" + file.Remove(0, AppDomain.CurrentDomain.BaseDirectory.Length);
+                        }
+                        var newTripImages = new TRIP_IMAGES
+                        {
+                            TRIP_ID = this.SelectedTrip.TRIP_ID,
+                            IMAGE = file
+                        };
+                        //this.SelectedTrip.TRIP_IMAGES.Add(newTripImages);
+                        HomeScreen.GetDatabaseEntities().TRIP_IMAGES.Add(newTripImages);
+                    });
+
+                    HomeScreen.GetDatabaseEntities().SaveChanges();
+
+                    var temp = HomeScreen.GetDatabaseEntities().TRIPS.FirstOrDefault(trip => trip.TRIP_ID == this.SelectedTrip.TRIP_ID);
+
+                    this.ImagePresenterViewModel = new ImagePresenterViewModel
+                    {
+                        SelectedTrip = temp
+                    };
+
+                    /*var query = from item in result select new TRIP_IMAGES { IMAGE = item };
+                    AddNewTripViewModel.Instance.AddTrip.TRIP_IMAGES.Clear();
+
+                    foreach (var item in query)
+                    {
+                        AddNewTripViewModel.Instance.AddTrip.TRIP_IMAGES.Add(item);
+                    }
+                    var tempItemSource = TripImageListView.ItemsSource;*/
+                }
             }
         }
         private void ExtendedOpenedEventHandler(object sender, DialogOpenedEventArgs eventargs)

@@ -46,7 +46,7 @@
                 VerticalAlignment="Center"
                 Stretch="Uniform"
                 StretchDirection="DownOnly">
-                <TextBlock 
+                <TextBlock
                     x:Name="TilteTextBlock"
                     Width="880"
                     FontWeight="Bold"
