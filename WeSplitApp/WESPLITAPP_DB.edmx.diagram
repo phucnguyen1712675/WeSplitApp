@@ -20,6 +20,7 @@
         <AssociationConnector Association="WESPLITAPPModel.FK__TRIP_MEMB__TRIP___5441852A" ManuallyRouted="false" />
         <EntityTypeShape EntityType="WESPLITAPPModel.TRIP_IMAGES" Width="1.5" PointX="4.125" PointY="9.25" />
         <AssociationConnector Association="WESPLITAPPModel.FK__TRIP_IMAG__TRIP___5070F446" />
+        <AssociationConnector Association="WESPLITAPPModel.FK__TRIP_MEMB__BYMEM__534D60F1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -11,9 +11,7 @@ namespace WeSplitApp
 {
     using System;
     using System.Collections.ObjectModel;
-    using PropertyChanged;
-
-    [AddINotifyPropertyChangedInterface]
+    
     public partial class TRIP
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]

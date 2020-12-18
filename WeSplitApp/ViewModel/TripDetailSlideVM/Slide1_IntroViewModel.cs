@@ -72,7 +72,11 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
         }
 
         private TRIP _clonedTrip = new TRIP();
-        private void BackToHomeScreenAction() => HomeScreen.SetNewContentControl(new TripsCollectionViewModel());
+        private void BackToHomeScreenAction()
+        {
+            HomeScreen.SetNewContentControl(new TripsCollectionViewModel());
+            HomeScreen.GetHomeScreenInstance().AddButton.Visibility = Visibility.Visible;
+        }
         private void ChangeEditingTitleVisibility() => this.IsTitleEditing = !this.IsTitleEditing;
         private void ChangeEditingDescriptionVisibility() => this.IsDescriptionEditing = !this.IsDescriptionEditing;
         private void SaveEditAction()

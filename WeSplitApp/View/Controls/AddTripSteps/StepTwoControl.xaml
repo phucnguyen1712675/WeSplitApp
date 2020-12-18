@@ -217,18 +217,42 @@
                         ShadowDepth="0.5" />
                 </Border.Effect>
                 <StackPanel>
+                    <Grid Visibility="Hidden">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0" Name="col1"/>
+                        <Grid Grid.Column="1" Name="col2"/>
+                        <Grid Grid.Column="2" Name="col3"/>
+                    </Grid>
                     <ListView x:Name="LocationAddedListView" ItemsSource="{Binding AddTrip.TRIP_LOCATION}">
+                        <ListView.Resources>
+                            <DataTemplate x:Key="Templ">
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding}"/>
+                            </DataTemplate>
+                            <Style x:Key="HeaderStyle" TargetType="GridViewColumnHeader">
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            </Style>
+                        </ListView.Resources>
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn
-                                    Width="200"
+                                    HeaderTemplate="{StaticResource Templ}" HeaderContainerStyle="{StaticResource HeaderStyle}"
+                                    Width="{Binding ElementName=col1, Path=ActualWidth}"
                                     DisplayMemberBinding="{Binding LOCATION.NAME}"
                                     Header="Tên" />
                                 <GridViewColumn
-                                    Width="300"
+                                    HeaderTemplate="{StaticResource Templ}" HeaderContainerStyle="{StaticResource HeaderStyle}"
+                                    Width="{Binding ElementName=col2, Path=ActualWidth}"
                                     DisplayMemberBinding="{Binding LOCATION.ADDRESS}"
                                     Header="Địa chỉ" />
-                                <GridViewColumn DisplayMemberBinding="{Binding COSTS}" Header="Chi phí" />
+                                <GridViewColumn
+                                    HeaderTemplate="{StaticResource Templ}" HeaderContainerStyle="{StaticResource HeaderStyle}"
+                                    Width="{Binding ElementName=col3, Path=ActualWidth}"
+                                    DisplayMemberBinding="{Binding COSTS}" 
+                                    Header="Chi phí" />
                             </GridView>
                         </ListView.View>
                     </ListView>

@@ -27,7 +27,7 @@ namespace WeSplitApp.ViewModel.DialogHelperClass
                 && !string.IsNullOrEmpty(NewMember.AVATAR))
             {
                 if (NewMember.GENDER == null) NewMember.GENDER = false;
-
+                NewMember.NAME = NewMember.NAME.Trim();
                 if(type == "add")
                 {
                     HomeScreen.GetDatabaseEntities().MEMBERS.Add(NewMember);
@@ -36,6 +36,7 @@ namespace WeSplitApp.ViewModel.DialogHelperClass
                     if(AddNewTripViewModel.Instance != null) AddNewTripViewModel.Instance.MEMBERs.Add(NewMember);
                     //trường hợp đang làm trong màn hình MemberList <=> refresh list Members
                     MemberListViewModel.Instance.updateList(NewMember);
+                    SettingsViewModel.Instance.UpdateMemberMaxPaging();
                 }
                 else
                 {
@@ -43,6 +44,7 @@ namespace WeSplitApp.ViewModel.DialogHelperClass
                     member = NewMember;
                 }
                 HomeScreen.GetDatabaseEntities().SaveChanges();
+                SettingsViewModel.Instance.UpdateMemberSortMethod(); // gọi lại hàm sort cho Items, bao gồm search lại nếu có
                 MessageBox.Show("Thành công");
             }
             else

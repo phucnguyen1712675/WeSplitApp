@@ -21,6 +21,7 @@ namespace WeSplitApp.ViewModel
             };
 
             this.LOCATIONS = new ObservableCollection<LOCATION>(HomeScreen.GetDatabaseEntities().LOCATIONS.ToList());
+            this.searchLOCATIONS = this.LOCATIONS;
         }
 
         public int GetMaximum()
@@ -40,6 +41,10 @@ namespace WeSplitApp.ViewModel
             {
                 List<LOCATION> resultSort = (List<LOCATION>)MySort[method].DynamicInvoke();
                 LOCATIONS = new ObservableCollection<LOCATION>(resultSort);
+                if(searchLOCATIONS != LOCATIONS)
+                {
+                    searchLocation_ByName();
+                }
                 DisplayObjects();
             }
         }
@@ -79,15 +84,15 @@ namespace WeSplitApp.ViewModel
             var skip = (page - 1) * this.Paging.RowsPerPage;
             var take = this.Paging.RowsPerPage;
 
-            this.ToShowItems = new ObservableCollection<LOCATION>(this.LOCATIONS.Skip(skip).Take(take));
+            this.ToShowItems = new ObservableCollection<LOCATION>(this.searchLOCATIONS.Skip(skip).Take(take));
         }
         public bool getNewRowPerPage(int RowsPerPage) //được gọi trong setting
         {
-            if (RowsPerPage > LOCATIONS.Count)
+            if (RowsPerPage > searchLOCATIONS.Count)
             {
                 return false;
             }
-            CalculatePagingInfo(RowsPerPage, LOCATIONS.Count);
+            CalculatePagingInfo(RowsPerPage, searchLOCATIONS.Count);
 
             return true;
         }
@@ -107,6 +112,8 @@ namespace WeSplitApp.ViewModel
                     CalculatePagingInfo(Paging.RowsPerPage, LOCATIONS.Count, SelectedIndex);
             }
         }
+
+        public ObservableCollection<LOCATION> searchLOCATIONS { get; set; }
         public void searchLocation_ByName()
         {
             string request = HomeScreen.GetHomeScreenInstance().SearchTextBox.Text;
@@ -114,21 +121,21 @@ namespace WeSplitApp.ViewModel
             List<LOCATION> locationList;
             if (request.Length <= 0)
             {
-                locationList = (HomeScreen.GetDatabaseEntities().LOCATIONS).ToList();
+                locationList = (LOCATIONS).ToList();
                 //this.ToShowItems = new ObservableCollection<TRIP>(all);
             }
             else
             {
                 //search by TITLE
                 var requestText = convertUnicode.convertToUnSign(request.Trim().ToLower());
-                locationList = (HomeScreen.GetDatabaseEntities().LOCATIONS.AsEnumerable().Where(loca => convertUnicode.convertToUnSign(loca.NAME.Trim().ToLower()).Contains(requestText))).ToList();
+                locationList = (LOCATIONS.AsEnumerable().Where(loca => convertUnicode.convertToUnSign(loca.NAME.Trim().ToLower()).Contains(requestText))).ToList();
 
                 //MessageBox.Show(b[0].TITTLE);
                 //this.ToShowItems = new ObservableCollection<TRIP>(tripList);
             }
-            instance.LOCATIONS = new ObservableCollection<LOCATION>(locationList);
-            instance.CalculatePagingInfo(instance.Paging.RowsPerPage, instance.LOCATIONS.Count);
-            instance.DisplayObjects();
+            searchLOCATIONS = new ObservableCollection<LOCATION>(locationList);
+            CalculatePagingInfo(Paging.RowsPerPage,searchLOCATIONS.Count);
+            DisplayObjects();
         }
     }
 }

@@ -201,11 +201,23 @@
                                         </Grid>
                                     </md:ColorZone>
                                 </Grid>
-                                <md:PopupBox Grid.Column="1" PlacementMode="BottomAndAlignRightEdges">
+                                <md:PopupBox ToolTip="Tìm kiếm theo"
+                                             Grid.Column="1" PlacementMode="BottomAndAlignRightEdges">
                                     <ListBox>
-                                        <ListBoxItem Content="Hello World" />
-                                        <ListBoxItem Content="Nice Popup" />
-                                        <ListBoxItem Content="Goodbye" />
+                                        <ComboBox x:Name="SearchByComboBox"
+                                                md:HintAssist.Hint="Tên"
+                                                md:HintAssist.HintOpacity=".26"
+                                                IsEditable="True"
+                                                SelectionChanged="resetSearchBox"
+                                                >
+                                                <ComboBoxItem
+                                                  Content="Tên chuyến đi" IsSelected="True"/>
+                                                <ComboBoxItem
+                                                  Content="Tên thành viên" />
+                                                <ComboBoxItem
+                                                  Content="Tên địa điểm" />
+                                        </ComboBox>
+                                        
                                     </ListBox>
                                 </md:PopupBox>
                             </Grid>

@@ -32,10 +32,9 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Source="/Resources/Images/SettingBackGround1.jpg" />
+        
         <StackPanel
-            Grid.Column="1"
-            Height="600"
-            Margin="10">
+            Grid.Column="1">
             <StackPanel Orientation="Horizontal">
                 <md:PackIcon
                     Width="40"
@@ -43,39 +42,47 @@
                     Margin="0,0,15,0"
                     Foreground="#002171"
                     Kind="Cogs" />
-                <TextBlock
+                <TextBlock 
+                    x:Name="TilteTextBlock"
+                    Width="880"
                     Margin="0,10,0,20"
+                    FontWeight="Bold"
                     FontSize="25"
-                    Style="{StaticResource MaterialDesignHeadline4TextBlock}"
-                    Text="Cài đặt ứng dụng" />
+                    Style="{StaticResource MaterialDesignHeadline2TextBlock}"
+                    Text="Cài đặt ứng dụng"
+                    TextAlignment="Justify"
+                    TextWrapping="WrapWithOverflow" />
             </StackPanel>
-
-            <!--  Trip  -->
-            <md:Card Margin="0,20,20,40">
-                <StackPanel>
-                    <Expander>
-                        <Expander.Header>
-                            <StackPanel Orientation="Horizontal">
-                                <md:PackIcon
+            
+            <ScrollViewer Height="500" 
+                          VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="10">
+                <!--  Trip  -->
+                <md:Card Margin="0,20,20,40">
+                    <StackPanel>
+                        <Expander>
+                            <Expander.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <md:PackIcon
                                     Width="25"
                                     Height="25"
                                     Margin="0,0,15,0"
                                     Foreground="#1565c0"
                                     Kind="Car3Plus" />
-                                <TextBlock
+                                    <TextBlock
                                     FontSize="18"
                                     Style="{StaticResource MaterialDesignButtonTextBlock}"
                                     Text="Các chuyến đi" />
-                            </StackPanel>
-                        </Expander.Header>
-                        <StackPanel Margin="24,10,24,16" TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
-                            <StackPanel Margin="20,0,20,20" Orientation="Horizontal">
-                                <TextBlock
+                                </StackPanel>
+                            </Expander.Header>
+                            <StackPanel Margin="24,10,24,16" TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
+                                <StackPanel Margin="20,0,20,20" Orientation="Horizontal">
+                                    <TextBlock
                                     Margin="0,0,100,0"
                                     VerticalAlignment="Center"
                                     Text="Kích cỡ phân trang" />
-                                <!--  TODO binding max = Trip.count / Value = RowsPerPage hiện tại / tạo valueChanged  -->
-                                <mah:NumericUpDown
+                                    <!--  TODO binding max = Trip.count / Value = RowsPerPage hiện tại / tạo valueChanged  -->
+                                    <mah:NumericUpDown
                                     Name="TripRowsPerPageButton"
                                     Width="80"
                                     Height="40"
@@ -84,13 +91,13 @@
                                     Maximum="{Binding TripMaxPaging}"
                                     Minimum="0"
                                     Value="{Binding TripCurrentPaging}" />
-                            </StackPanel>
-                            <StackPanel Margin="20,0,20,0" Orientation="Horizontal">
-                                <TextBlock
+                                </StackPanel>
+                                <StackPanel Margin="20,0,20,0" Orientation="Horizontal">
+                                    <TextBlock
                                     Margin="0,0,100,0"
                                     VerticalAlignment="Center"
                                     Text="Xắp sếp theo" />
-                                <ComboBox
+                                    <ComboBox
                                     x:Name="TripSortSplitButton"
                                     Width="220"
                                     Margin="5"
@@ -99,39 +106,39 @@
                                     DockPanel.Dock="Bottom"
                                     ItemsSource="{Binding TripSortMethods}"
                                     SelectedIndex="{Binding TripLoadSortMethod}" />
+                                </StackPanel>
                             </StackPanel>
-                        </StackPanel>
-                    </Expander>
-                    <Border />
-                </StackPanel>
-            </md:Card>
+                        </Expander>
+                        <Border />
+                    </StackPanel>
+                </md:Card>
 
-            <!--  Member  -->
-            <md:Card Margin="0,0,20,40">
-                <StackPanel>
-                    <Expander>
-                        <Expander.Header>
-                            <StackPanel Orientation="Horizontal">
-                                <md:PackIcon
+                <!--  Member  -->
+                <md:Card Margin="0,0,20,40">
+                    <StackPanel>
+                        <Expander>
+                            <Expander.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <md:PackIcon
                                     Width="25"
                                     Height="25"
                                     Margin="0,0,15,0"
                                     Foreground="#1565c0"
                                     Kind="AccountMultiple" />
-                                <TextBlock
+                                    <TextBlock
                                     FontSize="18"
                                     Style="{StaticResource MaterialDesignButtonTextBlock}"
                                     Text="Các thành viên" />
-                            </StackPanel>
-                        </Expander.Header>
-                        <StackPanel Margin="24,10,24,16" TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
-                            <StackPanel Margin="20,0,20,20" Orientation="Horizontal">
-                                <TextBlock
+                                </StackPanel>
+                            </Expander.Header>
+                            <StackPanel Margin="24,10,24,16" TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
+                                <StackPanel Margin="20,0,20,20" Orientation="Horizontal">
+                                    <TextBlock
                                     Margin="0,0,100,0"
                                     VerticalAlignment="Center"
                                     Text="Kích cỡ phân trang" />
-                                <!--  TODO binding max = Trip.count / Value = RowsPerPage hiện tại  -->
-                                <mah:NumericUpDown
+                                    <!--  TODO binding max = Trip.count / Value = RowsPerPage hiện tại  -->
+                                    <mah:NumericUpDown
                                     Name="MemberRowsPerPageButton"
                                     Width="80"
                                     Height="40"
@@ -140,14 +147,14 @@
                                     Maximum="{Binding MemberMaxPaging}"
                                     Minimum="0"
                                     Value="{Binding MemberCurrentPaging}" />
-                            </StackPanel>
-                            <StackPanel Margin="20,0,20,0" Orientation="Horizontal">
-                                <TextBlock
+                                </StackPanel>
+                                <StackPanel Margin="20,0,20,0" Orientation="Horizontal">
+                                    <TextBlock
                                     Margin="0,0,100,0"
                                     VerticalAlignment="Center"
                                     Text="Xắp sếp theo" />
-                                <!--  TODO binding orderedList của Trip / selectedIndex binding loại đang dùng hiện tại, thêm selectionChanged  -->
-                                <ComboBox
+                                    <!--  TODO binding orderedList của Trip / selectedIndex binding loại đang dùng hiện tại, thêm selectionChanged  -->
+                                    <ComboBox
                                     x:Name="MemberSortSplitButton"
                                     Width="220"
                                     Margin="5"
@@ -156,38 +163,38 @@
                                     DockPanel.Dock="Bottom"
                                     ItemsSource="{Binding MemberSortMethods}"
                                     SelectedIndex="{Binding MemberLoadSortMethod}" />
+                                </StackPanel>
                             </StackPanel>
-                        </StackPanel>
-                    </Expander>
-                </StackPanel>
-            </md:Card>
+                        </Expander>
+                    </StackPanel>
+                </md:Card>
 
-            <!--  Location  -->
-            <md:Card Margin="0,0,20,40">
-                <StackPanel>
-                    <Expander>
-                        <Expander.Header>
-                            <StackPanel Orientation="Horizontal">
-                                <md:PackIcon
+                <!--  Location  -->
+                <md:Card Margin="0,0,20,40">
+                    <StackPanel>
+                        <Expander>
+                            <Expander.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <md:PackIcon
                                     Width="25"
                                     Height="25"
                                     Margin="0,0,15,0"
                                     Foreground="#1565c0"
                                     Kind="MapMarkerRadius" />
-                                <TextBlock
+                                    <TextBlock
                                     FontSize="18"
                                     Style="{StaticResource MaterialDesignButtonTextBlock}"
                                     Text="Các điểm dừng" />
-                            </StackPanel>
-                        </Expander.Header>
-                        <StackPanel Margin="24,10,24,16" TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
-                            <StackPanel Margin="20,0,20,20" Orientation="Horizontal">
-                                <TextBlock
+                                </StackPanel>
+                            </Expander.Header>
+                            <StackPanel Margin="24,10,24,16" TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
+                                <StackPanel Margin="20,0,20,20" Orientation="Horizontal">
+                                    <TextBlock
                                     Margin="0,0,100,0"
                                     VerticalAlignment="Center"
                                     Text="Kích cỡ phân trang" />
-                                <!--  TODO binding max = Trip.count / Value = RowsPerPage hiện tại  -->
-                                <mah:NumericUpDown
+                                    <!--  TODO binding max = Trip.count / Value = RowsPerPage hiện tại  -->
+                                    <mah:NumericUpDown
                                     Name="LocationRowsPerPageButton"
                                     Width="80"
                                     Height="40"
@@ -196,14 +203,14 @@
                                     Maximum="{Binding LocationMaxPaging}"
                                     Minimum="0"
                                     Value="{Binding LocationCurrentPaging}" />
-                            </StackPanel>
-                            <StackPanel Margin="20,0,20,0" Orientation="Horizontal">
-                                <TextBlock
+                                </StackPanel>
+                                <StackPanel Margin="20,0,20,0" Orientation="Horizontal">
+                                    <TextBlock
                                     Margin="0,0,100,0"
                                     VerticalAlignment="Center"
                                     Text="Xắp sếp theo" />
-                                <!--  TODO binding orderedList của Trip / selectedIndex binding loại đang dùng hiện tại, thêm selectionChanged  -->
-                                <ComboBox
+                                    <!--  TODO binding orderedList của Trip / selectedIndex binding loại đang dùng hiện tại, thêm selectionChanged  -->
+                                    <ComboBox
                                     x:Name="LocationSortSplitButton"
                                     Width="220"
                                     Margin="5"
@@ -212,56 +219,57 @@
                                     DockPanel.Dock="Bottom"
                                     ItemsSource="{Binding LocationSortMethods}"
                                     SelectedIndex="{Binding LocationLoadSortMethod}" />
+                                </StackPanel>
                             </StackPanel>
-                        </StackPanel>
-                    </Expander>
-                </StackPanel>
-            </md:Card>
+                        </Expander>
+                    </StackPanel>
+                </md:Card>
 
-            <!--  Splash Screen  -->
-            <md:Card Margin="0,0,20,40" VerticalContentAlignment="Center">
-                <StackPanel>
-                    <Expander HorizontalAlignment="Stretch">
-                        <Expander.Header>
-                            <Grid>
-                                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                                    <TextBlock VerticalAlignment="Center" Text="Allow" />
-                                    <ToggleButton
+                <!--  Splash Screen  -->
+                <md:Card Margin="0,0,20,40" VerticalContentAlignment="Center">
+                    <StackPanel>
+                        <Expander HorizontalAlignment="Stretch">
+                            <Expander.Header>
+                                <Grid>
+                                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                        <TextBlock VerticalAlignment="Center" Text="Allow" />
+                                        <ToggleButton
                                         Margin="0,0,5,0"
                                         IsChecked="{Binding SplashScreen}"
                                         Style="{StaticResource MaterialDesignSwitchToggleButton}"
                                         ToolTip="MaterialDesignSwitchToggleButton" />
-                                </StackPanel>
+                                    </StackPanel>
 
 
-                                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                                    <md:PackIcon
+                                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                        <md:PackIcon
                                         Width="25"
                                         Height="25"
                                         Margin="0,0,15,0"
                                         Foreground="#1565c0"
                                         Kind="MonitorScreenshot" />
-                                    <TextBlock
+                                        <TextBlock
                                         VerticalAlignment="Center"
                                         FontSize="18"
                                         Style="{StaticResource MaterialDesignButtonTextBlock}"
                                         Text="Hiện thị Splash Screen" />
-                                </StackPanel>
-                            </Grid>
-                        </Expander.Header>
-                        <StackPanel Margin="24,8,24,16" TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
-                            <TextBlock
+                                    </StackPanel>
+                                </Grid>
+                            </Expander.Header>
+                            <StackPanel Margin="24,8,24,16" TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
+                                <TextBlock
                                 MinWidth="280"
                                 Margin="10"
                                 VerticalAlignment="Stretch"
                                 FontSize="15"
                                 Text="Hiển thị thông tin chào mừng mỗi khi ứng dụng khởi chạy.Mỗi lần hiện ngẫu nhiên một thông tin thú vị về một địa điểm du lịch"
                                 TextWrapping="Wrap" />
-                        </StackPanel>
-                    </Expander>
+                            </StackPanel>
+                        </Expander>
+                    </StackPanel>
+                </md:Card>
                 </StackPanel>
-            </md:Card>
-
+            </ScrollViewer>
         </StackPanel>
     </Grid>
 </UserControl>

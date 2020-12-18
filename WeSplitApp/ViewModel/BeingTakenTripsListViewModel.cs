@@ -30,6 +30,7 @@ namespace WeSplitApp.ViewModel
         {
             IsDone = false;
             this.ItemHandler = GetData();
+            this.SearchResult = new ObservableCollection<TRIP>(this.Items);
             TripSortMethods();
         }
     }

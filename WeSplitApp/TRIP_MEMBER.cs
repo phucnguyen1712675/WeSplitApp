@@ -19,8 +19,10 @@ namespace WeSplitApp
         public int TRIP_ID { get; set; }
         public int MEMBER_ID { get; set; }
         public double AMOUNTPAID { get; set; }
+        public Nullable<int> BYMEMBER_ID { get; set; }
     
         public virtual MEMBER MEMBER { get; set; }
         public virtual TRIP TRIP { get; set; }
+        public virtual MEMBER MEMBER1 { get; set; }
     }
 }

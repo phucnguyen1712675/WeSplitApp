@@ -33,6 +33,7 @@ namespace WeSplitApp.ViewModel
             };
 
             this.MEMBERS = new ObservableCollection<MEMBER>((HomeScreen.GetDatabaseEntities().MEMBERS).ToList());
+            this.searchMEMBERS = this.MEMBERS;
         }
 
         public int GetMaximum()
@@ -47,6 +48,10 @@ namespace WeSplitApp.ViewModel
             {
                 List<MEMBER> resultSort =(List<MEMBER>)MySort[method].DynamicInvoke();
                 MEMBERS = new ObservableCollection<MEMBER>(resultSort);
+                if(searchMEMBERS != MEMBERS)
+                {
+                    searchMember_ByName();
+                }
                 DisplayObjects();
             }
         }
@@ -68,7 +73,7 @@ namespace WeSplitApp.ViewModel
 
         public List<string> getSortMethod()
         {
-            return instance.MySort.Keys.ToList();
+            return MySort.Keys.ToList();
         }
 
         public void MakeSort(string method)
@@ -101,16 +106,16 @@ namespace WeSplitApp.ViewModel
             var take = this.Paging.RowsPerPage;
             //TODO test Paging.Pages
             var temp= Paging.TotalPages;
-            this.ToShowItems = new ObservableCollection<MEMBER>(this.MEMBERS.Skip(skip).Take(take));
+            this.ToShowItems = new ObservableCollection<MEMBER>(this.searchMEMBERS.Skip(skip).Take(take));
         }
 
         public bool getNewRowPerPage(int RowsPerPage) // được gọi trong setting
         {
-            if(RowsPerPage > MEMBERS.Count)
+            if(RowsPerPage > searchMEMBERS.Count)
             {
                 return false;
             }
-            CalculatePagingInfo(RowsPerPage, MEMBERS.Count);
+            CalculatePagingInfo(RowsPerPage, searchMEMBERS.Count);
             SelectedIndex = 0;
             DisplayObjects();
             return true;
@@ -127,29 +132,33 @@ namespace WeSplitApp.ViewModel
                     CalculatePagingInfo(Paging.RowsPerPage, MEMBERS.Count, SelectedIndex);
             }
         }
-
+        private ObservableCollection<MEMBER> _searchMEMBERS;
+        public ObservableCollection<MEMBER> searchMEMBERS
+        {
+            get => this._searchMEMBERS;
+            set
+            {
+                this._searchMEMBERS = value;
+            }
+        }
         public void searchMember_ByName()
         {
             string request = HomeScreen.GetHomeScreenInstance().SearchTextBox.Text;
-            //MessageBox.Show("Chay duoc roi");
             List<MEMBER> memberList;
             if (request.Length <= 0)
             {
-                memberList = (HomeScreen.GetDatabaseEntities().MEMBERS).ToList();
-                //this.ToShowItems = new ObservableCollection<TRIP>(all);
+                memberList = (MEMBERS).ToList();
             }
             else
             {
-                //search by TITLE
+                //search by Name
                 var requestText = convertUnicode.convertToUnSign(request.Trim().ToLower());
-                memberList = (HomeScreen.GetDatabaseEntities().MEMBERS.AsEnumerable().Where(mem => convertUnicode.convertToUnSign(mem.NAME.Trim().ToLower()).Contains(requestText))).ToList();
+                memberList = (MEMBERS.AsEnumerable().Where(mem => convertUnicode.convertToUnSign(mem.NAME.Trim().ToLower()).Contains(requestText))).ToList();
 
-                //MessageBox.Show(b[0].TITTLE);
-                //this.ToShowItems = new ObservableCollection<TRIP>(tripList);
             }
-            instance.MEMBERS = new ObservableCollection<MEMBER>(memberList);
-            instance.CalculatePagingInfo(instance.Paging.RowsPerPage, instance.MEMBERS.Count);
-            instance.DisplayObjects();
+            searchMEMBERS = new ObservableCollection<MEMBER>(memberList);
+            CalculatePagingInfo(Paging.RowsPerPage, searchMEMBERS.Count);
+            DisplayObjects();
         }
     }
 }

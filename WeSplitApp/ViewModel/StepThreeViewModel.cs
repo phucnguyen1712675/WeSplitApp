@@ -10,7 +10,6 @@ namespace WeSplitApp.ViewModel
 {
     public class StepThreeViewModel : Step
     {
-        //public static Dictionary<MEMBER, string> Trip_Members = new Dictionary<MEMBER, string>();
         public override void Validate()
         {
             bool ageOk = true;
@@ -34,6 +33,7 @@ namespace WeSplitApp.ViewModel
             {
                 TRIP temp = AddNewTripViewModel.Instance.AddTrip;
                 temp.ISDONE = temp.RETURNDATE < DateTime.Now;
+                temp.TITTLE = temp.TITTLE.Trim();
                 HomeScreen.GetDatabaseEntities().TRIPS.Add(temp);
                 HomeScreen.GetDatabaseEntities().SaveChanges();
                 if ((bool)temp.ISDONE)
@@ -44,6 +44,7 @@ namespace WeSplitApp.ViewModel
                 {
                     BeingTakenTripsListViewModel.Instance.AddTrip(temp);
                 }
+                SettingsViewModel.Instance.UpdateTripSortMethod();
                 MessageBox.Show("Thêm thành công");
             }
             else

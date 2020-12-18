@@ -308,7 +308,11 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
 
             this.SelectedTrip = tempTrip;
         }
-        private void BackToHomeScreenAction() => HomeScreen.SetNewContentControl(new TripsCollectionViewModel());
         public bool CanExecute => true;
+        private void BackToHomeScreenAction()
+        {
+            HomeScreen.SetNewContentControl(new TripsCollectionViewModel());
+            HomeScreen.GetHomeScreenInstance().AddButton.Visibility = Visibility.Visible;
+        }
     }
 }
