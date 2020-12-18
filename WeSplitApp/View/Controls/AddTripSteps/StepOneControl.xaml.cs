@@ -34,10 +34,12 @@ namespace WeSplitApp.View.Controls.AddTripSteps
 
         private void TripAddImageButton_Click(object sender, RoutedEventArgs e)
         {
-            var fileDialog = new OpenFileDialog();
-            fileDialog.Filter = "Images (*.BMP;*.JPG;*.GIF)|*.BMP;*.JPG;*.GIF|" +
-                                 "All files (*.*)|*.*";
-            fileDialog.Title = "My Image Browser";
+            var fileDialog = new OpenFileDialog
+            {
+                Filter = "Images (*.BMP;*.JPG;*.GIF)|*.BMP;*.JPG;*.GIF|" +
+                                 "All files (*.*)|*.*",
+                Title = "My Image Browser"
+            };
             DialogResult dr = fileDialog.ShowDialog();
 
             if (dr == System.Windows.Forms.DialogResult.OK)
@@ -54,13 +56,14 @@ namespace WeSplitApp.View.Controls.AddTripSteps
 
         private void TripAddListImagesButton_Click(object sender, RoutedEventArgs e)
         {
-            var temp = AddNewTripViewModel.Instance.AddTrip.TRIP_IMAGES;
-            var fileDialog = new OpenFileDialog();
-            fileDialog.Filter = "Images (*.BMP;*.JPG;*.GIF)|*.BMP;*.JPG;*.GIF|" +
-        "All files (*.*)|*.*";
+            var fileDialog = new OpenFileDialog
+            {
+                Filter = "Images (*.BMP;*.JPG;*.GIF)|*.BMP;*.JPG;*.GIF|" +
+        "All files (*.*)|*.*",
 
-            fileDialog.Multiselect = true;
-            fileDialog.Title = "My Image Browser";
+                Multiselect = true,
+                Title = "My Image Browser"
+            };
 
             DialogResult dr = fileDialog.ShowDialog();
 
@@ -104,6 +107,5 @@ namespace WeSplitApp.View.Controls.AddTripSteps
                 }
             }
         }
-
     }
 }

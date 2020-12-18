@@ -24,7 +24,18 @@ namespace WeSplitApp.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            string money = (string)value;
+            var badWordList = new List<string>()
+            {
+                " đồng",
+                "."
+            };
+            foreach (string badWord in badWordList)
+            {
+                money = money.Replace(badWord, string.Empty);
+            }
+            var result = double.Parse(money, System.Globalization.CultureInfo.InvariantCulture);
+            return result;
         }
     }
 }
