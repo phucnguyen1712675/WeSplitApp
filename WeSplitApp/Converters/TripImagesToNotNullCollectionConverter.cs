@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 
 namespace WeSplitApp.Converters
@@ -12,6 +13,11 @@ namespace WeSplitApp.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (value == DependencyProperty.UnsetValue)
+            {
+                return DependencyProperty.UnsetValue;
+            }
+
             var trip = (TRIP)value;
 
             if (trip != null)

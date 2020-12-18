@@ -30,9 +30,8 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
                 };
             }
         }
+        public int MemberCount => this.SelectedTrip.TRIP_MEMBER.Count;
         public CurrentProceedsPieChartViewModel CurrentProceedsPieChartViewModel { get; set; }
-
-        //private TRIP_MEMBER tempTripMember;
         public TRIP_MEMBER SelectedItem { get; set; }
         public SampleMessageDialogViewModel SampleMessageDialogViewModel { get; set; }
         public EditMemberDialogViewModel EditMemberDialogViewModel { get; set; }
@@ -40,11 +39,11 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
         public AddNewMemberAmountPaidToSelectedTripViewModel AddNewMemberAmountPaidToSelectedTripViewModel { get; set; }
         private ICommand _backToHomeScreenCommand { get; set; }
         public ICommand BackToHomeScreenCommand => this._backToHomeScreenCommand ?? (this._backToHomeScreenCommand = new CommandHandler((param) => BackToHomeScreenAction(), () => CanExecute));
-        public ICommand RunMemberAddingDecisionCommand => new AnotherCommandImplementation(ExecuteMemberAddingDecisionDialog);
         private ICommand _editMemberCommand { get; set; }
         public ICommand EditMemberCommand => this._editMemberCommand ?? (this._editMemberCommand = new CommandHandler((param) => EditMemberAction(param), () => CanExecute));
         private ICommand _deleteMemberCommand { get; set; }
         public ICommand DeleteMemberCommand => this._deleteMemberCommand ?? (this._deleteMemberCommand = new CommandHandler((param) => DeleteMemberAction(param), () => CanExecute));
+        public ICommand RunMemberAddingDecisionCommand => new AnotherCommandImplementation(ExecuteMemberAddingDecisionDialog);
 
         public static Slide3_TotalCostsViewModel Instance;
 
@@ -52,6 +51,9 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
         {
             Instance = this;
         }
+        private void ExtendedOpenedEventHandler(object sender, DialogOpenedEventArgs eventargs)
+            => Console.WriteLine("You could intercept the open and affect the dialog using eventArgs.Session.");
+
         private async void ExecuteMemberAddingDecisionDialog(object obj)
         {
             var view = new AddMemberToSelectedTripDesionDialog();
@@ -63,22 +65,17 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
             Console.WriteLine("Dialog was closed, the CommandParameter used to close it was: " + (result ?? "NULL"));
         }
 
-        private void MemberAddingDecisionClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
-        {
-            if (eventArgs.Parameter is bool parameter && parameter == false)
-            {
-                ExecuteAddNewMemberDialog();
-            }
-            else
-            {
-                ExecuteAddExistingMemberDialog();
-            }
-        }
-
         private async void DeleteMemberAction(object memberID)
         {
             int memberId = (int)memberID;
-            this.SelectedItem = HomeScreen.GetDatabaseEntities().TRIP_MEMBER.FirstOrDefault(x => x.TRIP_ID == this.SelectedTrip.TRIP_ID && x.MEMBER_ID == memberId);
+            var db = HomeScreen.GetDatabaseEntities();
+            this.SelectedItem = db.TRIP_MEMBER.Find(this.SelectedTrip.TRIP_ID, memberId);
+
+            if (this.SelectedItem == null)
+            {
+                MessageBox.Show("Error!");
+                return;
+            }
 
             this.SampleMessageDialogViewModel = new SampleMessageDialogViewModel
             {
@@ -97,6 +94,189 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
             Console.WriteLine("Dialog was closed, the CommandParameter used to close it was: " + (result ?? "NULL"));
         }
 
+        private async void EditMemberAction(object memberID)
+        {
+            int memberId = (int)memberID;
+            var db = HomeScreen.GetDatabaseEntities();
+            this.SelectedItem = db.TRIP_MEMBER.Find(this.SelectedTrip.TRIP_ID, memberId);
+
+            if (this.SelectedItem == null)
+            {
+                MessageBox.Show("Error!");
+                return;
+            }
+
+            this.EditMemberDialogViewModel = new EditMemberDialogViewModel
+            {
+                SelectedTripMember = this.SelectedItem,
+                AvatarStatus = "CHANGE AVATAR"
+            };
+
+            var view = new EditMemberDialog
+            {
+                DataContext = this.EditMemberDialogViewModel
+            };
+
+            //show the dialog
+            var result = await DialogHost.Show(view, HomeScreen.DialogHostName, ExtendedOpenedEventHandler, EditMemberClosingEventHandler);
+
+            //check the result...
+            Console.WriteLine("Dialog was closed, the CommandParameter used to close it was: " + (result ?? "NULL"));
+        }
+
+        private double NewAvarageMoneyIfAddAMember()
+        {
+            var total = this.SelectedTrip.TOTALCOSTS;
+            var memberNumber = this.SelectedTrip.TRIP_MEMBER.Count + 1;
+            return total / memberNumber;
+        }
+
+        private async void ExecuteAddNewMemberDialog()
+        {
+            var guessAvarageMoney = NewAvarageMoneyIfAddAMember();
+
+            this.EditMemberDialogViewModel = new EditMemberDialogViewModel
+            {
+                SelectedTripMember = new TRIP_MEMBER
+                {
+                    AMOUNTPAID = guessAvarageMoney
+                },
+                AvatarStatus = "CHOOSE AVATAR"
+            };
+
+            var view = new EditMemberDialog
+            {
+                DataContext = this.EditMemberDialogViewModel
+            };
+
+            //show the dialog
+            var result = await DialogHost.Show(view, Slide3_ProceedsControl.DialogHostName, ExtendedOpenedEventHandler, AddNewMemberToTripClosingEventHandler);
+
+            //check the result...
+            Console.WriteLine("Dialog was closed, the CommandParameter used to close it was: " + (result ?? "NULL"));
+        }
+
+        private async void ExecuteAddExistingMemberDialog()
+        {
+            var db = HomeScreen.GetDatabaseEntities();
+            var membersList = db.MEMBERS.ToList();
+            var memberCollection = new ObservableCollection<MEMBER>(membersList);
+
+            this.AddExistingMemberDialogViewModel = new AddExistingMemberDialogViewModel
+            {
+                Members = memberCollection,
+            };
+            var view = new AddExistingMemberDialog
+            {
+                DataContext = this.AddExistingMemberDialogViewModel
+            };
+
+            //show the dialog
+            var result = await DialogHost.Show(view, Slide3_ProceedsControl.DialogHostName, ExtendedOpenedEventHandler, AddNewMemberClosingEventHandler);
+
+            //check the result...
+            Console.WriteLine("Dialog was closed, the CommandParameter used to close it was: " + (result ?? "NULL"));
+        }
+
+        private void MemberAddingDecisionClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
+        {
+            if (eventArgs.Parameter is bool parameter && parameter == false)
+            {
+                ExecuteAddNewMemberDialog();
+            }
+            else
+            {
+                ExecuteAddExistingMemberDialog();
+            }
+        }
+
+        private void AddNewMemberToTripClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
+        {
+            if (eventArgs.Parameter is bool parameter &&
+                parameter == false) return;
+
+            //OK, lets cancel the close...
+            eventArgs.Cancel();
+
+            //...now, lets update the "session" with some new content!
+            eventArgs.Session.UpdateContent(new SampleProgressDialog());
+            //note, you can also grab the session when the dialog opens via the DialogOpenedEventHandler
+
+            //lets run a fake operation for 3 seconds then close this baby.
+            Task.Delay(TimeSpan.FromSeconds(3))
+                .ContinueWith((t, _) => eventArgs.Session.Close(false), null,
+                    TaskScheduler.FromCurrentSynchronizationContext());
+
+            var db = HomeScreen.GetDatabaseEntities();
+            var trip = db.TRIPS.Find(this.SelectedTrip.TRIP_ID);
+            var newTripMember = this.EditMemberDialogViewModel.SelectedTripMember;
+            var newMember = newTripMember.MEMBER;
+            db.MEMBERS.Add(newMember);
+            db.TRIP_MEMBER.Add(newTripMember);
+            trip.CURRENTPROCEEDS = CalculateCurrentProceeds();
+            db.SaveChanges();
+
+            this.CurrentProceedsPieChartViewModel = new CurrentProceedsPieChartViewModel
+            {
+                SelectedTrip = trip
+            };
+        }
+
+        private void EditMemberClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
+        {
+            if (!(eventArgs.Parameter is bool parameter) || parameter != false)
+            {
+                //OK, lets cancel the close...
+                eventArgs.Cancel();
+
+                //...now, lets update the "session" with some new content!
+                eventArgs.Session.UpdateContent(new SampleProgressDialog());
+                //note, you can also grab the session when the dialog opens via the DialogOpenedEventHandler
+
+                //lets run a fake operation for 3 seconds then close this baby.
+                Task.Delay(TimeSpan.FromSeconds(3))
+                    .ContinueWith((t, _) => eventArgs.Session.Close(false), null,
+                        TaskScheduler.FromCurrentSynchronizationContext());
+
+                var db = HomeScreen.GetDatabaseEntities();
+                var trip = db.TRIPS.Find(this.SelectedTrip.TRIP_ID);
+                var tripMember = this.SelectedItem;
+                var trip_member = db.TRIP_MEMBER.Find(tripMember.TRIP_ID, tripMember.MEMBER_ID);
+                var member = db.MEMBERS.Find(tripMember.MEMBER_ID);
+                trip_member = this.SelectedItem;
+                member = this.SelectedItem.MEMBER;
+                trip.CURRENTPROCEEDS = CalculateCurrentProceeds();
+                db.SaveChanges();
+
+                this.CurrentProceedsPieChartViewModel = new CurrentProceedsPieChartViewModel
+                {
+                    SelectedTrip = trip
+                };
+            }
+            else
+            {
+                var db = HomeScreen.GetDatabaseEntities();
+                var tripMember = this.SelectedItem;
+                var member = tripMember.MEMBER;
+                var reloadMember = db.MEMBERS.Find(member.MEMBER_ID);
+                var reloadTripMember = db.TRIP_MEMBER.Find(tripMember.TRIP_ID, member.MEMBER_ID);
+                db.Entry(reloadMember).Reload();
+                db.Entry(reloadTripMember).Reload();
+            }
+        }
+        internal void DeleteTripMember(TRIP_MEMBER tripMember)
+        {
+            var db = HomeScreen.GetDatabaseEntities();
+            var trip = db.TRIPS.Find(tripMember.TRIP_ID);
+            db.TRIP_MEMBER.Remove(tripMember);
+            trip.CURRENTPROCEEDS = CalculateCurrentProceeds();
+            db.SaveChanges();
+
+            this.CurrentProceedsPieChartViewModel = new CurrentProceedsPieChartViewModel
+            {
+                SelectedTrip = trip
+            };
+        }
         private void DeleteMemberClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
         {
             if (eventArgs.Parameter is bool parameter &&
@@ -117,153 +297,6 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
             DeleteTripMember(this.SelectedItem);
         }
 
-        public void DeleteTripMember(TRIP_MEMBER SelectedTripMember)
-        {
-            HomeScreen.GetDatabaseEntities().TRIPS.FirstOrDefault(trip => trip.TRIP_ID == this.SelectedTrip.TRIP_ID).TRIP_MEMBER.Remove(SelectedTripMember);
-
-            HomeScreen.GetDatabaseEntities().SaveChanges();
-
-            var temp = HomeScreen.GetDatabaseEntities().TRIPS.FirstOrDefault(trip => trip.TRIP_ID == this.SelectedTrip.TRIP_ID);
-
-            this.CurrentProceedsPieChartViewModel = new CurrentProceedsPieChartViewModel
-            {
-                SelectedTrip = temp
-            };
-        }
-
-        private void ExtendedOpenedEventHandler(object sender, DialogOpenedEventArgs eventargs)
-            => Console.WriteLine("You could intercept the open and affect the dialog using eventArgs.Session.");
-
-        private async void EditMemberAction(object memberID)
-        {
-            int memberId = (int)memberID;
-            this.SelectedItem = HomeScreen.GetDatabaseEntities().TRIP_MEMBER.FirstOrDefault(x => x.TRIP_ID == this.SelectedTrip.TRIP_ID && x.MEMBER_ID == memberId);
-
-            this.EditMemberDialogViewModel = new EditMemberDialogViewModel
-            {
-                SelectedTripMember = this.SelectedItem,
-                AvatarStatus = "CHANGE AVATAR"
-            };
-
-            var view = new EditMemberDialog
-            {
-                DataContext = this.EditMemberDialogViewModel
-            };
-
-            //show the dialog
-            var result = await DialogHost.Show(view, HomeScreen.DialogHostName, ExtendedOpenedEventHandler, EditMemberClosingEventHandler);
-
-            //check the result...
-            Console.WriteLine("Dialog was closed, the CommandParameter used to close it was: " + (result ?? "NULL"));
-        }
-        private async void ExecuteAddNewMemberDialog()
-        {
-            var total = this.SelectedTrip.TOTALCOSTS;
-            var memberNumber = this.SelectedTrip.TRIP_MEMBER.Count + 1;
-            var avarageMoney = total / memberNumber;
-
-            this.EditMemberDialogViewModel = new EditMemberDialogViewModel
-            {
-                SelectedTripMember = new TRIP_MEMBER
-                {
-                    AMOUNTPAID = avarageMoney
-                },
-                AvatarStatus = "CHOOSE AVATAR"
-            };
-
-            var view = new EditMemberDialog
-            {
-                DataContext = this.EditMemberDialogViewModel
-            };
-
-            //show the dialog
-            var result = await DialogHost.Show(view, Slide3_ProceedsControl.DialogHostName, ExtendedOpenedEventHandler, AddNewMemberToTripClosingEventHandler);
-
-            //check the result...
-            Console.WriteLine("Dialog was closed, the CommandParameter used to close it was: " + (result ?? "NULL"));
-        }
-
-        private async void ExecuteAddExistingMemberDialog()
-        {
-            var memberCollection = new ObservableCollection<MEMBER>(HomeScreen.GetDatabaseEntities().MEMBERS.ToList());
-            var tripMember = HomeScreen.GetDatabaseEntities().TRIP_MEMBER.ToList();
-            //var membersOfSelectedTrip = new ObservableCollection<MEMBER>(tripMember.Where(x => x.TRIP_ID == this.SelectedTrip.TRIP_ID).Select(x => x.MEMBER).ToList());
-
-            this.AddExistingMemberDialogViewModel = new AddExistingMemberDialogViewModel
-            {
-                Members = memberCollection,
-            };
-            var view = new AddExistingMemberDialog
-            {
-                DataContext = this.AddExistingMemberDialogViewModel
-            };
-
-            //show the dialog
-            var result = await DialogHost.Show(view, Slide3_ProceedsControl.DialogHostName, ExtendedOpenedEventHandler, AddNewMemberClosingEventHandler);
-
-            //check the result...
-            Console.WriteLine("Dialog was closed, the CommandParameter used to close it was: " + (result ?? "NULL"));
-        }
-        private void AddNewMemberToTripClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
-        {
-            if (eventArgs.Parameter is bool parameter &&
-                parameter == false) return;
-
-            //OK, lets cancel the close...
-            eventArgs.Cancel();
-
-            //...now, lets update the "session" with some new content!
-            eventArgs.Session.UpdateContent(new SampleProgressDialog());
-            //note, you can also grab the session when the dialog opens via the DialogOpenedEventHandler
-
-            //lets run a fake operation for 3 seconds then close this baby.
-            Task.Delay(TimeSpan.FromSeconds(3))
-                .ContinueWith((t, _) => eventArgs.Session.Close(false), null,
-                    TaskScheduler.FromCurrentSynchronizationContext());
-
-            HomeScreen.GetDatabaseEntities().MEMBERS.Add(this.EditMemberDialogViewModel.SelectedTripMember.MEMBER);
-            HomeScreen.GetDatabaseEntities().TRIP_MEMBER.Add(this.EditMemberDialogViewModel.SelectedTripMember);
-            HomeScreen.GetDatabaseEntities().SaveChanges();
-
-            var temp = HomeScreen.GetDatabaseEntities().TRIPS.FirstOrDefault(trip => trip.TRIP_ID == this.SelectedTrip.TRIP_ID);
-
-            this.CurrentProceedsPieChartViewModel = new CurrentProceedsPieChartViewModel
-            {
-                SelectedTrip = temp
-            };
-        }
-
-        private void EditMemberClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
-        {
-            if (!(eventArgs.Parameter is bool parameter) || parameter != false)
-            {
-                //OK, lets cancel the close...
-                eventArgs.Cancel();
-
-                //...now, lets update the "session" with some new content!
-                eventArgs.Session.UpdateContent(new SampleProgressDialog());
-                //note, you can also grab the session when the dialog opens via the DialogOpenedEventHandler
-
-                //lets run a fake operation for 3 seconds then close this baby.
-                Task.Delay(TimeSpan.FromSeconds(3))
-                    .ContinueWith((t, _) => eventArgs.Session.Close(false), null,
-                        TaskScheduler.FromCurrentSynchronizationContext());
-
-                HomeScreen.GetDatabaseEntities().Entry(this.SelectedTrip).State = EntityState.Modified;
-                HomeScreen.GetDatabaseEntities().SaveChanges();
-            }
-            else
-            {
-                var reloadMember = HomeScreen.GetDatabaseEntities().MEMBERS.FirstOrDefault(item => item.MEMBER_ID == this.SelectedItem.MEMBER_ID);
-                HomeScreen.GetDatabaseEntities().Entry(reloadMember).Reload();
-
-                var reload = HomeScreen.GetDatabaseEntities().TRIP_MEMBER.FirstOrDefault(tripMember => tripMember.TRIP_ID == this.SelectedItem.TRIP_ID && tripMember.MEMBER_ID == this.SelectedItem.MEMBER_ID);
-                HomeScreen.GetDatabaseEntities().Entry(reload).Reload();
-
-                this.SelectedTrip.TRIP_MEMBER = HomeScreen.GetDatabaseEntities().TRIPS.FirstOrDefault(item => item.TRIP_ID == this.SelectedTrip.TRIP_ID).TRIP_MEMBER;
-            }
-        }
-
         private void AddNewMemberClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
         {
             if (eventArgs.Parameter is bool parameter &&
@@ -281,13 +314,18 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
                 .ContinueWith((t, _) => eventArgs.Session.Close(false), null,
                     TaskScheduler.FromCurrentSynchronizationContext());
 
-            foreach (var member in this.AddExistingMemberDialogViewModel.SelectedMembers)
+            var db = HomeScreen.GetDatabaseEntities();
+            var trip = db.TRIPS.Find(this.SelectedTrip.TRIP_ID);
+            var tripMember = trip.TRIP_MEMBER;
+            var newTripMemberCollection = this.AddExistingMemberDialogViewModel.SelectedMembers;
+
+            foreach (var member in newTripMemberCollection)
             {
-                var hasAlreadyInSelectedTrip = this.SelectedTrip.TRIP_MEMBER.Any(x => x.MEMBER_ID == member.MEMBER_ID);
-                
+                var hasAlreadyInSelectedTrip = tripMember.Any(x => x.MEMBER_ID == member.MEMBER_ID);
+
                 if (!hasAlreadyInSelectedTrip)
                 {
-                    HomeScreen.GetDatabaseEntities().TRIP_MEMBER.Add(new TRIP_MEMBER
+                    db.TRIP_MEMBER.Add(new TRIP_MEMBER
                     {
                         TRIP_ID = this.SelectedTrip.TRIP_ID,
                         MEMBER_ID = member.MEMBER_ID,
@@ -295,19 +333,30 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
                     });
                 }
             }
-            HomeScreen.GetDatabaseEntities().SaveChanges();
+            trip.CURRENTPROCEEDS = CalculateCurrentProceeds();
+            db.SaveChanges();
 
-            /*var reload = HomeScreen.GetDatabaseEntities().TRIP_MEMBER.FirstOrDefault(tripMember => tripMember.TRIP_ID == this.SelectedTrip.TRIP_ID);
-            HomeScreen.GetDatabaseEntities().Entry(reload).Reload();*/
-
-            //this.SelectedTrip.TRIP_MEMBER = HomeScreen.GetDatabaseEntities().TRIPS.FirstOrDefault(item => item.TRIP_ID == this.SelectedTrip.TRIP_ID).TRIP_MEMBER;
-            
-
-            var tempTrip = HomeScreen.GetDatabaseEntities().TRIPS.FirstOrDefault(item => item.TRIP_ID == this.SelectedTrip.TRIP_ID);
-            HomeScreen.GetDatabaseEntities().Entry(tempTrip).Reload();
-
-            this.SelectedTrip = tempTrip;
+            this.CurrentProceedsPieChartViewModel = new CurrentProceedsPieChartViewModel
+            {
+                SelectedTrip = trip
+            };
         }
+        private double CalculateCurrentProceeds()
+        {
+            var db = HomeScreen.GetDatabaseEntities();
+            var trip = db.TRIPS.Find(this.SelectedTrip.TRIP_ID);
+            var tripMember = trip.TRIP_MEMBER.ToList();
+
+            var total = 0.0;
+
+            tripMember.ForEach(x =>
+            {
+                total += x.AMOUNTPAID;
+            });
+
+            return total;
+        }
+
         public bool CanExecute => true;
         private void BackToHomeScreenAction()
         {

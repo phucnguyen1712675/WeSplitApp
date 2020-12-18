@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 
 namespace WeSplitApp.Converters
@@ -12,6 +13,10 @@ namespace WeSplitApp.Converters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
+            if (values.Any(x => x == DependencyProperty.UnsetValue))
+            {
+                return DependencyProperty.UnsetValue;
+            }
             var selectedIndex = (int)values[0];
             var imagesCount = (int)values[1];
             var currentPage = (int)values[2];

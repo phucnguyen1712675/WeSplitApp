@@ -108,6 +108,8 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
             {
                 var member = this.MEMBERSTOSHOW.FirstOrDefault(x => x.MEMBER_ID == memberID);
 
+
+
                 if (member.IsChecked)
                 {
                     if (this.SelectedMember != null && member.MEMBER_ID != this.SelectedMember.MEMBER_ID)

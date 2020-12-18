@@ -74,7 +74,7 @@
                         Text="{Binding SelectedTrip.TITTLE}" />
                 </Grid>
             </DockPanel>
-            
+
             <StackPanel
                 Grid.Row="1"
                 Margin="0,10"
@@ -135,7 +135,7 @@
                                 Foreground="{DynamicResource PrimaryHueMidBrush}"
                                 Kind="AccountSupervisor" />
                             <TextBlock Text="Số người: " />
-                            <TextBlock Text="{Binding SelectedTrip.TRIP_MEMBER.Count}" />
+                            <TextBlock Text="{Binding SelectedTrip.TRIP_MEMBER.Count, UpdateSourceTrigger=PropertyChanged}" />
                         </StackPanel>
                     </Border>
                     <Border
@@ -171,7 +171,17 @@
                                 Foreground="{DynamicResource PrimaryHueMidBrush}"
                                 Kind="CurrencyUsd" />
                             <TextBlock Text="Trung bình: " />
-                            <TextBlock Text="{Binding Path=SelectedTrip, Converter={StaticResource TripCostsToMoneyEachPersonConverter}}" />
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding
+                                        Converter="{StaticResource TripCostsToMoneyEachPersonConverter}"
+                                        Mode="TwoWay"
+                                        UpdateSourceTrigger="PropertyChanged">
+                                        <Binding Path="SelectedTrip.TOTALCOSTS" />
+                                        <Binding Path="SelectedTrip.TRIP_MEMBER.Count" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
                         </StackPanel>
                     </Border>
                 </StackPanel>
@@ -186,7 +196,10 @@
                     <ColumnDefinition Width="450" />
                 </Grid.ColumnDefinitions>
 
-                <Grid Grid.Column="0" VerticalAlignment="Top" Margin="10,0,0,0">
+                <Grid
+                    Grid.Column="0"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Top">
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition />
@@ -194,8 +207,8 @@
 
                     <GroupBox
                         Grid.Row="0"
-                        MaxWidth="680"
                         Height="auto"
+                        MaxWidth="680"
                         Margin="20,16,5,16"
                         Header="Chi phí tại từng địa điểm"
                         Style="{DynamicResource MaterialDesignCardGroupBox}">
@@ -216,9 +229,9 @@
                             </DataTemplate>
                         </GroupBox.HeaderTemplate>
                         <ListView
+                            MaxWidth="650"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
-                            MaxWidth="650"
                             ItemsSource="{Binding SelectedTrip.TRIP_LOCATION}"
                             ScrollViewer.HorizontalScrollBarVisibility="Auto"
                             ScrollViewer.VerticalScrollBarVisibility="Disabled">
@@ -271,8 +284,8 @@
 
                     <GroupBox
                         Grid.Row="1"
-                        MaxWidth="680"
                         Height="auto"
+                        MaxWidth="680"
                         Margin="20,16,5,16"
                         Header="Các chi phí khác"
                         Style="{DynamicResource MaterialDesignCardGroupBox}">
@@ -293,9 +306,9 @@
                             </DataTemplate>
                         </GroupBox.HeaderTemplate>
                         <ListView
+                            MaxWidth="650"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
-                            MaxWidth="650"
                             ItemsSource="{Binding SelectedTrip.TRIP_COSTINCURRED}"
                             ScrollViewer.HorizontalScrollBarVisibility="Auto"
                             ScrollViewer.VerticalScrollBarVisibility="Disabled">
@@ -346,7 +359,7 @@
                         </ListView>
                     </GroupBox>
                 </Grid>
-                
+
                 <local:TotalCostsPieChartControl
                     Grid.Column="1"
                     Height="465"
@@ -379,12 +392,14 @@
             <StackPanel>
                 <Button
                     Background="{DynamicResource PrimaryHueMidBrush}"
+                    Command="{Binding RunAddOtherCostCommand}"
                     Content="{md:PackIcon Kind=Shopping,
                                           Size=20}"
                     Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
                     ToolTip="Thêm chi phí khác" />
                 <Button
                     Background="{DynamicResource SecondaryHueMidBrush}"
+                    Command="{Binding RunAddLocationCostCommand}"
                     Content="{md:PackIcon Kind=MapMarker,
                                           Size=20}"
                     Foreground="{DynamicResource SecondaryHueMidForegroundBrush}"

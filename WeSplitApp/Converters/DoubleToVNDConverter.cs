@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 
 namespace WeSplitApp.Converters
@@ -12,13 +13,23 @@ namespace WeSplitApp.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (value == DependencyProperty.UnsetValue)
+            {
+                return DependencyProperty.UnsetValue;
+            }
             double money = (double)value;
+
+            string result;
+
             if (money == 0.0)
             {
-                return "Đã thu đủ tiền";
+                result = "0";
             }
-            CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-US"
-            string result = money.ToString("#,###", cul.NumberFormat);
+            else
+            {
+                CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-US"
+                result = money.ToString("#,###", cul.NumberFormat);
+            }
             return $"{result} đồng";
         }
 
@@ -34,7 +45,7 @@ namespace WeSplitApp.Converters
             {
                 money = money.Replace(badWord, string.Empty);
             }
-            var result = double.Parse(money, System.Globalization.CultureInfo.InvariantCulture);
+            var result = double.Parse(money, CultureInfo.InvariantCulture);
             return result;
         }
     }

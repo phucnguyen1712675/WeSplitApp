@@ -11,16 +11,16 @@
     xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:system="clr-namespace:System;assembly=mscorlib"
     xmlns:viewModel="clr-namespace:WeSplitApp.ViewModel"
-    Loaded="MaterialWindow_Loaded"
-    Closing="MaterialWindow_Closing"
     Title="WE SPLIT APP"
     Width="1900"
     Height="900"
     AutomationProperties.Name="{Binding Title, RelativeSource={RelativeSource Self}}"
     Background="White"
     BorderThickness="1"
+    Closing="MaterialWindow_Closing"
     FontFamily="{md:MaterialDesignFont}"
     Foreground="{DynamicResource MaterialDesignBody}"
+    Loaded="MaterialWindow_Loaded"
     TextElement.FontSize="14"
     TextElement.FontWeight="Medium"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -182,16 +182,15 @@
                                             </TextBox>-->
                                             <TextBox
                                                 x:Name="SearchTextBox"
-                                                md:TextFieldAssist.HasClearButton="True"
                                                 Grid.Column="1"
                                                 MinWidth="200"
                                                 Margin="8,0,0,0"
                                                 VerticalAlignment="Center"
                                                 md:HintAssist.Hint="Search"
                                                 md:TextFieldAssist.DecorationVisibility="Hidden"
+                                                md:TextFieldAssist.HasClearButton="True"
                                                 BorderThickness="0"
-                                                TextChanged="SearchEvent"
-                                                />
+                                                TextChanged="SearchEvent" />
                                             <Button Grid.Column="2" Style="{DynamicResource MaterialDesignToolButton}">
                                                 <md:PackIcon
                                                     Margin="8,0,0,0"
@@ -201,23 +200,22 @@
                                         </Grid>
                                     </md:ColorZone>
                                 </Grid>
-                                <md:PopupBox ToolTip="Tìm kiếm theo"
-                                             Grid.Column="1" PlacementMode="BottomAndAlignRightEdges">
+                                <md:PopupBox
+                                    Grid.Column="1"
+                                    PlacementMode="BottomAndAlignRightEdges"
+                                    ToolTip="Tìm kiếm theo">
                                     <ListBox>
-                                        <ComboBox x:Name="SearchByComboBox"
-                                                md:HintAssist.Hint="Tên"
-                                                md:HintAssist.HintOpacity=".26"
-                                                IsEditable="True"
-                                                SelectionChanged="resetSearchBox"
-                                                >
-                                                <ComboBoxItem
-                                                  Content="Tên chuyến đi" IsSelected="True"/>
-                                                <ComboBoxItem
-                                                  Content="Tên thành viên" />
-                                                <ComboBoxItem
-                                                  Content="Tên địa điểm" />
+                                        <ComboBox
+                                            x:Name="SearchByComboBox"
+                                            md:HintAssist.Hint="Tên"
+                                            md:HintAssist.HintOpacity=".26"
+                                            IsEditable="True"
+                                            SelectionChanged="resetSearchBox">
+                                            <ComboBoxItem Content="Tên chuyến đi" IsSelected="True" />
+                                            <ComboBoxItem Content="Tên thành viên" />
+                                            <ComboBoxItem Content="Tên địa điểm" />
                                         </ComboBox>
-                                        
+
                                     </ListBox>
                                 </md:PopupBox>
                             </Grid>
