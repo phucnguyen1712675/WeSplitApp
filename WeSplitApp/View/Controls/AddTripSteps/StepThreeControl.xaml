@@ -144,7 +144,7 @@
         </StackPanel>
 
         <StackPanel Grid.Column="1">
-            <!--  Added location  -->
+            <!--  Added Member  -->
             <Border
                 Margin="20,0,30,15"
                 Padding="10"
@@ -170,7 +170,10 @@
                         <Grid Grid.Column="2" Name="col3"/>
                         <Grid Grid.Column="3" Name="col4"/>
                     </Grid>
-                    <ListView x:Name="MemberAddedListView" ItemsSource="{Binding AddTrip.TRIP_MEMBER}">
+                    <ListView 
+                        x:Name="MemberAddedListView" 
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                        ItemsSource="{Binding AddTrip.TRIP_MEMBER}">
                         <ListView.Resources>
                             <DataTemplate x:Key="Templ">
                                 <TextBlock HorizontalAlignment="Center" Text="{Binding}"/>

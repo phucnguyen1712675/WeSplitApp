@@ -1,0 +1,101 @@
+﻿<UserControl x:Class="WeSplitApp.View.Controls.AboutUsSlide.AboutUsSlide1"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="clr-namespace:WeSplitApp.Converters"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WeSplitApp.View.Controls.AboutUsSlide"
+             TextElement.FontFamily="Segeo ui light"
+             TextElement.FontSize="14"
+             mc:Ignorable="d"
+             Background="White"
+             Width="{Binding Source={x:Static SystemParameters.PrimaryScreenWidth}, Converter={converters:RatioConverter}, ConverterParameter='0.85'}"
+             Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={converters:RatioConverter}, ConverterParameter='0.7'}"
+             HorizontalAlignment="Center"
+             VerticalAlignment="Center"
+             md:ShadowAssist.ShadowDepth="Depth2"
+             BorderBrush="#007bb1"
+             BorderThickness="1"
+             >
+    <Grid>
+        <Image Source="/Resources/Images/AboutUs1BackGround.jpg" 
+               HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+        <Border BorderBrush="#FFFFC03A" BorderThickness="1"/>
+        <Border BorderBrush="#FFFFC03A" BorderThickness="3" VerticalAlignment="Top"/>
+
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Margin="130,0,0,0" md:ShadowAssist.ShadowDepth="Depth2">
+            <TextBlock
+              Style="{StaticResource MaterialDesignHeadline3TextBlock}"
+              Text="ABOUT US "
+              FontSize="45"
+              Foreground="#FFFFC03A"
+              FontWeight="Bold"/>
+
+            <Viewbox
+                Margin="0,20,0,0"
+                Stretch="Uniform"
+                StretchDirection="DownOnly">
+                <TextBlock
+                    Width="400"
+                    TextAlignment="Justify"
+                    Style="{StaticResource MaterialDesignBody1TextBlock}"
+                    FontSize="18"
+                    TextWrapping="WrapWithOverflow"
+                    Text="Setup your project in minutes. CircleCI mirrors your GitHub team permissions and privileges, which means there are no plugins to install or credentials to create.
+CircleCI automatically runs your build and test processes whenever you commit code, and then displays the build status in your GitHub branch."/>
+            </Viewbox>
+            <StackPanel
+                Margin="0,20,0,0" 
+                HorizontalAlignment="Right">
+                <TextBlock
+                Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                Text="Các kênh thông tin:" />
+                <Grid Width="230" Margin="0,10,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button
+                  HorizontalAlignment="Left"
+                  Foreground="White"
+                  ToolTip="GitHub link"
+                  Style="{StaticResource MaterialDesignIconButton}"
+                  Background="#6a1a9a"
+                  Content="{md:PackIcon Kind=Github, Size=25}"/>
+                    <Button
+                  Grid.Column="1"
+                  HorizontalAlignment="Left"
+                  Foreground="White"
+                  ToolTip="Email link"
+                  Style="{StaticResource MaterialDesignIconButton}"
+                  Background="#FFB71C1C"
+                  Content="{md:PackIcon Kind=Mail, Size=25}"/>
+                    <Button
+                  Grid.Column="2"
+                  HorizontalAlignment="Left"
+                  Foreground="White"
+                  ToolTip="FaceBook link"
+                  Style="{StaticResource MaterialDesignIconButton}"
+                  Background="#1274d0"
+                  Content="{md:PackIcon Kind=Facebook, Size=25}"/>
+                </Grid>
+            </StackPanel>
+            
+            
+        </StackPanel>
+
+        <Button
+            Margin="0,0,-10,0"
+            HorizontalAlignment="Right"
+            Background="#FF9EDDFF"
+            BorderBrush="#FF9EDDFF"
+            Style="{StaticResource MaterialDesignRaisedDarkButton}"
+            Command="{x:Static md:Transitioner.MoveNextCommand}"
+            Content="{md:PackIcon Kind=ChevronRight,Size=26}"
+            Height="50"
+            md:ButtonAssist.CornerRadius="25 5 5 25"
+            ToolTip="Back" />
+    </Grid>
+</UserControl>

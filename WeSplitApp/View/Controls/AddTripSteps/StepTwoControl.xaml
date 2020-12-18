@@ -110,9 +110,7 @@
                         Content="Thêm" />
                 </StackPanel>
             </Border>
-
-
-
+            
             <Border
                 Margin="20,0,30,15"
                 Padding="10"
@@ -221,13 +219,15 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="5*"/>
                             <ColumnDefinition Width="5*"/>
-                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="4*"/>
                         </Grid.ColumnDefinitions>
                         <Grid Grid.Column="0" Name="col1"/>
                         <Grid Grid.Column="1" Name="col2"/>
                         <Grid Grid.Column="2" Name="col3"/>
                     </Grid>
-                    <ListView x:Name="LocationAddedListView" ItemsSource="{Binding AddTrip.TRIP_LOCATION}">
+                    <ListView x:Name="LocationAddedListView"
+                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                              ItemsSource="{Binding AddTrip.TRIP_LOCATION}">
                         <ListView.Resources>
                             <DataTemplate x:Key="Templ">
                                 <TextBlock HorizontalAlignment="Center" Text="{Binding}"/>
