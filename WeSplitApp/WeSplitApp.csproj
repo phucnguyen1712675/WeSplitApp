@@ -219,6 +219,7 @@
     <Compile Include="Converters\BoolToForegroundForDeleteMemberConverter.cs" />
     <Compile Include="Converters\BoolToIndexGenderConverver.cs" />
     <Compile Include="Converters\BoolToIntConverter.cs" />
+    <Compile Include="Converters\ClearButton.cs" />
     <Compile Include="Converters\ImageConverter.cs" />
     <Compile Include="Converters\IndexToIsEnabledNextButtonConverter.cs" />
     <Compile Include="Converters\IndexToIsEnabledPreviousButtonConverter.cs" />
@@ -281,7 +282,6 @@
     <Compile Include="ViewModel\BeingTakenTripsListViewModel.cs" />
     <Compile Include="ViewModel\TripDetailSlideVM\AddCostToTripViewModel.cs" />
     <Compile Include="ViewModel\TripDetailSlideVM\AddExistingMemberDialogViewModel.cs" />
-    <Compile Include="ViewModel\TripDetailSlideVM\AddNewMemberAmountPaidToSelectedTripViewModel.cs" />
     <Compile Include="ViewModel\TripDetailSlideVM\AddLocationCostDialogViewModel.cs" />
     <Compile Include="ViewModel\TripDetailSlideVM\AddOtherCostDialogViewModel.cs" />
     <Compile Include="ViewModel\TripDetailSlideVM\CurrentProceedsPieChartViewModel.cs" />
@@ -305,7 +305,6 @@
     <Compile Include="ViewModel\TripDetailSlideVM\Slide3_TotalCostsViewModel.cs" />
     <Compile Include="ViewModel\TripDetailsViewModel.cs" />
     <Compile Include="ViewModel\HaveTakenTripsListViewModel.cs" />
-    <Compile Include="ViewModel\TripMemberPaidAmountDataGridViewModel.cs" />
     <Compile Include="ViewModel\TripsCollectionViewModel.cs" />
     <Compile Include="ViewModel\TripViewModel.cs" />
     <Compile Include="ViewModel\ViewModel.cs" />
@@ -333,9 +332,6 @@
     <Compile Include="View\Controls\BeingTakenTripsListControl.xaml.cs">
       <DependentUpon>BeingTakenTripsListControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Controls\ExpectedTripListControl.xaml.cs">
-      <DependentUpon>ExpectedTripListControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Controls\LocationListControl.xaml.cs">
       <DependentUpon>LocationListControl.xaml</DependentUpon>
     </Compile>
@@ -347,9 +343,6 @@
     </Compile>
     <Compile Include="View\Controls\TripDetailSlide\AddMemberToSelectedTripDesionDialog.xaml.cs">
       <DependentUpon>AddMemberToSelectedTripDesionDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Controls\TripDetailSlide\AddNewMemberAmountPaidToSelectedTripControl.xaml.cs">
-      <DependentUpon>AddNewMemberAmountPaidToSelectedTripControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Controls\TripDetailSlide\AddOtherCostDialog.xaml.cs">
       <DependentUpon>AddOtherCostDialog.xaml</DependentUpon>
@@ -399,12 +392,6 @@
     <Compile Include="View\DialogHelper\AddMemberDialog.xaml.cs">
       <DependentUpon>AddMemberDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Controls\TripMemberPaidAmountDataGridControl.xaml.cs">
-      <DependentUpon>TripMemberPaidAmountDataGridControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Controls\TripMembersContactControl.xaml.cs">
-      <DependentUpon>TripMembersContactControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Controls\TripsCollectionControl.xaml.cs">
       <DependentUpon>TripsCollectionControl.xaml</DependentUpon>
     </Compile>
@@ -416,9 +403,6 @@
     </Compile>
     <Compile Include="View\Controls\MemberListControl.xaml.cs">
       <DependentUpon>MemberListControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Search_Temp.xaml.cs">
-      <DependentUpon>Search_Temp.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SplashScreen.xaml.cs">
       <DependentUpon>SplashScreen.xaml</DependentUpon>
@@ -530,10 +514,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Controls\ExpectedTripListControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\Controls\LocationListControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -547,10 +527,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Controls\TripDetailSlide\AddMemberToSelectedTripDesionDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Controls\TripDetailSlide\AddNewMemberAmountPaidToSelectedTripControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -618,14 +594,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Controls\TripMemberPaidAmountDataGridControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Controls\TripMembersContactControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\Controls\TripsCollectionControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -639,10 +607,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Controls\MemberListControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Search_Temp.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

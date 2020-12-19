@@ -36,7 +36,6 @@ namespace WeSplitApp.ViewModel.TripDetailSlideVM
         public SampleMessageDialogViewModel SampleMessageDialogViewModel { get; set; }
         public EditMemberDialogViewModel EditMemberDialogViewModel { get; set; }
         public AddExistingMemberDialogViewModel AddExistingMemberDialogViewModel { get; set; }
-        public AddNewMemberAmountPaidToSelectedTripViewModel AddNewMemberAmountPaidToSelectedTripViewModel { get; set; }
         private ICommand _backToHomeScreenCommand { get; set; }
         public ICommand BackToHomeScreenCommand => this._backToHomeScreenCommand ?? (this._backToHomeScreenCommand = new CommandHandler((param) => BackToHomeScreenAction(), () => CanExecute));
         private ICommand _editMemberCommand { get; set; }

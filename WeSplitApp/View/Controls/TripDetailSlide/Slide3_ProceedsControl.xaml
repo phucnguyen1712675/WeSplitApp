@@ -40,6 +40,7 @@
                 Converter2="{StaticResource doubleToVNDConverter}" />
             <conv:AmountPaidStatusToColorConverter x:Key="AmountPaidStatusToColorConverter" Converter1="{StaticResource TripCostToAvarageMoneyConverter}" />
             <conv:AmountPaidStatusToIconConverter x:Key="AmountPaidStatusToIconConverter" Converter1="{StaticResource TripCostToAvarageMoneyConverter}" />
+            <conv:ClearButton x:Key="ClearButton" />
 
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
@@ -277,6 +278,7 @@
                                                         Grid.Column="0"
                                                         Width="60"
                                                         Height="60"
+                                                        Margin="5,0,0,0"
                                                         BorderThickness="0"
                                                         CornerRadius="90">
                                                         <Border.Background>
@@ -288,15 +290,31 @@
                                                         Margin="15,0"
                                                         VerticalAlignment="Center">
                                                         <TextBlock
-                                                            Grid.Row="0"
                                                             Margin="0,5"
                                                             FontSize="16"
                                                             Text="{Binding MEMBER.NAME}"
                                                             TextTrimming="CharacterEllipsis" />
-                                                        <TextBlock
-                                                            Grid.Row="1"
-                                                            Foreground="#FF757575"
-                                                            Text="{Binding MEMBER.PHONENUMBER}" />
+                                                        <TextBlock Foreground="#FF757575" Text="{Binding MEMBER.PHONENUMBER}" />
+                                                        <StackPanel
+                                                            Margin="0,5,0,0"
+                                                            VerticalAlignment="Center"
+                                                            Orientation="Horizontal"
+                                                            Visibility="{Binding MEMBER1, Converter={StaticResource ClearButton}}">
+                                                            <TextBlock
+                                                                VerticalAlignment="Center"
+                                                                Foreground="{DynamicResource PrimaryHueDarkBrush}"
+                                                                Text="Ứng trước bởi: " />
+                                                            <Border
+                                                                Width="20"
+                                                                Height="20"
+                                                                Margin="3,0"
+                                                                BorderThickness="0"
+                                                                CornerRadius="90">
+                                                                <Border.Background>
+                                                                    <ImageBrush ImageSource="{Binding MEMBER1.AVATAR, Converter={StaticResource imageConverter}}" />
+                                                                </Border.Background>
+                                                            </Border>
+                                                        </StackPanel>
                                                     </StackPanel>
                                                     <StackPanel
                                                         Grid.Column="2"
