@@ -29,6 +29,7 @@
             <conv:StatusToDetailTitleConverter x:Key="statusToDetailTitleConverter" />
             <conv:TripCostToAvarageMoneyConverter x:Key="TripCostToAvarageMoneyConverter" />
             <conv:StringToEachPersonTextConverter x:Key="StringToEachPersonTextConverter" />
+            <conv:ClearButton x:Key="ClearButton" />
             <conv:TripCostsToMoneyEachPersonConverter
                 x:Key="TripCostsToMoneyEachPersonConverter"
                 Converter1="{StaticResource TripCostToAvarageMoneyConverter}"
@@ -277,6 +278,7 @@
                                                         Grid.Column="0"
                                                         Width="60"
                                                         Height="60"
+                                                        Margin="5,0,0,0"
                                                         BorderThickness="0"
                                                         CornerRadius="90">
                                                         <Border.Background>
@@ -293,10 +295,27 @@
                                                             FontSize="16"
                                                             Text="{Binding MEMBER.NAME}"
                                                             TextTrimming="CharacterEllipsis" />
-                                                        <TextBlock
-                                                            Grid.Row="1"
-                                                            Foreground="#FF757575"
-                                                            Text="{Binding MEMBER.PHONENUMBER}" />
+                                                        <TextBlock Foreground="#FF757575" Text="{Binding MEMBER.PHONENUMBER}" />
+                                                        <StackPanel
+                                                        Margin="0,5,0,0"
+                                                        VerticalAlignment="Center"
+                                                        Orientation="Horizontal"
+                                                        Visibility="{Binding MEMBER1, Converter={StaticResource ClearButton}}">
+                                                            <TextBlock
+                                                            VerticalAlignment="Center"
+                                                            Foreground="{DynamicResource PrimaryHueDarkBrush}"
+                                                            Text="Ứng trước bởi: " />
+                                                            <Border
+                                                            Width="20"
+                                                            Height="20"
+                                                            Margin="3,0"
+                                                            BorderThickness="0"
+                                                            CornerRadius="90">
+                                                                <Border.Background>
+                                                                    <ImageBrush ImageSource="{Binding MEMBER1.AVATAR, Converter={StaticResource imageConverter}}" />
+                                                                </Border.Background>
+                                                            </Border>
+                                                        </StackPanel>
                                                     </StackPanel>
                                                     <StackPanel
                                                         Grid.Column="2"
