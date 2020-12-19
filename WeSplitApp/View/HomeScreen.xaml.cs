@@ -181,17 +181,8 @@ namespace WeSplitApp.View
             contentControl.Content = new AddNewTripViewModel();
         }
 
-        public static void SetNavigationDrawerNavNull()
-        {
-            homeScreen.navigationDrawerNav.SelectedItem = null;
-        }
+        public static void SetNavigationDrawerNavNull() => homeScreen.navigationDrawerNav.SelectedItem = null;
 
-        private void showSearchTestScreen(object sender, RoutedEventArgs e)
-        {
-            Search_Temp abc = new Search_Temp();
-            this.Close();
-            abc.Show();
-        }
         private void SearchEvent(object sender, TextChangedEventArgs e)
         {
             string typeSearch = HomeScreen.GetHomeScreenInstance().SearchByComboBox.Text;

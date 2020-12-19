@@ -229,10 +229,6 @@
                 </Grid>
             </md:DrawerHost>
         </md:DialogHost>
-        <!--<Button
-            Margin="0,462,613,10"
-            Click="showSearchTestScreen"
-            Content="test searchSreen" />-->
         <md:PopupBox
             Name="AddButton"
             Margin="0,0,10,10"
