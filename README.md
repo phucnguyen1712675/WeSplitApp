@@ -55,6 +55,7 @@
 - Ciệc kết hợp logic Search/Sort/Phân trang với nhau diễn tra tuần tự.
 
 ### Link youtube demo
+https://youtu.be/rAa5_ORhkDU
 
 ### Setup project
 - Để chạy chương trình yêu cầu máy tính có cài đặt MSSQL.
@@ -62,7 +63,7 @@
 - Mở file "WeSplitApp.exe.Config" trong thư mục "Release/Release", thay phần "SERVER" thành Server Name chứa cơ sở dữ liệu vừa tạo.
 - Chạy chương trình thực thi WeSplitApp.exe trong "Release/Release". Lưu ý, Khi Add/edit phần tử (Trip/Member/...) có cần hình ảnh, thì các hình ảnh phải được copy/cut dô thư mục Release/Release/Image
 
-### Package hỗ trợ, tham khảo
+### Package hỗ trợ, link tham khảo, nguồn ảnh
 - https://github.com/MahApps/MahApps.Metro
 - https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit
 - flaticon.com
